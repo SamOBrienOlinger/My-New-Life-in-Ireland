@@ -253,6 +253,9 @@ label:has(input:focus-visible) {
 .avatar-violet { background: #67405a; }
 .avatar-teal { background: #299a91; }
 .avatar-amber { background: #d89735; color: var(--maroon-dark); }
+.avatar-copper { background: #8f4f38; }
+.avatar-brick { background: #8c3447; }
+.avatar-indigo { background: #51466f; }
 .route-tag,
 .route-pill {
   width: fit-content;

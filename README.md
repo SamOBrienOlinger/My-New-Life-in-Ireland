@@ -3,9 +3,10 @@
 An interactive educational website that helps users understand different
 pathways into Ireland by making decisions alongside fictional characters.
 
-Users choose from nine characters and explore realistic decisions involving
+Users choose from twelve characters and explore realistic decisions involving
 employment permits, visas, immigration registration, international protection,
-IPAS accommodation, labour-market access and workplace rights.
+IPAS accommodation, EU free movement, independent immigration permission,
+labour-market access, equality and workplace rights.
 
 ## Live website
 
@@ -15,12 +16,15 @@ IPAS accommodation, labour-market access and workplace rights.
 
 ## The experience
 
-- Nine fictional composite characters with varied backgrounds, professions,
-  family circumstances, gender identities and sexual identities.
+- Twelve fictional composite characters with varied backgrounds, professions,
+  disabilities, ages, ethnicities, family circumstances, gender identities and
+  sexual identities. Three journeys focus explicitly on how overlapping
+  identities and circumstances can compound barriers.
 - Critical Skills Employment Permit journeys.
 - General Employment Permit journeys.
 - International protection and IPAS journeys.
-- Four decisions within each pathway.
+- Study, family and EU free-movement journeys.
+- Five decisions within each pathway.
 - Immediate explanations showing why a decision is appropriate or risky.
 - Direct links to current official Irish sources.
 - Responsive and keyboard-accessible controls.

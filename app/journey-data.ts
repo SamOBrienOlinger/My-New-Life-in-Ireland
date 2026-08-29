@@ -1,5 +1,5 @@
-export type RouteKey = "critical" | "general" | "protection" | "study" | "family";
-export type RouteFilter = "all" | "work" | "study" | "family" | "protection";
+export type RouteKey = "critical" | "general" | "protection" | "study" | "family" | "protection-access" | "eu-mobility" | "family-safety";
+export type RouteFilter = "all" | "work" | "study" | "family" | "protection" | "eu";
 
 export type Character = {
   id: string;
@@ -163,6 +163,48 @@ export const characters: Character[] = [
     summary: "River wants to understand the family route and what permission may allow after arrival.",
     stakes: "Their remote employer assumes they can keep working before Irish permission is registered.",
     tone: "amber",
+  },
+  {
+    id: "adama",
+    name: "Adama Sissoko",
+    initials: "AS",
+    pronouns: "she / her",
+    origin: "Mali",
+    role: "Tailor and single parent",
+    route: "protection-access",
+    filter: "protection",
+    identity: "A Black woman, wheelchair user and mother travelling with her young son",
+    summary: "Adama needs protection while navigating mobility, pain, parenting and accessible reception needs.",
+    stakes: "An inaccessible room or missed assessment could affect her health, her case and her ability to care for her child.",
+    tone: "copper",
+  },
+  {
+    id: "elena",
+    name: "Elena Petrova",
+    initials: "EP",
+    pronouns: "she / her",
+    origin: "Bulgaria",
+    role: "Hotel housekeeper",
+    route: "eu-mobility",
+    filter: "eu",
+    identity: "An older Roma trans woman exercising EU free-movement rights",
+    summary: "Elena can work in Ireland as an EU citizen but encounters overlapping racism, transphobia and age discrimination.",
+    stakes: "Incorrect demands for a work permit and discriminatory refusals could block employment and housing despite her EU rights.",
+    tone: "brick",
+  },
+  {
+    id: "leila",
+    name: "Leila Rahman",
+    initials: "LR",
+    pronouns: "she / her",
+    origin: "Bangladesh",
+    role: "Former accounts assistant",
+    route: "family-safety",
+    filter: "family",
+    identity: "A bisexual migrant woman and mother whose permission is linked to an abusive spouse",
+    summary: "Leila is isolated by language, financial control and fear that leaving will end her right to remain.",
+    stakes: "Her immediate safety, children, documents, housing and independent immigration position are connected but require different supports.",
+    tone: "indigo",
   },
 ];
 
@@ -512,6 +554,207 @@ export const stepsByRoute: Record<RouteKey, Step[]> = {
       ],
     },
   ],
+  "protection-access": [
+    {
+      stage: "Plan", eyebrow: "Safety, disability and parenting", title: "Protection and accessibility are separate questions",
+      scene: "Adama is told that using a wheelchair will either guarantee protection or prevent her from applying with her son.",
+      question: "What should guide her decision?",
+      law: "A protection claim is assessed on the individual risk of persecution or serious harm. Disability and single parenthood may create special reception or procedural needs, but do not by themselves decide the claim.",
+      plainLaw: "Explain the real fear of return and separately identify the support needed to participate safely in the process.",
+      sourceLabel: "Irish Refugee Council: applications after 12 June 2026", sourceUrl: official.refugeeCouncil,
+      choices: [
+        { id: "separate", label: "Explain the protection risk truthfully and make a separate list of mobility, health and parenting needs.", correct: true, feedback: "This keeps the legal claim and access needs both visible.", consequence: "Decision-makers receive the protection account while reception staff can identify practical support." },
+        { id: "guarantee", label: "Assume disability automatically guarantees refugee status.", feedback: "Vulnerability and the legal test for protection are not the same.", consequence: "The personal fear of return may not be properly explained." },
+        { id: "hide", label: "Hide the disability because parents with support needs cannot apply.", feedback: "Disability does not remove the right to seek protection.", consequence: "Necessary reception and procedural supports may be missed." },
+      ],
+    },
+    {
+      stage: "Prepare", eyebrow: "Screening and vulnerability", title: "Name every need, not only the most visible one",
+      scene: "The wheelchair is obvious, but chronic pain, trauma, medication and caring for a six-year-old are not.",
+      question: "How should Adama approach the vulnerability assessment?",
+      law: "Under the 2026 system, applicants are offered a voluntary vulnerability assessment. Disability, single parenthood, serious illness and experiences of violence are among the recognised categories used to identify special reception needs.",
+      plainLaw: "Use the assessment to explain hidden as well as visible needs and ask for the information to be recorded accurately.",
+      sourceLabel: "IPAS vulnerability assessment", sourceUrl: "https://ipas.irishimmigration.ie/accommodation/securing-accommodation/",
+      choices: [
+        { id: "full", label: "Describe mobility, pain, medication, trauma and parenting needs, using interpretation if required.", correct: true, feedback: "Overlapping needs can require different practical responses.", consequence: "The assessment contains a fuller basis for accommodation and service referrals." },
+        { id: "chair", label: "Mention only the wheelchair because everything else is private.", feedback: "She controls disclosure, but unrecorded needs may be harder to accommodate.", consequence: "Pain, medication or parenting barriers may remain invisible until a crisis." },
+        { id: "refuse", label: "Refuse because accepting an assessment weakens the protection claim.", feedback: "The assessment is voluntary and addresses support needs rather than deciding protection status.", consequence: "A route to identifying special reception needs is lost for the wrong reason." },
+      ],
+    },
+    {
+      stage: "Travel", eyebrow: "Moving through the reception system", title: "An offered bed may still be unusable",
+      scene: "Transport is arranged to accommodation, but Adama learns that her room is upstairs and the bathroom cannot be used safely.",
+      question: "What response creates the clearest record?",
+      law: "IPAS uses vulnerability information to address special reception needs. Medical-priority or exceptional transfer and additional-consideration processes exist, although a preferred location or immediate transfer is not guaranteed.",
+      plainLaw: "Describe the exact access barrier in writing, provide available medical evidence and use the official escalation process.",
+      sourceLabel: "IPAS accommodation and medical consideration", sourceUrl: "https://ipas.irishimmigration.ie/accommodation/securing-accommodation/",
+      choices: [
+        { id: "record", label: "Report the precise barrier immediately, keep copies and request medical or exceptional consideration through IPAS.", correct: true, feedback: "Specific written evidence is stronger than a general request to move.", consequence: "IPAS can assess the actual safety and access problem through the relevant process." },
+        { id: "leave", label: "Leave without telling anyone and assume another room will appear.", feedback: "Leaving can disconnect her from reception support without solving the barrier.", consequence: "Adama and her child may face homelessness and become harder to contact." },
+        { id: "accept", label: "Use the unsafe room because residents cannot challenge suitability.", feedback: "Accommodation concerns and special needs can be raised.", consequence: "Falls, missed hygiene and worsening pain become more likely." },
+      ],
+    },
+    {
+      stage: "Arrive", eyebrow: "Interview access", title: "Participation may require adjustments",
+      scene: "An interview venue, long sitting time and medication side effects could prevent Adama from giving a complete account.",
+      question: "What should she do before the appointment?",
+      law: "Applicants should attend and cooperate with the process, while raising disability, communication, health and other procedural needs as early as possible. Specialist legal advice can help explain relevant accommodations and deadlines.",
+      plainLaw: "Tell the IPO and legal adviser what makes participation difficult before the interview, not only after it fails.",
+      sourceLabel: "Irish Refugee Council Independent Law Centre", sourceUrl: "https://www.irishrefugeecouncil.ie/get-help/services-support/law-centre/",
+      choices: [
+        { id: "early", label: "Contact the IPO and legal adviser early with specific access, break, medication and childcare concerns.", correct: true, feedback: "Specific advance notice gives the process a chance to respond.", consequence: "Adama is better able to participate and her son’s care can be planned." },
+        { id: "miss", label: "Miss the interview without contact because disability automatically excuses absence.", feedback: "Do not assume an absence will explain itself.", consequence: "A crucial procedural step may be missed without the reason being understood." },
+        { id: "endure", label: "Say nothing and continue even when pain affects concentration.", feedback: "Unexplained difficulty may affect how the account is heard and recorded.", consequence: "Important details may be omitted or appear inconsistent." },
+      ],
+    },
+    {
+      stage: "Build a life", eyebrow: "Health, school and independence", title: "One appointment cannot solve every barrier",
+      scene: "Adama needs a GP, medication continuity, a school place, accessible transport and information about work eligibility.",
+      question: "What is the most realistic plan?",
+      law: "Healthcare, education, reception accommodation and labour-market access operate through different Irish services and eligibility rules. IPAS publishes separate pathways and support information for each.",
+      plainLaw: "Create a separate action and contact for health, school, accommodation and immigration rather than waiting for one service to manage everything.",
+      sourceLabel: "IPAS services and supports", sourceUrl: "https://ipas.irishimmigration.ie/",
+      choices: [
+        { id: "plan", label: "Make a four-part plan and seek an advocate or support worker to coordinate urgent tasks.", correct: true, feedback: "Coordination matters because each system has a different role.", consequence: "Medication and school can be prioritised without losing track of accommodation or case duties." },
+        { id: "ipo", label: "Ask the IPO caseworker to arrange every health, school and transport service.", feedback: "The IPO examines the protection application; it does not run all arrival services.", consequence: "Urgent practical needs are directed to the wrong body." },
+        { id: "wait", label: "Wait for protection status before seeking healthcare or a school place.", feedback: "Applicants and children can access services while a case is pending, subject to the relevant rules.", consequence: "Health deteriorates and the child loses education time unnecessarily." },
+      ],
+    },
+  ],
+  "eu-mobility": [
+    {
+      stage: "Plan", eyebrow: "EU free movement", title: "Elena does not need an employment permit",
+      scene: "A recruiter tells Elena that Bulgarian citizens need the same work permit as non-EEA workers and offers to sell one.",
+      question: "What should she verify?",
+      law: "As an EU citizen, Elena can enter Ireland with a valid passport or national identity card and can work without an Irish employment permit. Conditions apply to residence beyond the initial period.",
+      plainLaw: "Do not pay for a work permit an EU citizen does not need; check the separate rules for staying longer term.",
+      sourceLabel: "Coming from the EU/EEA to work", sourceUrl: "https://www.citizensinformation.ie/en/moving-country/working-in-ireland/migrant-workers/coming-from-eu-to-work/",
+      choices: [
+        { id: "eu", label: "Reject the permit sale, verify the employer and use official EU residence information.", correct: true, feedback: "Her EU citizenship changes the immigration route, not her need for a genuine job.", consequence: "Elena avoids a scam and plans around her real free-movement rights." },
+        { id: "buy", label: "Pay because age and Roma ethnicity create a special permit requirement.", feedback: "Those identities do not create an employment-permit requirement for an EU citizen.", consequence: "Money and sensitive documents are handed to a dishonest recruiter." },
+        { id: "visitor", label: "Hide the plan to work because EU citizens may only visit.", feedback: "EU citizens have a right to work in another EU state, subject to applicable residence rules.", consequence: "Elena misunderstands and underuses the legal basis she actually has." },
+      ],
+    },
+    {
+      stage: "Prepare", eyebrow: "Staying beyond the first months", title: "Free movement still has residence conditions",
+      scene: "Elena plans to remain indefinitely but has only a short casual-work promise and almost no savings.",
+      question: "Which plan is most reliable?",
+      law: "EU citizens can initially reside in Ireland and may remain longer when exercising an EU Treaty right, such as working, self-employment, qualifying study or self-sufficiency. Jobseekers have specific protections and conditions.",
+      plainLaw: "Keep evidence of genuine work or job-seeking and understand which basis supports residence after the initial period.",
+      sourceLabel: "Residence rights of EU citizens in Ireland", sourceUrl: "https://www.citizensinformation.ie/en/moving-country/moving-to-ireland/rights-of-residence-in-ireland/residence-rights-eu-national/",
+      choices: [
+        { id: "evidence", label: "Keep job applications, contracts, payslips and housing records while checking the applicable residence basis.", correct: true, feedback: "Evidence helps show that Elena is working or genuinely seeking work.", consequence: "Her longer-term plan rests on a documented Treaty-right basis." },
+        { id: "forever", label: "Assume EU citizenship creates unconditional permanent residence from day one.", feedback: "Initial entry and longer-term residence are not identical.", consequence: "Elena may discover a residence issue only when trying to access another service." },
+        { id: "cash", label: "Accept undocumented cash work because any work proves residence.", feedback: "Undeclared work weakens employment protections and may not provide usable evidence.", consequence: "Exploitation grows while her work history remains difficult to prove." },
+      ],
+    },
+    {
+      stage: "Travel", eyebrow: "Starting work", title: "A PPS number and an IRP are not EU work permits",
+      scene: "The hotel asks Elena for an Irish Residence Permit before it will put her on the roster.",
+      question: "How should she respond?",
+      law: "EU citizens do not generally register with Immigration Service Delivery or obtain an IRP to exercise their own EU rights. A PPS number is a separate identifier for tax and public-service purposes.",
+      plainLaw: "Show EU identity and explain the correct right-to-work basis; complete tax and PPS steps separately.",
+      sourceLabel: "EU citizens working in Ireland", sourceUrl: "https://www.citizensinformation.ie/en/moving-country/working-in-ireland/migrant-workers/coming-from-eu-to-work/",
+      choices: [
+        { id: "explain", label: "Provide her Bulgarian identity document and ask HR to review the EU-worker rules.", correct: true, feedback: "This corrects the requirement without inventing a document she should not hold.", consequence: "The employer can onboard her on the proper EU basis." },
+        { id: "fake", label: "Buy a false IRP because the employer insists.", feedback: "Never create or buy false immigration documents.", consequence: "An employer error becomes a serious legal problem for Elena." },
+        { id: "ppswork", label: "Say a PPS number is the document that grants EU work rights.", feedback: "The PPS number does not create the right to work.", consequence: "Two separate systems remain confused." },
+      ],
+    },
+    {
+      stage: "Arrive", eyebrow: "Housing discrimination", title: "A refusal may involve more than affordability",
+      scene: "A landlord is positive on the phone, then says the room is unavailable after seeing Elena and hearing that she is Roma and trans.",
+      question: "What can Elena do without assuming every refusal is unlawful?",
+      law: "Irish equality law prohibits housing discrimination on protected grounds including race, gender and age. Transgender discrimination is protected under the gender ground, but evidence and time limits matter in a complaint.",
+      plainLaw: "Record what happened, save the advertisement and messages, and seek prompt housing or equality advice.",
+      sourceLabel: "IHREC: race and housing", sourceUrl: "https://www.ihrec.ie/your-rights/race/housing",
+      choices: [
+        { id: "save", label: "Save the listing and messages, write down what was said and seek advice from IHREC or a housing service.", correct: true, feedback: "Contemporaneous evidence helps distinguish discrimination from another explanation.", consequence: "Elena can assess a complaint while continuing the urgent housing search." },
+        { id: "threat", label: "Threaten the landlord publicly without preserving any evidence.", feedback: "Anger is understandable, but evidence and advice create a stronger route to remedy.", consequence: "The listing disappears and the exact discriminatory words become harder to prove." },
+        { id: "accept", label: "Assume discrimination against Roma or trans renters is legal in a private property.", feedback: "Private housing services are covered by equality rules, subject to legal details and exceptions.", consequence: "A potentially actionable refusal goes unexamined." },
+      ],
+    },
+    {
+      stage: "Build a life", eyebrow: "Workplace equality", title: "One incident can sit on several protected grounds",
+      scene: "A supervisor mocks Elena’s accent and gender, gives younger non-Roma workers better shifts and tells her to use a different name badge.",
+      question: "What response protects the overlapping issues?",
+      law: "The Employment Equality Acts prohibit workplace discrimination on grounds including gender, race and age. Trans discrimination is protected under the gender ground; workplace complaints can be brought to the WRC.",
+      plainLaw: "Record each incident and comparator, use the employer process where safe, and get equality advice promptly.",
+      sourceLabel: "IHREC workplace discrimination", sourceUrl: "https://www.ihrec.ie/factsheets/discrimination-against-workers-recruitment-and-promotion",
+      choices: [
+        { id: "log", label: "Keep a dated record of words, shifts and witnesses, then seek IHREC or WRC guidance.", correct: true, feedback: "The record shows how race, gender and age may operate together.", consequence: "Elena can pursue an informed internal or external remedy before evidence and deadlines are lost." },
+        { id: "one", label: "Report only age because one complaint cannot involve overlapping grounds.", feedback: "A complaint can describe more than one protected ground where the facts support it.", consequence: "The racial and gender aspects of the treatment disappear from the account." },
+        { id: "quit", label: "Quit immediately without saving rosters, messages or seeking advice.", feedback: "Safety comes first, but preserving evidence and advice can protect later options.", consequence: "Income stops and the pattern becomes harder to demonstrate." },
+      ],
+    },
+  ],
+  "family-safety": [
+    {
+      stage: "Plan", eyebrow: "Immediate safety", title: "Immigration fear can be part of coercive control",
+      scene: "Leila’s spouse controls her passport, money and phone and says Gardaí will deport her if she leaves with the children.",
+      question: "What should come first?",
+      law: "Domestic abuse can include coercive control as well as physical violence. Anyone in immediate danger should contact 999 or 112; immigration status does not prevent a victim from contacting An Garda Síochána or a specialist service.",
+      plainLaw: "Prioritise immediate safety and confidential specialist help; the abuser does not decide immigration status.",
+      sourceLabel: "Women’s Aid support", sourceUrl: "https://www.womensaid.ie/get-help/",
+      choices: [
+        { id: "safe", label: "Use a safe device or trusted contact to reach emergency or specialist domestic-abuse support.", correct: true, feedback: "Safety planning can account for children, language, monitoring and documents.", consequence: "Leila receives confidential options without first having to confront the abuser." },
+        { id: "confront", label: "Announce the plan to leave and demand every document back while alone.", feedback: "Confrontation can increase danger; a specialist can help plan a safer exit.", consequence: "The abuser may escalate violence or remove documents and money." },
+        { id: "believe", label: "Stay because the spouse has legal power to order deportation.", feedback: "A spouse does not make immigration decisions.", consequence: "False immigration threats continue to trap Leila and the children." },
+      ],
+    },
+    {
+      stage: "Prepare", eyebrow: "Private communication", title: "A safe contact method matters",
+      scene: "The spouse checks browser history and translates every official letter before Leila can read it.",
+      question: "How can she seek information more safely?",
+      law: "ISD warns that devices leave digital traces and permits a victim to use a representative contact. Women’s Aid can access an interpreter and connect callers with services around Ireland.",
+      plainLaw: "Use a safer device and contact details the abuser cannot monitor; ask for an interpreter rather than relying on the abuser.",
+      sourceLabel: "ISD domestic-abuse immigration guidelines", sourceUrl: "https://www.irishimmigration.ie/my-situation-has-changed-since-i-arrived-in-ireland/immigration-guidelines-for-victims-of-domestic-abuse/",
+      choices: [
+        { id: "private", label: "Use a trusted device, safe email or representative address and request independent interpretation.", correct: true, feedback: "This reduces monitoring and gives Leila direct access to her own information.", consequence: "Support services can communicate without routing everything through the spouse." },
+        { id: "shared", label: "Use the shared family account because deleting history removes every trace.", feedback: "Deleting history does not guarantee that activity is hidden.", consequence: "The spouse may discover the safety or immigration plan." },
+        { id: "translate", label: "Let the spouse translate every confidential conversation.", feedback: "An alleged abuser should not control interpretation of safety or legal advice.", consequence: "Information may be changed, withheld or used to intimidate Leila." },
+      ],
+    },
+    {
+      stage: "Travel", eyebrow: "Independent immigration status", title: "Leaving does not automatically end permission",
+      scene: "Leila’s residence permission is linked to her spouse, and she believes moving to a refuge will make her unlawful that night.",
+      question: "What route should she investigate urgently?",
+      law: "A victim whose permission is linked to the perpetrator may apply directly or through a solicitor for independent immigration permission under the ISD domestic-abuse guidelines. There is no application fee and the application is treated confidentially.",
+      plainLaw: "Get advice about the independent-permission process; leaving the abuser and losing status are not automatically the same event.",
+      sourceLabel: "Independent permission for victims of domestic abuse", sourceUrl: "https://www.irishimmigration.ie/my-situation-has-changed-since-i-arrived-in-ireland/immigration-guidelines-for-victims-of-domestic-abuse/",
+      choices: [
+        { id: "apply", label: "Contact ISD or a solicitor through safe channels and request independent status under the guidelines.", correct: true, feedback: "The scheme exists for permission linked to the alleged perpetrator.", consequence: "ISD can assess Leila’s own circumstances without the spouse controlling the application." },
+        { id: "permission", label: "Ask the spouse to sign permission for her independent application.", feedback: "The perpetrator has no decision-making role in the independent-status request.", consequence: "The spouse is alerted and gains another opportunity to obstruct safety." },
+        { id: "automatic", label: "Assume moving to a refuge automatically grants Stamp 4.", feedback: "Independent permission requires an application and assessment; it is not automatic.", consequence: "Leila may believe the immigration step is complete when it is not." },
+      ],
+    },
+    {
+      stage: "Arrive", eyebrow: "Evidence without perfection", title: "Not every survivor has a Garda report",
+      scene: "Most abuse happened at home. Leila has messages and a GP visit but no court order or Garda incident number.",
+      question: "How should she build the application?",
+      law: "ISD asks for as much information as possible and lists examples including court orders, medical or Garda reports, State-body letters and domestic-violence service letters. The circumstances and children should be explained; the examples are not a reason to fabricate evidence.",
+      plainLaw: "Collect what genuinely exists, explain gaps and ask a solicitor or support service to help present the history.",
+      sourceLabel: "ISD evidence guidance", sourceUrl: "https://www.irishimmigration.ie/my-situation-has-changed-since-i-arrived-in-ireland/immigration-guidelines-for-victims-of-domestic-abuse/",
+      choices: [
+        { id: "genuine", label: "Preserve genuine messages and records, describe the pattern and seek supporting letters where appropriate.", correct: true, feedback: "A coherent truthful account can draw on different forms of evidence.", consequence: "ISD receives the available history without a false document undermining it." },
+        { id: "wait", label: "Wait to seek help until she has every example on the ISD list.", feedback: "Safety and advice should not be postponed in pursuit of a perfect file.", consequence: "Danger continues and useful evidence may be lost." },
+        { id: "create", label: "Create a Garda report number because official evidence is always required.", feedback: "Never invent evidence.", consequence: "False information may damage both credibility and the immigration application." },
+      ],
+    },
+    {
+      stage: "Build a life", eyebrow: "After immediate safety", title: "Immigration permission is one part of recovery",
+      scene: "Leila needs income, secure housing, school continuity and LGBT-affirming support while family-law questions remain unresolved.",
+      question: "What is the most realistic next step?",
+      law: "If independent permission is approved under the guidelines, Stamp 4 permits work without an employment permit. Safety, housing, child and family-law needs still require separate specialist services; refusal reasons and other immigration options should be explained if an application is refused.",
+      plainLaw: "Build a coordinated plan for immigration, safety, children, housing and income rather than expecting one decision to solve everything.",
+      sourceLabel: "ISD domestic-abuse immigration guidelines", sourceUrl: "https://www.irishimmigration.ie/my-situation-has-changed-since-i-arrived-in-ireland/immigration-guidelines-for-victims-of-domestic-abuse/",
+      choices: [
+        { id: "team", label: "Use an immigration adviser, domestic-abuse service and appropriate family, housing and LGBT supports together.", correct: true, feedback: "Different specialists can address connected but legally distinct needs.", consequence: "Leila can rebuild independence without one service overlooking the children or another overlooking status." },
+        { id: "stamp", label: "Assume Stamp 4 automatically provides housing and resolves child arrangements.", feedback: "Immigration permission does not decide housing or family-law issues.", consequence: "Urgent practical and legal needs remain unattended." },
+        { id: "return", label: "Return to the spouse because approval is not guaranteed.", feedback: "Uncertainty deserves specialist planning, not forced exposure to danger.", consequence: "Coercive control resumes before independent options are properly assessed." },
+      ],
+    },
+  ],
 };
 
 export const routeMeta = {
@@ -520,12 +763,16 @@ export const routeMeta = {
   protection: { label: "International protection", short: "Protection", family: "protection" as const },
   study: { label: "Long-stay study", short: "Study", family: "study" as const },
   family: { label: "Join family", short: "Family", family: "family" as const },
+  "protection-access": { label: "Protection with accessibility needs", short: "Protection + access", family: "protection" as const },
+  "eu-mobility": { label: "EU free movement", short: "EU mobility", family: "eu" as const },
+  "family-safety": { label: "Independent permission after domestic abuse", short: "Family + safety", family: "family" as const },
 };
 
 export const routeFilters: { id: RouteFilter; label: string; description: string }[] = [
-  { id: "all", label: "Show everyone", description: "Compare all nine fictional journeys." },
+  { id: "all", label: "Show everyone", description: "Compare all twelve fictional journeys." },
   { id: "work", label: "I want to work", description: "Employment-permit journeys." },
   { id: "study", label: "I want to study", description: "Course, visa, finance and Stamp 2 decisions." },
   { id: "family", label: "I want to join family", description: "Sponsor, relationship and permission decisions." },
   { id: "protection", label: "I need safety", description: "International-protection and reception decisions." },
+  { id: "eu", label: "I am an EU citizen", description: "Free-movement, work and equality decisions." },
 ];

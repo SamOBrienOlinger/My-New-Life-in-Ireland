@@ -27,7 +27,8 @@ export default function AboutPage() {
           <p>
             My New Life in Ireland is an interactive educational project. It
             helps people explore work, study, family and international
-            protection pathways through the decisions faced by nine fictional characters.
+            protection and EU free-movement pathways through the decisions
+            faced by twelve fictional characters.
           </p>
         </div>
       </section>
@@ -44,6 +45,14 @@ export default function AboutPage() {
               permits, visas, study, family reunification, immigration
               registration, international protection, IPAS accommodation,
               workplace rights and independent support.
+            </p>
+            <p>
+              Three journeys focus especially on intersectional barriers. They
+              show how disability, parenting, ethnicity, age, gender, sexual
+              identity, language, financial control and immigration dependency
+              can overlap. Identity does not determine an outcome; the choices
+              show how Irish immigration, reception, equality, safety and
+              support systems may need to be used together.
             </p>
             <p>
               The characters do not represent real people or promise a
