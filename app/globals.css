@@ -86,7 +86,7 @@ label:has(input:focus-visible) {
   overflow: hidden;
   background:
     linear-gradient(90deg, rgba(232, 239, 241, .98) 0%, rgba(232, 239, 241, .94) 35%, rgba(232, 239, 241, .3) 65%, rgba(232, 239, 241, 0) 100%),
-    url("/images/migrant-pathways-hero.png") center / cover no-repeat;
+    url("/images/migrant-pathways-hero.jpg") center / cover no-repeat;
   border-bottom: 1px solid var(--line);
 }
 .home-nav,
@@ -488,7 +488,7 @@ label:has(input:focus-visible) {
     min-height: 690px;
     background:
       linear-gradient(180deg, rgba(232,239,241,.98) 0%, rgba(232,239,241,.92) 52%, rgba(232,239,241,.18) 100%),
-      url("/images/migrant-pathways-hero.png") 66% center / cover no-repeat;
+      url("/images/migrant-pathways-hero.jpg") 66% center / cover no-repeat;
   }
   .hero-content { padding: 70px 20px 240px; }
   .hero-content h1 { max-width: 620px; font-size: clamp(3.1rem, 15vw, 5rem); }
