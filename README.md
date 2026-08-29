@@ -9,7 +9,7 @@ IPAS accommodation, labour-market access and workplace rights.
 
 ## Live website
 
-[Open My New Life in Ireland](https://migrant-pathways-ireland.samobo.chatgpt.site)
+[Open My New Life in Ireland](https://samobrienolinger.github.io/My-New-Life-in-Ireland/)
 
 ## The experience
 
@@ -60,6 +60,15 @@ Node.js 22.13 or later is required.
 Create a production build with:
 
     npm run build
+
+## GitHub Pages deployment
+
+Pushes to `main` are automatically built and deployed by the workflow in
+`.github/workflows/deploy-pages.yml`.
+
+Create the static Pages build locally with:
+
+    npm run build:pages
 
 ## Copyright, ownership and permitted use
 
