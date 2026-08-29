@@ -21,6 +21,7 @@ export default defineConfig({
       input: {
         home: fileURLToPath(new URL("./github-pages/index.html", import.meta.url)),
         about: fileURLToPath(new URL("./github-pages/about/index.html", import.meta.url)),
+        resources: fileURLToPath(new URL("./github-pages/resources/index.html", import.meta.url)),
       },
     },
   },

@@ -11,7 +11,10 @@ export default function AboutPage() {
           <span className="brand-mark" aria-hidden="true">MN</span>
           <span>My New Life in Ireland</span>
         </a>
-        <a className="nav-link" href="../#official-guidance">Official guidance</a>
+        <div className="nav-links">
+          <a className="nav-link" href="../resources/">Information hub</a>
+          <a className="nav-link" href="../#official-guidance">Official guidance</a>
+        </div>
       </header>
 
       <section className="about-hero">
@@ -23,8 +26,8 @@ export default function AboutPage() {
           <h1>Understanding the choices behind a new life in Ireland.</h1>
           <p>
             My New Life in Ireland is an interactive educational project. It
-            helps people explore immigration and international protection
-            pathways through the decisions faced by nine fictional characters.
+            helps people explore work, study, family and international
+            protection pathways through the decisions faced by nine fictional characters.
           </p>
         </div>
       </section>
@@ -36,10 +39,11 @@ export default function AboutPage() {
             <h2>How the experience works</h2>
             <p>
               Each character is a fictional composite created for learning.
-              Their journey introduces common decisions involving employment
-              permits, visas, immigration registration, international
-              protection, IPAS accommodation, labour-market access and
-              workplace rights.
+              Each five-stage journey moves from planning and preparation to
+              travel, arrival and building a life. Choices introduce employment
+              permits, visas, study, family reunification, immigration
+              registration, international protection, IPAS accommodation,
+              workplace rights and independent support.
             </p>
             <p>
               The characters do not represent real people or promise a
@@ -65,6 +69,9 @@ export default function AboutPage() {
               case, use the official sources and seek suitably qualified advice
               where needed.
             </p>
+            <a className="about-action" href="../resources/">
+              Open the Ireland information hub <ExternalLink size={16} aria-hidden="true" />
+            </a>
           </div>
         </article>
 
@@ -86,7 +93,7 @@ export default function AboutPage() {
               permission to reuse, reproduce, adapt, deploy or create derivative
               works from it.
             </p>
-            <a className="about-action" href={`${repositoryUrl}/blob/main/LICENSE.md`} target="_blank" rel="noreferrer">
+            <a className="about-action" href={`${repositoryUrl}/blob/dev-1/LICENSE.md`} target="_blank" rel="noreferrer">
               Read the complete licence terms <ExternalLink size={16} aria-hidden="true" />
             </a>
           </div>
