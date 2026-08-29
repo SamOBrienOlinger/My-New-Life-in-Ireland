@@ -11,6 +11,8 @@ IPAS accommodation, labour-market access and workplace rights.
 
 [Open My New Life in Ireland](https://samobrienolinger.github.io/My-New-Life-in-Ireland/)
 
+[Read about the project, its creator and ownership terms](https://samobrienolinger.github.io/My-New-Life-in-Ireland/about/)
+
 ## The experience
 
 - Nine fictional composite characters with varied backgrounds, professions,
@@ -22,6 +24,8 @@ IPAS accommodation, labour-market access and workplace rights.
 - Immediate explanations showing why a decision is appropriate or risky.
 - Direct links to current official Irish sources.
 - Responsive and keyboard-accessible controls.
+- A public About page explaining the project, its limitations, creator,
+  copyright and permitted use.
 
 The project distinguishes between the International Protection Office, which
 handles protection applications, and the International Protection Accommodation
@@ -43,8 +47,8 @@ advice and cannot determine a person's eligibility or legal status.
 ## Technology
 
 - React 19
-- Next.js 16
-- Vinext and Vite
+- Next.js 16 App Router
+- Vinext and Vite, including a dedicated static GitHub Pages build
 - TypeScript
 - Tailwind CSS
 - Shadcn UI primitives
@@ -64,7 +68,11 @@ Create a production build with:
 ## GitHub Pages deployment
 
 Pushes to `main` are automatically built and deployed by the workflow in
-`.github/workflows/deploy-pages.yml`.
+`.github/workflows/deploy-pages.yml`. The workflow uses the dedicated Vite
+configuration in `vite.pages.config.ts` to publish the interactive home page
+and About route from `github-pages/` as static files under the repository path.
+Keeping the static entry files outside Next.js's reserved `pages/` directory
+prevents the GitHub Pages build from being mistaken for Pages Router routes.
 
 Create the static Pages build locally with:
 

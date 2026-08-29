@@ -99,6 +99,7 @@ label:has(input:focus-visible) {
   align-items: center;
   justify-content: space-between;
 }
+.nav-links { display: flex; align-items: center; gap: 26px; }
 .brand-button {
   display: inline-flex;
   align-items: center;
@@ -350,6 +351,95 @@ label:has(input:focus-visible) {
 .site-footer span,
 .site-footer p { color: #aebdb5; font-size: .87rem; }
 .site-footer p { margin: 0; text-align: right; }
+.site-footer a {
+  width: fit-content;
+  margin-top: 8px;
+  color: #f1bf65;
+  font-size: .87rem;
+  font-weight: 700;
+  text-underline-offset: 3px;
+}
+.site-footer-copy { gap: 6px; }
+
+.about-page { min-height: 100vh; background: var(--paper); }
+.about-topbar {
+  height: 82px;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.about-hero {
+  padding: 96px 30px 110px;
+  background:
+    radial-gradient(circle at 82% 20%, rgba(226,168,75,.24), transparent 32%),
+    linear-gradient(145deg, #21453b, #315c4f);
+  color: white;
+}
+.about-hero-inner { max-width: 940px; margin: 0 auto; }
+.about-back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 62px;
+  color: #dce8e1;
+  font-weight: 700;
+  text-decoration: none;
+}
+.about-back-link:hover { color: #f1bf65; }
+.about-hero .eyebrow { color: #f1bf65; }
+.about-hero h1 {
+  max-width: 820px;
+  margin: 16px 0 24px;
+  font-family: Georgia, serif;
+  font-size: clamp(3.2rem, 7vw, 6.6rem);
+  font-weight: 500;
+  line-height: .98;
+  letter-spacing: -.055em;
+}
+.about-hero p:last-child {
+  max-width: 720px;
+  margin: 0;
+  color: #dce8e1;
+  font-size: clamp(1.05rem, 2vw, 1.25rem);
+  line-height: 1.7;
+}
+.about-content {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 90px 30px 110px;
+  display: grid;
+  gap: 20px;
+}
+.about-card {
+  padding: 34px;
+  display: grid;
+  grid-template-columns: 36px 1fr;
+  gap: 22px;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: var(--white);
+}
+.about-card > svg { margin-top: 3px; color: var(--moss); }
+.about-card h2 {
+  margin: 0 0 14px;
+  font-family: Georgia, serif;
+  font-size: clamp(1.65rem, 3vw, 2.15rem);
+  font-weight: 600;
+}
+.about-card p { margin: 0 0 14px; color: var(--muted-ink); line-height: 1.75; }
+.about-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 4px;
+  color: var(--moss-dark);
+  font-weight: 760;
+  text-underline-offset: 4px;
+}
+.about-footer { margin-top: 0; }
 
 .journey-shell { min-height: 100vh; background: linear-gradient(120deg, #eeeadf, #f8f5ed 62%, #e5ece5); }
 .journey-topbar {
@@ -470,7 +560,17 @@ label:has(input:focus-visible) {
 .takeaway-grid article { padding: 18px; display: flex; flex-direction: column; gap: 7px; border: 1px solid var(--line); border-radius: 14px; background: #faf7ef; }
 .takeaway-grid span { color: var(--muted-ink); font-size: .86rem; line-height: 1.5; }
 .completion-actions { margin-top: 32px; display: flex; align-items: center; justify-content: center; gap: 25px; flex-wrap: wrap; }
-.journey-footer { padding: 20px 30px 35px; color: var(--muted-ink); text-align: center; font-size: .8rem; }
+.journey-footer {
+  padding: 20px 30px 35px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 7px 18px;
+  color: var(--muted-ink);
+  text-align: center;
+  font-size: .8rem;
+}
+.journey-footer a { color: var(--moss-dark); font-weight: 700; text-underline-offset: 3px; }
 
 @media (max-width: 1000px) {
   .hero-section { background-position: 60% center; }
@@ -482,8 +582,10 @@ label:has(input:focus-visible) {
 
 @media (max-width: 760px) {
   .home-nav,
-  .journey-topbar { height: 70px; padding: 0 18px; }
-  .home-nav .nav-link { display: none; }
+  .journey-topbar,
+  .about-topbar { height: 70px; padding: 0 18px; }
+  .home-nav .nav-links .nav-link:last-child { display: none; }
+  .nav-links { gap: 16px; }
   .hero-section {
     min-height: 690px;
     background:
@@ -503,6 +605,11 @@ label:has(input:focus-visible) {
   .guidance-section { grid-template-columns: 1fr; gap: 45px; padding: 75px 22px; }
   .site-footer { flex-direction: column; align-items: flex-start; padding: 34px 22px; }
   .site-footer p { text-align: left; }
+  .about-topbar .nav-link { display: none; }
+  .about-hero { padding: 60px 22px 75px; }
+  .about-back-link { margin-bottom: 45px; }
+  .about-content { padding: 65px 18px 80px; }
+  .about-card { padding: 24px 20px; grid-template-columns: 1fr; gap: 14px; }
   .journey-topbar .brand-button > span:last-child { display: none; }
   .journey-layout { padding: 24px 15px 50px; grid-template-columns: 1fr; }
   .character-rail {

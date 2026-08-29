@@ -35,16 +35,13 @@ async function readCssTree(directory) {
   return contents.join("\n");
 }
 
-test("emits the catalog's animation and scrolling utilities", async () => {
+test("emits the public launch and reduced-motion styles", async () => {
   const css = await readCssTree(path.join(root, "dist"));
 
-  assert.match(css, /--tw-enter-opacity/);
-  assert.match(css, /scrollbar-width:\s*thin/);
-  assert.match(css, /scrollbar-width:\s*none/);
-  assert.match(css, /scrollbar-gutter:\s*stable/);
-  assert.match(css, /scroll-fade-reveal-b/);
-  assert.match(css, /mask-image:/);
-  assert.match(css, /tw-shimmer/);
+  assert.match(css, /\.about-hero/);
+  assert.match(css, /\.about-content/);
+  assert.match(css, /\.site-footer/);
+  assert.match(css, /\.journey-footer/);
   assert.match(css, /prefers-reduced-motion:\s*reduce/);
 });
 

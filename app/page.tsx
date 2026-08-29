@@ -641,7 +641,11 @@ export default function Home() {
             )}
           </section>
         </div>
-        <footer className="journey-footer">Fictional composite story. General information only. Rules and circumstances change.</footer>
+        <footer className="journey-footer">
+          <span>Fictional composite story. General information only. Rules and circumstances change.</span>
+          <span>Copyright © 2026 Sam O&apos;Brien-Olinger. All rights reserved.</span>
+          <a href="about/">About and ownership</a>
+        </footer>
       </main>
     );
   }
@@ -651,7 +655,10 @@ export default function Home() {
       <section className="hero-section" id="top">
         <nav className="home-nav" aria-label="Main navigation">
           <a className="brand-button" href="#top"><span className="brand-mark" aria-hidden="true">MN</span><span>My New Life in Ireland</span></a>
-          <a className="nav-link" href="#official-guidance">Official guidance</a>
+          <div className="nav-links">
+            <a className="nav-link" href="about/">About</a>
+            <a className="nav-link" href="#official-guidance">Official guidance</a>
+          </div>
         </nav>
         <div className="hero-content">
           <p className="eyebrow">Walk a mile in my shoes</p>
@@ -717,8 +724,15 @@ export default function Home() {
       </section>
 
       <footer className="site-footer">
-        <div><strong>My New Life in Ireland</strong><span>Interactive migration pathways</span></div>
-        <p>Designed to build understanding, not to replace professional advice.</p>
+        <div className="site-footer-brand">
+          <strong>My New Life in Ireland</strong>
+          <span>Interactive migration pathways</span>
+          <a href="about/">About and ownership</a>
+        </div>
+        <div className="site-footer-copy">
+          <p>Designed to build understanding, not to replace professional advice.</p>
+          <p>Copyright © 2026 Sam O&apos;Brien-Olinger. All rights reserved.</p>
+        </div>
       </footer>
     </main>
   );

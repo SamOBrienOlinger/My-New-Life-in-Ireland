@@ -5,7 +5,7 @@ import { defineConfig } from "vite";
 const repositoryName = "My-New-Life-in-Ireland";
 
 export default defineConfig({
-  root: "pages",
+  root: "github-pages",
   base: `/${repositoryName}/`,
   publicDir: "../public",
   plugins: [react()],
@@ -17,5 +17,11 @@ export default defineConfig({
   build: {
     outDir: "../dist-pages",
     emptyOutDir: true,
+    rollupOptions: {
+      input: {
+        home: fileURLToPath(new URL("./github-pages/index.html", import.meta.url)),
+        about: fileURLToPath(new URL("./github-pages/about/index.html", import.meta.url)),
+      },
+    },
   },
 });
