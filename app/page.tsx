@@ -668,11 +668,6 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="orientation-strip" aria-label="Important distinction">
-        <Info size={22} aria-hidden="true" />
-        <p><strong>Know the difference:</strong> the International Protection Office examines protection applications. IPAS provides accommodation and basic supports. IPAS does not decide a person&apos;s claim.</p>
-      </section>
-
       <section className="character-section" id="choose-character">
         <div className="section-heading">
           <div><p className="eyebrow">Start the experience</p><h2>Whose journey will you take?</h2></div>
