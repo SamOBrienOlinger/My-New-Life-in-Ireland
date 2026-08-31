@@ -167,6 +167,14 @@ label:has(input:focus-visible) {
   font-size: clamp(1.05rem, 2vw, 1.35rem);
   line-height: 1.65;
 }
+.hero-copy p { margin: 0 0 1em; }
+.hero-questions {
+  display: grid;
+  gap: .18em;
+  color: var(--ink);
+  font-weight: 730;
+  line-height: 1.45;
+}
 .primary-button,
 .quiet-button {
   min-height: 48px;
