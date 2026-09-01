@@ -797,17 +797,29 @@ label:has(input:focus-visible) {
   .home-nav,
   .journey-topbar,
   .about-topbar { height: 70px; padding: 0 18px; }
-  .home-nav .nav-links .nav-link:last-child { display: none; }
-  .nav-links { gap: 16px; }
+  .home-nav { height: 64px; }
+  .home-nav .nav-links { display: none; }
+  .home-nav .brand-button { gap: 9px; }
+  .home-nav .brand-mark { width: 34px; height: 34px; font-size: .72rem; }
+  .home-nav .brand-button > span:last-child { font-size: .94rem; white-space: nowrap; }
   .hero-section {
-    min-height: 690px;
+    min-height: auto;
     background:
       linear-gradient(180deg, rgba(255,249,247,.98) 0%, rgba(250,239,240,.93) 52%, rgba(122,31,61,.2) 100%),
       url("/images/migrant-pathways-hero.jpg") 66% center / cover no-repeat;
   }
-  .hero-content { padding: 70px 20px 240px; }
-  .hero-content-expanded { padding-bottom: 165px; }
-  .hero-content h1 { max-width: 620px; font-size: clamp(3.1rem, 15vw, 5rem); }
+  .hero-content,
+  .hero-content-expanded { padding: 34px 20px 110px; }
+  .hero-content .eyebrow { max-width: 340px; font-size: 10px; line-height: 1.55; letter-spacing: .13em; }
+  .hero-content h1,
+  .hero-content-expanded h1 {
+    max-width: 100%;
+    margin: 15px 0 22px;
+    font-size: clamp(2.65rem, 10.5vw, 3rem);
+    line-height: .96;
+    letter-spacing: -.045em;
+  }
+  .hero-copy { font-size: 1rem; line-height: 1.62; }
   .hero-proof { margin-top: 34px; }
   .hero-questions { margin-top: 1.1rem; padding: 10px 16px; font-size: clamp(.94rem, 4.2vw, 1.05rem); }
   .hero-questions span { padding: 12px 0; grid-template-columns: 20px 1fr; gap: 9px; }
