@@ -204,7 +204,7 @@ export default function Home() {
         </section>
         <div className="hero-copy"><p>Choose one of twelve fictional people and guide their journey from departure to life in Ireland.</p></div>
         <div className="hero-actions"><a className="primary-button hero-button" href="#route-finder">Find a journey <ArrowRight size={18} aria-hidden="true" /></a><a className="quiet-button hero-secondary" href="resources/"><BookOpen size={18} aria-hidden="true" />Explore practical information</a></div>
-        <div className="hero-proof" aria-label="Experience summary"><span><strong>12</strong><small>people</small></span><span><strong>6</strong><small>route types</small></span><span><strong>40</strong><small>decisions</small></span><span><strong>1</strong><small>Irish context</small></span></div>
+        <div className="hero-proof" aria-label="Experience summary"><span><strong>12</strong><small>people</small></span><span><strong>6</strong><small>route types</small></span><span><strong>40</strong><small>decisions</small></span><span><strong>1</strong><small>Ireland</small></span></div>
       </div>
     </section>
 
