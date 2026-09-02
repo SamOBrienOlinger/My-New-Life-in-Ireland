@@ -1,5 +1,5 @@
 {
-  "name": "my-new-life-in-ireland",
+  "name": "my-new-life-in-ireland-dev-1-preview",
   "version": "0.1.0",
   "private": true,
   "engines": {
@@ -9,10 +9,9 @@
     "install:ci": "bash scripts/install-ci.sh",
     "dev": "WRANGLER_LOG_PATH=.wrangler/wrangler.log vite",
     "build": "bash scripts/build-verified.sh",
-    "build:pages": "vite build --config vite.pages.config.ts",
     "start": "WRANGLER_LOG_PATH=.wrangler/wrangler.log vinext start",
     "test": "npm run build && node --test tests/*.test.mjs",
-    "lint": "bash scripts/sites-env.sh -- eslint . --ignore-pattern dist --ignore-pattern dist-pages --ignore-pattern .next",
+    "lint": "bash scripts/sites-env.sh -- eslint . --ignore-pattern dist --ignore-pattern .next",
     "db:generate": "bash scripts/sites-env.sh -- drizzle-kit generate"
   },
   "dependencies": {
@@ -61,5 +60,5 @@
     "wrangler": "4.92.0"
   },
   "type": "module",
-  "displayName": "My New Life in Ireland"
+  "displayName": "A New Life in Ireland dev-1 preview"
 }
