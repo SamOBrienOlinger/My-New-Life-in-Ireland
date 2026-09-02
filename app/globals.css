@@ -170,7 +170,7 @@ label:has(input:focus-visible) {
 .hero-copy p { margin: 0 0 1em; }
 .hero-question-board {
   width: min(900px, 100%);
-  margin: 30px 0 24px;
+  margin: 0 0 24px;
   padding: 12px;
   display: grid;
   grid-template-columns: 1.25fr .75fr 1fr;
@@ -853,7 +853,7 @@ label:has(input:focus-visible) {
     line-height: 1.02;
     letter-spacing: -.035em;
   }
-  .hero-question-board { margin: 20px 0 18px; padding: 8px; grid-template-columns: 1fr; gap: 8px; border-radius: 22px; }
+  .hero-question-board { margin: 0 0 18px; padding: 8px; grid-template-columns: 1fr; gap: 8px; border-radius: 22px; }
   .hero-question-card { min-height: auto; padding: 15px 16px; display: block; }
   .hero-question-card span { margin-bottom: 6px; font-size: .66rem; }
   .hero-question-card h2 { max-width: none; font-size: 1rem; line-height: 1.32; }
