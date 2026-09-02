@@ -181,7 +181,7 @@ export default function Home() {
             </div>}
           </section>
         </div>
-        <footer className="journey-footer"><span>{t.disclaimer}</span><span>{t.copyright}</span><a href="about/">{t.ownership}</a></footer>
+        <footer className="journey-footer"><span>{t.disclaimer}</span><span>{t.copyright}</span><a href="about/">{t.ownership}</a><a href="https://samobrienolinger.github.io/Sam-Tim-Software-Solutions/" target="_blank" rel="noreferrer">Sam Tim Solutions</a></footer>
       </main>
     );
   }
@@ -216,6 +216,6 @@ export default function Home() {
     <section className="hub-preview" aria-labelledby="hub-title"><div><p className="eyebrow">{t.afterStory}</p><h2 id="hub-title">{t.practicalTitle}</h2><p>{t.practicalText}</p><a className="primary-button" href="resources/">{t.openHub} <ArrowRight size={18} aria-hidden="true" /></a></div><div className="hub-topic-grid" aria-label={t.hub}><span><BriefcaseBusiness aria-hidden="true" />{t.workPermits}</span><span><ShieldCheck aria-hidden="true" />{t.protectionSafety}</span><span><GraduationCap aria-hidden="true" />{t.studyEducation}</span><span><HeartHandshake aria-hidden="true" />{t.familyCommunity}</span><span><MapPin aria-hidden="true" />{t.arrivalRegistration}</span><span><Scale aria-hidden="true" />{t.rightsAdvice}</span></div></section>
 
     <section className="guidance-section" id="official-guidance"><div className="guidance-intro"><p className="eyebrow">{t.checkEyebrow}</p><h2>{t.checkTitle}</h2><p>{t.checkText}</p><span>{t.review}</span></div><div className="source-list source-list-detailed">{officialSources.map(([label, description, href], index) => <a href={href} target="_blank" rel="noreferrer" key={href}><span><strong>{label}</strong><small>{language === "en" ? description : officialSourceDescriptions[language][index]}</small></span><ExternalLink size={17} aria-hidden="true" /></a>)}</div></section>
-    <footer className="site-footer"><div className="site-footer-brand"><strong>{t.siteName}</strong><span>{t.tagline}</span><a href="about/">{t.ownership}</a></div><div className="site-footer-copy"><p>{t.footerNote}</p><p>{t.copyright}</p></div></footer>
+    <footer className="site-footer"><div className="site-footer-brand"><strong>{t.siteName}</strong><span>{t.tagline}</span><a href="about/">{t.ownership}</a><a href="https://samobrienolinger.github.io/Sam-Tim-Software-Solutions/" target="_blank" rel="noreferrer">Sam Tim Solutions</a></div><div className="site-footer-copy"><p>{t.footerNote}</p><p>{t.copyright}</p></div></footer>
   </main>;
 }
