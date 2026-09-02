@@ -110,6 +110,6 @@ export default function ResourcesPage() {
 
     <section className="first-week-checklist" aria-labelledby="first-week-title"><div><p className="eyebrow">{r.arrival}</p><h2 id="first-week-title">{r.week}</h2><p>{r.weekIntro}</p></div><ul>{r.questions.map((question)=><li key={question}>{question}</li>)}</ul></section>
 
-    <footer className="site-footer"><div className="site-footer-brand"><strong>{t.siteName}</strong><span>{t.tagline}</span><a href="../about/">{t.ownership}</a></div><div className="site-footer-copy"><p>{r.footer}</p><p>{t.copyright}</p></div></footer>
+    <footer className="site-footer"><div className="site-footer-brand"><strong>{t.siteName}</strong><span>{t.tagline}</span><a href="../about/">{t.ownership}</a><a href="https://samobrienolinger.github.io/Sam-Tim-Software-Solutions/" target="_blank" rel="noreferrer">Sam Tim Solutions</a></div><div className="site-footer-copy"><p>{r.footer}</p><p>{t.copyright}</p></div></footer>
   </main>;
 }
