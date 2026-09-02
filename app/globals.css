@@ -777,6 +777,30 @@ label:has(input:focus-visible) {
 .readiness-meter span { height: 9px; border-radius: 999px; background: var(--paper-deep); }
 .readiness-meter .filled { background: var(--teal-dark); }
 [dir="rtl"] .choice-card { grid-template-columns: 18px 36px 1fr; text-align: right; }
+[dir="rtl"] { font-family: Arial, "Noto Sans Arabic", sans-serif; }
+[dir="rtl"] .home-nav,
+[dir="rtl"] .about-topbar,
+[dir="rtl"] .journey-topbar,
+[dir="rtl"] .site-footer,
+[dir="rtl"] .section-heading,
+[dir="rtl"] .resource-controls,
+[dir="rtl"] .decision-actions { direction: rtl; }
+[dir="rtl"] .hero-content,
+[dir="rtl"] .route-finder-copy,
+[dir="rtl"] .character-card,
+[dir="rtl"] .hub-preview,
+[dir="rtl"] .guidance-section,
+[dir="rtl"] .resource-card,
+[dir="rtl"] .resources-hero,
+[dir="rtl"] .about-hero,
+[dir="rtl"] .about-card,
+[dir="rtl"] .character-rail,
+[dir="rtl"] .decision-panel { text-align: right; }
+[dir="rtl"] .site-footer p { text-align: left; }
+[dir="rtl"] .back-link svg,
+[dir="rtl"] .about-back-link svg,
+[dir="rtl"] .primary-button svg,
+[dir="rtl"] .card-action svg { transform: scaleX(-1); }
 
 /* Ireland information hub */
 .resources-page { min-height: 100vh; background: var(--paper); }
