@@ -200,7 +200,7 @@ export default function Home() {
         <section className="hero-question-board" aria-label="Questions explored in each journey">
           <article className="hero-question-card question-challenges"><span>Challenges &amp; choices</span><h2>What do people face when they come to Ireland?</h2></article>
           <article className="hero-question-card question-people"><span>People</span><h2>Who are they?</h2></article>
-          <article className="hero-question-card question-new-life"><span>New beginnings</span><h2>How can they make a new life in Ireland?</h2></article>
+          <article className="hero-question-card question-new-life"><span>New beginnings</span><h2>How do they make a new life in Ireland?</h2></article>
         </section>
         <div className="hero-copy"><p>Choose one of twelve fictional people and guide their journey from departure to life in Ireland.</p></div>
         <div className="hero-actions"><a className="primary-button hero-button" href="#route-finder">Find a journey <ArrowRight size={18} aria-hidden="true" /></a><a className="quiet-button hero-secondary" href="resources/"><BookOpen size={18} aria-hidden="true" />Explore practical information</a></div>
