@@ -33,7 +33,7 @@ export function LanguageControl({ language, setLanguage, label }: { language: La
 
 export const ui = {
   en: {
-    language: "Language", siteName: "My New Life in Ireland", about: "About", hub: "Information hub", official: "Official guidance", journeys: "Journeys",
+    language: "Language", siteName: "A New Life in Ireland", about: "About", hub: "Information hub", official: "Official guidance", journeys: "Journeys",
     heroEyebrow: "An interactive journey through Ireland’s migration system", heroTitle: "Every journey to Ireland is different.", heroIntro: "Choose one of twelve fictional people and guide their journey from departure to life in Ireland.",
     challengeLabel: "Challenges & choices", challengeQuestion: "What do people face when they come to Ireland?", peopleLabel: "People", peopleQuestion: "Who are they?", beginningLabel: "New beginnings", beginningQuestion: "How do they make a new life in Ireland?",
     findJourney: "Find a journey", exploreInfo: "Explore practical information", people: "people", routes: "route types", decisions: "decisions", ireland: "Ireland",
@@ -47,7 +47,7 @@ export const ui = {
     done: "Journey complete", walked: "You walked five stages with", scoreBefore: "You identified", scoreAfter: "safer, informed decisions. Replay the journey to explore different consequences without changing anyone’s real legal position.", checkRoute: "Check the route", checkRouteP: "Visa, residence, work, study and family permission are not interchangeable.", evidence: "Keep your evidence", evidenceP: "Documents, dates and truthful explanations help people navigate separate systems.", network: "Build a support network", networkP: "Official information, independent advice and community connections all matter.", chooseAnother: "Choose another person", openIrelandHub: "Open the Ireland information hub", disclaimer: "Fictional composite story. General education only. Rules and circumstances change.",
   },
   ga: {
-    language: "Teanga", siteName: "Mo Shaol Nua in Éirinn", about: "Maidir leis", hub: "Mol eolais", official: "Treoir oifigiúil", journeys: "Turais",
+    language: "Teanga", siteName: "Saol Nua in Éirinn", about: "Maidir leis", hub: "Mol eolais", official: "Treoir oifigiúil", journeys: "Turais",
     heroEyebrow: "Turas idirghníomhach trí chóras imirce na hÉireann", heroTitle: "Tá gach turas go hÉirinn difriúil.", heroIntro: "Roghnaigh duine ficseanúil as dáréag agus treoraigh a dturas ón imeacht go dtí an saol in Éirinn.",
     challengeLabel: "Dúshláin agus roghanna", challengeQuestion: "Cad a bhíonn os comhair daoine nuair a thagann siad go hÉirinn?", peopleLabel: "Daoine", peopleQuestion: "Cé hiad?", beginningLabel: "Tús nua", beginningQuestion: "Conas a chruthaíonn siad saol nua in Éirinn?",
     findJourney: "Aimsigh turas", exploreInfo: "Fiosraigh eolas praiticiúil", people: "duine", routes: "chineál bealaigh", decisions: "cinneadh", ireland: "Éire",
@@ -61,7 +61,7 @@ export const ui = {
     done: "Turas críochnaithe", walked: "Shiúil tú cúig chéim le", scoreBefore: "D’aithin tú", scoreAfter: "cinneadh níos sábháilte. Déan an turas arís chun iarmhairtí eile a fhiosrú gan seasamh dlíthiúil aon duine a athrú.", checkRoute: "Seiceáil an bealach", checkRouteP: "Ní hionann víosa, cónaí, obair, staidéar agus cead teaghlaigh.", evidence: "Coinnigh d’fhianaise", evidenceP: "Cabhraíonn doiciméid, dátaí agus mínithe fírinneacha le daoine córais éagsúla a thuiscint.", network: "Tóg líonra tacaíochta", networkP: "Tá eolas oifigiúil, comhairle neamhspleách agus naisc phobail tábhachtach.", chooseAnother: "Roghnaigh duine eile", openIrelandHub: "Oscail mol eolais na hÉireann", disclaimer: "Scéal cumaisc ficseanúil. Oideachas ginearálta amháin. Athraíonn rialacha agus cúinsí.",
   },
   ar: {
-    language: "اللغة", siteName: "حياتي الجديدة في أيرلندا", about: "عن الموقع", hub: "مركز المعلومات", official: "الإرشادات الرسمية", journeys: "الرحلات",
+    language: "اللغة", siteName: "حياة جديدة في أيرلندا", about: "عن الموقع", hub: "مركز المعلومات", official: "الإرشادات الرسمية", journeys: "الرحلات",
     heroEyebrow: "رحلة تفاعلية عبر نظام الهجرة الأيرلندي", heroTitle: "كل رحلة إلى أيرلندا مختلفة.", heroIntro: "اختر شخصية خيالية من بين اثنتي عشرة شخصية ووجّه رحلتها من المغادرة إلى الحياة في أيرلندا.",
     challengeLabel: "التحديات والخيارات", challengeQuestion: "ما الذي يواجهه الناس عندما يأتون إلى أيرلندا؟", peopleLabel: "الأشخاص", peopleQuestion: "من هم؟", beginningLabel: "بدايات جديدة", beginningQuestion: "كيف يبنون حياة جديدة في أيرلندا؟",
     findJourney: "اعثر على رحلة", exploreInfo: "استكشف المعلومات العملية", people: "شخصاً", routes: "أنواع مسارات", decisions: "قراراً", ireland: "أيرلندا",
