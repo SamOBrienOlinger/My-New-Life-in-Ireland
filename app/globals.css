@@ -168,24 +168,58 @@ label:has(input:focus-visible) {
   line-height: 1.65;
 }
 .hero-copy p { margin: 0 0 1em; }
-.hero-questions {
-  margin-top: 1.35rem;
-  padding: 18px 20px;
+.hero-question-board {
+  width: min(900px, 100%);
+  margin: 30px 0 24px;
+  padding: 12px;
   display: grid;
-  gap: 0;
+  grid-template-columns: 1.25fr .75fr 1fr;
+  gap: 10px;
   border: 1px solid rgba(75,16,38,.14);
-  border-radius: 18px;
-  background: rgba(255,255,255,.78);
-  box-shadow: 0 14px 35px rgba(75,16,38,.08);
-  backdrop-filter: blur(10px);
-  color: var(--ink);
-  font-size: 1rem;
-  font-weight: 760;
-  line-height: 1.4;
+  border-radius: 30px;
+  background: rgba(255,255,255,.68);
+  box-shadow: 0 18px 42px rgba(75,16,38,.09);
+  backdrop-filter: blur(12px);
 }
-.hero-questions span { padding: 11px 0; display: grid; grid-template-columns: 22px 1fr; gap: 10px; align-items: start; }
-.hero-questions span + span { border-top: 1px solid rgba(75,16,38,.11); }
-.hero-questions svg { width: 18px; height: 18px; margin-top: 2px; color: var(--teal-dark); stroke-width: 2.2; }
+.hero-question-card {
+  min-height: 146px;
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 8px 20px rgba(75,16,38,.08);
+}
+.hero-question-card span {
+  display: block;
+  margin-bottom: 24px;
+  font-size: .72rem;
+  font-weight: 840;
+  letter-spacing: .11em;
+  text-transform: uppercase;
+}
+.hero-question-card h2 {
+  max-width: 290px;
+  margin: 0;
+  font-size: clamp(1.08rem, 1.8vw, 1.35rem);
+  line-height: 1.25;
+}
+.question-challenges {
+  border-radius: 22px 12px 30px 22px;
+  background: var(--maroon);
+  color: var(--white);
+}
+.question-challenges span { color: #ffd8e3; }
+.question-people {
+  border-radius: 12px 28px 18px 28px;
+  background: #d9f3ef;
+  color: #135e59;
+}
+.question-people span { color: #177a73; }
+.question-new-life {
+  border-radius: 28px 18px 28px 12px;
+  background: #f4cf89;
+  color: var(--maroon-dark);
+}
 .primary-button,
 .quiet-button {
   min-height: 48px;
@@ -819,11 +853,16 @@ label:has(input:focus-visible) {
     line-height: .96;
     letter-spacing: -.045em;
   }
-  .hero-copy { font-size: 1rem; line-height: 1.62; }
+  .hero-question-board { margin: 20px 0 18px; padding: 8px; grid-template-columns: 1fr; gap: 8px; border-radius: 22px; }
+  .hero-question-card { min-height: auto; padding: 15px 16px; display: block; }
+  .hero-question-card span { margin-bottom: 6px; font-size: .66rem; }
+  .hero-question-card h2 { max-width: none; font-size: 1rem; line-height: 1.32; }
+  .question-challenges { border-radius: 18px 10px 20px 18px; }
+  .question-people { border-radius: 10px 20px 14px 20px; }
+  .question-new-life { border-radius: 20px 14px 20px 10px; }
+  .hero-copy { max-width: 350px; margin-bottom: 24px; font-size: 1rem; line-height: 1.55; }
+  .hero-copy p { margin: 0; }
   .hero-proof { margin-top: 34px; }
-  .hero-questions { margin-top: 1.1rem; padding: 10px 16px; font-size: clamp(.94rem, 4.2vw, 1.05rem); }
-  .hero-questions span { padding: 12px 0; grid-template-columns: 20px 1fr; gap: 9px; }
-  .hero-questions svg { width: 17px; height: 17px; }
   .hero-proof { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 7px; padding: 8px; }
   .hero-proof span { min-height: 68px; padding: 10px 8px; }
   .hero-proof strong { font-size: 1.5rem; }
