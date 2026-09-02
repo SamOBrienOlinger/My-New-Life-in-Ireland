@@ -9,17 +9,10 @@ import {
 import { Progress } from "@/components/ui/progress";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import {
-  characters, routeFilters, routeMeta, stepsByRoute,
+  characters, routeFilters, stepsByRoute,
   type RouteFilter, type RouteKey,
 } from "./journey-data";
-
-type Language = "en" | "ga" | "ar";
-
-const copy = {
-  en: { about: "About", hub: "Information hub", official: "Official guidance", choose: "Choose a character", change: "Change character", walking: "You are walking with", decision: "Decision", of: "of", rule: "What the rules mean here", plain: "Plain-language version", detailed: "Detailed version", check: "Check decision", next: "Continue", back: "Back", complete: "Complete journey", listen: "Listen", source: "Check the source" },
-  ga: { about: "Maidir leis", hub: "Mol eolais", official: "Treoir oifigiúil", choose: "Roghnaigh carachtar", change: "Athraigh carachtar", walking: "Tá tú ag siúl le", decision: "Cinneadh", of: "as", rule: "Cad a chiallaíonn na rialacha anseo", plain: "Leagan i dteanga shimplí", detailed: "Leagan mionsonraithe", check: "Seiceáil an cinneadh", next: "Lean ar aghaidh", back: "Siar", complete: "Críochnaigh an turas", listen: "Éist", source: "Seiceáil an fhoinse" },
-  ar: { about: "حول الموقع", hub: "مركز المعلومات", official: "الإرشادات الرسمية", choose: "اختر شخصية", change: "تغيير الشخصية", walking: "أنت تسير مع", decision: "القرار", of: "من", rule: "ماذا تعني القواعد هنا", plain: "نسخة بلغة مبسطة", detailed: "نسخة مفصلة", check: "تحقق من القرار", next: "متابعة", back: "رجوع", complete: "إكمال الرحلة", listen: "استمع", source: "تحقق من المصدر" },
-} satisfies Record<Language, Record<string, string>>;
+import { LanguageControl, localCharacter, localFilter, localRoute, localStep, ui, useLanguage } from "./i18n";
 
 const routeIcons: Record<RouteKey, typeof ShieldCheck> = {
   critical: BriefcaseBusiness, general: BriefcaseBusiness, protection: ShieldCheck,
@@ -35,6 +28,11 @@ const officialSources = [
   ["Workplace Relations Commission", "Employment rights and workplace remedies", "https://www.workplacerelations.ie/en/what_you_should_know/coming_to_work_in_ireland/"],
 ];
 
+const officialSourceDescriptions = {
+  ga: ["Obair, staidéar, teaghlach, clárú agus cead","Cineálacha ceada, incháilitheacht agus liostaí gairmeacha reatha","Iarratas ar chosaint idirnáisiúnta in Éirinn","Cearta agus nósanna imeachta, lena n-áirítear iarratais tar éis 12 Meitheamh 2026","Cearta fostaíochta agus leigheasanna san ionad oibre"],
+  ar: ["العمل والدراسة والأسرة والتسجيل والإذن","أنواع التصاريح الحالية والأهلية وقوائم المهن","التقدم للحماية الدولية في أيرلندا","الحقوق والإجراءات، بما فيها الطلبات بعد 12 يونيو 2026","حقوق العمل وسبل الانتصاف في مكان العمل"],
+};
+
 export default function Home() {
   const [selectedId, setSelectedId] = useState("");
   const [filter, setFilter] = useState<RouteFilter>("all");
@@ -44,7 +42,7 @@ export default function Home() {
   const [checked, setChecked] = useState(false);
   const [completed, setCompleted] = useState(false);
   const [plainLanguage, setPlainLanguage] = useState(true);
-  const [language, setLanguage] = useState<Language>("en");
+  const { language, setLanguage, dir } = useLanguage();
   const [completedCharacters, setCompletedCharacters] = useState<string[]>(() => {
     if (typeof window === "undefined") return [];
     try {
@@ -55,10 +53,11 @@ export default function Home() {
     }
   });
 
-  const t = copy[language];
-  const character = useMemo(() => characters.find((item) => item.id === selectedId), [selectedId]);
-  const visibleCharacters = useMemo(() => characters.filter((item) => filter === "all" || item.filter === filter), [filter]);
-  const steps = character ? stepsByRoute[character.route] : [];
+  const t = ui[language];
+  const baseCharacter = useMemo(() => characters.find((item) => item.id === selectedId), [selectedId]);
+  const character = useMemo(() => baseCharacter ? localCharacter(baseCharacter, language) : undefined, [baseCharacter, language]);
+  const visibleCharacters = useMemo(() => characters.filter((item) => filter === "all" || item.filter === filter).map((item) => localCharacter(item, language)), [filter, language]);
+  const steps = character ? stepsByRoute[character.route].map((item) => localStep(item, character.route, language)) : [];
   const step = steps[stepIndex];
   const choiceId = answers[stepIndex] || "";
   const choice = step?.choices.find((item) => item.id === choiceId);
@@ -98,38 +97,34 @@ export default function Home() {
     if (!step || !("speechSynthesis" in window)) return;
     window.speechSynthesis.cancel();
     const utterance = new SpeechSynthesisUtterance(`${step.title}. ${step.scene}. ${plainLanguage ? step.plainLaw : step.law}`);
-    utterance.lang = "en-IE";
+    utterance.lang = language === "ga" ? "ga-IE" : language === "ar" ? "ar" : "en-IE";
     window.speechSynthesis.speak(utterance);
   }
 
   if (started && character) {
     return (
-      <main className="journey-shell" lang={language} dir={language === "ar" ? "rtl" : "ltr"}>
+      <main className="journey-shell" lang={language} dir={dir}>
         <header className="journey-topbar">
           <button className="brand-button" type="button" onClick={() => resetJourney()}>
-            <span className="brand-mark" aria-hidden="true">MN</span><span>My New Life in Ireland</span>
+            <span className="brand-mark" aria-hidden="true">MN</span><span>{t.siteName}</span>
           </button>
           <div className="journey-tools">
-            <label className="language-control"><Languages size={17} aria-hidden="true" /><span className="sr-only">Interface language</span>
-              <select value={language} onChange={(event) => setLanguage(event.target.value as Language)}>
-                <option value="en">English</option><option value="ga">Gaeilge</option><option value="ar">العربية</option>
-              </select>
-            </label>
+            <LanguageControl language={language} setLanguage={setLanguage} label={t.language} />
             <a className="quiet-button compact-button" href="resources/"><BookOpen size={17} aria-hidden="true" />{t.hub}</a>
             <button className="quiet-button compact-button" type="button" onClick={() => resetJourney()}><Users size={17} aria-hidden="true" /> {t.change}</button>
           </div>
         </header>
 
         <div className="journey-layout journey-layout-expanded">
-          <aside className="character-rail" aria-label="Selected character">
+          <aside className="character-rail" aria-label={t.selected}>
             <div className={"avatar avatar-" + character.tone}>{character.initials}</div>
             <p className="mini-label">{t.walking}</p><h1>{character.name}</h1><p>{character.pronouns}</p>
             <div className="rail-detail"><MapPin size={16} aria-hidden="true" /><span>{character.origin}</span></div>
             <div className="rail-detail"><RouteIcon size={16} aria-hidden="true" /><span>{character.role}</span></div>
-            <div className="route-pill">{routeMeta[character.route].label}</div>
+            <div className="route-pill">{localRoute(character.route, language).label}</div>
             <p className="identity-note">{character.identity}</p>
-            <div className="stakes-card"><strong>What is at stake</strong><p>{character.stakes}</p></div>
-            <ol className="stage-trail" aria-label="Journey stages">
+            <div className="stakes-card"><strong>{t.stake}</strong><p>{character.stakes}</p></div>
+            <ol className="stage-trail" aria-label={t.stages}>
               {steps.map((item, index) => (
                 <li className={index === stepIndex && !completed ? "active" : index < stepIndex || completed ? "done" : ""} key={item.stage}>
                   <span>{index < stepIndex || completed ? <Check size={13} aria-hidden="true" /> : index + 1}</span>
@@ -142,7 +137,7 @@ export default function Home() {
           <section className="decision-panel" aria-live="polite">
             {!completed && step ? <>
               <div className="progress-row"><span>{t.decision} {stepIndex + 1} {t.of} {steps.length}</span><span>{Math.round(((stepIndex + 1) / steps.length) * 100)}%</span></div>
-              <Progress value={((stepIndex + 1) / steps.length) * 100} aria-label="Journey progress" />
+              <Progress value={((stepIndex + 1) / steps.length) * 100} aria-label={t.progress} />
               <div className="decision-heading">
                 <div className="decision-kicker"><p className="eyebrow">{step.eyebrow}</p><span>{step.stage}</span></div>
                 <h2>{step.title}</h2><p className="scene">{step.scene}</p>
@@ -165,7 +160,7 @@ export default function Home() {
               </fieldset>
               {checked && choice ? <div className={"feedback-card " + (choice.correct ? "correct" : "consider")}>
                 {choice.correct ? <CheckCircle2 size={22} aria-hidden="true" /> : <Map size={22} aria-hidden="true" />}
-                <div><strong>{choice.correct ? "A safer, informed decision" : "A risk appears on the route"}</strong><p>{choice.feedback}</p><div className="consequence"><span>What changes next</span>{choice.consequence}</div></div>
+                <div><strong>{choice.correct ? t.safer : t.risk}</strong><p>{choice.feedback}</p><div className="consequence"><span>{t.changes}</span>{choice.consequence}</div></div>
               </div> : null}
               <div className="decision-actions">
                 <button className="quiet-button" type="button" onClick={previousStep} disabled={stepIndex === 0}><ArrowLeft size={17} aria-hidden="true" /> {t.back}</button>
@@ -173,54 +168,54 @@ export default function Home() {
                   : <button className="primary-button" type="button" onClick={nextStep}>{stepIndex === steps.length - 1 ? t.complete : t.next}<ArrowRight size={17} aria-hidden="true" /></button>}
               </div>
             </> : <div className="completion-card completion-card-expanded">
-              <div className="completion-icon"><CheckCircle2 size={34} aria-hidden="true" /></div><p className="eyebrow">Journey complete</p>
-              <h2>You walked five stages with {character.name}.</h2>
-              <p>You identified <strong>{correctCount} of {steps.length}</strong> safer, informed decisions. Replay the journey to explore different consequences without changing anyone’s real legal position.</p>
+              <div className="completion-icon"><CheckCircle2 size={34} aria-hidden="true" /></div><p className="eyebrow">{t.done}</p>
+              <h2>{t.walked} {character.name}.</h2>
+              <p>{t.scoreBefore} <strong>{correctCount} {t.of} {steps.length}</strong> {t.scoreAfter}</p>
               <div className="readiness-meter" aria-label={`${correctCount} of ${steps.length} informed decisions`}>{steps.map((_, index) => <span className={index < correctCount ? "filled" : ""} key={index} />)}</div>
               <div className="takeaway-grid">
-                <article><strong>Check the route</strong><span>Visa, residence, work, study and family permission are not interchangeable.</span></article>
-                <article><strong>Keep your evidence</strong><span>Documents, dates and truthful explanations help people navigate separate systems.</span></article>
-                <article><strong>Build a support network</strong><span>Official information, independent advice and community connections all matter.</span></article>
+                <article><strong>{t.checkRoute}</strong><span>{t.checkRouteP}</span></article>
+                <article><strong>{t.evidence}</strong><span>{t.evidenceP}</span></article>
+                <article><strong>{t.network}</strong><span>{t.networkP}</span></article>
               </div>
-              <div className="completion-actions"><button className="primary-button" type="button" onClick={() => resetJourney("#choose-character")}><RotateCcw size={17} aria-hidden="true" /> Choose another person</button><a className="quiet-button" href="resources/"><BookOpen size={17} aria-hidden="true" />Open the Ireland information hub</a></div>
+              <div className="completion-actions"><button className="primary-button" type="button" onClick={() => resetJourney("#choose-character")}><RotateCcw size={17} aria-hidden="true" /> {t.chooseAnother}</button><a className="quiet-button" href="resources/"><BookOpen size={17} aria-hidden="true" />{t.openIrelandHub}</a></div>
             </div>}
           </section>
         </div>
-        <footer className="journey-footer"><span>Fictional composite story. General education only. Rules and circumstances change.</span><span>Copyright © 2026 Sam O&apos;Brien-Olinger. All rights reserved.</span><a href="about/">About and ownership</a></footer>
+        <footer className="journey-footer"><span>{t.disclaimer}</span><span>{t.copyright}</span><a href="about/">{t.ownership}</a></footer>
       </main>
     );
   }
 
-  return <main>
+  return <main lang={language} dir={dir}>
     <section className="hero-section hero-section-expanded" id="top">
-      <nav className="home-nav" aria-label="Main navigation"><a className="brand-button" href="#top"><span className="brand-mark" aria-hidden="true">MN</span><span>My New Life in Ireland</span></a><div className="nav-links"><a className="nav-link" href="about/">About</a><a className="nav-link" href="resources/">Information hub</a><a className="nav-link" href="#official-guidance">Official guidance</a></div></nav>
+      <nav className="home-nav" aria-label="Main navigation"><a className="brand-button" href="#top"><span className="brand-mark" aria-hidden="true">MN</span><span>{t.siteName}</span></a><div className="nav-links"><a className="nav-link" href="about/">{t.about}</a><a className="nav-link" href="resources/">{t.hub}</a><a className="nav-link" href="#official-guidance">{t.official}</a></div><LanguageControl language={language} setLanguage={setLanguage} label={t.language} /></nav>
       <div className="hero-content hero-content-expanded">
-        <p className="eyebrow">An interactive journey through Ireland’s migration system</p>
-        <h1>Every journey to Ireland is different.</h1>
-        <div className="hero-copy"><p>Choose one of twelve fictional people and guide their journey from departure to life in Ireland.</p></div>
+        <p className="eyebrow">{t.heroEyebrow}</p>
+        <h1>{t.heroTitle}</h1>
+        <div className="hero-copy"><p>{t.heroIntro}</p></div>
         <section className="hero-question-board" aria-label="Questions explored in each journey">
-          <article className="hero-question-card question-challenges"><span>Challenges &amp; choices</span><h2>What do people face when they come to Ireland?</h2></article>
-          <article className="hero-question-card question-people"><span>People</span><h2>Who are they?</h2></article>
-          <article className="hero-question-card question-new-life"><span>New beginnings</span><h2>How do they make a new life in Ireland?</h2></article>
+          <article className="hero-question-card question-challenges"><span>{t.challengeLabel}</span><h2>{t.challengeQuestion}</h2></article>
+          <article className="hero-question-card question-people"><span>{t.peopleLabel}</span><h2>{t.peopleQuestion}</h2></article>
+          <article className="hero-question-card question-new-life"><span>{t.beginningLabel}</span><h2>{t.beginningQuestion}</h2></article>
         </section>
-        <div className="hero-actions"><a className="primary-button hero-button" href="#route-finder">Find a journey <ArrowRight size={18} aria-hidden="true" /></a><a className="quiet-button hero-secondary" href="resources/"><BookOpen size={18} aria-hidden="true" />Explore practical information</a></div>
-        <div className="hero-proof" aria-label="Experience summary"><span><strong>12</strong><small>people</small></span><span><strong>6</strong><small>route types</small></span><span><strong>40</strong><small>decisions</small></span><span><strong>1</strong><small>Ireland</small></span></div>
+        <div className="hero-actions"><a className="primary-button hero-button" href="#route-finder">{t.findJourney} <ArrowRight size={18} aria-hidden="true" /></a><a className="quiet-button hero-secondary" href="resources/"><BookOpen size={18} aria-hidden="true" />{t.exploreInfo}</a></div>
+        <div className="hero-proof" aria-label="Experience summary"><span><strong>12</strong><small>{t.people}</small></span><span><strong>6</strong><small>{t.routes}</small></span><span><strong>40</strong><small>{t.decisions}</small></span><span><strong>1</strong><small>{t.ireland}</small></span></div>
       </div>
     </section>
 
-    <section className="experience-map" aria-labelledby="experience-title"><div><p className="eyebrow">How the experience works</p><h2 id="experience-title">Plan. Choose. See what changes.</h2></div><ol><li><span className="experience-icon" aria-hidden="true"><Users /></span><div><strong>Explore a realistic situation</strong><p>Each fictional character combines circumstances and decisions that people may encounter.</p></div></li><li><span className="experience-icon" aria-hidden="true"><ArrowRight /></span><div><strong>Choose what happens next</strong><p>See how each decision shapes the journey.</p></div></li><li><span className="experience-icon" aria-hidden="true"><Scale /></span><div><strong>Understand Ireland’s immigration system</strong><p>Learn how permissions, procedures and rights may affect each decision, with links to current official guidance and specialist sources.</p></div></li><li><span className="experience-icon" aria-hidden="true"><CheckCircle2 /></span><div><strong>Prepare for life in Ireland</strong><p>Journeys continue into registration, work, study, family and community life.</p></div></li></ol></section>
+    <section className="experience-map" aria-labelledby="experience-title"><div><p className="eyebrow">{t.howEyebrow}</p><h2 id="experience-title">{t.howTitle}</h2></div><ol><li><span className="experience-icon" aria-hidden="true"><Users /></span><div><strong>{t.how1}</strong><p>{t.how1p}</p></div></li><li><span className="experience-icon" aria-hidden="true"><ArrowRight /></span><div><strong>{t.how2}</strong><p>{t.how2p}</p></div></li><li><span className="experience-icon" aria-hidden="true"><Scale /></span><div><strong>{t.how3}</strong><p>{t.how3p}</p></div></li><li><span className="experience-icon" aria-hidden="true"><CheckCircle2 /></span><div><strong>{t.how4}</strong><p>{t.how4p}</p></div></li></ol></section>
 
-    <section className="route-finder" id="route-finder" aria-labelledby="route-finder-title"><div className="route-finder-copy"><p className="eyebrow">Start from your situation</p><h2 id="route-finder-title">What brings you to Ireland?</h2><p>This is an educational filter, not an eligibility checker. A real case may involve more than one route or a route not shown here.</p></div><div className="route-filter-grid" role="group" aria-label="Filter characters by journey type">{routeFilters.map((item) => <button type="button" className={"route-filter " + (filter === item.id ? "selected" : "")} aria-pressed={filter === item.id} onClick={() => { setFilter(item.id); if (selectedId && item.id !== "all" && character?.filter !== item.id) setSelectedId(""); window.setTimeout(() => document.querySelector("#choose-character")?.scrollIntoView({ behavior: "smooth", block: "start" }), 0); }} key={item.id}><span>{item.label}</span><small>{item.description}</small></button>)}</div></section>
+    <section className="route-finder" id="route-finder" aria-labelledby="route-finder-title"><div className="route-finder-copy"><p className="eyebrow">{t.routeEyebrow}</p><h2 id="route-finder-title">{t.routeTitle}</h2><p>{t.routeNote}</p></div><div className="route-filter-grid" role="group" aria-label={t.routeTitle}>{routeFilters.map((item) => { const local = localFilter(item.id, language); return <button type="button" className={"route-filter " + (filter === item.id ? "selected" : "")} aria-pressed={filter === item.id} onClick={() => { setFilter(item.id); if (selectedId && item.id !== "all" && character?.filter !== item.id) setSelectedId(""); window.setTimeout(() => document.querySelector("#choose-character")?.scrollIntoView({ behavior: "smooth", block: "start" }), 0); }} key={item.id}><span>{local.label}</span><small>{local.description}</small></button>; })}</div></section>
 
     <section className="character-section character-section-expanded" id="choose-character">
-      <div className="section-heading"><div><p className="eyebrow">Choose a perspective</p><h2>Whose journey will you take?</h2></div><div className="learning-progress-card"><Sparkles size={20} aria-hidden="true" /><div><strong>{completedCharacters.length} of 12 journeys explored</strong><span>Progress is saved only on this device.</span></div></div></div>
-      <RadioGroup value={selectedId} onValueChange={setSelectedId} className="character-grid" aria-label="Choose a character">{visibleCharacters.map((item) => { const Icon = routeIcons[item.route]; const finished = completedCharacters.includes(item.id); return <label className={"character-card " + (selectedId === item.id ? "selected" : "")} key={item.id}><RadioGroupItem value={item.id} id={item.id} className="sr-only" /><div className="card-topline"><div className={"avatar avatar-" + item.tone}>{item.initials}</div><span className="route-tag"><Icon size={14} aria-hidden="true" />{routeMeta[item.route].short}</span></div>{finished ? <span className="completed-badge"><Check size={13} aria-hidden="true" />Explored</span> : null}<h3>{item.name}</h3><p className="character-meta">{item.pronouns} · {item.origin}</p><p className="character-role">{item.role}</p><p className="character-summary">{item.summary}</p><span className="card-action">Walk with {item.name.split(" ")[0]} <ArrowRight size={16} aria-hidden="true" /></span></label>; })}</RadioGroup>
-      <div className="start-bar" aria-live="polite">{character ? <><div><span className="mini-label">Selected journey</span><strong>{character.name} · {routeMeta[character.route].label}</strong></div><button className="primary-button" type="button" onClick={beginJourney}>Begin five-stage journey <ArrowRight size={18} aria-hidden="true" /></button></> : <p>{visibleCharacters.length ? "Select a character to begin." : "Choose another route to see available journeys."}</p>}</div>
+      <div className="section-heading"><div><p className="eyebrow">{t.chooseEyebrow}</p><h2>{t.chooseTitle}</h2></div><div className="learning-progress-card"><Sparkles size={20} aria-hidden="true" /><div><strong>{completedCharacters.length} {t.of} 12 {t.explored}</strong><span>{t.saved}</span></div></div></div>
+      <RadioGroup value={selectedId} onValueChange={setSelectedId} className="character-grid" aria-label={t.choose}>{visibleCharacters.map((item) => { const Icon = routeIcons[item.route]; const finished = completedCharacters.includes(item.id); return <label className={"character-card " + (selectedId === item.id ? "selected" : "")} key={item.id}><RadioGroupItem value={item.id} id={item.id} className="sr-only" /><div className="card-topline"><div className={"avatar avatar-" + item.tone}>{item.initials}</div><span className="route-tag"><Icon size={14} aria-hidden="true" />{localRoute(item.route, language).short}</span></div>{finished ? <span className="completed-badge"><Check size={13} aria-hidden="true" />{t.exploredBadge}</span> : null}<h3>{item.name}</h3><p className="character-meta">{item.pronouns} · {item.origin}</p><p className="character-role">{item.role}</p><p className="character-summary">{item.summary}</p><span className="card-action">{t.walkWith} {item.name.split(" ")[0]} <ArrowRight size={16} aria-hidden="true" /></span></label>; })}</RadioGroup>
+      <div className="start-bar" aria-live="polite">{character ? <><div><span className="mini-label">{t.selected}</span><strong>{character.name} · {localRoute(character.route, language).label}</strong></div><button className="primary-button" type="button" onClick={beginJourney}>{t.begin} <ArrowRight size={18} aria-hidden="true" /></button></> : <p>{visibleCharacters.length ? t.selectPrompt : t.emptyPrompt}</p>}</div>
     </section>
 
-    <section className="hub-preview" aria-labelledby="hub-title"><div><p className="eyebrow">After the story</p><h2 id="hub-title">Practical information for life in Ireland</h2><p>The information hub organises trusted links around arrival, immigration, protection, work, housing, health, education and community support.</p><a className="primary-button" href="resources/">Open the information hub <ArrowRight size={18} aria-hidden="true" /></a></div><div className="hub-topic-grid" aria-label="Information hub topics"><span><BriefcaseBusiness aria-hidden="true" />Work and permits</span><span><ShieldCheck aria-hidden="true" />Protection and safety</span><span><GraduationCap aria-hidden="true" />Study and education</span><span><HeartHandshake aria-hidden="true" />Family and community</span><span><MapPin aria-hidden="true" />Arrival and registration</span><span><Scale aria-hidden="true" />Rights and advice</span></div></section>
+    <section className="hub-preview" aria-labelledby="hub-title"><div><p className="eyebrow">{t.afterStory}</p><h2 id="hub-title">{t.practicalTitle}</h2><p>{t.practicalText}</p><a className="primary-button" href="resources/">{t.openHub} <ArrowRight size={18} aria-hidden="true" /></a></div><div className="hub-topic-grid" aria-label={t.hub}><span><BriefcaseBusiness aria-hidden="true" />{t.workPermits}</span><span><ShieldCheck aria-hidden="true" />{t.protectionSafety}</span><span><GraduationCap aria-hidden="true" />{t.studyEducation}</span><span><HeartHandshake aria-hidden="true" />{t.familyCommunity}</span><span><MapPin aria-hidden="true" />{t.arrivalRegistration}</span><span><Scale aria-hidden="true" />{t.rightsAdvice}</span></div></section>
 
-    <section className="guidance-section" id="official-guidance"><div className="guidance-intro"><p className="eyebrow">Check before you act</p><h2>Use the current source for a real case.</h2><p>This experience teaches common patterns. It is not legal advice and cannot decide eligibility. Immigration requirements and individual circumstances change.</p><span>Source review completed 29 August 2026.</span></div><div className="source-list source-list-detailed">{officialSources.map(([label, description, href]) => <a href={href} target="_blank" rel="noreferrer" key={href}><span><strong>{label}</strong><small>{description}</small></span><ExternalLink size={17} aria-hidden="true" /></a>)}</div></section>
-    <footer className="site-footer"><div className="site-footer-brand"><strong>My New Life in Ireland</strong><span>Interactive migration pathways</span><a href="about/">About and ownership</a></div><div className="site-footer-copy"><p>Designed to build understanding, not to replace professional advice.</p><p>Copyright © 2026 Sam O&apos;Brien-Olinger. All rights reserved.</p></div></footer>
+    <section className="guidance-section" id="official-guidance"><div className="guidance-intro"><p className="eyebrow">{t.checkEyebrow}</p><h2>{t.checkTitle}</h2><p>{t.checkText}</p><span>{t.review}</span></div><div className="source-list source-list-detailed">{officialSources.map(([label, description, href], index) => <a href={href} target="_blank" rel="noreferrer" key={href}><span><strong>{label}</strong><small>{language === "en" ? description : officialSourceDescriptions[language][index]}</small></span><ExternalLink size={17} aria-hidden="true" /></a>)}</div></section>
+    <footer className="site-footer"><div className="site-footer-brand"><strong>{t.siteName}</strong><span>{t.tagline}</span><a href="about/">{t.ownership}</a></div><div className="site-footer-copy"><p>{t.footerNote}</p><p>{t.copyright}</p></div></footer>
   </main>;
 }
