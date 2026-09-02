@@ -1,4 +1,4 @@
-# My New Life in Ireland
+# A New Life in Ireland
 
 An interactive educational website that helps users understand different
 pathways into Ireland by making decisions alongside fictional characters.
@@ -10,7 +10,7 @@ labour-market access, equality and workplace rights.
 
 ## Live website
 
-[Open My New Life in Ireland](https://samobrienolinger.github.io/My-New-Life-in-Ireland/)
+[Open A New Life in Ireland](https://samobrienolinger.github.io/My-New-Life-in-Ireland/)
 
 [Read about the project, its creator and ownership terms](https://samobrienolinger.github.io/My-New-Life-in-Ireland/about/)
 
@@ -86,7 +86,7 @@ Create the static Pages build locally with:
 
 Copyright © 2026 Sam O'Brien-Olinger. All rights reserved.
 
-My New Life in Ireland™ and its original source code, written content,
+A New Life in Ireland™ and its original source code, written content,
 characters, fictional narratives, decision pathways, educational materials,
 artwork, visual identity and interface designs are the intellectual property of
 Sam O'Brien-Olinger, except where third-party material is separately identified.
