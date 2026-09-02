@@ -847,11 +847,11 @@ label:has(input:focus-visible) {
   .hero-content .eyebrow { max-width: 340px; font-size: 10px; line-height: 1.55; letter-spacing: .13em; }
   .hero-content h1,
   .hero-content-expanded h1 {
-    max-width: 100%;
-    margin: 15px 0 22px;
-    font-size: clamp(2.65rem, 10.5vw, 3rem);
-    line-height: .96;
-    letter-spacing: -.045em;
+    max-width: 330px;
+    margin: 17px 0 26px;
+    font-size: clamp(2.25rem, 9vw, 2.55rem);
+    line-height: 1.02;
+    letter-spacing: -.035em;
   }
   .hero-question-board { margin: 20px 0 18px; padding: 8px; grid-template-columns: 1fr; gap: 8px; border-radius: 22px; }
   .hero-question-card { min-height: auto; padding: 15px 16px; display: block; }
