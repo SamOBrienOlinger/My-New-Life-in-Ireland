@@ -109,7 +109,7 @@ export default function ResourcesPage() {
 
   return <main className="resources-page" lang={language} dir={dir}>
     <nav className="home-nav resources-nav" aria-label="Main navigation">
-      <a className="brand-button" href="../"><img className="brand-mark" src="/images/harp-heart-logo.png" alt="" aria-hidden="true" /><span>{t.siteName}</span></a>
+      <a className="brand-button" href="../"><img className="brand-mark" src="../images/harp-heart-logo.png" alt="" aria-hidden="true" /><span>{t.siteName}</span></a>
       <div className="nav-links"><a className="nav-link" href="../">{t.journeys}</a><a className="nav-link" href="../about/">{t.about}</a></div><LanguageControl language={language} setLanguage={setLanguage} label={t.language} /><MobileNavigation links={[{ href: "../", label: t.home }, { href: "../#route-finder", label: t.journeys }, { href: "../about/", label: t.about }, { href: "../#official-guidance", label: t.official }]} language={language} setLanguage={setLanguage} languageLabel={t.language} menuLabel={t.menu} closeLabel={t.closeMenu} />
     </nav>
 

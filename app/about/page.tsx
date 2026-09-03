@@ -21,7 +21,7 @@ export default function AboutPage() {
     <main className="about-page" lang={language} dir={dir}>
       <header className="about-topbar">
         <a className="brand-button" href="../">
-          <img className="brand-mark" src="/images/harp-heart-logo.png" alt="" aria-hidden="true" />
+          <img className="brand-mark" src="../images/harp-heart-logo.png" alt="" aria-hidden="true" />
           <span>{t.siteName}</span>
         </a>
         <div className="nav-links">

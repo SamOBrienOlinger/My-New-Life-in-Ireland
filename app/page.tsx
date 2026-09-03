@@ -107,7 +107,7 @@ export default function Home() {
       <main className="journey-shell" lang={language} dir={dir}>
         <header className="journey-topbar">
           <button className="brand-button" type="button" onClick={() => resetJourney()}>
-            <img className="brand-mark" src="/images/harp-heart-logo.png" alt="" aria-hidden="true" /><span>{t.siteName}</span>
+            <img className="brand-mark" src="images/harp-heart-logo.png" alt="" aria-hidden="true" /><span>{t.siteName}</span>
           </button>
           <div className="journey-tools">
             <LanguageControl language={language} setLanguage={setLanguage} label={t.language} />
@@ -189,7 +189,7 @@ export default function Home() {
 
   return <main lang={language} dir={dir}>
     <section className="hero-section hero-section-expanded" id="top">
-      <nav className="home-nav" aria-label="Main navigation"><a className="brand-button" href="#top"><img className="brand-mark" src="/images/harp-heart-logo.png" alt="" aria-hidden="true" /><span>{t.siteName}</span></a><div className="nav-links"><a className="nav-link" href="about/">{t.about}</a><a className="nav-link" href="resources/">{t.hub}</a><a className="nav-link" href="#official-guidance">{t.official}</a></div><LanguageControl language={language} setLanguage={setLanguage} label={t.language} /><MobileNavigation links={[{ href: "#top", label: t.home }, { href: "about/", label: t.about }, { href: "resources/", label: t.hub }, { href: "#official-guidance", label: t.official }]} language={language} setLanguage={setLanguage} languageLabel={t.language} menuLabel={t.menu} closeLabel={t.closeMenu} /></nav>
+      <nav className="home-nav" aria-label="Main navigation"><a className="brand-button" href="#top"><img className="brand-mark" src="images/harp-heart-logo.png" alt="" aria-hidden="true" /><span>{t.siteName}</span></a><div className="nav-links"><a className="nav-link" href="about/">{t.about}</a><a className="nav-link" href="resources/">{t.hub}</a><a className="nav-link" href="#official-guidance">{t.official}</a></div><LanguageControl language={language} setLanguage={setLanguage} label={t.language} /><MobileNavigation links={[{ href: "#top", label: t.home }, { href: "about/", label: t.about }, { href: "resources/", label: t.hub }, { href: "#official-guidance", label: t.official }]} language={language} setLanguage={setLanguage} languageLabel={t.language} menuLabel={t.menu} closeLabel={t.closeMenu} /></nav>
       <div className="hero-content hero-content-expanded">
         <p className="eyebrow">{t.heroEyebrow}</p>
         <h1>{t.heroTitle}</h1>
