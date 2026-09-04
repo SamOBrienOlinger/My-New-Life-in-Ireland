@@ -56,6 +56,7 @@ export function MobileNavigation({
         ref={buttonRef}
         className="mobile-menu-button"
         type="button"
+        aria-label={open ? closeLabel : menuLabel}
         aria-expanded={open}
         aria-controls="mobile-navigation-panel"
         onClick={() => setOpen((current) => !current)}

@@ -47,6 +47,16 @@ test("emits the public launch and reduced-motion styles", async () => {
   assert.match(css, /prefers-reduced-motion:\s*reduce/);
 });
 
+test("emits mobile accessibility and safe-area protections", async () => {
+  const css = await readCssTree(path.join(root, "dist"));
+
+  assert.match(css, /\.mobile-menu-button[^}]*min-height:\s*44px/s);
+  assert.match(css, /\.language-control[^}]*min-height:\s*44px/s);
+  assert.match(css, /\.tool-button[^}]*min-height:\s*44px/s);
+  assert.match(css, /safe-area-inset-bottom/);
+  assert.match(css, /-webkit-text-size-adjust:\s*100%/);
+});
+
 test("forwards progress semantics to the primitive", async () => {
   const { Progress } = await vite.ssrLoadModule("/components/ui/progress.tsx");
   const html = renderToStaticMarkup(React.createElement(Progress, { value: 37 }));
