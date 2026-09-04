@@ -51,8 +51,12 @@ test("emits mobile accessibility and safe-area protections", async () => {
   const css = await readCssTree(path.join(root, "dist"));
 
   assert.match(css, /\.mobile-menu-button[^}]*min-height:\s*44px/s);
+  assert.match(css, /@media\s*\((?:max-width:\s*900px|width<=900px)\)/);
   assert.match(css, /\.language-control[^}]*min-height:\s*44px/s);
   assert.match(css, /\.tool-button[^}]*min-height:\s*44px/s);
+  assert.match(css, /padding-inline:\s*48px 18px/);
+  assert.match(css, /inset-inline-start:\s*15px/);
+  assert.match(css, /\.resource-card[^}]*min-height:\s*0/s);
   assert.match(css, /safe-area-inset-bottom/);
   assert.match(css, /-webkit-text-size-adjust:\s*100%/);
 });
