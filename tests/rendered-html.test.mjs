@@ -41,6 +41,7 @@ test("renders the public experience with ownership and About links", async () =>
   assert.match(html, /href="resources\/\?topic=family#resource-browser"/);
   assert.match(html, /href="resources\/\?topic=arrival#resource-browser"/);
   assert.match(html, /href="resources\/\?topic=rights#resource-browser"/);
+  assert.equal((html.match(/href="#choose-character"/g) || []).length, 3);
   assert.match(html, /Walk with/);
   assert.match(html, /Postgraduate student/);
   assert.match(html, /Adama Sissoko/);
