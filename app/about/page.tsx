@@ -85,7 +85,7 @@ export default function AboutPage() {
       <footer className="site-footer about-footer">
         <div className="site-footer-content">
           <p><strong>{t.siteName}</strong> - {t.tagline}</p>
-          <p><a href="https://samobrienolinger.github.io/SamOBrienOlinger/" target="_blank" rel="noreferrer">Sam Tim Solutions</a> - {t.footerNote}</p>
+          <p><a href="https://samobrienolinger.github.io/SamOBrienOlinger/" target="_blank" rel="noreferrer">Sam Tim Solutions</a></p>
           <p className="site-footer-copyright">{t.copyright}</p>
         </div>
       </footer>
