@@ -824,7 +824,7 @@ label:has(input:focus-visible) {
 .journey-tools { display: flex; align-items: center; gap: 9px; }
 .compact-button { min-height: 44px; padding: 0 14px; font-size: .82rem; }
 .language-control { min-height: 44px; padding: 0 10px; display: flex; align-items: center; gap: 5px; border: 1px solid var(--line); border-radius: 999px; color: var(--maroon-dark); background: rgba(255,255,255,.7); }
-.language-control select { max-width: 86px; border: 0; outline: 0; background: transparent; color: inherit; font-weight: 700; cursor: pointer; }
+.language-control select { max-width: 132px; border: 0; outline: 0; background: transparent; color: inherit; font-weight: 700; cursor: pointer; }
 .journey-layout-expanded { max-width: 1320px; grid-template-columns: 310px 1fr; }
 .stakes-card { margin-top: 18px; padding: 14px; border-radius: 12px; background: #fff1d8; }
 .stakes-card strong { color: #784b12; font-size: .78rem; text-transform: uppercase; letter-spacing: .08em; }
@@ -1133,7 +1133,7 @@ label:has(input:focus-visible) {
   .home-nav .brand-button > span:last-child { white-space: nowrap; }
   .journey-topbar { gap: 8px; }
   .journey-tools { gap: 6px; }
-  .language-control select { max-width: 72px; }
+  .language-control select { max-width: 96px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

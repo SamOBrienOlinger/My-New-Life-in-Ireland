@@ -6,6 +6,12 @@ import {
   HeartHandshake, Home, MapPin, Search, ShieldCheck, Stethoscope,
 } from "lucide-react";
 import { LanguageControl, ui, useLanguage, type Language } from "../i18n";
+import {
+  additionalResourceCopy,
+  additionalTopicCopy,
+  additionalTopicDescriptions,
+  additionalTranslatedTitles,
+} from "../additional-page-copy";
 import { MobileNavigation } from "../mobile-navigation";
 
 type Topic = "all" | "arrival" | "immigration" | "protection" | "work" | "study" | "daily-life" | "family" | "rights";
@@ -67,12 +73,14 @@ const resourceCopy = {
     back:"العودة إلى الرحلات", eyebrow:"مركز معلومات أيرلندا", title:"اعثر على المصدر الصحيح للسؤال التالي.", intro:"ابحث في معلومات عملية ورسمية ومتخصصة لمن يخطط للانتقال أو يطلب الحماية أو يبني حياة في أيرلندا.", cautionTitle:"ابدأ هنا، لكن تحقق من التفاصيل.", caution:"تتغير قواعد الهجرة والحماية. تحقق من المصدر المرتبط لحالة حقيقية واطلب مشورة مؤهلة عند الحاجة.", browse:"تصفح حسب الحاجة", trusted:"نقاط بداية موثوقة", search:"ابحث في المصادر", placeholder:"ابحث عن العمل أو السكن أو الأسرة…", showing:"يُعرض", resource:"مصدر", resources:"مصادر", open:"افتح المصدر", none:"لا يوجد مصدر مطابق", retry:"جرّب كلمة أوسع أو اختر «كل المعلومات».", clear:"امسح عوامل التصفية", arrival:"التوجيه عند الوصول", week:"أسئلة الأسبوع الأول", weekIntro:"ليست كل نقطة مناسبة لكل شخص. استخدم الأسئلة لتحديد المصدر أو المستشار الذي تحتاج إليه.", footer:"معلومات عامة فقط، وليست مشورة قانونية.",
     questions:["ما إذن الهجرة أو الحماية الذي أملكه، وما شروطه؟","هل أحتاج إلى التسجيل، وهل لدي دليل على الموعد أو الطلب؟","أين سأقيم، ومن يمكنه نصحي إذا كان الترتيب غير آمن؟","كيف أصل إلى الرعاية الصحية والتعليم والضرائب ورقم PPS عند الحاجة؟","من يمكنه تقديم مشورة مستقلة إذا كان صاحب عمل أو وكيل أو فرد من الأسرة يسيطر على وثائقي؟"],
   },
+  ...additionalResourceCopy,
 } as const;
 
 const topicCopy: Record<Language, Record<Topic, string>> = {
   en:Object.fromEntries(topics.map((item) => [item.id,item.label])) as Record<Topic,string>,
   ga:{all:"Gach eolas",arrival:"Na chéad laethanta",immigration:"Inimirce",protection:"Cosaint",work:"Obair",study:"Staidéar","daily-life":"Saol laethúil",family:"Teaghlach",rights:"Cearta agus comhairle"},
   ar:{all:"كل المعلومات",arrival:"الأيام الأولى",immigration:"الهجرة",protection:"الحماية",work:"العمل",study:"الدراسة","daily-life":"الحياة اليومية",family:"الأسرة",rights:"الحقوق والمشورة"},
+  ...additionalTopicCopy,
 };
 
 function isTopic(value: string | null): value is Topic {
@@ -82,11 +90,13 @@ function isTopic(value: string | null): value is Topic {
 const translatedTitles: Record<Exclude<Language,"en">, string[]> = {
   ga:["Cead inimirce a chlárú","Uimhir Phearsanta Seirbhíse Poiblí","Roghnaigh cuspóir inimirce","Stampaí ceada inimirce","Iarratas ar chosaint idirnáisiúnta","Iarratais tar éis 12 Meitheamh 2026","Cóiríocht agus tacaíochtaí glactha","Riachtanais leochaileachta agus chóiríochta","Tacaíocht neamhspleách dlí agus phraiticiúil","Cineálacha ceada fostaíochta","Cearta agus tú ag obair in Éirinn","Tacaíocht d’fhostaíocht imirceach agus dúshaothrú","Saoránaigh AE ag teacht chun oibre","Cearta cónaithe AE","Teacht chun staidéir in Éirinn","Oideachas in Éirinn","Seirbhísí cúraim sláinte","Teach a aimsiú agus a fháil ar cíos","Eolas poiblí neamhspleách","Cearta comhionannais an Lucht Siúil agus na Romach","Teacht le teaghlach","Comhairle speisialtóra d’imircigh agus dídeanaithe","Stádas neamhspleách tar éis foréigin teaghlaigh","Sábháilteacht agus tacaíocht i gcás foréigin teaghlaigh"],
   ar:["تسجيل إذن الهجرة","رقم الخدمة العامة الشخصية","اختر غرض الهجرة","أختام إذن الهجرة","التقدم للحماية الدولية","الطلبات المقدمة بعد 12 يونيو 2026","السكن ودعم الاستقبال","احتياجات الضعف والسكن","دعم قانوني وعملي مستقل","أنواع تصاريح العمل","الحقوق عند العمل في أيرلندا","دعم العمال المهاجرين والاستغلال","مواطنو الاتحاد الأوروبي القادمون للعمل","حقوق الإقامة الأوروبية","القدوم للدراسة في أيرلندا","التعليم في أيرلندا","خدمات الرعاية الصحية","العثور على منزل واستئجاره","معلومات عامة مستقلة","حقوق المساواة للرحّل والروما","القدوم للانضمام إلى الأسرة","مشورة متخصصة للمهاجرين واللاجئين","وضع مستقل بعد العنف الأسري","السلامة والدعم في حالات العنف الأسري"],
+  ...additionalTranslatedTitles,
 };
 
 const topicDescriptions: Record<Exclude<Language,"en">, Record<Topic,string>> = {
   ga:{all:"Eolas oifigiúil agus speisialtóra atá le seiceáil don chás aonair.",arrival:"Céimeanna praiticiúla, clárú agus seirbhísí do na chéad laethanta in Éirinn.",immigration:"Ceadanna, coinníollacha agus próisis oifigiúla inimirce.",protection:"Cosaint idirnáisiúnta, glacadh, cóiríocht agus tacaíocht neamhspleách.",work:"Ceadanna fostaíochta, cearta oibre agus tacaíocht in aghaidh dúshaothraithe.",study:"Víosaí, airgeadas, cúrsaí, clárú agus oideachas.","daily-life":"Sláinte, tithíocht, seirbhísí poiblí agus cearta comhionannais.",family:"Athaontú teaghlaigh, stádas neamhspleách, sábháilteacht agus comhairle.",rights:"Cearta, comhionannas agus foinsí neamhspleácha comhairle."},
   ar:{all:"معلومات رسمية ومتخصصة يجب التحقق منها للحالة الفردية.",arrival:"خطوات عملية وتسجيل وخدمات للأيام الأولى في أيرلندا.",immigration:"أذونات وشروط وإجراءات هجرة رسمية.",protection:"الحماية الدولية والاستقبال والسكن والدعم المستقل.",work:"تصاريح العمل وحقوق مكان العمل ودعم مكافحة الاستغلال.",study:"التأشيرات والتمويل والدورات والتسجيل والتعليم.","daily-life":"الصحة والسكن والخدمات العامة وحقوق المساواة.",family:"لمّ الشمل والوضع المستقل والسلامة والمشورة.",rights:"الحقوق والمساواة ومصادر المشورة المستقلة."},
+  ...additionalTopicDescriptions,
 };
 
 export default function ResourcesPage() {
@@ -96,19 +106,27 @@ export default function ResourcesPage() {
   const [topic, setTopic] = useState<Topic>("all");
   const [query, setQuery] = useState("");
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const requestedTopic = params.get("topic");
-    const requestedQuery = params.get("q");
-    if (isTopic(requestedTopic)) setTopic(requestedTopic);
-    if (requestedQuery) setQuery(requestedQuery);
+    const frame = window.requestAnimationFrame(() => {
+      const params = new URLSearchParams(window.location.search);
+      const requestedTopic = params.get("topic");
+      const requestedQuery = params.get("q");
+      if (isTopic(requestedTopic)) setTopic(requestedTopic);
+      if (requestedQuery) setQuery(requestedQuery);
+    });
+    return () => window.cancelAnimationFrame(frame);
   }, []);
   const filtered = useMemo(() => {
-    const term = query.trim().toLowerCase();
-    return resources.filter((item) => (topic === "all" || item.topic === topic || (topic === "rights" && rightsAndAdviceTitles.has(item.title))) && (!term || `${item.title} ${item.description} ${item.organisation}`.toLowerCase().includes(term)));
-  }, [topic, query]);
+    const term = query.trim().toLocaleLowerCase(language);
+    return resources.filter((item, index) => {
+      const title = language === "en" ? item.title : translatedTitles[language][index];
+      const description = language === "en" ? item.description : topicDescriptions[language][item.topic];
+      const searchable = `${title} ${description} ${item.organisation} ${topicCopy[language][item.topic]}`.toLocaleLowerCase(language);
+      return (topic === "all" || item.topic === topic || (topic === "rights" && rightsAndAdviceTitles.has(item.title))) && (!term || searchable.includes(term));
+    });
+  }, [topic, query, language]);
 
   return <main className="resources-page" lang={language} dir={dir}>
-    <nav className="home-nav resources-nav" aria-label="Main navigation">
+    <nav className="home-nav resources-nav" aria-label={`${t.siteName}: ${t.menu}`}>
       <a className="brand-button" href="../"><img className="brand-mark" src="../images/harp-heart-logo.png" alt="" aria-hidden="true" /><span>{t.siteName}</span></a>
       <div className="nav-links"><a className="nav-link" href="../">{t.journeys}</a><a className="nav-link" href="../about/">{t.about}</a></div><LanguageControl language={language} setLanguage={setLanguage} label={t.language} /><MobileNavigation links={[{ href: "../", label: t.home }, { href: "../#route-finder", label: t.journeys }, { href: "../about/", label: t.about }, { href: "../#official-guidance", label: t.official }]} language={language} setLanguage={setLanguage} languageLabel={t.language} menuLabel={t.menu} closeLabel={t.closeMenu} />
     </nav>

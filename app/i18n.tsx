@@ -3,30 +3,50 @@
 import { useEffect, useState } from "react";
 import { Languages } from "lucide-react";
 import type { Character, Choice, RouteFilter, RouteKey, Step } from "./journey-data";
+import {
+  additionalCharacterText,
+  additionalFilterText,
+  additionalJourneyText,
+  additionalLanguageOptions,
+  additionalRouteText,
+  additionalStageText,
+  additionalUi,
+  type AdditionalLanguage,
+} from "./additional-locales";
 
-export type Language = "en" | "ga" | "ar";
+export type Language = "en" | "ga" | "ar" | AdditionalLanguage;
 const storageKey = "mnli-language";
+const supportedLanguages = new Set<Language>(["en", "ga", "ar", ...additionalLanguageOptions.map((option) => option.value)]);
+const isRtl = (language: Language) => language === "ar" || language === "fa";
 
 export function useLanguage() {
-  const [language, setLanguageState] = useState<Language>(() => {
-    if (typeof window === "undefined") return "en";
-    const saved = window.localStorage.getItem(storageKey);
-    return saved === "ga" || saved === "ar" ? saved : "en";
-  });
+  const [language, setLanguageState] = useState<Language>("en");
+  const [hasLoadedPreference, setHasLoadedPreference] = useState(false);
 
   useEffect(() => {
+    const frame = window.requestAnimationFrame(() => {
+      const saved = window.localStorage.getItem(storageKey);
+      if (supportedLanguages.has(saved as Language)) setLanguageState(saved as Language);
+      setHasLoadedPreference(true);
+    });
+    return () => window.cancelAnimationFrame(frame);
+  }, []);
+
+  useEffect(() => {
+    if (!hasLoadedPreference) return;
     window.localStorage.setItem(storageKey, language);
     document.documentElement.lang = language;
-    document.documentElement.dir = language === "ar" ? "rtl" : "ltr";
-  }, [language]);
+    document.documentElement.dir = isRtl(language) ? "rtl" : "ltr";
+  }, [language, hasLoadedPreference]);
 
-  return { language, setLanguage: setLanguageState, dir: language === "ar" ? "rtl" as const : "ltr" as const };
+  return { language, setLanguage: setLanguageState, dir: isRtl(language) ? "rtl" as const : "ltr" as const };
 }
 
 export function LanguageControl({ language, setLanguage, label }: { language: Language; setLanguage: (language: Language) => void; label?: string }) {
   return <label className="language-control"><Languages size={17} aria-hidden="true" /><span className="sr-only">{label || "Language"}</span>
     <select value={language} onChange={(event) => setLanguage(event.target.value as Language)} aria-label={label || "Language"}>
       <option value="en">English</option><option value="ga">Gaeilge</option><option value="ar">العربية</option>
+      {additionalLanguageOptions.map((option) => <option value={option.value} key={option.value}>{option.label}</option>)}
     </select>
   </label>;
 }
@@ -74,6 +94,7 @@ export const ui = {
     choose: "اختر شخصية", change: "غيّر الشخصية", walking: "أنت تسير مع", stake: "ما هو على المحك", stages: "مراحل الرحلة", decision: "القرار", of: "من", progress: "تقدم الرحلة", rule: "ماذا تعني القواعد هنا", plain: "نسخة مبسطة", detailed: "نسخة مفصلة", check: "تحقق من القرار", next: "متابعة", back: "رجوع", complete: "أكمل الرحلة", listen: "استمع", source: "تحقق من المصدر", safer: "قرار أكثر أماناً واستنارة", risk: "ظهر خطر في المسار", changes: "ما الذي سيتغير لاحقاً",
     done: "اكتملت الرحلة", walked: "سرت عبر خمس مراحل مع", scoreBefore: "حددت", scoreAfter: "قرارات أكثر أماناً واستنارة. أعد الرحلة لاستكشاف نتائج مختلفة من دون تغيير الوضع القانوني الحقيقي لأي شخص.", checkRoute: "تحقق من المسار", checkRouteP: "التأشيرة والإقامة والعمل والدراسة وإذن الأسرة ليست أموراً متبادلة.", evidence: "احتفظ بأدلتك", evidenceP: "تساعد الوثائق والتواريخ والتفسيرات الصادقة في التعامل مع الأنظمة المختلفة.", network: "ابنِ شبكة دعم", networkP: "المعلومات الرسمية والمشورة المستقلة والروابط المجتمعية كلها مهمة.", chooseAnother: "اختر شخصاً آخر", openIrelandHub: "افتح مركز معلومات أيرلندا", disclaimer: "قصة خيالية مركبة. للتعليم العام فقط. تتغير القواعد والظروف.",
   },
+  ...additionalUi,
 } as const;
 
 const routeText: Record<Language, Record<RouteKey, { label: string; short: string; focus: string }>> = {
@@ -86,6 +107,7 @@ const routeText: Record<Language, Record<RouteKey, { label: string; short: strin
   ar: {
     critical:{label:"تصريح توظيف المهارات الحرجة",short:"عمل ماهر",focus:"رحلة عمل ضمن المهارات الحرجة"}, general:{label:"تصريح التوظيف العام",short:"التوظيف",focus:"رحلة تصريح توظيف عام"}, protection:{label:"الحماية الدولية",short:"الحماية",focus:"رحلة حماية دولية"}, study:{label:"دراسة طويلة الإقامة",short:"الدراسة",focus:"رحلة دراسة طويلة الإقامة"}, family:{label:"الانضمام إلى الأسرة",short:"الأسرة",focus:"رحلة لمّ شمل الأسرة"}, "protection-access":{label:"الحماية مع احتياجات الوصول",short:"الحماية + الوصول",focus:"الحماية مع احتياجات الإعاقة والاستقبال"}, "eu-mobility":{label:"حرية التنقل في الاتحاد الأوروبي",short:"تنقل أوروبي",focus:"حرية التنقل والعمل والمساواة في الاتحاد الأوروبي"}, "family-safety":{label:"إذن مستقل بعد العنف الأسري",short:"الأسرة + السلامة",focus:"السلامة وإذن هجرة مستقل"},
   },
+  ...additionalRouteText,
 };
 
 export function localRoute(route: RouteKey, language: Language) { return routeText[language][route]; }
@@ -94,6 +116,7 @@ const filterText: Record<Language, Record<RouteFilter, { label: string; descript
   en:{all:{label:"Show everyone",description:"Compare all twelve fictional journeys."},work:{label:"I want to work",description:"Employment-permit journeys."},study:{label:"I want to study",description:"Course, visa, finance and Stamp 2 decisions."},family:{label:"I want to join family",description:"Sponsor, relationship and permission decisions."},protection:{label:"I need safety",description:"International-protection and reception decisions."},eu:{label:"I am an EU citizen",description:"Free-movement, work and equality decisions."}},
   ga:{all:{label:"Taispeáin gach duine",description:"Cuir an dá thuras ficseanúla dhéag i gcomparáid."},work:{label:"Ba mhaith liom obair",description:"Turais ceada fostaíochta."},study:{label:"Ba mhaith liom staidéar",description:"Cúrsa, víosa, airgeadas agus cinntí Stamp 2."},family:{label:"Ba mhaith liom teacht le teaghlach",description:"Cinntí urraíochta, caidrimh agus ceada."},protection:{label:"Teastaíonn sábháilteacht uaim",description:"Cinntí cosanta idirnáisiúnta agus ghlactha."},eu:{label:"Is saoránach AE mé",description:"Cinntí saorghluaiseachta, oibre agus comhionannais."}},
   ar:{all:{label:"اعرض الجميع",description:"قارن الرحلات الخيالية الاثنتي عشرة."},work:{label:"أريد أن أعمل",description:"رحلات تصاريح العمل."},study:{label:"أريد أن أدرس",description:"قرارات الدورة والتأشيرة والتمويل وإقامة Stamp 2."},family:{label:"أريد الانضمام إلى الأسرة",description:"قرارات الكفيل والعلاقة والإذن."},protection:{label:"أحتاج إلى الأمان",description:"قرارات الحماية الدولية والاستقبال."},eu:{label:"أنا مواطن في الاتحاد الأوروبي",description:"قرارات حرية التنقل والعمل والمساواة."}},
+  ...additionalFilterText,
 };
 export function localFilter(filter: RouteFilter, language: Language) { return filterText[language][filter]; }
 
@@ -127,12 +150,14 @@ const characterText: Record<Language, Record<string, [string,string,string,strin
     elena:["هي","بلغاريا","عاملة تنظيف فندق","امرأة روما عابرة جنسياً وأكبر سناً تمارس حقوق التنقل الأوروبية","يمكن لإيلينا العمل كمواطنة في الاتحاد الأوروبي، لكنها تواجه العنصرية ورهاب العابرين والتمييز العمري معاً."],
     leila:["هي","بنغلاديش","مساعدة حسابات سابقة","امرأة مهاجرة ثنائية الميل وأم يرتبط إذنها بزوج مسيء","تعاني ليلى العزلة بسبب اللغة والسيطرة المالية والخوف. سلامتها وأطفالها ووثائقها وسكنها ووضعها المستقل أمور مترابطة."],
   },
+  ...additionalCharacterText,
 };
 
 export function localCharacter(character: Character, language: Language): Character {
   if (language === "en") return character;
   const [pronouns, origin, role, identity, combined] = characterText[language][character.id];
-  return { ...character, pronouns, origin, role, identity, summary: combined.split(".")[0] + ".", stakes: combined.includes(".") ? combined.slice(combined.indexOf(".") + 1).trim() : combined };
+  const sentenceEnd = combined.search(/[.!?。！？]/);
+  return { ...character, pronouns, origin, role, identity, summary: sentenceEnd >= 0 ? combined.slice(0, sentenceEnd + 1) : combined, stakes: sentenceEnd >= 0 ? combined.slice(sentenceEnd + 1).trim() : combined };
 }
 
 const stageText = {
@@ -150,31 +175,29 @@ const stageText = {
     Arrive:["الوصول","الأيام الأولى","رتّب خطوات ما بعد الوصول","إذن الحدود والتسجيل والسكن والوصول إلى الخدمات خطوات منفصلة.","ما الذي يجب أن يبقى ضمن الخطة؟"],
     "Build a life":["بناء حياة","الحياة في أيرلندا","احمِ الحقوق وابنِ الدعم","الحقوق والأدلة والمشورة المستقلة والروابط المجتمعية مهمة للمرحلة التالية.","أي خيار يدعم حياة أكثر أماناً؟"],
   },
+  ...additionalStageText,
+} as const;
+
+const journeyText = {
+  ga:{lawPrefix:"Baineann na rialacha reatha le ",lawSuffix:". Ní mór cead, fianaise agus uainiú a sheiceáil ar leithligh ag gach céim.",plainLaw:"Seiceáil an fhoinse oifigiúil reatha, tabhair eolas fírinneach agus lorg comhairle cháilithe nuair is gá.",sourceLabel:"Foinse oifigiúil",choiceGood:"Seiceáil na rialacha reatha, coinnigh fianaise agus bain úsáid as an bpróiseas oifigiúil.",choicePromise:"Glac leis gur leor gealltanas nó doiciméad amháin gan seiceáil.",choiceShortcut:"Úsáid aicearra nó tabhair eolas nach bhfuil ag teacht leis an bhfíorchás.",feedbackGood:"Tugann an rogha seo fianaise, uainiú agus an bealach oifigiúil le chéile.",feedbackRisk:"D’fhéadfadh an rogha seo cead, sábháilteacht nó cearta a chur i mbaol.",consequenceGood:"Éiríonn an chéad chéim eile níos soiléire agus níos sábháilte.",consequenceRisk:"D’fhéadfadh moill, diúltú, dúshaothrú nó fadhb eile teacht chun cinn."},
+  ar:{lawPrefix:"تنطبق القواعد الحالية على ",lawSuffix:". يجب التحقق من الإذن والأدلة والتوقيت بصورة منفصلة في كل مرحلة.",plainLaw:"تحقق من المصدر الرسمي الحالي، وقدّم معلومات صادقة، واطلب مشورة مؤهلة عند الحاجة.",sourceLabel:"المصدر الرسمي",choiceGood:"تحقق من القواعد الحالية، واحتفظ بالأدلة، واستخدم الإجراء الرسمي.",choicePromise:"افترض أن وعداً أو وثيقة واحدة تكفي من دون تحقق.",choiceShortcut:"استخدم طريقاً مختصراً أو قدّم معلومات لا تطابق الوضع الحقيقي.",feedbackGood:"يجمع هذا الخيار بين الأدلة والتوقيت والمسار الرسمي.",feedbackRisk:"قد يعرّض هذا الخيار الإذن أو السلامة أو الحقوق للخطر.",consequenceGood:"تصبح الخطوة التالية أوضح وأكثر أماناً.",consequenceRisk:"قد يحدث تأخير أو رفض أو استغلال أو مشكلة أخرى."},
+  ...additionalJourneyText,
 } as const;
 
 export function localStep(step: Step, route: RouteKey, language: Language): Step {
   if (language === "en") return step;
   const [stage, eyebrow, title, scene, question] = stageText[language][step.stage];
   const focus = routeText[language][route].focus;
-  const ga = language === "ga";
-  const law = ga
-    ? `Baineann na rialacha reatha le ${focus}. Ní mór cead, fianaise agus uainiú a sheiceáil ar leithligh ag gach céim.`
-    : `تنطبق القواعد الحالية على ${focus}. يجب التحقق من الإذن والأدلة والتوقيت بصورة منفصلة في كل مرحلة.`;
-  const plainLaw = ga
-    ? "Seiceáil an fhoinse oifigiúil reatha, tabhair eolas fírinneach agus lorg comhairle cháilithe nuair is gá."
-    : "تحقق من المصدر الرسمي الحالي، وقدّم معلومات صادقة، واطلب مشورة مؤهلة عند الحاجة.";
+  const copy = journeyText[language];
+  const law = `${copy.lawPrefix}${focus}${copy.lawSuffix}`;
+  const plainLaw = copy.plainLaw;
   const choices = step.choices.map((choice, index): Choice => {
     const good = choice.correct;
-    if (ga) return { ...choice,
-      label: good ? "Seiceáil na rialacha reatha, coinnigh fianaise agus bain úsáid as an bpróiseas oifigiúil." : index === 1 ? "Glac leis gur leor gealltanas nó doiciméad amháin gan seiceáil." : "Úsáid aicearra nó tabhair eolas nach bhfuil ag teacht leis an bhfíorchás.",
-      feedback: good ? "Tugann an rogha seo fianaise, uainiú agus an bealach oifigiúil le chéile." : "D’fhéadfadh an rogha seo cead, sábháilteacht nó cearta a chur i mbaol.",
-      consequence: good ? "Éiríonn an chéad chéim eile níos soiléire agus níos sábháilte." : "D’fhéadfadh moill, diúltú, dúshaothrú nó fadhb eile teacht chun cinn.",
-    };
     return { ...choice,
-      label: good ? "تحقق من القواعد الحالية، واحتفظ بالأدلة، واستخدم الإجراء الرسمي." : index === 1 ? "افترض أن وعداً أو وثيقة واحدة تكفي من دون تحقق." : "استخدم طريقاً مختصراً أو قدّم معلومات لا تطابق الوضع الحقيقي.",
-      feedback: good ? "يجمع هذا الخيار بين الأدلة والتوقيت والمسار الرسمي." : "قد يعرّض هذا الخيار الإذن أو السلامة أو الحقوق للخطر.",
-      consequence: good ? "تصبح الخطوة التالية أوضح وأكثر أماناً." : "قد يحدث تأخير أو رفض أو استغلال أو مشكلة أخرى.",
+      label: good ? copy.choiceGood : index === 1 ? copy.choicePromise : copy.choiceShortcut,
+      feedback: good ? copy.feedbackGood : copy.feedbackRisk,
+      consequence: good ? copy.consequenceGood : copy.consequenceRisk,
     };
   });
-  return { ...step, stage: stage as Step["stage"], eyebrow, title, scene, question, law, plainLaw, sourceLabel: ga ? "Foinse oifigiúil" : "المصدر الرسمي", choices };
+  return { ...step, stage: stage as Step["stage"], eyebrow, title, scene, question, law, plainLaw, sourceLabel: copy.sourceLabel, choices };
 }

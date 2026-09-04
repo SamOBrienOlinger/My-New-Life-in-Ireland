@@ -13,6 +13,7 @@ import {
   type RouteFilter, type RouteKey,
 } from "./journey-data";
 import { LanguageControl, localCharacter, localFilter, localRoute, localStep, ui, useLanguage } from "./i18n";
+import { additionalOfficialSourceDescriptions } from "./additional-page-copy";
 import { MobileNavigation } from "./mobile-navigation";
 
 const routeIcons: Record<RouteKey, typeof ShieldCheck> = {
@@ -32,6 +33,7 @@ const officialSources = [
 const officialSourceDescriptions = {
   ga: ["Obair, staidéar, teaghlach, clárú agus cead","Cineálacha ceada, incháilitheacht agus liostaí gairmeacha reatha","Iarratas ar chosaint idirnáisiúnta in Éirinn","Cearta agus nósanna imeachta, lena n-áirítear iarratais tar éis 12 Meitheamh 2026","Cearta fostaíochta agus leigheasanna san ionad oibre"],
   ar: ["العمل والدراسة والأسرة والتسجيل والإذن","أنواع التصاريح الحالية والأهلية وقوائم المهن","التقدم للحماية الدولية في أيرلندا","الحقوق والإجراءات، بما فيها الطلبات بعد 12 يونيو 2026","حقوق العمل وسبل الانتصاف في مكان العمل"],
+  ...additionalOfficialSourceDescriptions,
 };
 
 export default function Home() {
@@ -120,7 +122,7 @@ export default function Home() {
     if (!step || !("speechSynthesis" in window)) return;
     window.speechSynthesis.cancel();
     const utterance = new SpeechSynthesisUtterance(`${step.title}. ${step.scene}. ${plainLanguage ? step.plainLaw : step.law}`);
-    utterance.lang = language === "ga" ? "ga-IE" : language === "ar" ? "ar" : "en-IE";
+    utterance.lang = ({ en:"en-IE", ga:"ga-IE", ar:"ar", zh:"zh-CN", fr:"fr-FR", pt:"pt-PT", es:"es-ES", nl:"nl-NL", fa:"fa-IR", xh:"xh-ZA" } as const)[language];
     window.speechSynthesis.speak(utterance);
   }
 
@@ -194,7 +196,7 @@ export default function Home() {
               <div className="completion-icon"><CheckCircle2 size={34} aria-hidden="true" /></div><p className="eyebrow">{t.done}</p>
               <h2>{t.walked} {character.name}.</h2>
               <p>{t.scoreBefore} <strong>{correctCount} {t.of} {steps.length}</strong> {t.scoreAfter}</p>
-              <div className="readiness-meter" aria-label={`${correctCount} of ${steps.length} informed decisions`}>{steps.map((_, index) => <span className={index < correctCount ? "filled" : ""} key={index} />)}</div>
+              <div className="readiness-meter" aria-label={`${correctCount} ${t.of} ${steps.length} ${t.decisions}`}>{steps.map((_, index) => <span className={index < correctCount ? "filled" : ""} key={index} />)}</div>
               <div className="takeaway-grid">
                 <article><strong>{t.checkRoute}</strong><span>{t.checkRouteP}</span></article>
                 <article><strong>{t.evidence}</strong><span>{t.evidenceP}</span></article>
@@ -211,7 +213,7 @@ export default function Home() {
 
   return <main lang={language} dir={dir}>
     <section className="hero-section hero-section-expanded" id="top">
-      <nav className="home-nav" aria-label="Main navigation"><a className="brand-button" href="#top"><img className="brand-mark" src="images/harp-heart-logo.png" alt="" aria-hidden="true" /><span>{t.siteName}</span></a><div className="nav-links"><a className="nav-link" href="about/">{t.about}</a><a className="nav-link" href="resources/">{t.hub}</a><a className="nav-link" href="#official-guidance">{t.official}</a></div><LanguageControl language={language} setLanguage={setLanguage} label={t.language} /><MobileNavigation links={[{ href: "#top", label: t.home }, { href: "about/", label: t.about }, { href: "resources/", label: t.hub }, { href: "#official-guidance", label: t.official }]} language={language} setLanguage={setLanguage} languageLabel={t.language} menuLabel={t.menu} closeLabel={t.closeMenu} /></nav>
+      <nav className="home-nav" aria-label={`${t.siteName}: ${t.menu}`}><a className="brand-button" href="#top"><img className="brand-mark" src="images/harp-heart-logo.png" alt="" aria-hidden="true" /><span>{t.siteName}</span></a><div className="nav-links"><a className="nav-link" href="about/">{t.about}</a><a className="nav-link" href="resources/">{t.hub}</a><a className="nav-link" href="#official-guidance">{t.official}</a></div><LanguageControl language={language} setLanguage={setLanguage} label={t.language} /><MobileNavigation links={[{ href: "#top", label: t.home }, { href: "about/", label: t.about }, { href: "resources/", label: t.hub }, { href: "#official-guidance", label: t.official }]} language={language} setLanguage={setLanguage} languageLabel={t.language} menuLabel={t.menu} closeLabel={t.closeMenu} /></nav>
       <div className="hero-content hero-content-expanded">
         <p className="eyebrow">{t.heroEyebrow}</p>
         <h1>{t.heroTitle}</h1>

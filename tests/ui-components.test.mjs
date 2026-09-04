@@ -57,6 +57,44 @@ test("emits mobile accessibility and safe-area protections", async () => {
   assert.match(css, /-webkit-text-size-adjust:\s*100%/);
 });
 
+test("ships complete selectable dictionaries for every supported language", async () => {
+  const { ui } = await vite.ssrLoadModule("/app/i18n.tsx");
+  const {
+    additionalLanguageOptions,
+    additionalRouteText,
+    additionalFilterText,
+    additionalCharacterText,
+    additionalStageText,
+    additionalJourneyText,
+  } = await vite.ssrLoadModule("/app/additional-locales.ts");
+  const {
+    additionalAboutCopy,
+    additionalResourceCopy,
+    additionalTopicCopy,
+    additionalTopicDescriptions,
+    additionalTranslatedTitles,
+    additionalOfficialSourceDescriptions,
+  } = await vite.ssrLoadModule("/app/additional-page-copy.ts");
+
+  const expected = ["zh", "fr", "pt", "es", "nl", "fa", "xh"];
+  assert.deepEqual(additionalLanguageOptions.map(({ value }) => value), expected);
+
+  for (const language of expected) {
+    assert.ok(Object.keys(ui[language]).length >= Object.keys(ui.en).length);
+    assert.equal(Object.keys(additionalRouteText[language]).length, 8);
+    assert.equal(Object.keys(additionalFilterText[language]).length, 6);
+    assert.equal(Object.keys(additionalCharacterText[language]).length, 12);
+    assert.equal(Object.keys(additionalStageText[language]).length, 5);
+    assert.ok(additionalJourneyText[language].plainLaw);
+    assert.ok(additionalAboutCopy[language].intro);
+    assert.equal(additionalResourceCopy[language].questions.length, 5);
+    assert.equal(Object.keys(additionalTopicCopy[language]).length, 9);
+    assert.equal(Object.keys(additionalTopicDescriptions[language]).length, 9);
+    assert.equal(additionalTranslatedTitles[language].length, 24);
+    assert.equal(additionalOfficialSourceDescriptions[language].length, 5);
+  }
+});
+
 test("forwards progress semantics to the primitive", async () => {
   const { Progress } = await vite.ssrLoadModule("/components/ui/progress.tsx");
   const html = renderToStaticMarkup(React.createElement(Progress, { value: 37 }));
