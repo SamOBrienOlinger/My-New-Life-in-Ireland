@@ -13,6 +13,7 @@ import {
   type RouteFilter, type RouteKey,
 } from "./journey-data";
 import { LanguageControl, localCharacter, localFilter, localRoute, localStep, ui, useLanguage } from "./i18n";
+import { MobileNavigation } from "./mobile-navigation";
 
 const routeIcons: Record<RouteKey, typeof ShieldCheck> = {
   critical: BriefcaseBusiness, general: BriefcaseBusiness, protection: ShieldCheck,
@@ -106,7 +107,7 @@ export default function Home() {
       <main className="journey-shell" lang={language} dir={dir}>
         <header className="journey-topbar">
           <button className="brand-button" type="button" onClick={() => resetJourney()}>
-            <span className="brand-mark" aria-hidden="true">MN</span><span>{t.siteName}</span>
+            <img className="brand-mark" src="images/harp-heart-logo.png" alt="" aria-hidden="true" /><span>{t.siteName}</span>
           </button>
           <div className="journey-tools">
             <LanguageControl language={language} setLanguage={setLanguage} label={t.language} />
@@ -181,31 +182,32 @@ export default function Home() {
             </div>}
           </section>
         </div>
-        <footer className="journey-footer"><span>{t.disclaimer}</span><span>{t.copyright}</span><a href="about/">{t.ownership}</a><a href="https://samobrienolinger.github.io/Sam-Tim-Software-Solutions/" target="_blank" rel="noreferrer">Sam Tim Solutions</a></footer>
+        <footer className="site-footer journey-footer"><div className="site-footer-content"><p><strong>{t.siteName}</strong> - {t.tagline}</p><p><a href="https://samobrienolinger.github.io/SamOBrienOlinger/" target="_blank" rel="noreferrer">Sam Tim Solutions</a> - {t.footerNote}</p><p className="site-footer-copyright">{t.copyright}</p></div></footer>
       </main>
     );
   }
 
   return <main lang={language} dir={dir}>
     <section className="hero-section hero-section-expanded" id="top">
-      <nav className="home-nav" aria-label="Main navigation"><a className="brand-button" href="#top"><span className="brand-mark" aria-hidden="true">MN</span><span>{t.siteName}</span></a><div className="nav-links"><a className="nav-link" href="about/">{t.about}</a><a className="nav-link" href="resources/">{t.hub}</a><a className="nav-link" href="#official-guidance">{t.official}</a></div><LanguageControl language={language} setLanguage={setLanguage} label={t.language} /></nav>
+      <nav className="home-nav" aria-label="Main navigation"><a className="brand-button" href="#top"><img className="brand-mark" src="images/harp-heart-logo.png" alt="" aria-hidden="true" /><span>{t.siteName}</span></a><div className="nav-links"><a className="nav-link" href="about/">{t.about}</a><a className="nav-link" href="resources/">{t.hub}</a><a className="nav-link" href="#official-guidance">{t.official}</a></div><LanguageControl language={language} setLanguage={setLanguage} label={t.language} /><MobileNavigation links={[{ href: "#top", label: t.home }, { href: "about/", label: t.about }, { href: "resources/", label: t.hub }, { href: "#official-guidance", label: t.official }]} language={language} setLanguage={setLanguage} languageLabel={t.language} menuLabel={t.menu} closeLabel={t.closeMenu} /></nav>
       <div className="hero-content hero-content-expanded">
         <p className="eyebrow">{t.heroEyebrow}</p>
         <h1>{t.heroTitle}</h1>
         <div className="hero-copy"><p>{t.heroIntro}</p></div>
-        <section className="hero-question-board" aria-label="Questions explored in each journey">
+        <section className="hero-question-board" aria-label={t.questionsExplored}>
+          <p className="hero-question-intro">{t.questionsExplored}</p>
           <article className="hero-question-card question-challenges"><span>{t.challengeLabel}</span><h2>{t.challengeQuestion}</h2></article>
           <article className="hero-question-card question-people"><span>{t.peopleLabel}</span><h2>{t.peopleQuestion}</h2></article>
           <article className="hero-question-card question-new-life"><span>{t.beginningLabel}</span><h2>{t.beginningQuestion}</h2></article>
         </section>
-        <div className="hero-actions"><a className="primary-button hero-button" href="#route-finder">{t.findJourney} <ArrowRight size={18} aria-hidden="true" /></a><a className="quiet-button hero-secondary" href="resources/"><BookOpen size={18} aria-hidden="true" />{t.exploreInfo}</a></div>
-        <div className="hero-proof" aria-label="Experience summary"><span><strong>12</strong><small>{t.people}</small></span><span><strong>6</strong><small>{t.routes}</small></span><span><strong>40</strong><small>{t.decisions}</small></span><span><strong>1</strong><small>{t.ireland}</small></span></div>
+        <div className="hero-actions"><a className="primary-button hero-button" href="#route-finder">{t.findJourney} <ArrowRight size={18} aria-hidden="true" /></a><a className="quiet-button hero-secondary" href="resources/"><BookOpen size={18} aria-hidden="true" /><span>{t.exploreInfo}</span><ArrowRight className="action-arrow" size={18} aria-hidden="true" /></a></div>
+        <div className="hero-proof" aria-label={t.atAGlance}><p className="hero-proof-label">{t.atAGlance}</p><span><strong>12</strong><small>{t.people}</small></span><span><strong>6</strong><small>{t.routes}</small></span><span><strong>40</strong><small>{t.decisions}</small></span><span><strong>1</strong><small>{t.ireland}</small></span></div>
       </div>
     </section>
 
     <section className="experience-map" aria-labelledby="experience-title"><div><p className="eyebrow">{t.howEyebrow}</p><h2 id="experience-title">{t.howTitle}</h2></div><ol><li><span className="experience-icon" aria-hidden="true"><Users /></span><div><strong>{t.how1}</strong><p>{t.how1p}</p></div></li><li><span className="experience-icon" aria-hidden="true"><ArrowRight /></span><div><strong>{t.how2}</strong><p>{t.how2p}</p></div></li><li><span className="experience-icon" aria-hidden="true"><Scale /></span><div><strong>{t.how3}</strong><p>{t.how3p}</p></div></li><li><span className="experience-icon" aria-hidden="true"><CheckCircle2 /></span><div><strong>{t.how4}</strong><p>{t.how4p}</p></div></li></ol></section>
 
-    <section className="route-finder" id="route-finder" aria-labelledby="route-finder-title"><div className="route-finder-copy"><p className="eyebrow">{t.routeEyebrow}</p><h2 id="route-finder-title">{t.routeTitle}</h2><p>{t.routeNote}</p></div><div className="route-filter-grid" role="group" aria-label={t.routeTitle}>{routeFilters.map((item) => { const local = localFilter(item.id, language); return <button type="button" className={"route-filter " + (filter === item.id ? "selected" : "")} aria-pressed={filter === item.id} onClick={() => { setFilter(item.id); if (selectedId && item.id !== "all" && character?.filter !== item.id) setSelectedId(""); window.setTimeout(() => document.querySelector("#choose-character")?.scrollIntoView({ behavior: "smooth", block: "start" }), 0); }} key={item.id}><span>{local.label}</span><small>{local.description}</small></button>; })}</div></section>
+    <section className="route-finder" id="route-finder" aria-labelledby="route-finder-title"><div className="route-finder-copy"><p className="eyebrow">{t.routeEyebrow}</p><h2 id="route-finder-title">{t.routeTitle}</h2><p>{t.routeNote}</p></div><div className="route-filter-grid" role="group" aria-label={t.routeTitle}>{routeFilters.map((item) => { const local = localFilter(item.id, language); const selected = filter === item.id; return <button type="button" className={"route-filter " + (selected ? "selected" : "")} aria-pressed={selected} onClick={() => { setFilter(item.id); if (selectedId && item.id !== "all" && character?.filter !== item.id) setSelectedId(""); window.setTimeout(() => document.querySelector("#choose-character")?.scrollIntoView({ behavior: "smooth", block: "start" }), 0); }} key={item.id}><span className="route-filter-heading"><span>{local.label}</span><span className="selection-indicator" aria-hidden="true">{selected ? <Check size={14} /> : null}</span></span><small>{local.description}</small></button>; })}</div></section>
 
     <section className="character-section character-section-expanded" id="choose-character">
       <div className="section-heading"><div><p className="eyebrow">{t.chooseEyebrow}</p><h2>{t.chooseTitle}</h2></div><div className="learning-progress-card"><Sparkles size={20} aria-hidden="true" /><div><strong>{completedCharacters.length} {t.of} 12 {t.explored}</strong><span>{t.saved}</span></div></div></div>
@@ -213,9 +215,9 @@ export default function Home() {
       <div className="start-bar" aria-live="polite">{character ? <><div><span className="mini-label">{t.selected}</span><strong>{character.name} · {localRoute(character.route, language).label}</strong></div><button className="primary-button" type="button" onClick={beginJourney}>{t.begin} <ArrowRight size={18} aria-hidden="true" /></button></> : <p>{visibleCharacters.length ? t.selectPrompt : t.emptyPrompt}</p>}</div>
     </section>
 
-    <section className="hub-preview" aria-labelledby="hub-title"><div><p className="eyebrow">{t.afterStory}</p><h2 id="hub-title">{t.practicalTitle}</h2><p>{t.practicalText}</p><a className="primary-button" href="resources/">{t.openHub} <ArrowRight size={18} aria-hidden="true" /></a></div><div className="hub-topic-grid" aria-label={t.hub}><span><BriefcaseBusiness aria-hidden="true" />{t.workPermits}</span><span><ShieldCheck aria-hidden="true" />{t.protectionSafety}</span><span><GraduationCap aria-hidden="true" />{t.studyEducation}</span><span><HeartHandshake aria-hidden="true" />{t.familyCommunity}</span><span><MapPin aria-hidden="true" />{t.arrivalRegistration}</span><span><Scale aria-hidden="true" />{t.rightsAdvice}</span></div></section>
+    <section className="hub-preview" id="information-hub-topics" aria-labelledby="hub-title"><div><p className="eyebrow">{t.afterStory}</p><h2 id="hub-title">{t.practicalTitle}</h2><p>{t.practicalText}</p><a className="primary-button" href="resources/">{t.openHub} <ArrowRight size={18} aria-hidden="true" /></a></div><nav className="hub-topic-grid" aria-label={t.hub}><a href="resources/?topic=work#resource-browser"><BriefcaseBusiness aria-hidden="true" /><span>{t.workPermits}</span><ArrowRight className="hub-topic-arrow" size={18} aria-hidden="true" /></a><a href="resources/?topic=protection#resource-browser"><ShieldCheck aria-hidden="true" /><span>{t.protectionSafety}</span><ArrowRight className="hub-topic-arrow" size={18} aria-hidden="true" /></a><a href="resources/?topic=study#resource-browser"><GraduationCap aria-hidden="true" /><span>{t.studyEducation}</span><ArrowRight className="hub-topic-arrow" size={18} aria-hidden="true" /></a><a href="resources/?topic=family#resource-browser"><HeartHandshake aria-hidden="true" /><span>{t.familyCommunity}</span><ArrowRight className="hub-topic-arrow" size={18} aria-hidden="true" /></a><a href="resources/?topic=arrival#resource-browser"><MapPin aria-hidden="true" /><span>{t.arrivalRegistration}</span><ArrowRight className="hub-topic-arrow" size={18} aria-hidden="true" /></a><a href="resources/?topic=rights#resource-browser"><Scale aria-hidden="true" /><span>{t.rightsAdvice}</span><ArrowRight className="hub-topic-arrow" size={18} aria-hidden="true" /></a></nav></section>
 
     <section className="guidance-section" id="official-guidance"><div className="guidance-intro"><p className="eyebrow">{t.checkEyebrow}</p><h2>{t.checkTitle}</h2><p>{t.checkText}</p><span>{t.review}</span></div><div className="source-list source-list-detailed">{officialSources.map(([label, description, href], index) => <a href={href} target="_blank" rel="noreferrer" key={href}><span><strong>{label}</strong><small>{language === "en" ? description : officialSourceDescriptions[language][index]}</small></span><ExternalLink size={17} aria-hidden="true" /></a>)}</div></section>
-    <footer className="site-footer"><div className="site-footer-brand"><strong>{t.siteName}</strong><span>{t.tagline}</span><a href="about/">{t.ownership}</a><a href="https://samobrienolinger.github.io/Sam-Tim-Software-Solutions/" target="_blank" rel="noreferrer">Sam Tim Solutions</a></div><div className="site-footer-copy"><p>{t.footerNote}</p><p>{t.copyright}</p></div></footer>
+    <footer className="site-footer"><div className="site-footer-content"><p><strong>{t.siteName}</strong> - {t.tagline}</p><p><a href="https://samobrienolinger.github.io/SamOBrienOlinger/" target="_blank" rel="noreferrer">Sam Tim Solutions</a> - {t.footerNote}</p><p className="site-footer-copyright">{t.copyright}</p></div></footer>
   </main>;
 }

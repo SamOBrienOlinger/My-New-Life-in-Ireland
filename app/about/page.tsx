@@ -2,6 +2,7 @@
 
 import { ArrowLeft, BookOpen, Copyright, ExternalLink, Scale, ShieldCheck } from "lucide-react";
 import { LanguageControl, ui, useLanguage } from "../i18n";
+import { MobileNavigation } from "../mobile-navigation";
 
 const repositoryUrl =
   "https://github.com/SamOBrienOlinger/My-New-Life-in-Ireland";
@@ -20,7 +21,7 @@ export default function AboutPage() {
     <main className="about-page" lang={language} dir={dir}>
       <header className="about-topbar">
         <a className="brand-button" href="../">
-          <span className="brand-mark" aria-hidden="true">MN</span>
+          <img className="brand-mark" src="../images/harp-heart-logo.png" alt="" aria-hidden="true" />
           <span>{t.siteName}</span>
         </a>
         <div className="nav-links">
@@ -28,6 +29,7 @@ export default function AboutPage() {
           <a className="nav-link" href="../#official-guidance">{t.official}</a>
         </div>
         <LanguageControl language={language} setLanguage={setLanguage} label={t.language} />
+        <MobileNavigation links={[{ href: "../", label: t.home }, { href: "../#route-finder", label: t.journeys }, { href: "../resources/", label: t.hub }, { href: "../#official-guidance", label: t.official }]} language={language} setLanguage={setLanguage} languageLabel={t.language} menuLabel={t.menu} closeLabel={t.closeMenu} />
       </header>
 
       <section className="about-hero">
@@ -79,11 +81,10 @@ export default function AboutPage() {
       </section>
 
       <footer className="site-footer about-footer">
-        <div className="site-footer-brand">
-          <strong>{t.siteName}</strong><span>{t.tagline}</span><a href="../">{a.back}</a><a href="https://samobrienolinger.github.io/Sam-Tim-Software-Solutions/" target="_blank" rel="noreferrer">Sam Tim Solutions</a>
-        </div>
-        <div className="site-footer-copy">
-          <p>{a.footer}</p><p>{t.copyright}</p>
+        <div className="site-footer-content">
+          <p><strong>{t.siteName}</strong> - {t.tagline}</p>
+          <p><a href="https://samobrienolinger.github.io/SamOBrienOlinger/" target="_blank" rel="noreferrer">Sam Tim Solutions</a> - {t.footerNote}</p>
+          <p className="site-footer-copyright">{t.copyright}</p>
         </div>
       </footer>
     </main>

@@ -6,8 +6,9 @@ export const metadata: Metadata = {
   description:
     "Choose a character and make decisions with them as they navigate employment permits, international protection, IPAS and rights in Ireland.",
   icons: {
-    icon: "/favicon.svg",
-    shortcut: "/favicon.svg",
+    icon: "/favicon.png",
+    shortcut: "/favicon.png",
+    apple: "/favicon.png",
   },
 };
 

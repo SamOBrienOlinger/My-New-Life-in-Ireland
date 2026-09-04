@@ -35,14 +35,21 @@ test("renders the public experience with ownership and About links", async () =>
   assert.match(html, /<title>A New Life in Ireland<\/title>/);
   assert.match(html, /href="about\/"/);
   assert.match(html, /href="resources\/"/);
+  assert.match(html, /href="resources\/\?topic=work#resource-browser"/);
+  assert.match(html, /href="resources\/\?topic=protection#resource-browser"/);
+  assert.match(html, /href="resources\/\?topic=study#resource-browser"/);
+  assert.match(html, /href="resources\/\?topic=family#resource-browser"/);
+  assert.match(html, /href="resources\/\?topic=arrival#resource-browser"/);
+  assert.match(html, /href="resources\/\?topic=rights#resource-browser"/);
   assert.match(html, /Walk with/);
   assert.match(html, /Postgraduate student/);
   assert.match(html, /Adama Sissoko/);
   assert.match(html, /Elena Petrova/);
   assert.match(html, /Leila Rahman/);
   assert.match(html, /<strong>40<\/strong><small>decisions<\/small>/);
-  assert.match(html, /Copyright © 2026 Sam O(?:’|&#x2019;)Brien-Olinger/);
-  assert.match(html, /Sam-Tim-Software-Solutions/);
+  assert.match(html, /interactive learning about immigration\./);
+  assert.match(html, /Copyright © 2026\. All rights reserved/);
+  assert.match(html, /href="https:\/\/samobrienolinger\.github\.io\/SamOBrienOlinger\/"/);
 });
 
 test("renders the About route with launch information", async () => {
@@ -53,7 +60,7 @@ test("renders the About route with launch information", async () => {
   assert.match(html, /twelve fictional characters/);
   assert.match(html, /intersectional barriers/);
   assert.match(html, /does not make the project open source/);
-  assert.match(html, /Sam-Tim-Software-Solutions/);
+  assert.match(html, /href="https:\/\/samobrienolinger\.github\.io\/SamOBrienOlinger\/"/);
 });
 
 test("renders the Ireland information hub", async () => {
@@ -63,6 +70,7 @@ test("renders the Ireland information hub", async () => {
   assert.match(html, /Find the right source for the next question/);
   assert.match(html, /Registering immigration permission/);
   assert.match(html, /Independent status after domestic abuse/);
-  assert.match(html, /Copyright © 2026 Sam O(?:’|&#x2019;)Brien-Olinger/);
-  assert.match(html, /Sam-Tim-Software-Solutions/);
+  assert.match(html, /interactive learning about immigration\./);
+  assert.match(html, /Copyright © 2026\. All rights reserved/);
+  assert.match(html, /href="https:\/\/samobrienolinger\.github\.io\/SamOBrienOlinger\/"/);
 });

@@ -1,19 +1,21 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   ArrowLeft, BookOpen, BriefcaseBusiness, ExternalLink, GraduationCap,
   HeartHandshake, Home, MapPin, Search, ShieldCheck, Stethoscope,
 } from "lucide-react";
 import { LanguageControl, ui, useLanguage, type Language } from "../i18n";
+import { MobileNavigation } from "../mobile-navigation";
 
-type Topic = "all" | "arrival" | "immigration" | "protection" | "work" | "study" | "daily-life" | "family";
+type Topic = "all" | "arrival" | "immigration" | "protection" | "work" | "study" | "daily-life" | "family" | "rights";
 
 const topics: { id: Topic; label: string }[] = [
   { id: "all", label: "All information" }, { id: "arrival", label: "First days" },
   { id: "immigration", label: "Immigration" }, { id: "protection", label: "Protection" },
   { id: "work", label: "Work" }, { id: "study", label: "Study" },
   { id: "daily-life", label: "Daily life" }, { id: "family", label: "Family" },
+  { id: "rights", label: "Rights and advice" },
 ];
 
 const resources = [
@@ -43,6 +45,15 @@ const resources = [
   { topic: "family", title: "Domestic-abuse safety and support", description: "Confidential support, interpretation and safety information for women experiencing domestic abuse; call 999 or 112 in an emergency.", organisation: "Women’s Aid", href: "https://www.womensaid.ie/get-help/", icon: HeartHandshake },
 ] as const;
 
+const rightsAndAdviceTitles = new Set([
+  "Independent legal and practical support",
+  "Rights when working in Ireland",
+  "Independent public information",
+  "Traveller and Roma equality rights",
+  "Specialist migrant and refugee advice",
+  "Independent status after domestic abuse",
+]);
+
 const resourceCopy = {
   en: {
     back:"Back to the journeys", eyebrow:"Ireland information hub", title:"Find the right source for the next question.", intro:"Search practical, official and specialist information for people planning a move, seeking protection or building a life in Ireland.", cautionTitle:"Start here, but verify the detail.", caution:"Immigration and protection rules change. Check the linked source for a real situation and seek qualified advice where needed.", browse:"Browse by need", trusted:"Trusted starting points", search:"Search resources", placeholder:"Search work, housing, family…", showing:"Showing", resource:"resource", resources:"resources", open:"Open source", none:"No matching resource", retry:"Try a broader word or choose “All information”.", clear:"Clear filters", arrival:"Arrival orientation", week:"Questions for the first week", weekIntro:"Not every item applies to every person. Use the questions to identify which source or adviser you need.", footer:"General information only. It is not legal advice.",
@@ -60,9 +71,13 @@ const resourceCopy = {
 
 const topicCopy: Record<Language, Record<Topic, string>> = {
   en:Object.fromEntries(topics.map((item) => [item.id,item.label])) as Record<Topic,string>,
-  ga:{all:"Gach eolas",arrival:"Na chéad laethanta",immigration:"Inimirce",protection:"Cosaint",work:"Obair",study:"Staidéar","daily-life":"Saol laethúil",family:"Teaghlach"},
-  ar:{all:"كل المعلومات",arrival:"الأيام الأولى",immigration:"الهجرة",protection:"الحماية",work:"العمل",study:"الدراسة","daily-life":"الحياة اليومية",family:"الأسرة"},
+  ga:{all:"Gach eolas",arrival:"Na chéad laethanta",immigration:"Inimirce",protection:"Cosaint",work:"Obair",study:"Staidéar","daily-life":"Saol laethúil",family:"Teaghlach",rights:"Cearta agus comhairle"},
+  ar:{all:"كل المعلومات",arrival:"الأيام الأولى",immigration:"الهجرة",protection:"الحماية",work:"العمل",study:"الدراسة","daily-life":"الحياة اليومية",family:"الأسرة",rights:"الحقوق والمشورة"},
 };
+
+function isTopic(value: string | null): value is Topic {
+  return topics.some((item) => item.id === value);
+}
 
 const translatedTitles: Record<Exclude<Language,"en">, string[]> = {
   ga:["Cead inimirce a chlárú","Uimhir Phearsanta Seirbhíse Poiblí","Roghnaigh cuspóir inimirce","Stampaí ceada inimirce","Iarratas ar chosaint idirnáisiúnta","Iarratais tar éis 12 Meitheamh 2026","Cóiríocht agus tacaíochtaí glactha","Riachtanais leochaileachta agus chóiríochta","Tacaíocht neamhspleách dlí agus phraiticiúil","Cineálacha ceada fostaíochta","Cearta agus tú ag obair in Éirinn","Tacaíocht d’fhostaíocht imirceach agus dúshaothrú","Saoránaigh AE ag teacht chun oibre","Cearta cónaithe AE","Teacht chun staidéir in Éirinn","Oideachas in Éirinn","Seirbhísí cúraim sláinte","Teach a aimsiú agus a fháil ar cíos","Eolas poiblí neamhspleách","Cearta comhionannais an Lucht Siúil agus na Romach","Teacht le teaghlach","Comhairle speisialtóra d’imircigh agus dídeanaithe","Stádas neamhspleách tar éis foréigin teaghlaigh","Sábháilteacht agus tacaíocht i gcás foréigin teaghlaigh"],
@@ -70,8 +85,8 @@ const translatedTitles: Record<Exclude<Language,"en">, string[]> = {
 };
 
 const topicDescriptions: Record<Exclude<Language,"en">, Record<Topic,string>> = {
-  ga:{all:"Eolas oifigiúil agus speisialtóra atá le seiceáil don chás aonair.",arrival:"Céimeanna praiticiúla, clárú agus seirbhísí do na chéad laethanta in Éirinn.",immigration:"Ceadanna, coinníollacha agus próisis oifigiúla inimirce.",protection:"Cosaint idirnáisiúnta, glacadh, cóiríocht agus tacaíocht neamhspleách.",work:"Ceadanna fostaíochta, cearta oibre agus tacaíocht in aghaidh dúshaothraithe.",study:"Víosaí, airgeadas, cúrsaí, clárú agus oideachas.","daily-life":"Sláinte, tithíocht, seirbhísí poiblí agus cearta comhionannais.",family:"Athaontú teaghlaigh, stádas neamhspleách, sábháilteacht agus comhairle."},
-  ar:{all:"معلومات رسمية ومتخصصة يجب التحقق منها للحالة الفردية.",arrival:"خطوات عملية وتسجيل وخدمات للأيام الأولى في أيرلندا.",immigration:"أذونات وشروط وإجراءات هجرة رسمية.",protection:"الحماية الدولية والاستقبال والسكن والدعم المستقل.",work:"تصاريح العمل وحقوق مكان العمل ودعم مكافحة الاستغلال.",study:"التأشيرات والتمويل والدورات والتسجيل والتعليم.","daily-life":"الصحة والسكن والخدمات العامة وحقوق المساواة.",family:"لمّ الشمل والوضع المستقل والسلامة والمشورة."},
+  ga:{all:"Eolas oifigiúil agus speisialtóra atá le seiceáil don chás aonair.",arrival:"Céimeanna praiticiúla, clárú agus seirbhísí do na chéad laethanta in Éirinn.",immigration:"Ceadanna, coinníollacha agus próisis oifigiúla inimirce.",protection:"Cosaint idirnáisiúnta, glacadh, cóiríocht agus tacaíocht neamhspleách.",work:"Ceadanna fostaíochta, cearta oibre agus tacaíocht in aghaidh dúshaothraithe.",study:"Víosaí, airgeadas, cúrsaí, clárú agus oideachas.","daily-life":"Sláinte, tithíocht, seirbhísí poiblí agus cearta comhionannais.",family:"Athaontú teaghlaigh, stádas neamhspleách, sábháilteacht agus comhairle.",rights:"Cearta, comhionannas agus foinsí neamhspleácha comhairle."},
+  ar:{all:"معلومات رسمية ومتخصصة يجب التحقق منها للحالة الفردية.",arrival:"خطوات عملية وتسجيل وخدمات للأيام الأولى في أيرلندا.",immigration:"أذونات وشروط وإجراءات هجرة رسمية.",protection:"الحماية الدولية والاستقبال والسكن والدعم المستقل.",work:"تصاريح العمل وحقوق مكان العمل ودعم مكافحة الاستغلال.",study:"التأشيرات والتمويل والدورات والتسجيل والتعليم.","daily-life":"الصحة والسكن والخدمات العامة وحقوق المساواة.",family:"لمّ الشمل والوضع المستقل والسلامة والمشورة.",rights:"الحقوق والمساواة ومصادر المشورة المستقلة."},
 };
 
 export default function ResourcesPage() {
@@ -80,15 +95,22 @@ export default function ResourcesPage() {
   const r = resourceCopy[language];
   const [topic, setTopic] = useState<Topic>("all");
   const [query, setQuery] = useState("");
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const requestedTopic = params.get("topic");
+    const requestedQuery = params.get("q");
+    if (isTopic(requestedTopic)) setTopic(requestedTopic);
+    if (requestedQuery) setQuery(requestedQuery);
+  }, []);
   const filtered = useMemo(() => {
     const term = query.trim().toLowerCase();
-    return resources.filter((item) => (topic === "all" || item.topic === topic) && (!term || `${item.title} ${item.description} ${item.organisation}`.toLowerCase().includes(term)));
+    return resources.filter((item) => (topic === "all" || item.topic === topic || (topic === "rights" && rightsAndAdviceTitles.has(item.title))) && (!term || `${item.title} ${item.description} ${item.organisation}`.toLowerCase().includes(term)));
   }, [topic, query]);
 
   return <main className="resources-page" lang={language} dir={dir}>
     <nav className="home-nav resources-nav" aria-label="Main navigation">
-      <a className="brand-button" href="../"><span className="brand-mark" aria-hidden="true">MN</span><span>{t.siteName}</span></a>
-      <div className="nav-links"><a className="nav-link" href="../">{t.journeys}</a><a className="nav-link" href="../about/">{t.about}</a></div><LanguageControl language={language} setLanguage={setLanguage} label={t.language} />
+      <a className="brand-button" href="../"><img className="brand-mark" src="../images/harp-heart-logo.png" alt="" aria-hidden="true" /><span>{t.siteName}</span></a>
+      <div className="nav-links"><a className="nav-link" href="../">{t.journeys}</a><a className="nav-link" href="../about/">{t.about}</a></div><LanguageControl language={language} setLanguage={setLanguage} label={t.language} /><MobileNavigation links={[{ href: "../", label: t.home }, { href: "../#route-finder", label: t.journeys }, { href: "../about/", label: t.about }, { href: "../#official-guidance", label: t.official }]} language={language} setLanguage={setLanguage} languageLabel={t.language} menuLabel={t.menu} closeLabel={t.closeMenu} />
     </nav>
 
     <header className="resources-hero">
@@ -97,7 +119,7 @@ export default function ResourcesPage() {
       <div className="hub-caution"><ShieldCheck size={21} aria-hidden="true" /><span><strong>{r.cautionTitle}</strong> {r.caution}</span></div>
     </header>
 
-    <section className="resource-browser" aria-labelledby="resource-browser-title">
+    <section className="resource-browser" id="resource-browser" aria-labelledby="resource-browser-title">
       <div className="resource-controls">
         <div><p className="eyebrow">{r.browse}</p><h2 id="resource-browser-title">{r.trusted}</h2></div>
         <label className="resource-search"><Search size={18} aria-hidden="true" /><span className="sr-only">{r.search}</span><input type="search" value={query} onChange={(event) => setQuery(event.target.value)} placeholder={r.placeholder} /></label>
@@ -110,6 +132,6 @@ export default function ResourcesPage() {
 
     <section className="first-week-checklist" aria-labelledby="first-week-title"><div><p className="eyebrow">{r.arrival}</p><h2 id="first-week-title">{r.week}</h2><p>{r.weekIntro}</p></div><ul>{r.questions.map((question)=><li key={question}>{question}</li>)}</ul></section>
 
-    <footer className="site-footer"><div className="site-footer-brand"><strong>{t.siteName}</strong><span>{t.tagline}</span><a href="../about/">{t.ownership}</a><a href="https://samobrienolinger.github.io/Sam-Tim-Software-Solutions/" target="_blank" rel="noreferrer">Sam Tim Solutions</a></div><div className="site-footer-copy"><p>{r.footer}</p><p>{t.copyright}</p></div></footer>
+    <footer className="site-footer"><div className="site-footer-content"><p><strong>{t.siteName}</strong> - {t.tagline}</p><p><a href="https://samobrienolinger.github.io/SamOBrienOlinger/" target="_blank" rel="noreferrer">Sam Tim Solutions</a> - {t.footerNote}</p><p className="site-footer-copyright">{t.copyright}</p></div></footer>
   </main>;
 }
