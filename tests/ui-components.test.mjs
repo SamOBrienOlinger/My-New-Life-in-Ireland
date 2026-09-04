@@ -42,6 +42,8 @@ test("emits the public launch and reduced-motion styles", async () => {
   assert.match(css, /\.about-content/);
   assert.match(css, /\.site-footer/);
   assert.match(css, /\.journey-footer/);
+  assert.match(css, /hero-question-reveal/);
+  assert.match(css, /--question-delay:\s*\.34s/);
   assert.match(css, /prefers-reduced-motion:\s*reduce/);
 });
 
