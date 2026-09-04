@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   Accessibility, ArrowLeft, ArrowRight, BookOpen, BriefcaseBusiness, Check, CheckCircle2,
   ExternalLink, Globe2, GraduationCap, HeartHandshake, Languages, Map, MapPin,
@@ -43,6 +43,7 @@ export default function Home() {
   const [checked, setChecked] = useState(false);
   const [completed, setCompleted] = useState(false);
   const [plainLanguage, setPlainLanguage] = useState(true);
+  const questionBoardRef = useRef<HTMLElement>(null);
   const { language, setLanguage, dir } = useLanguage();
   const [completedCharacters, setCompletedCharacters] = useState<string[]>(() => {
     if (typeof window === "undefined") return [];
@@ -64,6 +65,27 @@ export default function Home() {
   const choice = step?.choices.find((item) => item.id === choiceId);
   const correctCount = steps.reduce((total, item, index) => total + (item.choices.find((option) => option.id === answers[index])?.correct ? 1 : 0), 0);
   const RouteIcon = character ? routeIcons[character.route] : Users;
+
+  useEffect(() => {
+    const board = questionBoardRef.current;
+    if (!board) return;
+
+    board.classList.add("questions-ready");
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || !("IntersectionObserver" in window)) {
+      board.classList.add("questions-visible");
+      return;
+    }
+
+    const observer = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) return;
+      board.classList.add("questions-visible");
+      observer.disconnect();
+    }, { threshold: 0.2 });
+
+    observer.observe(board);
+    return () => observer.disconnect();
+  }, []);
 
   function beginJourney() {
     if (!character) return;
@@ -194,11 +216,15 @@ export default function Home() {
         <p className="eyebrow">{t.heroEyebrow}</p>
         <h1>{t.heroTitle}</h1>
         <div className="hero-copy"><p>{t.heroIntro}</p></div>
-        <section className="hero-question-board" aria-label={t.questionsExplored}>
+        <section
+          ref={questionBoardRef}
+          className="hero-question-board"
+          aria-label={t.questionsExplored}
+        >
           <p className="hero-question-intro">{t.questionsExplored}</p>
-          <article className="hero-question-card question-challenges"><span>{t.challengeLabel}</span><h2>{t.challengeQuestion}</h2></article>
-          <article className="hero-question-card question-people"><span>{t.peopleLabel}</span><h2>{t.peopleQuestion}</h2></article>
-          <article className="hero-question-card question-new-life"><span>{t.beginningLabel}</span><h2>{t.beginningQuestion}</h2></article>
+          <a className="hero-question-card question-challenges" href="#choose-character"><span>{t.challengeLabel}</span><h2>{t.challengeQuestion}</h2><ArrowRight className="hero-question-arrow" size={20} aria-hidden="true" /></a>
+          <a className="hero-question-card question-people" href="#choose-character"><span>{t.peopleLabel}</span><h2>{t.peopleQuestion}</h2><ArrowRight className="hero-question-arrow" size={20} aria-hidden="true" /></a>
+          <a className="hero-question-card question-new-life" href="#choose-character"><span>{t.beginningLabel}</span><h2>{t.beginningQuestion}</h2><ArrowRight className="hero-question-arrow" size={20} aria-hidden="true" /></a>
         </section>
         <div className="hero-actions"><a className="primary-button hero-button" href="#route-finder">{t.findJourney} <ArrowRight size={18} aria-hidden="true" /></a><a className="quiet-button hero-secondary" href="resources/"><BookOpen size={18} aria-hidden="true" /><span>{t.exploreInfo}</span><ArrowRight className="action-arrow" size={18} aria-hidden="true" /></a></div>
         <div className="hero-proof" aria-label={t.atAGlance}><p className="hero-proof-label">{t.atAGlance}</p><span><strong>12</strong><small>{t.people}</small></span><span><strong>6</strong><small>{t.routes}</small></span><span><strong>40</strong><small>{t.decisions}</small></span><span><strong>1</strong><small>{t.ireland}</small></span></div>
