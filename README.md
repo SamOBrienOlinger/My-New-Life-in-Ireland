@@ -1,88 +1,79 @@
 # A New Life in Ireland
 
-An interactive educational website that helps users understand different
-pathways into Ireland by making decisions alongside fictional characters.
+An interactive educational website that explores migration and settlement in Ireland through decisions made alongside twelve fictional characters.
 
-Users choose from twelve characters and explore realistic decisions involving
-employment permits, visas, immigration registration, international protection,
-IPAS accommodation, EU free movement, independent immigration permission,
-labour-market access, equality and workplace rights.
+**React · TypeScript · Vite**
 
-## Live website
+[Visit the website](https://samobrienolinger.github.io/My-New-Life-in-Ireland/) · [Getting started](#getting-started) · [Repository guide](#repository-guide) · [Checks](#checks-and-review) · [Credits](#credits-and-reuse)
 
-[Open A New Life in Ireland](https://samobrienolinger.github.io/My-New-Life-in-Ireland/)
+<img src="public/images/harp-heart-logo.png" alt="A New Life in Ireland harp-heart logo" width="160">
 
-[Read about the project, its creator and ownership terms](https://samobrienolinger.github.io/My-New-Life-in-Ireland/about/)
+## What you can explore
 
-## The experience
+- Character journeys covering work, study, family, EU free movement and international protection.
+- Immediate explanations and links to official information.
+- A route finder and an Information Hub.
+- Multilingual text, keyboard controls and responsive layouts.
 
-- Twelve fictional composite characters with varied backgrounds, professions,
-  disabilities, ages, ethnicities, family circumstances, gender identities and
-  sexual identities. Three journeys focus explicitly on how overlapping
-  identities and circumstances can compound barriers.
-- Critical Skills Employment Permit journeys.
-- General Employment Permit journeys.
-- International protection and IPAS journeys.
-- Study, family and EU free-movement journeys.
-- Five decisions within each pathway.
-- Immediate explanations showing why a decision is appropriate or risky.
-- Direct links to current official Irish sources.
-- Responsive and keyboard-accessible controls.
-- A public About page explaining the project, its limitations, creator,
-  copyright and permitted use.
+## Using the project
 
-The project distinguishes between the International Protection Office, which
-handles protection applications, and the International Protection Accommodation
-Service, which provides accommodation and basic supports.
+1. Explore what brings a character to Ireland, or use the route finder.
+2. Choose one of the twelve fictional people and work through the decisions.
+3. Read the explanation after each choice and compare the circumstances that shape different journeys.
+4. Use the Information Hub and source links to continue learning.
 
-## Official information sources
+> **Project notes:** General educational information only. The fictional journeys cannot determine anyone’s eligibility or legal status; follow the official sources for current guidance.
 
-The educational content links to official guidance from:
+## Getting started
 
-- [Department of Enterprise, Tourism and Employment](https://enterprise.gov.ie/en/what-we-do/workplace-and-skills/employment-permits/)
-- [Immigration Service Delivery](https://www.irishimmigration.ie/)
-- [International Protection Office](https://ipo.irishimmigration.ie/)
-- [International Protection Accommodation Service](https://ipas.irishimmigration.ie/)
-- [Workplace Relations Commission](https://www.workplacerelations.ie/)
+Requires Node.js and npm. Declared versions: `node >=22.13.0`.
 
-The website provides general educational information only. It is not legal
-advice and cannot determine a person's eligibility or legal status.
+```bash
+git clone https://github.com/SamOBrienOlinger/My-New-Life-in-Ireland.git
+cd My-New-Life-in-Ireland
+npm ci
+npm run dev
+```
 
-## Technology
+Open the local address printed by the Vite development server.
 
-- React 19
-- Next.js 16 App Router
-- Vinext and Vite, including a dedicated static GitHub Pages build
-- TypeScript
-- Tailwind CSS
-- Shadcn UI primitives
-- Lucide icons
+## Repository guide
 
-## Run locally
+| Path | Purpose |
+| --- | --- |
+| [app/](app/) | Application routes and shared content |
+| [public/](public/) | Static files served with the app |
+| [tests/](tests/) | Automated test source |
+| [github-pages/](github-pages/) | Static GitHub Pages entry points |
+| [.github/workflows/](.github/workflows/) | Build, test or deployment workflows |
+| [package.json](package.json) | Package dependencies and available commands |
 
-Node.js 22.13 or later is required.
+## Checks and review
 
-    npm ci
-    npm run dev
+Use Node.js `>=22.13.0` and npm for the package commands below. Install the package dependencies first when the command uses a local build or test tool.
 
-Create a production build with:
+| Command | Purpose |
+| --- | --- |
+| `npm run build` | Create the configured application build |
+| `npm run build:pages` | Create the GitHub Pages build |
+| `npm test` | Run the existing test suite |
+| `npm run lint` | Run the configured linter |
 
-    npm run build
+For a manual review, follow the main user journey, check keyboard navigation and narrow-screen layouts, and inspect the browser console for missing assets or failed requests.
 
-## GitHub Pages deployment
+Generate fresh results from the revision you are working on; historical test reports describe earlier runs.
 
-Pushes to `main` are automatically built and deployed by the workflow in
-`.github/workflows/deploy-pages.yml`. The workflow uses the dedicated Vite
-configuration in `vite.pages.config.ts` to publish the interactive home page
-and About route from `github-pages/` as static files under the repository path.
-Keeping the static entry files outside Next.js's reserved `pages/` directory
-prevents the GitHub Pages build from being mistaken for Pages Router routes.
+## Deployment
 
-Create the static Pages build locally with:
+GitHub Pages uses `npm run build:pages`, [vite.pages.config.ts](vite.pages.config.ts) and [.github/workflows/deploy-pages.yml](.github/workflows/deploy-pages.yml). Home, About and Resources have static entry points under [github-pages/](github-pages/); output goes to `dist-pages/`.
 
-    npm run build:pages
+`npm run build` is the separate Vinext/Sites build. Its wrapper requires a shell environment with GNU `timeout`; it is not interchangeable with the static Pages build.
 
-## Copyright, ownership and permitted use
+## Credits and reuse
+
+Design decisions, original feature notes, historical testing evidence and detailed acknowledgements remain available in the preserved project record:
+
+- [README.md · original project record](https://github.com/SamOBrienOlinger/My-New-Life-in-Ireland/blob/5dd9d57ca44dbffa7fea799d961f856331f3818c/README.md)
 
 Copyright © 2026 Sam O'Brien-Olinger. All rights reserved.
 
@@ -101,3 +92,9 @@ display or create derivative works from this project, in whole or in part,
 without the copyright owner's prior written permission.
 
 See [LICENSE.md](LICENSE.md) for the complete terms.
+
+## Support
+
+Repository maintained in [Sam O’Brien-Olinger’s GitHub account](https://github.com/SamOBrienOlinger). For a problem or suggested improvement, [open an issue](https://github.com/SamOBrienOlinger/My-New-Life-in-Ireland/issues) with the affected page or command, steps to reproduce, and expected behaviour. Any proposed reuse or redistribution remains subject to the licence terms above.
+
+[Back to top](#a-new-life-in-ireland)
