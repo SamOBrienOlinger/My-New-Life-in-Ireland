@@ -26,7 +26,7 @@ An interactive educational website that explores migration and settlement in Ire
 
 ## Getting started
 
-Requires Node.js and npm. Declared versions: `node >=22.13.0`.
+Requires Git, Node.js `>=22.13.0`, npm and a Bash-compatible shell. On Windows, use WSL for the shell scripts and POSIX-style environment assignments in the package commands.
 
 ```bash
 git clone https://github.com/SamOBrienOlinger/My-New-Life-in-Ireland.git
@@ -56,8 +56,10 @@ Use Node.js `>=22.13.0` and npm for the package commands below. Install the pack
 | --- | --- |
 | `npm run build` | Create the configured application build |
 | `npm run build:pages` | Create the GitHub Pages build |
-| `npm test` | Run the existing test suite |
+| `npm test` | Build with Vinext, then run the existing Node test suite |
 | `npm run lint` | Run the configured linter |
+
+`npm run build` and `npm test` require GNU `timeout`. Linux provides it through GNU coreutils. On macOS, install GNU coreutils and make its `timeout` command available on `PATH` before running either command. The separate `npm run build:pages` command does not use that build wrapper.
 
 For a manual review, follow the main user journey, check keyboard navigation and narrow-screen layouts, and inspect the browser console for missing assets or failed requests.
 
@@ -70,6 +72,16 @@ GitHub Pages uses `npm run build:pages`, [vite.pages.config.ts](vite.pages.confi
 `npm run build` is the separate Vinext/Sites build. Its wrapper requires a shell environment with GNU `timeout`; it is not interchangeable with the static Pages build.
 
 ## Credits and reuse
+
+Created by Sam O'Brien-Olinger. Educational source links used by the project include:
+
+- [Immigration Service Delivery](https://www.irishimmigration.ie/).
+- [Employment Permits](https://enterprise.gov.ie/en/what-we-do/workplace-and-skills/employment-permits/).
+- [International Protection Office](https://ipo.irishimmigration.ie/).
+- [Irish Refugee Council — Information Hub](https://www.irishrefugeecouncil.ie/get-help/information-hub/).
+- [Workplace Relations Commission — coming to work in Ireland](https://www.workplacerelations.ie/en/what_you_should_know/coming_to_work_in_ireland/).
+
+The project uses React, Next.js/Vinext, Vite, Tailwind CSS, shadcn UI primitives and Lucide icons. Third-party software retains its own terms; the repository's ownership statement below applies as written.
 
 Design decisions, original feature notes, historical testing evidence and detailed acknowledgements remain available in the preserved project record:
 
