@@ -11,6 +11,7 @@ An interactive educational website that explores migration and settlement in Ire
 ## What you can explore
 
 - Character journeys covering work, study, family, EU free movement and international protection.
+- Twelve graphic novel portraits, carried from character selection through each journey.
 - Immediate explanations and links to official information.
 - A route finder and an Information Hub.
 - Multilingual text, keyboard controls and responsive layouts.
@@ -82,6 +83,8 @@ Created by Sam O'Brien-Olinger. Educational source links used by the project inc
 - [Workplace Relations Commission — coming to work in Ireland](https://www.workplacerelations.ie/en/what_you_should_know/coming_to_work_in_ireland/).
 
 The project uses React, Next.js/Vinext, Vite, Tailwind CSS, shadcn UI primitives and Lucide icons. Third-party software retains its own terms; the repository's ownership statement below applies as written.
+
+The character portraits were generated with Create Image using visual references from The Irish Times’ **New to the Parish** series. The game’s characters and narratives are fictional. See [portrait references and production notes](public/images/characters/README.md).
 
 Design decisions, original feature notes, historical testing evidence and detailed acknowledgements remain available in the preserved project record:
 

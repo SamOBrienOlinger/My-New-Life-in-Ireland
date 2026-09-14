@@ -4,7 +4,6 @@ export type RouteFilter = "all" | "work" | "study" | "family" | "protection" | "
 export type Character = {
   id: string;
   name: string;
-  initials: string;
   pronouns: string;
   origin: string;
   role: string;
@@ -41,7 +40,6 @@ export const characters: Character[] = [
   {
     id: "kwame",
     name: "Kwame Mensah",
-    initials: "KM",
     pronouns: "he / him",
     origin: "Ghana",
     role: "Civil engineer",
@@ -55,7 +53,6 @@ export const characters: Character[] = [
   {
     id: "mateo",
     name: "Mateo Álvarez",
-    initials: "MA",
     pronouns: "he / him",
     origin: "Argentina",
     role: "Chef",
@@ -69,7 +66,6 @@ export const characters: Character[] = [
   {
     id: "farid",
     name: "Farid Rahimi",
-    initials: "FR",
     pronouns: "he / him",
     origin: "Afghanistan",
     role: "Journalist",
@@ -83,7 +79,6 @@ export const characters: Character[] = [
   {
     id: "priya",
     name: "Priya Nair",
-    initials: "PN",
     pronouns: "she / her",
     origin: "India",
     role: "Registered nurse",
@@ -97,7 +92,6 @@ export const characters: Character[] = [
   {
     id: "mariam",
     name: "Mariam Diallo",
-    initials: "MD",
     pronouns: "she / her",
     origin: "Guinea",
     role: "Teacher and parent",
@@ -111,7 +105,6 @@ export const characters: Character[] = [
   {
     id: "sofia",
     name: "Sofía Quispe",
-    initials: "SQ",
     pronouns: "she / her",
     origin: "Peru",
     role: "Healthcare assistant",
@@ -125,7 +118,6 @@ export const characters: Character[] = [
   {
     id: "valentina",
     name: "Valentina Rojas",
-    initials: "VR",
     pronouns: "she / her",
     origin: "Colombia",
     role: "Graphic designer",
@@ -139,7 +131,6 @@ export const characters: Character[] = [
   {
     id: "noor",
     name: "Noor Haddad",
-    initials: "NH",
     pronouns: "they / them",
     origin: "Lebanon",
     role: "Postgraduate student",
@@ -153,7 +144,6 @@ export const characters: Character[] = [
   {
     id: "river",
     name: "River Okafor",
-    initials: "RO",
     pronouns: "they / she",
     origin: "South Africa",
     role: "Software engineer",
@@ -167,7 +157,6 @@ export const characters: Character[] = [
   {
     id: "adama",
     name: "Adama Sissoko",
-    initials: "AS",
     pronouns: "she / her",
     origin: "Mali",
     role: "Tailor and single parent",
@@ -181,7 +170,6 @@ export const characters: Character[] = [
   {
     id: "elena",
     name: "Elena Petrova",
-    initials: "EP",
     pronouns: "she / her",
     origin: "Bulgaria",
     role: "Hotel housekeeper",
@@ -195,7 +183,6 @@ export const characters: Character[] = [
   {
     id: "leila",
     name: "Leila Rahman",
-    initials: "LR",
     pronouns: "she / her",
     origin: "Bangladesh",
     role: "Former accounts assistant",

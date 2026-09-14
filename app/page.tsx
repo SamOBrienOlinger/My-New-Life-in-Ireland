@@ -15,6 +15,7 @@ import {
 import { LanguageControl, localCharacter, localFilter, localRoute, localStep, ui, useLanguage } from "./i18n";
 import { additionalOfficialSourceDescriptions } from "./additional-page-copy";
 import { MobileNavigation } from "./mobile-navigation";
+import { CharacterPortrait } from "./character-portrait";
 
 const routeIcons: Record<RouteKey, typeof ShieldCheck> = {
   critical: BriefcaseBusiness, general: BriefcaseBusiness, protection: ShieldCheck,
@@ -142,7 +143,7 @@ export default function Home() {
 
         <div className="journey-layout journey-layout-expanded">
           <aside className="character-rail" aria-label={t.selected}>
-            <div className={"avatar avatar-" + character.tone}>{character.initials}</div>
+            <CharacterPortrait character={character} eager />
             <p className="mini-label">{t.walking}</p><h1>{character.name}</h1><p>{character.pronouns}</p>
             <div className="rail-detail"><MapPin size={16} aria-hidden="true" /><span>{character.origin}</span></div>
             <div className="rail-detail"><RouteIcon size={16} aria-hidden="true" /><span>{character.role}</span></div>
@@ -248,7 +249,7 @@ export default function Home() {
 
     <section className="character-section character-section-expanded" id="choose-character">
       <div className="section-heading"><div><p className="eyebrow">{t.chooseEyebrow}</p><h2>{t.chooseTitle}</h2></div><div className="learning-progress-card"><Sparkles size={20} aria-hidden="true" /><div><strong>{completedCharacters.length} {t.of} 12 {t.explored}</strong><span>{t.saved}</span></div></div></div>
-      <RadioGroup value={selectedId} onValueChange={setSelectedId} className="character-grid" aria-label={t.choose}>{visibleCharacters.map((item) => { const Icon = routeIcons[item.route]; const finished = completedCharacters.includes(item.id); return <label className={"character-card " + (selectedId === item.id ? "selected" : "")} key={item.id}><RadioGroupItem value={item.id} id={item.id} className="sr-only" /><div className="card-topline"><div className={"avatar avatar-" + item.tone}>{item.initials}</div><span className="route-tag"><Icon size={14} aria-hidden="true" />{localRoute(item.route, language).short}</span></div>{finished ? <span className="completed-badge"><Check size={13} aria-hidden="true" />{t.exploredBadge}</span> : null}<h3>{item.name}</h3><p className="character-meta">{item.pronouns} · {item.origin}</p><p className="character-role">{item.role}</p><p className="character-summary">{item.summary}</p><span className="card-action">{t.walkWith} {item.name.split(" ")[0]} <ArrowRight size={16} aria-hidden="true" /></span></label>; })}</RadioGroup>
+      <RadioGroup value={selectedId} onValueChange={setSelectedId} className="character-grid" aria-label={t.choose}>{visibleCharacters.map((item) => { const Icon = routeIcons[item.route]; const finished = completedCharacters.includes(item.id); return <label className={"character-card " + (selectedId === item.id ? "selected" : "")} key={item.id}><RadioGroupItem value={item.id} id={item.id} className="sr-only" /><div className="card-topline"><CharacterPortrait character={item} /><span className="route-tag"><Icon size={14} aria-hidden="true" />{localRoute(item.route, language).short}</span></div>{finished ? <span className="completed-badge"><Check size={13} aria-hidden="true" />{t.exploredBadge}</span> : null}<h3>{item.name}</h3><p className="character-meta">{item.pronouns} · {item.origin}</p><p className="character-role">{item.role}</p><p className="character-summary">{item.summary}</p><span className="card-action">{t.walkWith} {item.name.split(" ")[0]} <ArrowRight size={16} aria-hidden="true" /></span></label>; })}</RadioGroup>
       <div className="start-bar" aria-live="polite">{character ? <><div><span className="mini-label">{t.selected}</span><strong>{character.name} · {localRoute(character.route, language).label}</strong></div><button className="primary-button" type="button" onClick={beginJourney}>{t.begin} <ArrowRight size={18} aria-hidden="true" /></button></> : <p>{visibleCharacters.length ? t.selectPrompt : t.emptyPrompt}</p>}</div>
     </section>
 
