@@ -218,6 +218,15 @@ export default function Home() {
         <p className="eyebrow">{t.heroEyebrow}</p>
         <h1>{t.heroTitle}</h1>
         <div className="hero-copy"><p>{t.heroIntro}</p></div>
+        <img
+          className="hero-mobile-image"
+          src="images/migrant-pathways-hero.jpg"
+          alt=""
+          width={1672}
+          height={941}
+          decoding="async"
+          fetchPriority="high"
+        />
         <section
           ref={questionBoardRef}
           className="hero-question-board"

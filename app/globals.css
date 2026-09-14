@@ -177,6 +177,7 @@ label:has(input:focus-visible) {
   line-height: 1.65;
 }
 .hero-copy p { margin: 0 0 1em; }
+.hero-mobile-image { display: none; }
 .hero-question-board {
   width: min(900px, 100%);
   margin: 0 0 24px;
@@ -1020,8 +1021,23 @@ label:has(input:focus-visible) {
   .mobile-language-row .language-control select { min-width: 0; max-width: 140px; }
 }
 
+/* Keep the complete artwork in the reading flow on phones (including
+   landscape) and tablets, with intrinsic dimensions reserving its space. */
+@media (max-width: 1024px) {
+  .hero-section {
+    background: linear-gradient(180deg, #fff9f7 0%, #faeff0 100%);
+  }
+  .hero-mobile-image {
+    display: block;
+    width: 100%;
+    max-width: 900px;
+    height: auto;
+    margin: 0 0 24px;
+    border-radius: 22px;
+  }
+}
+
 @media (max-width: 1000px) {
-  .hero-section { background-position: 60% center; }
   .character-grid { grid-template-columns: repeat(2, 1fr); }
   .journey-layout { grid-template-columns: 220px 1fr; gap: 25px; }
   .decision-panel { padding: 32px; }
@@ -1046,10 +1062,8 @@ label:has(input:focus-visible) {
   .mobile-menu-button:hover { border-color: var(--maroon); background: var(--white); }
   .hero-section {
     min-height: auto;
-    background:
-      linear-gradient(180deg, rgba(255,249,247,.98) 0%, rgba(250,239,240,.93) 52%, rgba(122,31,61,.2) 100%),
-      url("/images/migrant-pathways-hero.jpg") 66% center / cover no-repeat;
   }
+  .hero-mobile-image { margin-bottom: 16px; border-radius: 18px; }
   .hero-content,
   .hero-content-expanded { padding: 30px 20px 78px; }
   .hero-content .eyebrow { max-width: 340px; font-size: 10px; line-height: 1.55; letter-spacing: .13em; }
