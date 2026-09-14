@@ -4,9 +4,38 @@ An interactive educational website that explores migration and settlement in Ire
 
 **React · TypeScript · Vite**
 
-[Visit the website](https://samobrienolinger.github.io/My-New-Life-in-Ireland/) · [Getting started](#getting-started) · [Repository guide](#repository-guide) · [Checks](#checks-and-review) · [Credits](#credits-and-reuse)
+[Visit the website](https://samobrienolinger.github.io/My-New-Life-in-Ireland/) · [Distinctive proposition](#distinctive-proposition-and-educational-contribution) · [Getting started](#getting-started) · [Repository guide](#repository-guide) · [Checks](#checks-and-review) · [Credits](#credits-and-reuse)
 
 <img src="public/images/harp-heart-logo.png" alt="A New Life in Ireland harp-heart logo" width="160">
+
+## Distinctive proposition and educational contribution
+
+> **Explore why every journey to Ireland is different through fictional decisions that connect human circumstances with Irish migration pathways, rights and authoritative sources.**
+
+The strongest proposition is the **combination of human stories, contrasting migration routes and source-linked learning within one Irish setting**. Twelve fictional characters make different circumstances visible; choices and explanations connect those circumstances to work, study, family, EU free movement and international protection. The route finder and Information Hub provide another way into the subject alongside the character journeys.
+
+### A potentially useful educational combination
+
+| What the site brings together | Potential educational contribution |
+| --- | --- |
+| Fictional characters, choices and immediate explanations | Encourage learners to examine how circumstances shape the options available, rather than treating migration as one uniform experience. |
+| Multiple migration routes within Ireland | Support comparison between different pathways and help distinguish migration generally from seeking international protection. |
+| Journeys through departure, arrival and settlement, alongside a route finder and Information Hub | Connect the human experience of moving with the practical questions that arise at different stages. |
+| Narrative learning and links to official and specialist information | Give learners a route from an engaging example to the underlying guidance, while keeping fictional learning separate from real eligibility decisions. |
+
+**Its distinctiveness lies in joining narrative understanding with practical, Ireland-specific information literacy.** A story can make a pathway understandable; source links allow the learner to inspect the information behind the explanation. Comparing characters within the same national context creates an opportunity to explore how overlapping personal circumstances and institutional requirements produce different journeys. Choices do not imply that people have complete control over migration outcomes.
+
+### Similar product: ODISSEU
+
+[**ODISSEU — interactive migration storytelling game**](https://odisseu-project.eu/en/online-game) is a European educational project offering three character journeys for secondary students. Players make choices that influence stories of forced migration, from leaving a country of origin to reaching a country of asylum. It is a close comparator for the character-and-choice learning method.
+
+A New Life in Ireland's distinguishing proposition is its **combination of several migration routes, an Ireland-specific setting, settlement learning and a route finder/Information Hub with authoritative signposting**. The contribution is not the invention of migration storytelling, but connecting that method to comparative understanding of Irish pathways and the sources needed to explore them responsibly.
+
+### Contribution within the wider learning portfolio
+
+Alongside [Saggart & Citywest Together](https://samobrienolinger.github.io/saggart-and-citywest-together/), which connects local knowledge and community supports, and [Stopped: Both Sides](https://samobrienolinger.github.io/stopped-both-sides/), which explores public/Garda encounters, this site supplies the **migration-and-settlement learning layer**. Together they offer a potentially useful combination of migration understanding, local belonging and rights literacy. They remain independent resources for different audiences, not one eligibility or case-management system.
+
+Potential contributions include facilitated discussion, more nuanced comparison of migration experiences and better understanding of when to consult an authoritative source. Legal/content review, lived-experience input and learner evaluation are needed to establish accuracy, relevance and educational benefit; no improvement in attitudes or behaviour is claimed as a measured outcome. The comparator description was checked against its official website on **14 September 2026**; no affiliation, endorsement or exhaustive claim of uniqueness is implied.
 
 ## What you can explore
 
@@ -51,7 +80,7 @@ Open the local address printed by the Vite development server.
 
 ## Checks and review
 
-Use Node.js `>=22.13.0` and npm for the package commands below. Install the package dependencies first when the command uses a local build or test tool.
+Use Node.js `>=22.13.0`, npm and a Bash-compatible shell for the command below. Install the package dependencies before running build, test or lint commands.
 
 | Command | Purpose |
 | --- | --- |
@@ -68,7 +97,7 @@ Generate fresh results from the revision you are working on; historical test rep
 
 ## Deployment
 
-GitHub Pages uses `npm run build:pages`, [vite.pages.config.ts](vite.pages.config.ts) and [.github/workflows/deploy-pages.yml](.github/workflows/deploy-pages.yml). Home, About and Resources have static entry points under [github-pages/](github-pages/); output goes to `dist-pages/`.
+GitHub Pages uses `npm run build:pages`, [vite.pages.config.ts](vite.pages.config.ts) and [.github/workflows/deploy-pages.yml](.github/workflows/deploy-pages.yml). Home, About and Resources have static entry points under [github-pages/](github-pages/) ; output goes to `dist-pages/`.
 
 `npm run build` is the separate Vinext/Sites build. Its wrapper requires a shell environment with GNU `timeout`; it is not interchangeable with the static Pages build.
 
