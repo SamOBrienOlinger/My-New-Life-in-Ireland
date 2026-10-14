@@ -416,7 +416,7 @@ label:has(input:focus-visible) {
 }
 .start-bar {
   min-height: 92px;
-  margin-top: 24px;
+  margin-bottom: 24px;
   padding: 16px 18px 16px 24px;
   display: flex;
   justify-content: space-between;
