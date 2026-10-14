@@ -41,6 +41,7 @@ export default function Home() {
   const [selectedId, setSelectedId] = useState("");
   const [filter, setFilter] = useState<RouteFilter>("all");
   const [started, setStarted] = useState(false);
+  const journeyStartedRef = useRef(false);
   const [stepIndex, setStepIndex] = useState(0);
   const [answers, setAnswers] = useState<Record<number, string>>({});
   const [checked, setChecked] = useState(false);
@@ -70,6 +71,23 @@ export default function Home() {
   const RouteIcon = character ? routeIcons[character.route] : Users;
 
   useEffect(() => {
+    function selectLinkedCharacter() {
+      // History navigation must not switch characters during an active game.
+      if (journeyStartedRef.current) return;
+      const linkedCharacter = characters.find((item) => window.location.hash === `#character-${item.id}`);
+      if (!linkedCharacter) return;
+      setSelectedId(linkedCharacter.id);
+      setFilter((current) => current === "all" || current === linkedCharacter.filter ? current : "all");
+      // Wait for React to reveal the card before scrolling to a shared link.
+      window.requestAnimationFrame(() => document.getElementById(`character-${linkedCharacter.id}`)?.scrollIntoView({ block: "start" }));
+    }
+
+    selectLinkedCharacter();
+    window.addEventListener("hashchange", selectLinkedCharacter);
+    return () => window.removeEventListener("hashchange", selectLinkedCharacter);
+  }, []);
+
+  useEffect(() => {
     const board = questionBoardRef.current;
     if (!board) return;
 
@@ -92,6 +110,7 @@ export default function Home() {
 
   function beginJourney() {
     if (!character) return;
+    journeyStartedRef.current = true;
     setStarted(true); setStepIndex(0); setAnswers({}); setChecked(false); setCompleted(false);
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
@@ -115,6 +134,7 @@ export default function Home() {
   }
 
   function resetJourney(target?: string) {
+    journeyStartedRef.current = false;
     setStarted(false); setCompleted(false); setStepIndex(0); setAnswers({}); setChecked(false); setSelectedId("");
     window.setTimeout(() => target ? document.querySelector(target)?.scrollIntoView({ behavior: "smooth" }) : window.scrollTo({ top: 0, behavior: "smooth" }), 0);
   }
@@ -249,7 +269,7 @@ export default function Home() {
 
     <section className="character-section character-section-expanded" id="choose-character">
       <div className="section-heading"><div><p className="eyebrow">{t.chooseEyebrow}</p><h2>{t.chooseTitle}</h2></div><div className="learning-progress-card"><Sparkles size={20} aria-hidden="true" /><div><strong>{completedCharacters.length} {t.of} 12 {t.explored}</strong><span>{t.saved}</span></div></div></div>
-      <RadioGroup value={selectedId} onValueChange={setSelectedId} className="character-grid" aria-label={t.choose}>{visibleCharacters.map((item) => { const Icon = routeIcons[item.route]; const finished = completedCharacters.includes(item.id); return <label className={"character-card " + (selectedId === item.id ? "selected" : "")} key={item.id}><RadioGroupItem value={item.id} id={item.id} className="sr-only" /><div className="card-topline"><CharacterPortrait character={item} /><span className="route-tag"><Icon size={14} aria-hidden="true" />{localRoute(item.route, language).short}</span></div>{finished ? <span className="completed-badge"><Check size={13} aria-hidden="true" />{t.exploredBadge}</span> : null}<h3>{item.name}</h3><p className="character-meta">{item.pronouns} · {item.origin}</p><p className="character-role">{item.role}</p><p className="character-summary">{item.summary}</p><span className="card-action">{t.walkWith} {item.name.split(" ")[0]} <ArrowRight size={16} aria-hidden="true" /></span></label>; })}</RadioGroup>
+      <RadioGroup value={selectedId} onValueChange={setSelectedId} className="character-grid" aria-label={t.choose}>{visibleCharacters.map((item) => { const Icon = routeIcons[item.route]; const finished = completedCharacters.includes(item.id); return <label id={`character-${item.id}`} className={"character-card " + (selectedId === item.id ? "selected" : "")} key={item.id}><RadioGroupItem value={item.id} id={item.id} className="sr-only" /><div className="card-topline"><CharacterPortrait character={item} /><span className="route-tag"><Icon size={14} aria-hidden="true" />{localRoute(item.route, language).short}</span></div>{finished ? <span className="completed-badge"><Check size={13} aria-hidden="true" />{t.exploredBadge}</span> : null}<h3>{item.name}</h3><p className="character-meta">{item.pronouns} · {item.origin}</p><p className="character-role">{item.role}</p><p className="character-summary">{item.summary}</p><a className="card-action" href={`#character-${item.id}`} onClick={(event) => { if (!event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey && event.button === 0) setSelectedId(item.id); }}>{t.walkWith} {item.name.split(" ")[0]} <ArrowRight size={16} aria-hidden="true" /></a></label>; })}</RadioGroup>
       <div className="start-bar" aria-live="polite">{character ? <><div><span className="mini-label">{t.selected}</span><strong>{character.name} · {localRoute(character.route, language).label}</strong></div><button className="primary-button" type="button" onClick={beginJourney}>{t.begin} <ArrowRight size={18} aria-hidden="true" /></button></> : <p>{visibleCharacters.length ? t.selectPrompt : t.emptyPrompt}</p>}</div>
     </section>
 

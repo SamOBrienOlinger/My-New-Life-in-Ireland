@@ -35,6 +35,20 @@ async function readCssTree(directory) {
   return contents.join("\n");
 }
 
+test("renders a distinct character link for every selectable journey", async () => {
+  const { default: Home } = await vite.ssrLoadModule("/app/page.tsx");
+  const { characters } = await vite.ssrLoadModule("/app/journey-data.ts");
+  const html = renderToStaticMarkup(React.createElement(Home));
+
+  assert.equal((html.match(/class="card-action" href="#character-/g) || []).length, characters.length);
+  for (const character of characters) {
+    assert.ok(html.includes(`href="#character-${character.id}"`));
+    assert.ok(html.includes(`id="character-${character.id}"`));
+  }
+  // A link selects the character; starting the game remains an explicit step.
+  assert.doesNotMatch(html, /class="journey-shell"/);
+});
+
 test("emits the public launch and reduced-motion styles", async () => {
   const css = await readCssTree(path.join(root, "dist"));
 
