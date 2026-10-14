@@ -325,6 +325,7 @@ label:has(input:focus-visible) {
 .section-heading > p { margin: 0; color: var(--muted-ink); font-size: 1.05rem; line-height: 1.7; }
 .character-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
 .character-card {
+  scroll-margin-top: 110px;
   min-height: 355px;
   padding: 24px;
   display: flex;
@@ -398,6 +399,7 @@ label:has(input:focus-visible) {
 .character-role { margin-top: 7px; color: var(--maroon); font-weight: 740; }
 .character-summary { margin: 17px 0 23px; color: #5f5256; font-size: .94rem; line-height: 1.58; }
 .card-action {
+  text-decoration: none;
   width: fit-content;
   min-height: 36px;
   padding: 0 12px;
