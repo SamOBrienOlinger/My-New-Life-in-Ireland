@@ -1,6 +1,7 @@
 import type { Language } from "../i18n";
 import type { RouteKey, Step } from "../journey-data";
 import type { JourneyControls, JourneyTranslationCatalog } from "./types";
+import { loadLearningLanguage } from "../learning-copy/index.ts";
 
 type TranslatedLanguage = Exclude<Language, "en">;
 type LanguageCatalog = {
@@ -24,7 +25,7 @@ const pending: Partial<Record<TranslatedLanguage, Promise<void>>> = {};
 export function loadJourneyLanguage(language: Language): Promise<void> {
   if (language === "en" || loaded[language]) return Promise.resolve();
   if (!pending[language]) {
-    pending[language] = loaders[language]().then((catalog) => { loaded[language] = catalog; }).catch((error: unknown) => {
+    pending[language] = Promise.all([loaders[language](), loadLearningLanguage(language)]).then(([catalog]) => { loaded[language] = catalog; }).catch((error: unknown) => {
       delete pending[language];
       throw error;
     });
