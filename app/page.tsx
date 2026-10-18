@@ -21,6 +21,10 @@ import {
   progressStorageKey, serialiseSavedJourneys, type SavedJourney, type SavedJourneys,
 } from "./journey-progress";
 import { journeyControls } from "./journey-translations";
+import { learningCopy } from "./learning-copy";
+import { SourceDetails } from "./source-details";
+import { JourneyInsight, JourneyRecap } from "./journey-learning-panels";
+import { resourceTopicForRoute } from "./journey-learning";
 
 const scrollBehavior = (): ScrollBehavior => window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth";
 
@@ -35,7 +39,7 @@ const officialSources = [
   ["Employment Permits", "Current permit types, eligibility and occupation lists", "https://enterprise.gov.ie/en/what-we-do/workplace-and-skills/employment-permits/"],
   ["International Protection Office", "Applying for international protection in Ireland", "https://ipo.irishimmigration.ie/"],
   ["Irish Refugee Council", "Rights and procedures, including applications after 12 June 2026", "https://www.irishrefugeecouncil.ie/get-help/information-hub/"],
-  ["Workplace Relations Commission", "Employment rights and workplace remedies", "https://www.workplacerelations.ie/en/what_you_should_know/coming_to_work_in_ireland/"],
+  ["Workplace Relations Commission", "Employment rights and workplace remedies", "https://www.workplacerelations.ie/en/what_you_should_know/"],
 ];
 
 const officialSourceDescriptions = {
@@ -54,6 +58,7 @@ export default function Home() {
   const [checkedSteps, setCheckedSteps] = useState<number[]>([]);
   const [choiceOrder, setChoiceOrder] = useState<Record<number, string[]>>({});
   const [completed, setCompleted] = useState(false);
+  const [reviewing, setReviewing] = useState(false);
   const [plainLanguage, setPlainLanguage] = useState(true);
   const questionBoardRef = useRef<HTMLElement>(null);
   const decisionPanelRef = useRef<HTMLElement>(null);
@@ -92,6 +97,7 @@ export default function Home() {
 
   const t = ui[language];
   const controls = journeyControls(language);
+  const learning = learningCopy(language);
   const baseCharacter = useMemo(() => characters.find((item) => item.id === selectedId), [selectedId]);
   const character = useMemo(() => baseCharacter ? localCharacter(baseCharacter, language) : undefined, [baseCharacter, language]);
   const visibleCharacters = useMemo(() => characters.filter((item) => filter === "all" || item.filter === filter).map((item) => localCharacter(item, language)), [filter, language]);
@@ -200,9 +206,12 @@ export default function Home() {
   // Save within the interaction, before a link can leave the page.
   function saveActiveJourney(changes: Partial<SavedJourney>) {
     if (!baseCharacter || !storageReady) return;
+    // Called only by user-event handlers, including the recap's onClick callback.
+    // eslint-disable-next-line react-hooks/purity -- Timestamp the interaction before navigation; the custom callback is not a render call.
+    const updatedAt = Date.now();
     persistJourneys({ ...savedJourneys, [baseCharacter.id]: {
       characterId: baseCharacter.id, route: baseCharacter.route, stepIndex,
-      answers, checkedSteps, choiceOrder, plainLanguage, ...changes, updatedAt: Date.now(),
+      answers, checkedSteps, choiceOrder, plainLanguage, ...changes, updatedAt,
     } });
   }
 
@@ -215,6 +224,7 @@ export default function Home() {
     setChoiceOrder(saved.choiceOrder);
     setPlainLanguage(saved.plainLanguage);
     setCompleted(false);
+    setReviewing(false);
     setStarted(true);
     persistJourneys({ ...savedJourneys, [saved.characterId]: { ...saved, updatedAt: Date.now() } });
   }
@@ -229,15 +239,26 @@ export default function Home() {
     resumeJourney(createSavedJourney(baseCharacter));
   }
 
+  function completeJourney() {
+    if (!character || !steps.every((item, index) => checkedSteps.includes(index) && item.choices.some((option) => option.id === answers[index]))) return;
+    setCompleted(true);
+    setReviewing(false);
+    const remaining = { ...savedJourneys };
+    delete remaining[character.id];
+    persistJourneys(remaining, [...new Set([...completedCharacters, character.id])]);
+  }
+
+  function revisitDecision(index: number) {
+    setStepIndex(index);
+    setCompleted(false);
+    setReviewing(true);
+    saveActiveJourney({ stepIndex: index });
+  }
+
   function nextStep() {
     if (!checked || !choice) return;
     if (stepIndex === steps.length - 1) {
-      setCompleted(true);
-      if (character) {
-        const remaining = { ...savedJourneys };
-        delete remaining[character.id];
-        persistJourneys(remaining, [...new Set([...completedCharacters, character.id])]);
-      }
+      completeJourney();
     } else {
       setStepIndex(stepIndex + 1);
       saveActiveJourney({ stepIndex: stepIndex + 1 });
@@ -273,7 +294,7 @@ export default function Home() {
   function resetJourney(target?: string) {
     landingFocusRef.current = target || "#top";
     journeyStartedRef.current = false;
-    setStarted(false); setCompleted(false); setStepIndex(0); setAnswers({}); setCheckedSteps([]); setChoiceOrder({}); setSelectedId("");
+    setStarted(false); setCompleted(false); setReviewing(false); setStepIndex(0); setAnswers({}); setCheckedSteps([]); setChoiceOrder({}); setSelectedId("");
   }
 
   function readStep() {
@@ -329,7 +350,7 @@ export default function Home() {
                 <button className="tool-button" type="button" onClick={readStep}><Volume2 size={17} aria-hidden="true" />{t.listen}</button>
                 <button className="tool-button" type="button" onClick={togglePlainLanguage}><Languages size={17} aria-hidden="true" />{plainLanguage ? t.detailed : t.plain}</button>
               </div>
-              <div className="law-card"><Scale size={22} aria-hidden="true" /><div><strong>{t.rule}</strong><p>{plainLanguage ? step.plainLaw : step.law}</p><a href={step.sourceUrl} target="_blank" rel="noreferrer">{t.source}: {step.sourceLabel}<ExternalLink size={14} aria-hidden="true" /></a></div></div>
+              <div className="law-card"><Scale size={22} aria-hidden="true" /><div><strong>{t.rule}</strong><p>{plainLanguage ? step.plainLaw : step.law}</p><a href={step.sourceUrl} target="_blank" rel="noreferrer">{t.source}: {step.sourceLabel}<ExternalLink size={14} aria-hidden="true" /></a><SourceDetails href={step.sourceUrl} language={language} /></div></div>
               <fieldset className="choice-fieldset">
                 <legend id="decision-question">{step.question}</legend>
                 <RadioGroup value={choiceId} onValueChange={selectAnswer} className="choice-list" aria-labelledby="decision-question" dir={dir}>
@@ -345,23 +366,22 @@ export default function Home() {
                 {choice.correct ? <CheckCircle2 size={22} aria-hidden="true" /> : <Map size={22} aria-hidden="true" />}
                 <div><strong>{choice.correct ? t.safer : t.risk}</strong><p>{choice.feedback}</p><div className="consequence"><span>{t.changes}</span>{choice.consequence}</div></div>
               </div> : null}</div>
+              {checked && choice ? <JourneyInsight character={character} step={step} index={stepIndex} language={language} /> : null}
               {!storageAvailable ? <p className="storage-notice" role="status">{controls.saveUnavailable}</p> : null}
               <div className="decision-actions">
                 <button className="quiet-button" type="button" aria-label={t.back} onClick={previousStep} disabled={stepIndex === 0}><ArrowLeft size={17} aria-hidden="true" /> {t.back}</button>
                 {!checked ? <button className="primary-button" type="button" disabled={!choiceId} onClick={checkAnswer}>{t.check} <ArrowRight size={17} aria-hidden="true" /></button>
                   : <button className="primary-button" type="button" onClick={nextStep}>{stepIndex === steps.length - 1 ? t.complete : t.next}<ArrowRight size={17} aria-hidden="true" /></button>}
               </div>
+              {reviewing ? <button className="quiet-button recap-return" type="button" onClick={completeJourney} disabled={!steps.every((item, index) => checkedSteps.includes(index) && item.choices.some((option) => option.id === answers[index]))}><BookOpen size={17} aria-hidden="true" />{learning.returnToRecap}</button> : null}
             </> : <div className="completion-card completion-card-expanded">
               <div className="completion-icon"><CheckCircle2 size={34} aria-hidden="true" /></div><p className="eyebrow">{t.done}</p>
-              <h2 id="completion-title" ref={completionHeadingRef} tabIndex={-1}>{t.walked} {character.name}.</h2>
+              <h2 id="completion-title" ref={completionHeadingRef} tabIndex={-1}>{learning.recapTitle.replace("{name}", character.name)}</h2>
+              <p>{learning.recapIntro}</p>
               <p>{t.scoreBefore} <strong>{correctCount} {t.of} {steps.length}</strong> {t.scoreAfter}</p>
               <div className="readiness-meter" aria-label={`${correctCount} ${t.of} ${steps.length} ${t.decisions}`}>{steps.map((_, index) => <span className={index < correctCount ? "filled" : ""} key={index} />)}</div>
-              <div className="takeaway-grid">
-                <article><strong>{t.checkRoute}</strong><span>{t.checkRouteP}</span></article>
-                <article><strong>{t.evidence}</strong><span>{t.evidenceP}</span></article>
-                <article><strong>{t.network}</strong><span>{t.networkP}</span></article>
-              </div>
-              <div className="completion-actions"><button className="primary-button" type="button" onClick={() => resetJourney("#choose-character")}><RotateCcw size={17} aria-hidden="true" /> {t.chooseAnother}</button><a className="quiet-button" href="resources/"><BookOpen size={17} aria-hidden="true" />{t.openIrelandHub}</a></div>
+              <JourneyRecap character={character} steps={steps} answers={answers} checkedSteps={checkedSteps} language={language} onRevisit={(index) => revisitDecision(index)} />
+              <div className="completion-actions"><button className="primary-button" type="button" onClick={() => resetJourney("#choose-character")}><RotateCcw size={17} aria-hidden="true" /> {t.chooseAnother}</button><a className="quiet-button" href={`resources/?topic=${resourceTopicForRoute(character.route)}#resource-browser`}><BookOpen size={17} aria-hidden="true" />{t.openIrelandHub}</a></div>
             </div>}
           </section>
         </div>
@@ -418,7 +438,7 @@ export default function Home() {
 
     <section className="hub-preview" id="information-hub-topics" aria-labelledby="hub-title"><div><p className="eyebrow">{t.afterStory}</p><h2 id="hub-title">{t.practicalTitle}</h2><p>{t.practicalText}</p><a className="primary-button" href="resources/">{t.openHub} <ArrowRight size={18} aria-hidden="true" /></a></div><nav className="hub-topic-grid" aria-label={t.hub}><a href="resources/?topic=work#resource-browser"><BriefcaseBusiness aria-hidden="true" /><span>{t.workPermits}</span><ArrowRight className="hub-topic-arrow" size={18} aria-hidden="true" /></a><a href="resources/?topic=protection#resource-browser"><ShieldCheck aria-hidden="true" /><span>{t.protectionSafety}</span><ArrowRight className="hub-topic-arrow" size={18} aria-hidden="true" /></a><a href="resources/?topic=study#resource-browser"><GraduationCap aria-hidden="true" /><span>{t.studyEducation}</span><ArrowRight className="hub-topic-arrow" size={18} aria-hidden="true" /></a><a href="resources/?topic=family#resource-browser"><HeartHandshake aria-hidden="true" /><span>{t.familyCommunity}</span><ArrowRight className="hub-topic-arrow" size={18} aria-hidden="true" /></a><a href="resources/?topic=arrival#resource-browser"><MapPin aria-hidden="true" /><span>{t.arrivalRegistration}</span><ArrowRight className="hub-topic-arrow" size={18} aria-hidden="true" /></a><a href="resources/?topic=rights#resource-browser"><Scale aria-hidden="true" /><span>{t.rightsAdvice}</span><ArrowRight className="hub-topic-arrow" size={18} aria-hidden="true" /></a></nav></section>
 
-    <section className="guidance-section" id="official-guidance"><div className="guidance-intro"><p className="eyebrow">{t.checkEyebrow}</p><h2>{t.checkTitle}</h2><p>{t.checkText}</p><span>{t.review}</span></div><div className="source-list source-list-detailed">{officialSources.map(([label, description, href], index) => <a href={href} target="_blank" rel="noreferrer" key={href}><span><strong>{label}</strong><small>{language === "en" ? description : officialSourceDescriptions[language][index]}</small></span><ExternalLink size={17} aria-hidden="true" /></a>)}</div></section>
+    <section className="guidance-section" id="official-guidance"><div className="guidance-intro"><p className="eyebrow">{t.checkEyebrow}</p><h2>{t.checkTitle}</h2><p>{t.checkText}</p><a className="source-method-link" href="about/#source-method">{learning.sourceMethodLink}</a></div><div className="source-list source-list-detailed">{officialSources.map(([label, description, href], index) => <a href={href} target="_blank" rel="noreferrer" key={href}><span><strong>{label}</strong><small>{language === "en" ? description : officialSourceDescriptions[language][index]}</small></span><ExternalLink size={17} aria-hidden="true" /></a>)}</div></section>
     <footer className="site-footer"><div className="site-footer-content"><p><strong>{t.siteName}</strong> - {t.tagline}</p><p><a href="https://samobrienolinger.github.io/SamOBrienOlinger/" target="_blank" rel="noreferrer">Sam Tim Solutions</a></p><p className="site-footer-copyright">{t.copyright}</p></div></footer>
   </main>;
 }

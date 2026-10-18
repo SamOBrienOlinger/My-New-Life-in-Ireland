@@ -41,11 +41,14 @@ Potential contributions include facilitated discussion, a more nuanced compariso
 
 - Character journeys covering work, study, family, EU free movement and international protection.
 - Twelve strongly stylised graphic novel portraits with redesigned fictional faces, carried from character selection through each journey.
-- Immediate explanations and links to official information.
+- Immediate explanations, common misunderstandings and practical next steps linked to the relevant guidance.
+- A completion recap based on the character and the learner's actual decisions, with answers to revisit and relevant next resources.
+- Reflection questions about the character's circumstances, support needs and the limits of individual choice.
 - A route finder and an Information Hub.
 - Multilingual text, keyboard controls and responsive layouts.
 - Specific scenario and answer translations in all ten selectable languages.
 - Unfinished journeys saved on the current browser, with separate progress for each character.
+- Source publishers, subject areas and recorded consultation dates beside guidance, plus an explanation of the editorial approach on About.
 
 ## Using the project
 
@@ -104,6 +107,16 @@ Before the first browser-test run, install the test browsers with `npx playwrigh
 
 The English source remains in `app/journey-data.ts`. Each non-English catalog in `app/journey-translations/` uses `route:canonical English stage` keys and the original choice IDs. Translate the individual scene, rules, answer labels, feedback and consequences; preserve source URLs, correctness and qualified wording. The catalog tests check all 40 stages and 24 hub descriptions per language. Languages load on demand. Source comparison and automated coverage checks complement fluent-speaker review of wording.
 
+The additional learning copy in `app/learning-copy/` follows the same ten-language coverage and loads alongside each selected journey language. `app/journey-learning.ts` maps every route and stage to a short explanation and next step. Recaps use checked answer IDs, so changing language or answer order does not change the result. Revisit controls restore the selected stage without resetting the attempt; a changed answer must be checked before returning to the recap. Reflection prompts are unscored and request no personal information. Scores describe choices in the exercise, not immigration eligibility or the likelihood of a real outcome.
+
+The Information Hub includes the 24 original resources plus two individually translated additions: NMBI registration for nurses and midwives qualified outside the EU, and Revenue's first-job tax-registration guidance. Priya's journey surfaces professional registration, while relevant work journeys surface tax setup. These practical tasks are separate from immigration permission. New resources participate in the same search and topic filters.
+
+### Source consultation and editorial scope
+
+`app/source-info.ts` records each source's publisher, subject, explicit consultation date and the scope of the check. A date means the linked page was retrieved and its publisher and relevant subject matter were checked. It is not a publisher update date, a legal review or a guarantee that all statements remain current. A blocked or unsuccessful retrieval receives no new consultation date; an unknown URL cannot inherit a date from another page on the same domain. Dates are maintained deliberately and never advance automatically during a build or deployment.
+
+The 18 October 2026 check identified a more suitable current WRC employment-rights overview and a more direct MRCI information-and-support destination. No new salary thresholds, time-limit figures or individual eligibility decisions were introduced. The About page explains the distinction between fictional learning, current source guidance, translations and real-person testimony.
+
 An attempt keeps its answer order, selected answers, checked stages, current stage and reading mode. Correct-answer positions are balanced across the five stages and randomized when an attempt starts. A resume preserves that order; an explicit restart clears that character's current attempt. Completion removes the unfinished save and retains the explored badge. Saving uses browser storage, so progress stays in that browser and can be removed by clearing its site data. If saving is unavailable, the current page remains usable and explains the limitation.
 
 The progress envelope is versioned in `app/journey-progress.ts`. If a future content change alters what existing answer IDs mean, revise the stored-progress version or add a migration before accepting old answers against the new content.
@@ -124,7 +137,7 @@ Created by Sam O'Brien-Olinger. Educational source links used by the project inc
 - [Employment Permits](https://enterprise.gov.ie/en/what-we-do/workplace-and-skills/employment-permits/).
 - [International Protection Office](https://ipo.irishimmigration.ie/).
 - [Irish Refugee Council — Information Hub](https://www.irishrefugeecouncil.ie/get-help/information-hub/).
-- [Workplace Relations Commission — coming to work in Ireland](https://www.workplacerelations.ie/en/what_you_should_know/coming_to_work_in_ireland/).
+- [Workplace Relations Commission — employment rights](https://www.workplacerelations.ie/en/what_you_should_know/).
 
 The project uses React, Next.js/Vinext, Vite, Tailwind CSS, shadcn UI primitives and Lucide icons. Third-party software retains its own terms; the repository's ownership statement below applies as written.
 

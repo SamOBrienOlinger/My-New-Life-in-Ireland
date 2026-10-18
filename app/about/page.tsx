@@ -4,6 +4,7 @@ import { ArrowLeft, BookOpen, Copyright, ExternalLink, Scale, ShieldCheck } from
 import { LanguageControl, ui, useLanguage } from "../i18n";
 import { additionalAboutCopy } from "../additional-page-copy";
 import { MobileNavigation } from "../mobile-navigation";
+import { learningCopy } from "../learning-copy";
 
 const repositoryUrl =
   "https://github.com/SamOBrienOlinger/My-New-Life-in-Ireland";
@@ -19,6 +20,7 @@ export default function AboutPage() {
   const { language, setLanguage, dir } = useLanguage();
   const t = ui[language];
   const a = aboutCopy[language];
+  const learning = learningCopy(language);
   return (
     <main className="about-page" lang={language} dir={dir}>
       <header className="about-topbar">
@@ -68,6 +70,17 @@ export default function AboutPage() {
             <a className="about-action" href={`${repositoryUrl}/blob/dev-1/LICENSE.md`} target="_blank" rel="noreferrer">
               {a.licence} <ExternalLink size={16} aria-hidden="true" />
             </a>
+          </div>
+        </article>
+
+        <article className="about-card" id="source-method" aria-labelledby="source-method-title">
+          <BookOpen size={24} aria-hidden="true" />
+          <div>
+            <h2 id="source-method-title">{learning.sourceMethod}</h2>
+            <p>{learning.sourceMethodIntro}</p><p>{learning.sourceDateMeaning}</p>
+            <p>{learning.sourceMethodContent}</p><p>{learning.sourceMethodTranslation}</p>
+            <p>{learning.sourceMethodReflection}</p>
+            <a className="about-action" href="../resources/">{a.open}<ExternalLink size={16} aria-hidden="true" /></a>
           </div>
         </article>
 

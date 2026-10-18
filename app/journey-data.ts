@@ -206,7 +206,7 @@ const official = {
   ipo: "https://ipo.irishimmigration.ie/",
   ipas: "https://ipas.irishimmigration.ie/",
   refugeeCouncil: "https://www.irishrefugeecouncil.ie/get-help/information-hub/after-12-june-2026/",
-  wrc: "https://www.workplacerelations.ie/en/what_you_should_know/coming_to_work_in_ireland/",
+  wrc: "https://www.workplacerelations.ie/en/what_you_should_know/",
 };
 
 export const stepsByRoute: Record<RouteKey, Step[]> = {

@@ -13,6 +13,9 @@ import {
 } from "../additional-page-copy";
 import { MobileNavigation } from "../mobile-navigation";
 import { resourceDescription } from "../journey-translations";
+import { learningCopy } from "../learning-copy";
+import { practicalResources } from "../journey-learning";
+import { SourceDetails } from "../source-details";
 
 type Topic = "all" | "arrival" | "immigration" | "protection" | "work" | "study" | "daily-life" | "family" | "rights";
 
@@ -35,8 +38,8 @@ const resources = [
   { topic: "protection", title: "Vulnerability and accommodation needs", description: "How applicants can identify disability, health, parenting and other special reception needs, and how accommodation concerns are considered.", organisation: "International Protection Accommodation Services", href: "https://ipas.irishimmigration.ie/accommodation/securing-accommodation/", icon: ShieldCheck },
   { topic: "protection", title: "Independent legal and practical support", description: "Information, advocacy, legal, housing, employment, youth and resettlement services.", organisation: "Irish Refugee Council", href: "https://www.irishrefugeecouncil.ie/get-help/", icon: ShieldCheck },
   { topic: "work", title: "Employment permit types", description: "Current permit categories, eligibility, occupation lists, application guidance and updates.", organisation: "Department of Enterprise, Tourism and Employment", href: "https://enterprise.gov.ie/en/what-we-do/workplace-and-skills/employment-permits/", icon: BriefcaseBusiness },
-  { topic: "work", title: "Rights when working in Ireland", description: "Pay, terms, working time, leave, records and routes for workplace complaints.", organisation: "Workplace Relations Commission", href: "https://www.workplacerelations.ie/en/what_you_should_know/coming_to_work_in_ireland/", icon: BriefcaseBusiness },
-  { topic: "work", title: "Migrant employment and exploitation support", description: "Independent information and support for migrant workers, including people at risk of exploitation.", organisation: "Migrant Rights Centre Ireland", href: "https://www.mrci.ie/", icon: BriefcaseBusiness },
+  { topic: "work", title: "Rights when working in Ireland", description: "Pay, terms, working time, leave, records and routes for workplace complaints.", organisation: "Workplace Relations Commission", href: "https://www.workplacerelations.ie/en/what_you_should_know/", icon: BriefcaseBusiness },
+  { topic: "work", title: "Migrant employment and exploitation support", description: "Independent information and support for migrant workers, including people at risk of exploitation.", organisation: "Migrant Rights Centre Ireland", href: "https://www.mrci.ie/get-info/", icon: BriefcaseBusiness },
   { topic: "work", title: "EU citizens coming to work", description: "Work rights for EU and EEA citizens, including why an Irish employment permit is generally not required.", organisation: "Citizens Information", href: "https://www.citizensinformation.ie/en/moving-country/working-in-ireland/migrant-workers/coming-from-eu-to-work/", icon: BriefcaseBusiness },
   { topic: "immigration", title: "EU residence rights", description: "The bases on which EU citizens may enter and reside in Ireland, including work, job-seeking, study and self-sufficiency.", organisation: "Citizens Information", href: "https://www.citizensinformation.ie/en/moving-country/moving-to-ireland/rights-of-residence-in-ireland/residence-rights-eu-national/", icon: BookOpen },
   { topic: "study", title: "Coming to study in Ireland", description: "Visa, finance, insurance, course and registration information for non-EEA students.", organisation: "Immigration Service Delivery", href: "https://www.irishimmigration.ie/coming-to-study-in-ireland/", icon: GraduationCap },
@@ -118,6 +121,13 @@ export default function ResourcesPage() {
       return (topic === "all" || item.topic === topic || (topic === "rights" && rightsAndAdviceTitles.has(item.title))) && (!term || searchable.includes(term));
     });
   }, [topic, query, language]);
+  const learning = learningCopy(language);
+  const extraResources = practicalResources(learning).filter((item) => {
+    const term = query.trim().toLocaleLowerCase(language);
+    const searchable = `${item.title} ${item.description} ${item.organisation} ${topicCopy[language][item.topic]}`.toLocaleLowerCase(language);
+    return (topic === "all" || topic === item.topic) && (!term || searchable.includes(term));
+  });
+  const resultCount = filtered.length + extraResources.length;
 
   return <main className="resources-page" lang={language} dir={dir}>
     <nav className="home-nav resources-nav" aria-label={`${t.siteName}: ${t.menu}`}>
@@ -129,6 +139,7 @@ export default function ResourcesPage() {
       <a className="back-link" href="../"><ArrowLeft size={16} aria-hidden="true" />{r.back}</a>
       <p className="eyebrow">{r.eyebrow}</p><h1>{r.title}</h1><p>{r.intro}</p>
       <div className="hub-caution"><ShieldCheck size={21} aria-hidden="true" /><span><strong>{r.cautionTitle}</strong> {r.caution}</span></div>
+      <p className="source-date-note">{learning.sourceDateMeaning} <a href="../about/#source-method">{learning.sourceMethodLink}</a></p>
     </header>
 
     <section className="resource-browser" id="resource-browser" aria-labelledby="resource-browser-title">
@@ -137,8 +148,8 @@ export default function ResourcesPage() {
         <label className="resource-search"><Search size={18} aria-hidden="true" /><span className="sr-only">{r.search}</span><input type="search" value={query} onChange={(event) => setQuery(event.target.value)} placeholder={r.placeholder} /></label>
       </div>
       <div className="topic-tabs" role="group" aria-label={r.browse}>{topics.map((item) => <button type="button" aria-pressed={topic === item.id} className={topic === item.id ? "active" : ""} onClick={() => setTopic(item.id)} key={item.id}>{topicCopy[language][item.id]}</button>)}</div>
-      <p className="result-count" aria-live="polite">{r.showing} {filtered.length} {filtered.length === 1 ? r.resource : r.resources}</p>
-      {filtered.length ? <div className="resource-grid">{filtered.map((item) => { const Icon = item.icon; const index=resources.findIndex((entry)=>entry.href===item.href); return <article className="resource-card" key={item.href}><div className="resource-icon"><Icon size={22} aria-hidden="true" /></div><span className="resource-topic">{topicCopy[language][item.topic]}</span><h3>{language === "en" ? item.title : translatedTitles[language][index]}</h3><p>{resourceDescription(item.title, item.description, language)}</p><small>{item.organisation}</small><a href={item.href} target="_blank" rel="noreferrer">{r.open} <ExternalLink size={15} aria-hidden="true" /></a></article>; })}</div>
+      <p className="result-count" aria-live="polite">{r.showing} {resultCount} {resultCount === 1 ? r.resource : r.resources}</p>
+      {resultCount ? <div className="resource-grid">{filtered.map((item) => { const Icon = item.icon; const index=resources.findIndex((entry)=>entry.href===item.href); const title=language === "en" ? item.title : translatedTitles[language][index]; return <article className="resource-card" key={item.href}><div className="resource-icon"><Icon size={22} aria-hidden="true" /></div><span className="resource-topic">{topicCopy[language][item.topic]}</span><h3>{title}</h3><p>{resourceDescription(item.title, item.description, language)}</p><SourceDetails href={item.href} language={language} publisher={item.organisation} /><a href={item.href} target="_blank" rel="noreferrer">{r.open}<span className="sr-only">: {title}</span> <ExternalLink size={15} aria-hidden="true" /></a></article>; })}{extraResources.map((item) => <article className="resource-card" key={item.href}><div className="resource-icon"><BriefcaseBusiness size={22} aria-hidden="true" /></div><span className="resource-topic">{topicCopy[language][item.topic]}</span><h3>{item.title}</h3><p>{item.description}</p><SourceDetails href={item.href} language={language} publisher={item.organisation} /><a href={item.href} target="_blank" rel="noreferrer">{r.open}<span className="sr-only">: {item.title}</span> <ExternalLink size={15} aria-hidden="true" /></a></article>)}</div>
         : <div className="resource-empty"><Search size={28} aria-hidden="true" /><h3>{r.none}</h3><p>{r.retry}</p><button type="button" className="quiet-button" onClick={() => { setQuery(""); setTopic("all"); }}>{r.clear}</button></div>}
     </section>
 
