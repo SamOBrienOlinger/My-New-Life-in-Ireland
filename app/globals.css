@@ -208,7 +208,6 @@ label:has([role="radio"]:focus-visible),
 }
 .hero-question-intro { padding: 3px 10px 1px; }
 .hero-question-card {
-  --question-delay: 0ms;
   min-height: 146px;
   padding: 22px;
   position: relative;
@@ -221,13 +220,6 @@ label:has([role="radio"]:focus-visible),
   cursor: pointer;
   box-shadow: 0 5px 14px rgba(75,16,38,.04);
   transition: box-shadow .2s ease, border-color .2s ease, transform .2s ease;
-}
-.hero-question-board.questions-ready:not(.questions-visible) .hero-question-card {
-  opacity: 0;
-  transform: translateY(16px) scale(.985);
-}
-.hero-question-board.questions-visible .hero-question-card {
-  animation: hero-question-reveal .48s cubic-bezier(.22,.8,.25,1) var(--question-delay) backwards;
 }
 .hero-question-card:hover {
   transform: translateY(-3px);
@@ -244,10 +236,6 @@ label:has([role="radio"]:focus-visible),
 }
 .hero-question-card:hover .hero-question-arrow { transform: translateX(4px); }
 [dir="rtl"] .hero-question-card:hover .hero-question-arrow { transform: translateX(-4px); }
-@keyframes hero-question-reveal {
-  from { opacity: 0; transform: translateY(16px) scale(.985); }
-  to { opacity: 1; transform: translateY(0) scale(1); }
-}
 .hero-question-card span {
   display: block;
   margin-bottom: 24px;
@@ -263,21 +251,18 @@ label:has([role="radio"]:focus-visible),
   line-height: 1.25;
 }
 .question-challenges {
-  --question-delay: 0ms;
   border-radius: 22px 12px 30px 22px;
   background: var(--maroon);
   color: var(--white);
 }
 .question-challenges span { color: #ffd8e3; }
 .question-people {
-  --question-delay: 170ms;
   border-radius: 12px 28px 18px 28px;
   background: #d9f3ef;
   color: #135e59;
 }
 .question-people span { color: #177a73; }
 .question-new-life {
-  --question-delay: 340ms;
   border-radius: 28px 18px 28px 12px;
   background: #f4cf89;
   color: var(--maroon-dark);
@@ -307,7 +292,28 @@ label:has([role="radio"]:focus-visible),
 .quiet-button { border-color: #b9a9ae; background: rgba(255,255,255,.84); color: var(--maroon-dark); box-shadow: 0 3px 0 #cfc2c5; }
 .quiet-button:hover { border-color: var(--maroon); background: var(--white); transform: translateY(-1px); box-shadow: 0 4px 0 #a98f96; }
 .quiet-button:active { transform: translateY(2px); box-shadow: 0 1px 0 #a98f96; }
-.quiet-button:disabled { opacity: .35; cursor: not-allowed; box-shadow: none; }
+.quiet-button:disabled { opacity: .35; cursor: not-allowed; transform: none; box-shadow: none; }
+
+/* A short directional cue complements the existing button/press treatment.
+   Individual translate preserves the arrow's separate RTL mirroring. */
+.primary-button > .lucide-arrow-right,
+.quiet-button > .action-arrow,
+.card-action > .lucide-arrow-right { transition: translate .16s ease-out; }
+.primary-button:focus-visible > .lucide-arrow-right,
+.quiet-button:focus-visible > .action-arrow,
+.card-action:focus-visible > .lucide-arrow-right { translate: var(--action-shift, 3px) 0; }
+@media (hover: hover) and (pointer: fine) {
+  .primary-button:not(:disabled):hover > .lucide-arrow-right,
+  .quiet-button:not(:disabled):hover > .action-arrow,
+  .card-action:hover > .lucide-arrow-right { translate: var(--action-shift, 3px) 0; }
+}
+
+/* Feedback appears immediately, with a brief fade and no moving controls. */
+.feedback-card, .journey-insight { animation: feedback-arrive .18s ease-out; }
+@keyframes feedback-arrive {
+  from { opacity: .9; }
+  to { opacity: 1; }
+}
 .character-section { max-width: 1240px; margin: 0 auto; padding: 110px 30px 120px; }
 .section-heading {
   margin-bottom: 42px;
@@ -966,7 +972,7 @@ label:has([role="radio"]:focus-visible),
 }
 [dir="rtl"] .choice-card { text-align: right; }
 .choice-text { min-width: 0; overflow-wrap: anywhere; }
-[dir="rtl"] { font-family: Arial, "Noto Sans Arabic", sans-serif; }
+[dir="rtl"] { --action-shift: -3px; font-family: Arial, "Noto Sans Arabic", sans-serif; }
 [dir="rtl"] .home-nav,
 [dir="rtl"] .about-topbar,
 [dir="rtl"] .journey-topbar,
@@ -990,6 +996,7 @@ label:has([role="radio"]:focus-visible),
 [dir="rtl"] .about-back-link svg,
 [dir="rtl"] .decision-actions .quiet-button svg,
 [dir="rtl"] .primary-button svg,
+[dir="rtl"] .quiet-button > .action-arrow,
 [dir="rtl"] .card-action svg,
 [dir="rtl"] .hub-topic-arrow { transform: scaleX(-1); }
 [dir="rtl"] .hub-topic-grid > a:hover .hub-topic-arrow { transform: scaleX(-1) translateX(3px); }
@@ -1335,16 +1342,15 @@ label:has([role="radio"]:focus-visible),
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .hero-question-board.questions-ready:not(.questions-visible) .hero-question-card {
-    opacity: 1;
-    transform: none;
-  }
-  .hero-question-board.questions-visible .hero-question-card { animation: none; }
+  .primary-button > .lucide-arrow-right,
+  .quiet-button > .action-arrow,
+  .card-action > .lucide-arrow-right { translate: none !important; }
   *,
   *::before,
   *::after {
+    animation: none !important;
+    animation-delay: 0s !important;
     transition-duration: .01ms !important;
-    animation-duration: .01ms !important;
-    animation-iteration-count: 1 !important;
+    transition-delay: 0s !important;
   }
 }

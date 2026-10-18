@@ -46,6 +46,7 @@ Potential contributions include facilitated discussion, a more nuanced compariso
 - Reflection questions about the character's circumstances, support needs and the limits of individual choice.
 - A route finder and an Information Hub.
 - Multilingual text, keyboard controls and responsive layouts.
+- Gentle card and recap entrances, short feedback transitions and button cues that respect reduced-motion preferences.
 - Specific scenario and answer translations in all ten selectable languages.
 - Unfinished journeys saved on the current browser, with separate progress for each character.
 - Source publishers, subject areas and recorded consultation dates beside guidance, plus an explanation of the editorial approach on About.
@@ -120,6 +121,10 @@ The 18 October 2026 check identified a more suitable current WRC employment-righ
 An attempt keeps its answer order, selected answers, checked stages, current stage and reading mode. Correct-answer positions are balanced across the five stages and randomized when an attempt starts. A resume preserves that order; an explicit restart clears that character's current attempt. Completion removes the unfinished save and retains the explored badge. Saving uses browser storage, so progress stays in that browser and can be removed by clearing its site data. If saving is unavailable, the current page remains usable and explains the limitation.
 
 The progress envelope is versioned in `app/journey-progress.ts`. If a future content change alters what existing answer IDs mean, revise the stored-progress version or add a migration before accepting old answers against the new content.
+
+### Motion and reading continuity
+
+`app/use-page-motion.ts` adds small, once-only entrances to selected homepage and recap content. Content is fully visible by default, including when animation or intersection observation is unavailable. Stable content IDs prevent replays when changing language or re-filtering characters. Keyboard focus or a pointer press settles an active card immediately. Stage text uses a brief fade while the heading, answers and navigation controls remain stationary; the existing immediate focus and scrolling behavior is retained. Reduced-motion preferences skip these entrances, cancel them if the preference changes, and remove CSS animation and delay. Directional button cues preserve RTL icon mirroring.
 
 Generate fresh results from the revision you are working on; historical test reports describe earlier runs.
 

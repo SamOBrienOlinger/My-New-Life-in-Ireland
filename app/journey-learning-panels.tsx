@@ -41,7 +41,7 @@ export function JourneyRecap({ character, steps, answers, checkedSteps, language
   const practical = practicalResourcesForCharacter(character, copy);
   const guidance = guidanceForRecap(decisions).slice(0, Math.max(1, 3 - practical.length));
   return <div className="journey-recap">
-    <section className="recap-decisions" aria-labelledby="recap-decisions-title">
+    <section className="recap-decisions" data-reveal={`recap-decisions-${character.id}`} aria-labelledby="recap-decisions-title">
       <div className="recap-section-heading"><h3 id="recap-decisions-title">{copy.decisionsTitle}</h3>
         <p>{reviewCount ? copy.revisitCount.replace("{count}", String(reviewCount)) : copy.allConsidered}</p>
       </div>
@@ -62,14 +62,14 @@ export function JourneyRecap({ character, steps, answers, checkedSteps, language
       </li>)}</ol>
     </section>
 
-    <section className="recap-reflection" aria-labelledby="reflection-title">
+    <section className="recap-reflection" data-reveal={`recap-reflection-${character.id}`} aria-labelledby="reflection-title">
       <div className="insight-heading"><MessageCircle size={21} aria-hidden="true" /><h3 id="reflection-title">{copy.reflectTitle}</h3></div>
       <p>{copy.reflectIntro}</p>
       <div className="reflection-context"><h4>{copy.livedContext}</h4><p>{character.identity}</p><p>{character.stakes}</p></div>
       <ul><li>{copy.reflections[character.route]}</li><li>{copy.controlPrompt}</li><li>{copy.supportPrompt}</li></ul>
     </section>
 
-    <section className="recap-resources" aria-labelledby="recap-resources-title">
+    <section className="recap-resources" data-reveal={`recap-resources-${character.id}`} aria-labelledby="recap-resources-title">
       <div className="recap-section-heading"><h3 id="recap-resources-title">{copy.relatedResources}</h3><p>{copy.relatedIntro}</p></div>
       <div className="learning-resource-grid">
         {guidance.map(({ index, step }) => <article className="learning-resource-card" key={step.sourceUrl}>

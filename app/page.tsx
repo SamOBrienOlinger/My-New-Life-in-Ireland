@@ -25,6 +25,7 @@ import { learningCopy } from "./learning-copy";
 import { SourceDetails } from "./source-details";
 import { JourneyInsight, JourneyRecap } from "./journey-learning-panels";
 import { resourceTopicForRoute } from "./journey-learning";
+import { usePageMotion } from "./use-page-motion";
 
 const scrollBehavior = (): ScrollBehavior => window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth";
 
@@ -60,7 +61,7 @@ export default function Home() {
   const [completed, setCompleted] = useState(false);
   const [reviewing, setReviewing] = useState(false);
   const [plainLanguage, setPlainLanguage] = useState(true);
-  const questionBoardRef = useRef<HTMLElement>(null);
+  const pageRef = useRef<HTMLElement>(null);
   const decisionPanelRef = useRef<HTMLElement>(null);
   const stageHeadingRef = useRef<HTMLHeadingElement>(null);
   const completionHeadingRef = useRef<HTMLHeadingElement>(null);
@@ -116,6 +117,10 @@ export default function Home() {
   const recentJourney = Object.values(savedJourneys).sort((a, b) => b.updatedAt - a.updatedAt)[0];
   const recentCharacter = recentJourney ? characters.find((item) => item.id === recentJourney.characterId) : undefined;
 
+  usePageMotion(pageRef,
+    started ? (completed ? `recap:${selectedId}` : "journey") : `home:${filter}`,
+    started && !completed ? `${selectedId}:${stepIndex}` : null);
+
   useEffect(() => {
     const frame = window.requestAnimationFrame(() => {
       if (started) {
@@ -154,27 +159,6 @@ export default function Home() {
     window.addEventListener("hashchange", selectLinkedCharacter);
     return () => window.removeEventListener("hashchange", selectLinkedCharacter);
   }, []);
-
-  useEffect(() => {
-    const board = questionBoardRef.current;
-    if (!board) return;
-
-    board.classList.add("questions-ready");
-
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || !("IntersectionObserver" in window)) {
-      board.classList.add("questions-visible");
-      return;
-    }
-
-    const observer = new IntersectionObserver(([entry]) => {
-      if (!entry.isIntersecting) return;
-      board.classList.add("questions-visible");
-      observer.disconnect();
-    }, { threshold: 0.2 });
-
-    observer.observe(board);
-    return () => observer.disconnect();
-  }, [started]);
 
   function persistJourneys(journeys: SavedJourneys, finished = completedCharacters) {
     let mergedJourneys = journeys;
@@ -307,7 +291,7 @@ export default function Home() {
 
   if (started && character) {
     return (
-      <main className="journey-shell" lang={language} dir={dir}>
+      <main className="journey-shell" ref={pageRef} lang={language} dir={dir}>
         <header className="journey-topbar">
           <button className="brand-button" type="button" aria-label={`${t.siteName}: ${controls.returnHome}`} onClick={() => resetJourney()}>
             <img className="brand-mark" src="images/harp-heart-logo.png" alt="" aria-hidden="true" /><span>{t.siteName}</span>
@@ -344,13 +328,13 @@ export default function Home() {
               <Progress value={((stepIndex + 1) / steps.length) * 100} aria-label={t.progress} aria-valuetext={`${controls.stage} ${stepIndex + 1} ${t.of} ${steps.length}: ${step.stage}`} />
               <div className="decision-heading">
                 <div className="decision-kicker"><p className="eyebrow">{step.eyebrow}</p><span>{step.stage}</span></div>
-                <h2 id="decision-title" ref={stageHeadingRef} tabIndex={-1} aria-describedby="stage-progress">{step.title}</h2><p className="scene">{step.scene}</p>
+                <h2 id="decision-title" ref={stageHeadingRef} tabIndex={-1} aria-describedby="stage-progress">{step.title}</h2><p className="scene" data-stage-copy>{step.scene}</p>
               </div>
               <div className="learning-tools">
                 <button className="tool-button" type="button" onClick={readStep}><Volume2 size={17} aria-hidden="true" />{t.listen}</button>
                 <button className="tool-button" type="button" onClick={togglePlainLanguage}><Languages size={17} aria-hidden="true" />{plainLanguage ? t.detailed : t.plain}</button>
               </div>
-              <div className="law-card"><Scale size={22} aria-hidden="true" /><div><strong>{t.rule}</strong><p>{plainLanguage ? step.plainLaw : step.law}</p><a href={step.sourceUrl} target="_blank" rel="noreferrer">{t.source}: {step.sourceLabel}<ExternalLink size={14} aria-hidden="true" /></a><SourceDetails href={step.sourceUrl} language={language} /></div></div>
+              <div className="law-card" data-stage-copy><Scale size={22} aria-hidden="true" /><div><strong>{t.rule}</strong><p>{plainLanguage ? step.plainLaw : step.law}</p><a href={step.sourceUrl} target="_blank" rel="noreferrer">{t.source}: {step.sourceLabel}<ExternalLink size={14} aria-hidden="true" /></a><SourceDetails href={step.sourceUrl} language={language} /></div></div>
               <fieldset className="choice-fieldset">
                 <legend id="decision-question">{step.question}</legend>
                 <RadioGroup value={choiceId} onValueChange={selectAnswer} className="choice-list" aria-labelledby="decision-question" dir={dir}>
@@ -390,7 +374,7 @@ export default function Home() {
     );
   }
 
-  return <main lang={language} dir={dir}>
+  return <main ref={pageRef} lang={language} dir={dir}>
     <section className="hero-section hero-section-expanded" id="top">
       <nav className="home-nav" aria-label={`${t.siteName}: ${t.menu}`}><a className="brand-button" href="#top" aria-label={`${t.siteName}: ${t.home}`}><img className="brand-mark" src="images/harp-heart-logo.png" alt="" aria-hidden="true" /><span>{t.siteName}</span></a><div className="nav-links"><a className="nav-link" href="about/">{t.about}</a><a className="nav-link" href="resources/">{t.hub}</a><a className="nav-link" href="#official-guidance">{t.official}</a></div><LanguageControl language={language} setLanguage={setLanguage} label={t.language} /><MobileNavigation links={[{ href: "#top", label: t.home }, { href: "about/", label: t.about }, { href: "resources/", label: t.hub }, { href: "#official-guidance", label: t.official }]} language={language} setLanguage={setLanguage} languageLabel={t.language} menuLabel={t.menu} closeLabel={t.closeMenu} /></nav>
       <div className="hero-content hero-content-expanded">
@@ -413,32 +397,31 @@ export default function Home() {
           <button className="primary-button" type="button" disabled={!storageReady} onClick={() => resumeJourney(recentJourney)}>{controls.resumeJourney.replace("{name}", recentCharacter.name.split(" ")[0])}<ArrowRight size={18} aria-hidden="true" /></button>
         </div> : null}
         <section
-          ref={questionBoardRef}
           className="hero-question-board"
           aria-label={t.questionsExplored}
         >
           <p className="hero-question-intro">{t.questionsExplored}</p>
-          <a className="hero-question-card question-challenges" href="#choose-character"><span>{t.challengeLabel}</span><h2>{t.challengeQuestion}</h2><ArrowRight className="hero-question-arrow" size={20} aria-hidden="true" /></a>
-          <a className="hero-question-card question-people" href="#choose-character"><span>{t.peopleLabel}</span><h2>{t.peopleQuestion}</h2><ArrowRight className="hero-question-arrow" size={20} aria-hidden="true" /></a>
-          <a className="hero-question-card question-new-life" href="#choose-character"><span>{t.beginningLabel}</span><h2>{t.beginningQuestion}</h2><ArrowRight className="hero-question-arrow" size={20} aria-hidden="true" /></a>
+          <a className="hero-question-card question-challenges" data-reveal="question-challenges" href="#choose-character"><span>{t.challengeLabel}</span><h2>{t.challengeQuestion}</h2><ArrowRight className="hero-question-arrow" size={20} aria-hidden="true" /></a>
+          <a className="hero-question-card question-people" data-reveal="question-people" href="#choose-character"><span>{t.peopleLabel}</span><h2>{t.peopleQuestion}</h2><ArrowRight className="hero-question-arrow" size={20} aria-hidden="true" /></a>
+          <a className="hero-question-card question-new-life" data-reveal="question-new-life" href="#choose-character"><span>{t.beginningLabel}</span><h2>{t.beginningQuestion}</h2><ArrowRight className="hero-question-arrow" size={20} aria-hidden="true" /></a>
         </section>
         <div className="hero-actions"><a className="primary-button hero-button" href="#route-finder">{t.findJourney} <ArrowRight size={18} aria-hidden="true" /></a><a className="quiet-button hero-secondary" href="resources/"><BookOpen size={18} aria-hidden="true" /><span>{t.exploreInfo}</span><ArrowRight className="action-arrow" size={18} aria-hidden="true" /></a></div>
       </div>
     </section>
 
-    <section className="experience-map" aria-labelledby="experience-title"><div><p className="eyebrow">{t.howEyebrow}</p><h2 id="experience-title">{t.howTitle}</h2></div><ol><li><span className="experience-icon" aria-hidden="true"><Users /></span><div><strong>{t.how1}</strong><p>{t.how1p}</p></div></li><li><span className="experience-icon" aria-hidden="true"><ArrowRight /></span><div><strong>{t.how2}</strong><p>{t.how2p}</p></div></li><li><span className="experience-icon" aria-hidden="true"><Scale /></span><div><strong>{t.how3}</strong><p>{t.how3p}</p></div></li><li><span className="experience-icon" aria-hidden="true"><CheckCircle2 /></span><div><strong>{t.how4}</strong><p>{t.how4p}</p></div></li></ol></section>
+    <section className="experience-map" data-reveal="experience-map" aria-labelledby="experience-title"><div><p className="eyebrow">{t.howEyebrow}</p><h2 id="experience-title">{t.howTitle}</h2></div><ol><li><span className="experience-icon" aria-hidden="true"><Users /></span><div><strong>{t.how1}</strong><p>{t.how1p}</p></div></li><li><span className="experience-icon" aria-hidden="true"><ArrowRight /></span><div><strong>{t.how2}</strong><p>{t.how2p}</p></div></li><li><span className="experience-icon" aria-hidden="true"><Scale /></span><div><strong>{t.how3}</strong><p>{t.how3p}</p></div></li><li><span className="experience-icon" aria-hidden="true"><CheckCircle2 /></span><div><strong>{t.how4}</strong><p>{t.how4p}</p></div></li></ol></section>
 
-    <section className="route-finder" id="route-finder" aria-labelledby="route-finder-title"><div className="route-finder-copy"><p className="eyebrow">{t.routeEyebrow}</p><h2 id="route-finder-title">{t.routeTitle}</h2><p>{t.routeNote}</p></div><div className="route-filter-grid" role="group" aria-label={t.routeTitle}>{routeFilters.map((item) => { const local = localFilter(item.id, language); const selected = filter === item.id; return <button type="button" className={"route-filter " + (selected ? "selected" : "")} aria-pressed={selected} onClick={() => { setFilter(item.id); if (selectedId && item.id !== "all" && character?.filter !== item.id) setSelectedId(""); window.setTimeout(() => document.querySelector("#choose-character")?.scrollIntoView({ behavior: scrollBehavior(), block: "start" }), 0); }} key={item.id}><span className="route-filter-heading"><span>{local.label}</span><span className="selection-indicator" aria-hidden="true">{selected ? <Check size={14} /> : null}</span></span><small>{local.description}</small></button>; })}</div></section>
+    <section className="route-finder" id="route-finder" aria-labelledby="route-finder-title"><div className="route-finder-copy" data-reveal="route-finder-copy"><p className="eyebrow">{t.routeEyebrow}</p><h2 id="route-finder-title">{t.routeTitle}</h2><p>{t.routeNote}</p></div><div className="route-filter-grid" role="group" aria-label={t.routeTitle}>{routeFilters.map((item) => { const local = localFilter(item.id, language); const selected = filter === item.id; return <button type="button" className={"route-filter " + (selected ? "selected" : "")} aria-pressed={selected} onClick={() => { setFilter(item.id); if (selectedId && item.id !== "all" && character?.filter !== item.id) setSelectedId(""); window.setTimeout(() => document.querySelector("#choose-character")?.scrollIntoView({ behavior: scrollBehavior(), block: "start" }), 0); }} key={item.id}><span className="route-filter-heading"><span>{local.label}</span><span className="selection-indicator" aria-hidden="true">{selected ? <Check size={14} /> : null}</span></span><small>{local.description}</small></button>; })}</div></section>
 
     <section className="character-section character-section-expanded" id="choose-character">
-      <div className="section-heading"><div><p className="eyebrow">{t.chooseEyebrow}</p><h2 id="character-picker-title" tabIndex={-1}>{t.chooseTitle}</h2></div><div className="learning-progress-card"><Sparkles size={20} aria-hidden="true" /><div><strong>{completedCharacters.length} {t.of} 12 {t.explored}</strong><span>{storageAvailable ? t.saved : controls.saveUnavailable}</span></div></div></div>
+      <div className="section-heading" data-reveal="character-heading"><div><p className="eyebrow">{t.chooseEyebrow}</p><h2 id="character-picker-title" tabIndex={-1}>{t.chooseTitle}</h2></div><div className="learning-progress-card"><Sparkles size={20} aria-hidden="true" /><div><strong>{completedCharacters.length} {t.of} 12 {t.explored}</strong><span>{storageAvailable ? t.saved : controls.saveUnavailable}</span></div></div></div>
       <div className="start-bar" aria-live="polite">{character ? <><div><span className="mini-label">{t.selected}</span><strong>{character.name} · {localRoute(character.route, language).label}</strong>{selectedSavedJourney ? <span>{controls.stage} {selectedSavedJourney.stepIndex + 1} {t.of} {steps.length}</span> : null}</div><div className="start-actions"><button className="primary-button" type="button" disabled={!storageReady} onClick={beginJourney}>{selectedSavedJourney ? controls.resumeJourney.replace("{name}", character.name.split(" ")[0]) : t.begin}<ArrowRight size={18} aria-hidden="true" /></button>{selectedSavedJourney ? <button className="quiet-button restart-button" type="button" disabled={!storageReady} onClick={restartJourney}>{controls.restart}</button> : null}</div></> : <p>{visibleCharacters.length ? t.selectPrompt : t.emptyPrompt}</p>}</div>
-      <RadioGroup value={selectedId} onValueChange={setSelectedId} className="character-grid" aria-label={t.choose} dir={dir}>{visibleCharacters.map((item) => { const Icon = routeIcons[item.route]; const finished = completedCharacters.includes(item.id); return <label id={`character-${item.id}`} className={"character-card " + (selectedId === item.id ? "selected" : "")} key={item.id}><RadioGroupItem value={item.id} id={item.id} className="sr-only" aria-labelledby={`character-name-${item.id}`} aria-describedby={`character-summary-${item.id}`} /><div className="card-topline"><CharacterPortrait character={item} /><span className="route-tag"><Icon size={14} aria-hidden="true" />{localRoute(item.route, language).short}</span></div>{finished ? <span className="completed-badge"><Check size={13} aria-hidden="true" />{t.exploredBadge}</span> : null}<h3 id={`character-name-${item.id}`}>{item.name}</h3><p className="character-meta">{item.pronouns} · {item.origin}</p><p className="character-role">{item.role}</p><p className="character-summary" id={`character-summary-${item.id}`}>{item.summary}</p><a className="card-action" href={`#character-${item.id}`} onClick={(event) => { if (!event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey && event.button === 0) setSelectedId(item.id); }}>{t.walkWith} {item.name.split(" ")[0]} <ArrowRight size={16} aria-hidden="true" /></a></label>; })}</RadioGroup>
+      <RadioGroup value={selectedId} onValueChange={setSelectedId} className="character-grid" aria-label={t.choose} dir={dir}>{visibleCharacters.map((item) => { const Icon = routeIcons[item.route]; const finished = completedCharacters.includes(item.id); return <label id={`character-${item.id}`} data-reveal={`character-${item.id}`} className={"character-card " + (selectedId === item.id ? "selected" : "")} key={item.id}><RadioGroupItem value={item.id} id={item.id} className="sr-only" aria-labelledby={`character-name-${item.id}`} aria-describedby={`character-summary-${item.id}`} /><div className="card-topline"><CharacterPortrait character={item} /><span className="route-tag"><Icon size={14} aria-hidden="true" />{localRoute(item.route, language).short}</span></div>{finished ? <span className="completed-badge"><Check size={13} aria-hidden="true" />{t.exploredBadge}</span> : null}<h3 id={`character-name-${item.id}`}>{item.name}</h3><p className="character-meta">{item.pronouns} · {item.origin}</p><p className="character-role">{item.role}</p><p className="character-summary" id={`character-summary-${item.id}`}>{item.summary}</p><a className="card-action" href={`#character-${item.id}`} onClick={(event) => { if (!event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey && event.button === 0) setSelectedId(item.id); }}>{t.walkWith} {item.name.split(" ")[0]} <ArrowRight size={16} aria-hidden="true" /></a></label>; })}</RadioGroup>
     </section>
 
-    <section className="hub-preview" id="information-hub-topics" aria-labelledby="hub-title"><div><p className="eyebrow">{t.afterStory}</p><h2 id="hub-title">{t.practicalTitle}</h2><p>{t.practicalText}</p><a className="primary-button" href="resources/">{t.openHub} <ArrowRight size={18} aria-hidden="true" /></a></div><nav className="hub-topic-grid" aria-label={t.hub}><a href="resources/?topic=work#resource-browser"><BriefcaseBusiness aria-hidden="true" /><span>{t.workPermits}</span><ArrowRight className="hub-topic-arrow" size={18} aria-hidden="true" /></a><a href="resources/?topic=protection#resource-browser"><ShieldCheck aria-hidden="true" /><span>{t.protectionSafety}</span><ArrowRight className="hub-topic-arrow" size={18} aria-hidden="true" /></a><a href="resources/?topic=study#resource-browser"><GraduationCap aria-hidden="true" /><span>{t.studyEducation}</span><ArrowRight className="hub-topic-arrow" size={18} aria-hidden="true" /></a><a href="resources/?topic=family#resource-browser"><HeartHandshake aria-hidden="true" /><span>{t.familyCommunity}</span><ArrowRight className="hub-topic-arrow" size={18} aria-hidden="true" /></a><a href="resources/?topic=arrival#resource-browser"><MapPin aria-hidden="true" /><span>{t.arrivalRegistration}</span><ArrowRight className="hub-topic-arrow" size={18} aria-hidden="true" /></a><a href="resources/?topic=rights#resource-browser"><Scale aria-hidden="true" /><span>{t.rightsAdvice}</span><ArrowRight className="hub-topic-arrow" size={18} aria-hidden="true" /></a></nav></section>
+    <section className="hub-preview" id="information-hub-topics" aria-labelledby="hub-title"><div data-reveal="hub-introduction"><p className="eyebrow">{t.afterStory}</p><h2 id="hub-title">{t.practicalTitle}</h2><p>{t.practicalText}</p><a className="primary-button" href="resources/">{t.openHub} <ArrowRight size={18} aria-hidden="true" /></a></div><nav className="hub-topic-grid" data-reveal="hub-topics" aria-label={t.hub}><a href="resources/?topic=work#resource-browser"><BriefcaseBusiness aria-hidden="true" /><span>{t.workPermits}</span><ArrowRight className="hub-topic-arrow" size={18} aria-hidden="true" /></a><a href="resources/?topic=protection#resource-browser"><ShieldCheck aria-hidden="true" /><span>{t.protectionSafety}</span><ArrowRight className="hub-topic-arrow" size={18} aria-hidden="true" /></a><a href="resources/?topic=study#resource-browser"><GraduationCap aria-hidden="true" /><span>{t.studyEducation}</span><ArrowRight className="hub-topic-arrow" size={18} aria-hidden="true" /></a><a href="resources/?topic=family#resource-browser"><HeartHandshake aria-hidden="true" /><span>{t.familyCommunity}</span><ArrowRight className="hub-topic-arrow" size={18} aria-hidden="true" /></a><a href="resources/?topic=arrival#resource-browser"><MapPin aria-hidden="true" /><span>{t.arrivalRegistration}</span><ArrowRight className="hub-topic-arrow" size={18} aria-hidden="true" /></a><a href="resources/?topic=rights#resource-browser"><Scale aria-hidden="true" /><span>{t.rightsAdvice}</span><ArrowRight className="hub-topic-arrow" size={18} aria-hidden="true" /></a></nav></section>
 
-    <section className="guidance-section" id="official-guidance"><div className="guidance-intro"><p className="eyebrow">{t.checkEyebrow}</p><h2>{t.checkTitle}</h2><p>{t.checkText}</p><a className="source-method-link" href="about/#source-method">{learning.sourceMethodLink}</a></div><div className="source-list source-list-detailed">{officialSources.map(([label, description, href], index) => <a href={href} target="_blank" rel="noreferrer" key={href}><span><strong>{label}</strong><small>{language === "en" ? description : officialSourceDescriptions[language][index]}</small></span><ExternalLink size={17} aria-hidden="true" /></a>)}</div></section>
+    <section className="guidance-section" id="official-guidance"><div className="guidance-intro" data-reveal="guidance-introduction"><p className="eyebrow">{t.checkEyebrow}</p><h2>{t.checkTitle}</h2><p>{t.checkText}</p><a className="source-method-link" href="about/#source-method">{learning.sourceMethodLink}</a></div><div className="source-list source-list-detailed">{officialSources.map(([label, description, href], index) => <a href={href} target="_blank" rel="noreferrer" key={href}><span><strong>{label}</strong><small>{language === "en" ? description : officialSourceDescriptions[language][index]}</small></span><ExternalLink size={17} aria-hidden="true" /></a>)}</div></section>
     <footer className="site-footer"><div className="site-footer-content"><p><strong>{t.siteName}</strong> - {t.tagline}</p><p><a href="https://samobrienolinger.github.io/SamOBrienOlinger/" target="_blank" rel="noreferrer">Sam Tim Solutions</a></p><p className="site-footer-copyright">{t.copyright}</p></div></footer>
   </main>;
 }
