@@ -1,0 +1,152 @@
+import type { LearningCopy } from "./en";
+
+const copy = {
+  recapTitle: "Do thuras le {name}",
+  recapIntro: "Féach siar ar do chinntí, athscrúdaigh na pointí a bhfuil tuilleadh airde de dhíth orthu agus aimsigh foinsí úsáideacha don chéad chéim eile.",
+  decisionsTitle: "Míniú ar do chinntí",
+  revisitCount: "Cinntí le hathscrúdú: {count}",
+  allConsidered: "D’aithin tú an rogha níos eolasaí ag gach céim. Fiosraigh na cúiseanna agus na hacmhainní thíos.",
+  yourChoice: "Do rogha",
+  informedChoice: "Rogha níos eolasaí",
+  worthRevisiting: "Is fiú breathnú air arís",
+  saferOption: "Rogha le machnamh uirthi",
+  revisitDecision: "Athscrúdaigh an cinneadh seo",
+  revisitLabel: "Athscrúdaigh {stage}: {title}",
+  returnToRecap: "Ar ais chuig d’achoimre",
+  misunderstanding: "Míthuiscint choitianta",
+  nextStep: "Céad chéim úsáideach eile",
+  checkSource: "Seiceáil an treoir",
+  relatedResources: "Foinsí don turas seo",
+  relatedIntro: "Tosaigh leis na ceisteanna a d’eascair as do chinntí. Tá a cuspóir agus a coinníollacha féin ag gach foinse.",
+  openResource: "Oscail an acmhainn",
+  reflectTitle: "Stad agus déan machnamh",
+  reflectIntro: "Smaoinigh ar chúinsí an duine fhicseanúil seo. Ní thugtar scór ar na ceisteanna seo.",
+  controlPrompt: "Cad a bhí faoi smacht an duine seo, agus cad a bhí ag brath ar dhaoine eile, ar sheirbhísí nó ar chúinsí?",
+  supportPrompt: "Cén tacaíocht a d’fhéadfadh an chéad chéim eile a dhéanamh níos soláimhsithe?",
+  livedContext: "Coinnigh cúinsí an duine san áireamh",
+  sourcePublisher: "Foilsithe ag",
+  sourceScope: "Ábhar",
+  sourceChecked: "Dáta seiceála na foinse",
+  sourceUndated: "Níor taifeadadh dáta seiceála na foinse",
+  sourceDateMeaning: "Taifeadann an dáta seiceála cathain a seiceáladh an leathanach nasctha don tionscadal seo. Ní hé dáta nuashonraithe an fhoilsitheora é ná ráthaíocht nach bhfuil riail athraithe.",
+  sourceMethod: "Conas a úsáidimid agus a sheiceálaimid foinsí",
+  sourceMethodIntro: "Nascann an treoir leis an gcomhlacht poiblí atá freagrach aisti nó le heagraíocht speisialtóra atá ainmnithe. Taispeántar an foilsitheoir, an t-ábhar agus dáta seiceála na foinse in aice le gach foinse nuair atá siad taifeadta. Oscail an fhoinse chun a coinníollacha reatha agus na daoine lena mbaineann sí a sheiceáil.",
+  sourceMethodContent: "Déanann na scéalta cás a shimpliú chun foghlaim a éascú. Míníonn an t-aiseolas an cinneadh sa radharc sin; ní féidir leis incháilitheacht duine fíor a mheas. Léiríonn scór roghanna sa chleachtadh, ní ullmhacht chun dul ar imirce ná toradh dóchúil iarratais.",
+  sourceMethodTranslation: "Tá sé mar aidhm ag na haistriúcháin na cásanna céanna, brí na bhfreagraí agus na naisc fhoinseacha a chaomhnú. Áiseanna foghlama iad, ní aistriúcháin oifigiúla ar an treoir nasctha. Is é eolas reatha an bhunfhoilsitheora an tagairt i gcónaí do chinntí sa saol fíor.",
+  sourceMethodReflection: "Fiosraíonn na ceisteanna machnaimh bacainní sna scéalta ficseanúla, lena n-áirítear éiginnteacht, freagrachtaí cúraim, riachtanais rochtana agus spleáchas ar dhaoine eile. Ní mhaíonn siad go léiríonn siad taithí gach imircigh ná gur fianaise ó dhuine fíor iad.",
+  sourceMethodLink: "Léigh faoinár bhfoinsí",
+  professionalTitle: "Clárú altranais agus cnáimhseachais",
+  professionalDescription: "D’altraí agus do chnáimhseacha a cháiligh lasmuigh den AE: seiceáil aitheantas cáilíochtaí agus clárú gairmiúil le NMBI, chomh maith leis na riachtanais ábhartha inimirce.",
+  professionalAction: "Seiceáil na céimeanna clárúcháin ghairmiúil don phost altranais seo.",
+  taxTitle: "Do chéad phost a chlárú chun críocha cánach",
+  taxDescription: "Do dhaoine atá ag tosú ar a gcéad phost in Éirinn: míníonn na Coimisinéirí Ioncaim conas an post a chlárú le huimhir PPS agus myAccount, agus conas a chabhraíonn sé seo le cáin éigeandála a sheachaint.",
+  taxAction: "Seiceáil céimeanna na gCoimisinéirí Ioncaim chun an chéad phost a chlárú agus tú ag ullmhú le tosú ag obair.",
+  scopes: {
+    immigration: "Ceadanna agus coinníollacha inimirce",
+    employment: "Ceadanna fostaíochta agus cearta san ionad oibre",
+    protection: "Cosaint idirnáisiúnta agus glacadh",
+    "public-services": "Seirbhísí poiblí agus an saol laethúil",
+    equality: "Comhionannas agus idirdhealú",
+    "specialist-support": "Eolas agus tacaíocht neamhspleách speisialtóra",
+    "professional-registration": "Cáilíochtaí gairmiúla agus clárú",
+    "general-information": "Eolas ginearálta agus treorú chuig foinsí",
+  },
+  insights: {
+    offer: {
+      explanation: "Ní cead fostaíochta í tairiscint poist. Caithfear na dualgais iarbhír, an fostóir agus na critéir reatha ceada a sheiceáil fós.",
+      action: "Cuir an tairiscint scríofa i gcomparáid leis an seicliosta oifigiúil agus tabhair faoi deara cad atá le deimhniú fós.",
+    },
+    permissions: {
+      explanation: "Ní chríochnaíonn ceadú amháin gach céim inimirce. Freagraíonn cead oibre, víosa nuair is gá, iontráil agus clárú cónaithe ceisteanna éagsúla.",
+      action: "Déan liosta de na ceaduithe agus na doiciméid a theastaíonn don bhealach seo, ag úsáid na foinse reatha.",
+    },
+    travel: {
+      explanation: "Ní chuireann ceadú deireadh leis an ngá le fíorchuspóir an taistil a mhíniú. Ba cheart do chuntas an duine agus do na doiciméid tacaíochta a bheith comhsheasmhach.",
+      action: "Aithin na doiciméid a mhíníonn an turas seo agus coinnigh rochtain shlán orthu don taisteal.",
+    },
+    registration: {
+      explanation: "Tá críocha éagsúla ag uimhir PPS, coinne agus cead inimirce. Ní chiallaíonn críochnú phróiseas seirbhíse amháin go bhfuil próisis na seirbhísí eile críochnaithe.",
+      action: "Seiceáil cé na céimeanna clárúcháin a bhaineann leis an gcás agus coinnigh taifead ar leith ar gach coinne agus riachtanas.",
+    },
+    workRights: {
+      explanation: "Ní chiallaíonn spleáchas ar fhostóir go gcaithfear glacadh le gach éileamh. Is ceisteanna ar leith iad coinníollacha inimirce agus cearta fostaíochta, le seiceáil leis an tseirbhís ábhartha.",
+      action: "Coinnigh taifid shábháilte ar uaireanta, pá agus teachtaireachtaí, agus aithin foinse neamhspleách comhairle fostaíochta.",
+    },
+    protection: {
+      explanation: "Níl aon script ann a ráthaíonn cosaint. Tá cúinsí an duine féin, cuntas fírinneach agus an nós imeachta ábhartha tábhachtach.",
+      action: "Úsáid an t-eolas cosanta a bhaineann leis an iarratas agus aithin cá háit ar féidir tacaíocht neamhspleách dlí a iarraidh.",
+    },
+    evidence: {
+      explanation: "Ní cúis le fianaise a chumadh í easpa fianaise. Ní hionann fíorbhearnaí a mhíniú agus fiafraí cén fhianaise eile a d’fhéadfadh cabhrú agus an scéal a athrú.",
+      action: "Liostaigh an fhianaise atá ann, an méid atá ar iarraidh agus cad is gá a phlé le comhairleoir.",
+    },
+    services: {
+      explanation: "Seans nach ndéanann seirbhís a chabhraíonn le riachtanas amháin cinneadh faoi riachtanas eile. Tá róil éagsúla ag cóiríocht, cinntí cosanta, cúram sláinte agus comhairle dlí.",
+      action: "Meaitseáil an cheist láithreach leis an tseirbhís atá freagrach agus coinnigh taifead ar an gcéad teagmháil eile.",
+    },
+    protectionWork: {
+      explanation: "Seans nach gcruthaíonn taithí iarratasóra eile ceart oibre an duine seo. Caithfear an nós imeachta ábhartha, an t-uainiú agus an cead aonair a sheiceáil.",
+      action: "Seiceáil an treoir reatha faoi rochtain ar an margadh saothair agus cead an duine sula ndéanann tú plean oibre.",
+    },
+    study: {
+      explanation: "Ní réitíonn tairiscint choláiste socruithe inimirce, tithíochta ná airgeadais. Caithfidh plean staidéir inmharthana gach ceann díobh a chur san áireamh.",
+      action: "Úsáid an seicliosta mac léinn chun ceisteanna cúrsa, airgeadais, árachais agus cóiríochta atá fós le réiteach a aithint.",
+    },
+    studentWork: {
+      explanation: "Ní cead oibre gan teorainn é cead mac léinn. Tá an stampa iarbhír, na huaireanta ceadaithe agus na dátaí ábhartha tábhachtach.",
+      action: "Cuir an sceideal oibre beartaithe i gcomparáid le coinníollacha reatha chead an mhic léinn.",
+    },
+    family: {
+      explanation: "Níl aon iarratas teaghlaigh amháin ann do chách. Is iad stádas an urraitheora agus an caidreamh a chinneann cén treoir ba cheart a úsáid.",
+      action: "Aimsigh an treoir don urraitheoir agus don chaidreamh seo, ansin oibrigh trína riachtanais fianaise.",
+    },
+    familyWork: {
+      explanation: "Ní mhíníonn teacht chun bheith le teaghlach gach teidlíocht oibre as féin. Caithfear coinníollacha fhíorchead inimirce an duine a sheiceáil.",
+      action: "Seiceáil an cead taifeadta agus a choinníollacha oibre sula mbraitheann tú ar thoimhde fostóra.",
+    },
+    support: {
+      explanation: "Ní réitíonn cead amháin tithíocht, sláinte, ioncam ná aonrú. D’fhéadfadh foinsí éagsúla cabhrach a bheith ag teastáil do riachtanais éagsúla.",
+      action: "Roghnaigh riachtanas láithreach amháin agus aithin seirbhís neamhspleách nó nasc pobail oiriúnach.",
+    },
+    access: {
+      explanation: "Ní chiallaíonn tairiscint seirbhíse go bhfuil sí inrochtana. D’fhéadfadh míchumas infheicthe a bheith ina chuid amháin de riachtanais tacaíochta duine.",
+      action: "Déan cur síos ar an mbac sonrach, iarr go dtaifeadfaí riachtanais agus aithin an teagmhálaí cuí tacaíochta nó gearán.",
+    },
+    participation: {
+      explanation: "Níor cheart caitheamh le deacracht rannpháirtíochta mar easpa suime. D’fhéadfadh riachtanais ateangaireachta, sláinte nó rochtana a éileamh go bpléifí tacaíocht roimh ré.",
+      action: "Inis don tseirbhís agus don chomhairleoir ábhartha cén tacaíocht a d’fhéadfadh a bheith de dhíth chun páirt a ghlacadh sa choinne.",
+    },
+    euWork: {
+      explanation: "Athraíonn saoránacht AE ceist an cheada fostaíochta. Tá clárú cánach agus uimhir PPS ar leithligh ó bhonn cheart oibre an duine.",
+      action: "Seiceáil an treoir do shaoránaigh AE agus pléigh leis na riachtanais éagsúla seirbhísí poiblí ceann ar cheann.",
+    },
+    euResidence: {
+      explanation: "Ní chiallaíonn saorghluaiseacht go bhfuil na coinníollacha céanna ag gach cás cónaithe. Caithfear bonn agus fad an fhanachta a mheas.",
+      action: "Aithin an bonn cónaithe ábhartha agus an fhianaise a d’fhéadfadh a bheith ag teastáil don chás seo.",
+    },
+    equality: {
+      explanation: "D’fhéadfadh níos mó ná ceist comhionannais amháin eascairt as diúltú nó teagmhas oibre. Ní leor féiniúlacht duine inti féin chun a chinneadh an n-éireoidh le héileamh dlíthiúil.",
+      action: "Coinnigh taifead fíorasach ar an méid a tharla agus lorg comhairle thráthúil faoin bpróiseas cuí agus na teorainneacha ama.",
+    },
+    abuse: {
+      explanation: "Ní cinneadh inimirce í bagairt ó pháirtí a dhéanann drochíde. Tugann tacaíocht sábháilteachta agus comhairle faoi chead neamhspleách aghaidh ar riachtanais nasctha ach éagsúla.",
+      action: "Aithin bealach sábháilte chun teagmháil a dhéanamh le tacaíocht speisialtóra agus fiafraigh faoin bpróiseas ábhartha ceada neamhspleách.",
+    },
+    safeContact: {
+      explanation: "Níl modh teagmhála úsáideach ach amháin más féidir leis an duine é a úsáid go sábháilte. B’fhéidir nach dtugann gléas, cuntas nó ateangaire roinnte príobháideachas.",
+      action: "Déan machnamh ar mhodh teagmhála níos sábháilte le seirbhís tacaíochta speisialtóra, agus cúinsí an duine á gcur san áireamh.",
+    },
+  },
+  reflections: {
+    critical: "Conas a d’fhéadfadh dáta tosaithe, riachtanais ghairmiúla nó brú ó fhostóir dul i bhfeidhm ar an am atá ar fáil chun cinneadh eolasach a dhéanamh?",
+    general: "Conas a d’fhéadfadh táillí earcaíochta, smacht ar dhoiciméid nó spleáchas ar fhostóir é a dhéanamh níos deacra socrú míshábháilte a cheistiú?",
+    protection: "Conas a d’fhéadfadh eagla, ídiú, scaradh ón teaghlach nó doiciméid ar iarraidh dul i bhfeidhm ar chumas duine a mhíniú cad a tharla?",
+    study: "Conas a d’fhéadfadh costais tithíochta, brú airgeadais nó aonrú dul i bhfeidhm ar chumas mac léinn leanúint leis an gcúrsa?",
+    family: "Conas a d’fhéadfadh duine rochtain neamhspleách ar eolas, doiciméid agus tacaíocht a fhorbairt agus é ag socrú síos le teaghlach?",
+    "protection-access": "Cén chuma a bheadh ar rochtain fhiúntach nuair is gá soghluaisteacht, pian, tuismitheoireacht agus coinní a mheas le chéile?",
+    "eu-mobility": "Conas is féidir le cearta foirmiúla agus taithí laethúil a bheith éagsúil nuair a théann ciníochas, idirdhealú aoise nó trasfóibe i bhfeidhm ar rochtain ar obair agus ar thithíocht?",
+    "family-safety": "Conas a d’fhéadfadh smacht airgeadais, bacainní teanga, leanaí agus gléas a bhfuil faire á dhéanamh air teorainn a chur leis na roghanna a bhfuil cuma orthu go bhfuil siad ar fáil?",
+  },
+} satisfies LearningCopy;
+
+export default copy;
