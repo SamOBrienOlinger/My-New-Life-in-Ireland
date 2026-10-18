@@ -896,6 +896,74 @@ label:has([role="radio"]:focus-visible),
 .readiness-meter { max-width: 420px; margin: 0 auto 30px; display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
 .readiness-meter span { height: 9px; border-radius: 999px; background: var(--paper-deep); }
 .readiness-meter .filled { background: var(--teal-dark); }
+
+/* Learning support follows the same reading order in LTR and RTL layouts. */
+.source-details { margin: 13px 0 0; color: var(--muted-ink); font-size: .76rem; line-height: 1.55; text-align: start; }
+.source-details > div { display: flex; flex-wrap: wrap; column-gap: .45em; margin-block: 3px; }
+.source-details dt { font-weight: 750; }
+.source-details dt::after { content: ":"; }
+.source-details dd { min-width: 0; margin: 0; overflow-wrap: anywhere; }
+.source-details bdi { unicode-bidi: isolate; }
+.source-details time { white-space: normal; }
+.source-date-note { color: var(--muted-ink); font-size: .79rem; line-height: 1.65; }
+.source-date-note a, .source-method-link { color: var(--teal-dark); text-underline-offset: 3px; }
+.source-method-link { min-height: 44px; display: inline-flex; align-items: center; font-weight: 750; }
+.law-card > div { min-width: 0; }
+.resource-card .source-details { margin-top: auto; }
+.resources-hero .source-date-note { max-width: 800px; font-size: .85rem; }
+.resources-hero .source-date-note a { color: #fff; }
+#source-method { scroll-margin-block-start: 28px; }
+
+.journey-insight { margin-top: 18px; padding: 21px; border: 1px solid var(--line); border-radius: 16px; background: #faf7ef; text-align: start; }
+.insight-heading { display: flex; align-items: flex-start; gap: 10px; }
+.insight-heading > svg { flex: 0 0 auto; margin-block-start: 2px; color: var(--teal-dark); }
+.journey-insight h3, .recap-reflection h3 { margin: 0; font-size: 1.06rem; line-height: 1.45; }
+.journey-insight h4, .recap-answer-detail h4, .reflection-context h4 { margin: 16px 0 4px; font-size: .82rem; font-weight: 800; }
+.journey-insight p, .recap-answer-detail p, .recap-reflection p, .recap-reflection li { margin: 8px 0; color: var(--muted-ink); font-size: .92rem; line-height: 1.65; }
+.insight-source-link, .recap-answer-actions a, .learning-resource-card a { display: inline-flex; align-items: center; gap: 7px; min-height: 44px; max-width: 100%; color: var(--teal-dark); font-size: .84rem; font-weight: 750; text-underline-offset: 3px; }
+.insight-source-link svg, .recap-answer-actions svg, .learning-resource-card a svg { flex: 0 0 auto; }
+.stage-practical-resources { margin-block-start: 14px; }
+.recap-return { margin-block-start: 16px; max-width: 100%; }
+
+.journey-recap { margin-block-start: 32px; text-align: start; }
+.recap-section-heading { margin-block-end: 18px; }
+.recap-section-heading h3 { margin: 0 0 8px; font-family: Georgia, serif; font-size: clamp(1.45rem, 2.4vw, 1.9rem); line-height: 1.2; }
+.recap-section-heading p { margin: 0; color: var(--muted-ink); font-size: .92rem; line-height: 1.6; }
+.decision-recap-list { display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; }
+.decision-recap { border: 1px solid var(--line); border-radius: 14px; background: #fff; overflow-wrap: anywhere; }
+.decision-recap summary { min-height: 52px; padding: 18px; cursor: pointer; line-height: 1.5; }
+.decision-recap summary::marker { color: var(--teal-dark); }
+.decision-recap summary:focus-visible { outline: 3px solid var(--teal-dark); outline-offset: 4px; border-radius: 12px; }
+.recap-stage { display: inline-block; margin-inline-end: 8px; color: var(--teal-dark); font-size: .75rem; font-weight: 800; }
+.recap-step-title { font-size: .97rem; font-weight: 800; }
+.recap-outcome { display: block; width: fit-content; max-width: 100%; margin-block-start: 9px; padding: 4px 10px; border-radius: 8px; background: #ddf5f2; color: var(--teal-dark); font-size: .73rem; font-weight: 800; }
+.needs-review .recap-outcome { background: #fff1d8; color: #7a4a0d; }
+.recap-answer-detail { padding: 0 18px 18px; border-block-start: 1px solid var(--line); }
+.recap-answer-detail .recap-consequence { padding-inline-start: 12px; border-inline-start: 3px solid var(--teal); }
+.recap-answer-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 20px; margin-block-start: 14px; }
+.recap-answer-actions .quiet-button { max-width: 100%; text-align: start; }
+.recap-reflection { margin-block: 28px; padding: 23px; border-radius: 16px; background: #f3f0e9; }
+.reflection-context { margin-block: 16px; padding-inline-start: 14px; border-inline-start: 3px solid var(--maroon); }
+.reflection-context h4 { color: var(--maroon-dark); }
+.reflection-context p { margin-block: 5px; }
+.recap-reflection ul { margin: 18px 0 0; padding-inline-start: 21px; }
+.recap-reflection li { padding-inline-start: 3px; }
+.law-card .source-details, .recap-reflection p, .recap-reflection li { color: #5f5256; }
+.learning-resource-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 235px), 1fr)); gap: 14px; }
+.learning-resource-card { display: flex; flex-direction: column; min-width: 0; padding: 20px; border: 1px solid var(--line); border-radius: 14px; background: #fff; overflow-wrap: anywhere; }
+.learning-resource-card h4 { margin: 0 0 9px; font-size: 1rem; line-height: 1.45; }
+.learning-resource-card p { margin: 0 0 14px; color: var(--muted-ink); font-size: .85rem; line-height: 1.65; }
+.learning-resource-card .source-details { margin-top: auto; }
+.learning-resource-card a { margin-block-start: 12px; }
+.completion-card .source-date-note { margin-block-start: 17px; }
+
+@media (max-width: 480px) {
+  .journey-insight, .recap-reflection { padding: 17px; }
+  .decision-recap summary { padding: 16px; }
+  .recap-answer-detail { padding-inline: 16px; }
+  .learning-resource-card { padding: 17px; }
+  .recap-answer-actions { align-items: stretch; flex-direction: column; }
+}
 [dir="rtl"] .choice-card { text-align: right; }
 .choice-text { min-width: 0; overflow-wrap: anywhere; }
 [dir="rtl"] { font-family: Arial, "Noto Sans Arabic", sans-serif; }
