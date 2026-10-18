@@ -48,7 +48,7 @@ test("renders the public experience with ownership and About links", async () =>
   assert.match(html, /Elena Petrova/);
   assert.match(html, /Leila Rahman/);
   assert.match(html, /<strong>40<\/strong><small>decisions<\/small>/);
-  assert.match(html, /interactive learning about immigration\./);
+  assert.match(html, /is an interactive learning platform\. The goal is to educate everybody to empower everyone\./);
   assert.match(html, /Copyright © 2026\. All rights reserved/);
   assert.match(html, /href="https:\/\/samobrienolinger\.github\.io\/SamOBrienOlinger\/"/);
 });
@@ -71,7 +71,7 @@ test("renders the Ireland information hub", async () => {
   assert.match(html, /Find the right source for the next question/);
   assert.match(html, /Registering immigration permission/);
   assert.match(html, /Independent status after domestic abuse/);
-  assert.match(html, /interactive learning about immigration\./);
+  assert.match(html, /is an interactive learning platform\. The goal is to educate everybody to empower everyone\./);
   assert.match(html, /Copyright © 2026\. All rights reserved/);
   assert.match(html, /href="https:\/\/samobrienolinger\.github\.io\/SamOBrienOlinger\/"/);
 });

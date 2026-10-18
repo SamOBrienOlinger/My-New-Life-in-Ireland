@@ -14,6 +14,7 @@ import {
 import { MobileNavigation } from "../mobile-navigation";
 import { resourceDescription } from "../journey-translations";
 import { learningCopy } from "../learning-copy";
+import { FooterTagline } from "../footer-tagline";
 import { practicalResources } from "../journey-learning";
 import { SourceDetails } from "../source-details";
 
@@ -155,6 +156,6 @@ export default function ResourcesPage() {
 
     <section className="first-week-checklist" aria-labelledby="first-week-title"><div><p className="eyebrow">{r.arrival}</p><h2 id="first-week-title">{r.week}</h2><p>{r.weekIntro}</p></div><ul>{r.questions.map((question)=><li key={question}>{question}</li>)}</ul></section>
 
-    <footer className="site-footer"><div className="site-footer-content"><p><strong>{t.siteName}</strong> - {t.tagline}</p><p><a href="https://samobrienolinger.github.io/SamOBrienOlinger/" target="_blank" rel="noreferrer">Sam Tim Solutions</a></p><p className="site-footer-copyright">{t.copyright}</p></div></footer>
+    <footer className="site-footer"><div className="site-footer-content"><FooterTagline siteName={t.siteName} text={t.tagline} /><p><a href="https://samobrienolinger.github.io/SamOBrienOlinger/" target="_blank" rel="noreferrer">Sam Tim Solutions</a></p><p className="site-footer-copyright">{t.copyright}</p></div></footer>
   </main>;
 }
