@@ -375,21 +375,23 @@ export default function Home() {
       <nav className="home-nav" aria-label={`${t.siteName}: ${t.menu}`}><a className="brand-button" href="#top" aria-label={`${t.siteName}: ${t.home}`}><img className="brand-mark" src="images/harp-heart-logo.png" alt="" aria-hidden="true" /><span>{t.siteName}</span></a><div className="nav-links"><a className="nav-link" href="about/">{t.about}</a><a className="nav-link" href="resources/">{t.hub}</a><a className="nav-link" href="#official-guidance">{t.official}</a></div><LanguageControl language={language} setLanguage={setLanguage} label={t.language} /><MobileNavigation links={[{ href: "#top", label: t.home }, { href: "about/", label: t.about }, { href: "resources/", label: t.hub }, { href: "#official-guidance", label: t.official }]} language={language} setLanguage={setLanguage} languageLabel={t.language} menuLabel={t.menu} closeLabel={t.closeMenu} /></nav>
       <div className="hero-content hero-content-expanded">
         <p className="eyebrow">{t.heroEyebrow}</p>
-        <h1 id="home-title" tabIndex={-1}>{t.heroTitle}</h1>
+        <div className="hero-heading">
+          <img
+            className="hero-mobile-image"
+            src="images/migrant-pathways-hero.jpg"
+            alt=""
+            width={1672}
+            height={941}
+            decoding="async"
+            fetchPriority="high"
+          />
+          <h1 id="home-title" tabIndex={-1}>{t.heroTitle}</h1>
+        </div>
         <div className="hero-copy"><p>{t.heroIntro}</p></div>
         {recentJourney && recentCharacter ? <div className="resume-banner">
           <div><span className="mini-label">{controls.savedJourney}</span><strong>{recentCharacter.name}</strong><span>{controls.stage} {recentJourney.stepIndex + 1} {t.of} {stepsByRoute[recentCharacter.route].length} · {localStep(stepsByRoute[recentCharacter.route][recentJourney.stepIndex], recentCharacter.route, language).stage}</span></div>
           <button className="primary-button" type="button" disabled={!storageReady} onClick={() => resumeJourney(recentJourney)}>{controls.resumeJourney.replace("{name}", recentCharacter.name.split(" ")[0])}<ArrowRight size={18} aria-hidden="true" /></button>
         </div> : null}
-        <img
-          className="hero-mobile-image"
-          src="images/migrant-pathways-hero.jpg"
-          alt=""
-          width={1672}
-          height={941}
-          decoding="async"
-          fetchPriority="high"
-        />
         <section
           ref={questionBoardRef}
           className="hero-question-board"

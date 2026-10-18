@@ -101,7 +101,7 @@ label:has([role="radio"]:focus-visible),
   position: relative;
   overflow: hidden;
   background:
-    linear-gradient(90deg, rgba(255,249,247,.98) 0%, rgba(250,239,240,.94) 35%, rgba(122,31,61,.24) 66%, rgba(122,31,61,0) 100%),
+    linear-gradient(90deg, rgba(255,249,247,.82) 0%, rgba(250,239,240,.68) 35%, rgba(122,31,61,.12) 66%, rgba(122,31,61,0) 100%),
     url("/images/migrant-pathways-hero.jpg") center / cover no-repeat;
   border-bottom: 1px solid var(--line);
 }
@@ -701,8 +701,15 @@ label:has([role="radio"]:focus-visible),
 
 /* Expanded learning experience */
 .hero-section-expanded { min-height: 780px; }
-.hero-content-expanded { padding-top: 82px; }
-.hero-content-expanded h1 { max-width: 900px; font-size: clamp(3.2rem, 6.3vw, 6.8rem); }
+.hero-content-expanded { padding-top: 28px; }
+.hero-heading { margin: 14px 0 24px; }
+.hero-content .hero-heading h1 {
+  max-width: 660px;
+  margin: 0 auto 0 0;
+  font-size: clamp(3rem, 5vw, 4.5rem);
+  line-height: 1.02;
+  letter-spacing: -.045em;
+}
 .hero-actions {
   width: fit-content;
   padding: 8px;
@@ -1055,19 +1062,37 @@ label:has([role="radio"]:focus-visible),
   .mobile-language-row .language-control select { min-width: 0; max-width: 140px; }
 }
 
-/* Keep the complete artwork in the reading flow on phones (including
-   landscape) and tablets, with intrinsic dimensions reserving its space. */
+/* Keep the whole artwork in the reading flow and place the heading in its
+   upper-left clouds. The artwork's physical left stays the same in RTL. */
 @media (max-width: 1024px) {
   .hero-section {
     background: linear-gradient(180deg, #fff9f7 0%, #faeff0 100%);
   }
+  .hero-heading {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    max-width: 900px;
+  }
   .hero-mobile-image {
+    grid-area: 1 / 1;
+    align-self: start;
     display: block;
     width: 100%;
-    max-width: 900px;
     height: auto;
-    margin: 0 0 24px;
+    margin: 0;
     border-radius: 22px;
+  }
+  .hero-content .hero-heading h1 {
+    grid-area: 1 / 1;
+    align-self: start;
+    justify-self: left;
+    z-index: 1;
+    width: 60%;
+    margin: clamp(12px, 2.8vw, 28px);
+    font-size: clamp(1.05rem, 4.8vw, 3rem);
+    line-height: 1.08;
+    letter-spacing: -.035em;
+    text-align: start;
   }
 }
 
@@ -1097,18 +1122,11 @@ label:has([role="radio"]:focus-visible),
   .hero-section {
     min-height: auto;
   }
-  .hero-mobile-image { margin-bottom: 16px; border-radius: 18px; }
+  .hero-heading { margin-bottom: 16px; }
+  .hero-mobile-image { border-radius: 18px; }
   .hero-content,
   .hero-content-expanded { padding: 30px 20px 78px; }
   .hero-content .eyebrow { max-width: 340px; font-size: 10px; line-height: 1.55; letter-spacing: .13em; }
-  .hero-content h1,
-  .hero-content-expanded h1 {
-    max-width: 100%;
-    margin: 14px 0 20px;
-    font-size: clamp(2.25rem, 9vw, 2.55rem);
-    line-height: 1.02;
-    letter-spacing: -.035em;
-  }
   .hero-question-board { margin: 0 0 16px; padding: 8px; grid-template-columns: 1fr; gap: 8px; border-radius: 22px; }
   .hero-question-intro { padding: 5px 9px 2px; }
   .hero-question-card { min-height: auto; padding: 15px 16px; display: block; }
