@@ -403,7 +403,6 @@ export default function Home() {
           <a className="hero-question-card question-new-life" href="#choose-character"><span>{t.beginningLabel}</span><h2>{t.beginningQuestion}</h2><ArrowRight className="hero-question-arrow" size={20} aria-hidden="true" /></a>
         </section>
         <div className="hero-actions"><a className="primary-button hero-button" href="#route-finder">{t.findJourney} <ArrowRight size={18} aria-hidden="true" /></a><a className="quiet-button hero-secondary" href="resources/"><BookOpen size={18} aria-hidden="true" /><span>{t.exploreInfo}</span><ArrowRight className="action-arrow" size={18} aria-hidden="true" /></a></div>
-        <div className="hero-proof" aria-label={t.atAGlance}><p className="hero-proof-label">{t.atAGlance}</p><span><strong>12</strong><small>{t.people}</small></span><span><strong>6</strong><small>{t.routes}</small></span><span><strong>40</strong><small>{t.decisions}</small></span><span><strong>1</strong><small>{t.ireland}</small></span></div>
       </div>
     </section>
 
