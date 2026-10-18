@@ -9,10 +9,10 @@ import { LanguageControl, ui, useLanguage, type Language } from "../i18n";
 import {
   additionalResourceCopy,
   additionalTopicCopy,
-  additionalTopicDescriptions,
   additionalTranslatedTitles,
 } from "../additional-page-copy";
 import { MobileNavigation } from "../mobile-navigation";
+import { resourceDescription } from "../journey-translations";
 
 type Topic = "all" | "arrival" | "immigration" | "protection" | "work" | "study" | "daily-life" | "family" | "rights";
 
@@ -93,12 +93,6 @@ const translatedTitles: Record<Exclude<Language,"en">, string[]> = {
   ...additionalTranslatedTitles,
 };
 
-const topicDescriptions: Record<Exclude<Language,"en">, Record<Topic,string>> = {
-  ga:{all:"Eolas oifigiúil agus speisialtóra atá le seiceáil don chás aonair.",arrival:"Céimeanna praiticiúla, clárú agus seirbhísí do na chéad laethanta in Éirinn.",immigration:"Ceadanna, coinníollacha agus próisis oifigiúla inimirce.",protection:"Cosaint idirnáisiúnta, glacadh, cóiríocht agus tacaíocht neamhspleách.",work:"Ceadanna fostaíochta, cearta oibre agus tacaíocht in aghaidh dúshaothraithe.",study:"Víosaí, airgeadas, cúrsaí, clárú agus oideachas.","daily-life":"Sláinte, tithíocht, seirbhísí poiblí agus cearta comhionannais.",family:"Athaontú teaghlaigh, stádas neamhspleách, sábháilteacht agus comhairle.",rights:"Cearta, comhionannas agus foinsí neamhspleácha comhairle."},
-  ar:{all:"معلومات رسمية ومتخصصة يجب التحقق منها للحالة الفردية.",arrival:"خطوات عملية وتسجيل وخدمات للأيام الأولى في أيرلندا.",immigration:"أذونات وشروط وإجراءات هجرة رسمية.",protection:"الحماية الدولية والاستقبال والسكن والدعم المستقل.",work:"تصاريح العمل وحقوق مكان العمل ودعم مكافحة الاستغلال.",study:"التأشيرات والتمويل والدورات والتسجيل والتعليم.","daily-life":"الصحة والسكن والخدمات العامة وحقوق المساواة.",family:"لمّ الشمل والوضع المستقل والسلامة والمشورة.",rights:"الحقوق والمساواة ومصادر المشورة المستقلة."},
-  ...additionalTopicDescriptions,
-};
-
 export default function ResourcesPage() {
   const { language, setLanguage, dir } = useLanguage();
   const t = ui[language];
@@ -119,7 +113,7 @@ export default function ResourcesPage() {
     const term = query.trim().toLocaleLowerCase(language);
     return resources.filter((item, index) => {
       const title = language === "en" ? item.title : translatedTitles[language][index];
-      const description = language === "en" ? item.description : topicDescriptions[language][item.topic];
+      const description = resourceDescription(item.title, item.description, language);
       const searchable = `${title} ${description} ${item.organisation} ${topicCopy[language][item.topic]}`.toLocaleLowerCase(language);
       return (topic === "all" || item.topic === topic || (topic === "rights" && rightsAndAdviceTitles.has(item.title))) && (!term || searchable.includes(term));
     });
@@ -127,7 +121,7 @@ export default function ResourcesPage() {
 
   return <main className="resources-page" lang={language} dir={dir}>
     <nav className="home-nav resources-nav" aria-label={`${t.siteName}: ${t.menu}`}>
-      <a className="brand-button" href="../"><img className="brand-mark" src="../images/harp-heart-logo.png" alt="" aria-hidden="true" /><span>{t.siteName}</span></a>
+      <a className="brand-button" href="../" aria-label={`${t.siteName}: ${t.home}`}><img className="brand-mark" src="../images/harp-heart-logo.png" alt="" aria-hidden="true" /><span>{t.siteName}</span></a>
       <div className="nav-links"><a className="nav-link" href="../">{t.journeys}</a><a className="nav-link" href="../about/">{t.about}</a></div><LanguageControl language={language} setLanguage={setLanguage} label={t.language} /><MobileNavigation links={[{ href: "../", label: t.home }, { href: "../#route-finder", label: t.journeys }, { href: "../about/", label: t.about }, { href: "../#official-guidance", label: t.official }]} language={language} setLanguage={setLanguage} languageLabel={t.language} menuLabel={t.menu} closeLabel={t.closeMenu} />
     </nav>
 
@@ -144,7 +138,7 @@ export default function ResourcesPage() {
       </div>
       <div className="topic-tabs" role="group" aria-label={r.browse}>{topics.map((item) => <button type="button" aria-pressed={topic === item.id} className={topic === item.id ? "active" : ""} onClick={() => setTopic(item.id)} key={item.id}>{topicCopy[language][item.id]}</button>)}</div>
       <p className="result-count" aria-live="polite">{r.showing} {filtered.length} {filtered.length === 1 ? r.resource : r.resources}</p>
-      {filtered.length ? <div className="resource-grid">{filtered.map((item) => { const Icon = item.icon; const index=resources.findIndex((entry)=>entry.href===item.href); return <article className="resource-card" key={item.href}><div className="resource-icon"><Icon size={22} aria-hidden="true" /></div><span className="resource-topic">{topicCopy[language][item.topic]}</span><h3>{language === "en" ? item.title : translatedTitles[language][index]}</h3><p>{language === "en" ? item.description : topicDescriptions[language][item.topic]}</p><small>{item.organisation}</small><a href={item.href} target="_blank" rel="noreferrer">{r.open} <ExternalLink size={15} aria-hidden="true" /></a></article>; })}</div>
+      {filtered.length ? <div className="resource-grid">{filtered.map((item) => { const Icon = item.icon; const index=resources.findIndex((entry)=>entry.href===item.href); return <article className="resource-card" key={item.href}><div className="resource-icon"><Icon size={22} aria-hidden="true" /></div><span className="resource-topic">{topicCopy[language][item.topic]}</span><h3>{language === "en" ? item.title : translatedTitles[language][index]}</h3><p>{resourceDescription(item.title, item.description, language)}</p><small>{item.organisation}</small><a href={item.href} target="_blank" rel="noreferrer">{r.open} <ExternalLink size={15} aria-hidden="true" /></a></article>; })}</div>
         : <div className="resource-empty"><Search size={28} aria-hidden="true" /><h3>{r.none}</h3><p>{r.retry}</p><button type="button" className="quiet-button" onClick={() => { setQuery(""); setTopic("all"); }}>{r.clear}</button></div>}
     </section>
 

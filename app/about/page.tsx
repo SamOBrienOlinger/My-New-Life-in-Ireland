@@ -22,7 +22,7 @@ export default function AboutPage() {
   return (
     <main className="about-page" lang={language} dir={dir}>
       <header className="about-topbar">
-        <a className="brand-button" href="../">
+        <a className="brand-button" href="../" aria-label={`${t.siteName}: ${t.home}`}>
           <img className="brand-mark" src="../images/harp-heart-logo.png" alt="" aria-hidden="true" />
           <span>{t.siteName}</span>
         </a>
