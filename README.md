@@ -44,6 +44,8 @@ Potential contributions include facilitated discussion, a more nuanced compariso
 - Immediate explanations and links to official information.
 - A route finder and an Information Hub.
 - Multilingual text, keyboard controls and responsive layouts.
+- Specific scenario and answer translations in all ten selectable languages.
+- Unfinished journeys saved on the current browser, with separate progress for each character.
 
 ## Using the project
 
@@ -86,12 +88,25 @@ Use Node.js `>=22.13.0`, npm and a Bash-compatible shell for the commands below.
 | --- | --- |
 | `npm run build` | Create the configured application build |
 | `npm run build:pages` | Create the GitHub Pages build |
+| `npm run typecheck:pages` | Check types for the static website and browser tests |
+| `npm run test:journeys` | Check all translated scenarios and resources, saved-state validation and answer ordering |
+| `npm run test:browser` | Build Pages and check the main interactions in Chromium, Firefox and WebKit |
 | `npm test` | Build with Vinext, then run the existing Node test suite |
 | `npm run lint` | Run the configured linter |
 
 `npm run build` and `npm test` require GNU `timeout`. Linux provides it through GNU coreutils. On macOS, install GNU coreutils and make its `timeout` command available on `PATH` before running either command. The separate `npm run build:pages` command does not use that build wrapper.
 
 For a manual review, follow the main user journey, check keyboard navigation and narrow-screen layouts, and inspect the browser console for missing assets or failed requests.
+
+Before the first browser-test run, install the test browsers with `npx playwright install --with-deps chromium firefox webkit`. The suite covers hub visits, refresh and resume, independent character saves, restarting, completion, language changes, blocked storage, keyboard focus and Arabic/Farsi layouts at 320px and 390px. The Pages workflow runs these checks on pull requests and before deployment.
+
+### Journey content and progress
+
+The English source remains in `app/journey-data.ts`. Each non-English catalog in `app/journey-translations/` uses `route:canonical English stage` keys and the original choice IDs. Translate the individual scene, rules, answer labels, feedback and consequences; preserve source URLs, correctness and qualified wording. The catalog tests check all 40 stages and 24 hub descriptions per language. Languages load on demand. Source comparison and automated coverage checks complement fluent-speaker review of wording.
+
+An attempt keeps its answer order, selected answers, checked stages, current stage and reading mode. Correct-answer positions are balanced across the five stages and randomized when an attempt starts. A resume preserves that order; an explicit restart clears that character's current attempt. Completion removes the unfinished save and retains the explored badge. Saving uses browser storage, so progress stays in that browser and can be removed by clearing its site data. If saving is unavailable, the current page remains usable and explains the limitation.
+
+The progress envelope is versioned in `app/journey-progress.ts`. If a future content change alters what existing answer IDs mean, revise the stored-progress version or add a migration before accepting old answers against the new content.
 
 Generate fresh results from the revision you are working on; historical test reports describe earlier runs.
 

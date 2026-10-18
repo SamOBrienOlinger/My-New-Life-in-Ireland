@@ -1,7 +1,9 @@
-name: Deploy website to GitHub Pages
+name: Validate and deploy website to GitHub Pages
 
 on:
   push:
+    branches: [main]
+  pull_request:
     branches: [main]
   workflow_dispatch:
 
@@ -11,12 +13,13 @@ permissions:
   id-token: write
 
 concurrency:
-  group: pages
+  group: pages-${{ github.ref }}
   cancel-in-progress: false
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -30,21 +33,45 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Check frontend types and source lint
+        run: npm run typecheck:pages && npm run lint
+
+      - name: Verify specific translations and saved journeys
+        run: npm run test:journeys
+
       - name: Build static website
         run: npm run build:pages
 
+      - name: Install test browsers
+        run: npx playwright install --with-deps chromium firefox webkit
+
+      - name: Check journey interactions in three browsers
+        run: npx playwright test
+
+      - name: Save browser failure report
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: browser-failure-report
+          path: playwright-report/
+          retention-days: 7
+
       - name: Disable Jekyll processing
+        if: github.event_name != 'pull_request'
         run: touch dist-pages/.nojekyll
 
       - name: Configure GitHub Pages
+        if: github.event_name != 'pull_request'
         uses: actions/configure-pages@v6
 
       - name: Upload GitHub Pages artifact
+        if: github.event_name != 'pull_request'
         uses: actions/upload-pages-artifact@v5
         with:
           path: dist-pages
 
   deploy:
+    if: github.event_name != 'pull_request'
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}

@@ -1,12 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Languages } from "lucide-react";
-import type { Character, Choice, RouteFilter, RouteKey, Step } from "./journey-data";
+import type { Character, RouteFilter, RouteKey, Step } from "./journey-data";
+import { loadJourneyLanguage, translateJourneyStep } from "./journey-translations";
 import {
   additionalCharacterText,
   additionalFilterText,
-  additionalJourneyText,
   additionalLanguageOptions,
   additionalRouteText,
   additionalStageText,
@@ -21,33 +21,68 @@ const isRtl = (language: Language) => language === "ar" || language === "fa";
 
 export function useLanguage() {
   const [language, setLanguageState] = useState<Language>("en");
-  const [hasLoadedPreference, setHasLoadedPreference] = useState(false);
+  const requestRef = useRef(0);
 
   useEffect(() => {
-    const frame = window.requestAnimationFrame(() => {
-      const saved = window.localStorage.getItem(storageKey);
-      if (supportedLanguages.has(saved as Language)) setLanguageState(saved as Language);
-      setHasLoadedPreference(true);
-    });
-    return () => window.cancelAnimationFrame(frame);
+    const request = ++requestRef.current;
+    let saved: Language = "en";
+    try {
+      const preference = window.localStorage.getItem(storageKey);
+      if (supportedLanguages.has(preference as Language)) saved = preference as Language;
+    } catch { /* The language selector remains available when storage is blocked. */ }
+    void loadJourneyLanguage(saved).then(() => {
+      if (request === requestRef.current) setLanguageState(saved);
+    }).catch(() => { /* Keep the displayed English content and its matching language tag. */ });
+    return () => { requestRef.current += 1; };
   }, []);
 
   useEffect(() => {
-    if (!hasLoadedPreference) return;
-    window.localStorage.setItem(storageKey, language);
     document.documentElement.lang = language;
     document.documentElement.dir = isRtl(language) ? "rtl" : "ltr";
-  }, [language, hasLoadedPreference]);
+  }, [language]);
 
-  return { language, setLanguage: setLanguageState, dir: isRtl(language) ? "rtl" as const : "ltr" as const };
+  const setLanguage = useCallback(async (next: Language) => {
+    const request = ++requestRef.current;
+    // Preserve the requested language even if navigation interrupts its download.
+    try { window.localStorage.setItem(storageKey, next); } catch { /* Preference saving is optional. */ }
+    // Do not display a language until its specific scenarios are ready.
+    await loadJourneyLanguage(next);
+    if (request !== requestRef.current) return;
+    setLanguageState(next);
+  }, []);
+
+  return { language, setLanguage, dir: isRtl(language) ? "rtl" as const : "ltr" as const };
 }
 
-export function LanguageControl({ language, setLanguage, label }: { language: Language; setLanguage: (language: Language) => void; label?: string }) {
+const languageLoadErrors: Record<Language, string> = {
+  en: "This translation could not load. Please try again.",
+  ga: "Níorbh fhéidir an t-aistriúchán a lódáil. Bain triail eile as.",
+  ar: "تعذّر تحميل هذه الترجمة. يُرجى المحاولة مرة أخرى.",
+  zh: "无法加载此翻译，请重试。",
+  fr: "Cette traduction n’a pas pu être chargée. Veuillez réessayer.",
+  pt: "Não foi possível carregar esta tradução. Tente novamente.",
+  es: "No se ha podido cargar esta traducción. Inténtalo de nuevo.",
+  nl: "Deze vertaling kon niet worden geladen. Probeer het opnieuw.",
+  fa: "این ترجمه بارگیری نشد. لطفاً دوباره تلاش کنید.",
+  xh: "Le nguqulelo ayikwazanga ukulayishwa. Nceda uzame kwakhona.",
+};
+
+export function LanguageControl({ language, setLanguage, label }: { language: Language; setLanguage: (language: Language) => void | Promise<void>; label?: string }) {
+  const [loading, setLoading] = useState(false);
+  const [failed, setFailed] = useState(false);
+  const requestRef = useRef(0);
   return <label className="language-control"><Languages size={17} aria-hidden="true" /><span className="sr-only">{label || "Language"}</span>
-    <select value={language} onChange={(event) => setLanguage(event.target.value as Language)} aria-label={label || "Language"}>
+    <select value={language} aria-busy={loading} onChange={async (event) => {
+      const next = event.target.value as Language;
+      const request = ++requestRef.current;
+      setLoading(true); setFailed(false);
+      try { await setLanguage(next); } catch { if (request === requestRef.current) setFailed(true); }
+      finally { if (request === requestRef.current) setLoading(false); }
+    }} aria-label={label || "Language"}>
       <option value="en">English</option><option value="ga">Gaeilge</option><option value="ar">العربية</option>
       {additionalLanguageOptions.map((option) => <option value={option.value} key={option.value}>{option.label}</option>)}
     </select>
+    {failed ? <span className="language-error" role="alert">{languageLoadErrors[language]}</span> : null}
   </label>;
 }
 
@@ -178,26 +213,7 @@ const stageText = {
   ...additionalStageText,
 } as const;
 
-const journeyText = {
-  ga:{lawPrefix:"Baineann na rialacha reatha le ",lawSuffix:". Ní mór cead, fianaise agus uainiú a sheiceáil ar leithligh ag gach céim.",plainLaw:"Seiceáil an fhoinse oifigiúil reatha, tabhair eolas fírinneach agus lorg comhairle cháilithe nuair is gá.",sourceLabel:"Foinse oifigiúil",choiceGood:"Seiceáil na rialacha reatha, coinnigh fianaise agus bain úsáid as an bpróiseas oifigiúil.",choicePromise:"Glac leis gur leor gealltanas nó doiciméad amháin gan seiceáil.",choiceShortcut:"Úsáid aicearra nó tabhair eolas nach bhfuil ag teacht leis an bhfíorchás.",feedbackGood:"Tugann an rogha seo fianaise, uainiú agus an bealach oifigiúil le chéile.",feedbackRisk:"D’fhéadfadh an rogha seo cead, sábháilteacht nó cearta a chur i mbaol.",consequenceGood:"Éiríonn an chéad chéim eile níos soiléire agus níos sábháilte.",consequenceRisk:"D’fhéadfadh moill, diúltú, dúshaothrú nó fadhb eile teacht chun cinn."},
-  ar:{lawPrefix:"تنطبق القواعد الحالية على ",lawSuffix:". يجب التحقق من الإذن والأدلة والتوقيت بصورة منفصلة في كل مرحلة.",plainLaw:"تحقق من المصدر الرسمي الحالي، وقدّم معلومات صادقة، واطلب مشورة مؤهلة عند الحاجة.",sourceLabel:"المصدر الرسمي",choiceGood:"تحقق من القواعد الحالية، واحتفظ بالأدلة، واستخدم الإجراء الرسمي.",choicePromise:"افترض أن وعداً أو وثيقة واحدة تكفي من دون تحقق.",choiceShortcut:"استخدم طريقاً مختصراً أو قدّم معلومات لا تطابق الوضع الحقيقي.",feedbackGood:"يجمع هذا الخيار بين الأدلة والتوقيت والمسار الرسمي.",feedbackRisk:"قد يعرّض هذا الخيار الإذن أو السلامة أو الحقوق للخطر.",consequenceGood:"تصبح الخطوة التالية أوضح وأكثر أماناً.",consequenceRisk:"قد يحدث تأخير أو رفض أو استغلال أو مشكلة أخرى."},
-  ...additionalJourneyText,
-} as const;
-
 export function localStep(step: Step, route: RouteKey, language: Language): Step {
   if (language === "en") return step;
-  const [stage, eyebrow, title, scene, question] = stageText[language][step.stage];
-  const focus = routeText[language][route].focus;
-  const copy = journeyText[language];
-  const law = `${copy.lawPrefix}${focus}${copy.lawSuffix}`;
-  const plainLaw = copy.plainLaw;
-  const choices = step.choices.map((choice, index): Choice => {
-    const good = choice.correct;
-    return { ...choice,
-      label: good ? copy.choiceGood : index === 1 ? copy.choicePromise : copy.choiceShortcut,
-      feedback: good ? copy.feedbackGood : copy.feedbackRisk,
-      consequence: good ? copy.consequenceGood : copy.consequenceRisk,
-    };
-  });
-  return { ...step, stage: stage as Step["stage"], eyebrow, title, scene, question, law, plainLaw, sourceLabel: copy.sourceLabel, choices };
+  return translateJourneyStep(step, route, language, stageText[language][step.stage][0]);
 }
