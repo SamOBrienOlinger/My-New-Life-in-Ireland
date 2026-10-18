@@ -81,9 +81,15 @@ test("normal motion preserves narrow RTL keyboard choices, stage focus and saved
 
   const choices = page.locator('.choice-list [role="radio"]');
   await choices.first().focus();
-  await page.keyboard.press("ArrowLeft");
-  await expect(choices.nth(1)).toBeFocused();
-  await expect(choices.nth(1)).toHaveAttribute("aria-checked", "true");
+  // Radix moves focus in a deferred task and selects while the arrow is held.
+  // Observe that response before releasing the key, without a timing sleep.
+  await page.keyboard.down("ArrowLeft");
+  try {
+    await expect(choices.nth(1)).toBeFocused();
+    await expect(choices.nth(1)).toHaveAttribute("aria-checked", "true");
+  } finally {
+    await page.keyboard.up("ArrowLeft");
+  }
   expect(await choices.nth(1).evaluate((node) => getComputedStyle(node.closest("label")!).outlineStyle)).toBe("solid");
   // Moving to a control cancels decorative copy motion, so reading and
   // keyboard interaction do not compete with an unfinished entrance.
