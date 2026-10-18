@@ -401,9 +401,9 @@ export default function Home() {
           aria-label={t.questionsExplored}
         >
           <p className="hero-question-intro">{t.questionsExplored}</p>
-          <a className="hero-question-card question-challenges" data-reveal="question-challenges" href="#choose-character"><span>{t.challengeLabel}</span><h2>{t.challengeQuestion}</h2><ArrowRight className="hero-question-arrow" size={20} aria-hidden="true" /></a>
-          <a className="hero-question-card question-people" data-reveal="question-people" href="#choose-character"><span>{t.peopleLabel}</span><h2>{t.peopleQuestion}</h2><ArrowRight className="hero-question-arrow" size={20} aria-hidden="true" /></a>
-          <a className="hero-question-card question-new-life" data-reveal="question-new-life" href="#choose-character"><span>{t.beginningLabel}</span><h2>{t.beginningQuestion}</h2><ArrowRight className="hero-question-arrow" size={20} aria-hidden="true" /></a>
+          <div className="hero-question-card question-challenges" data-reveal="question-challenges"><span>{t.challengeLabel}</span><h2>{t.challengeQuestion}</h2></div>
+          <div className="hero-question-card question-people" data-reveal="question-people"><span>{t.peopleLabel}</span><h2>{t.peopleQuestion}</h2></div>
+          <div className="hero-question-card question-new-life" data-reveal="question-new-life"><span>{t.beginningLabel}</span><h2>{t.beginningQuestion}</h2></div>
         </section>
         <div className="hero-actions"><a className="primary-button hero-button" href="#route-finder">{t.findJourney} <ArrowRight size={18} aria-hidden="true" /></a><a className="quiet-button hero-secondary" href="resources/"><BookOpen size={18} aria-hidden="true" /><span>{t.exploreInfo}</span><ArrowRight className="action-arrow" size={18} aria-hidden="true" /></a></div>
       </div>
