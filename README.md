@@ -8,6 +8,8 @@ An interactive educational website that explores migration and settlement in Ire
 
 <img src="public/images/harp-heart-logo.png" alt="A New Life in Ireland harp-heart logo" width="160">
 
+![People walking towards an Irish coastal town. Text: Every journey to Ireland is different. Decide. Adapt. Navigate. This is your new life in Ireland](docs/images/a-new-life-in-ireland-banner.png)
+
 ## Distinctive proposition and educational contribution
 
 > **Explore why every journey to Ireland is different through fictional decisions that connect human circumstances with Irish migration pathways, rights and authoritative sources.**
