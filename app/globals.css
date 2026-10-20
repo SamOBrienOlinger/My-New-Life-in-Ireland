@@ -268,12 +268,12 @@ label:has([role="radio"]:focus-visible),
   transition: transform .16s ease, background .16s ease, border-color .16s ease, box-shadow .16s ease;
 }
 .primary-button { border-color: var(--maroon); background: var(--maroon); color: white; box-shadow: 0 4px 0 var(--maroon-dark), 0 9px 20px rgba(75,16,38,.16); }
-.primary-button:hover { border-color: var(--maroon-dark); background: var(--maroon-dark); transform: translateY(-1px); box-shadow: 0 5px 0 #32101d, 0 11px 22px rgba(75,16,38,.2); }
-.primary-button:active { transform: translateY(3px); box-shadow: 0 1px 0 var(--maroon-dark), 0 4px 10px rgba(75,16,38,.12); }
+.primary-button:hover { border-color: var(--maroon-dark); background: var(--maroon-dark); transform: translateY(-1.15px); box-shadow: 0 5px 0 #32101d, 0 11px 22px rgba(75,16,38,.2); }
+.primary-button:active { transform: translateY(3.45px); box-shadow: 0 1px 0 var(--maroon-dark), 0 4px 10px rgba(75,16,38,.12); }
 .primary-button:disabled { opacity: .45; cursor: not-allowed; transform: none; box-shadow: none; }
 .quiet-button { border-color: #b9a9ae; background: rgba(255,255,255,.84); color: var(--maroon-dark); box-shadow: 0 3px 0 #cfc2c5; }
-.quiet-button:hover { border-color: var(--maroon); background: var(--white); transform: translateY(-1px); box-shadow: 0 4px 0 #a98f96; }
-.quiet-button:active { transform: translateY(2px); box-shadow: 0 1px 0 #a98f96; }
+.quiet-button:hover { border-color: var(--maroon); background: var(--white); transform: translateY(-1.15px); box-shadow: 0 4px 0 #a98f96; }
+.quiet-button:active { transform: translateY(2.3px); box-shadow: 0 1px 0 #a98f96; }
 .quiet-button:disabled { opacity: .35; cursor: not-allowed; transform: none; box-shadow: none; }
 
 /* A short directional cue complements the existing button/press treatment.
@@ -816,8 +816,8 @@ label:has([role="radio"]:focus-visible),
   transition: transform .15s ease, border-color .15s ease, background .15s ease, box-shadow .15s ease;
 }
 .route-filter:first-child { grid-column: 1 / -1; min-height: 72px; }
-.route-filter:hover { border-color: var(--maroon); transform: translateY(-1px); box-shadow: 0 3px 0 #bcaab0; }
-.route-filter:active { transform: translateY(1px); box-shadow: none; }
+.route-filter:hover { border-color: var(--maroon); transform: translateY(-1.15px); box-shadow: 0 3px 0 #bcaab0; }
+.route-filter:active { transform: translateY(1.15px); box-shadow: none; }
 .route-filter.selected { border: 2px solid var(--maroon); padding: 15px 16px; background: #f8ecef; box-shadow: 0 0 0 3px rgba(122,31,61,.08); }
 .route-filter-heading { width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 .route-filter-heading > span:first-child { font-weight: 800; }
