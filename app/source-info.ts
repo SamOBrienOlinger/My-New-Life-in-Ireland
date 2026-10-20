@@ -1,3 +1,5 @@
+import { movingGuideDefinitions } from "./moving-guide.ts";
+
 export type SourceScope =
   | "immigration"
   | "employment"
@@ -62,6 +64,12 @@ function notVerified(
 
 /** Maintainer evidence log; notes describe the limited scope of each check. */
 export const sourceVerificationLog: readonly SourceVerification[] = [
+  ...movingGuideDefinitions.map(({ href, scope }) => notVerified(
+    href,
+    citizensInformation,
+    scope,
+    "20 October 2026: production URL, title and topic identified in Citizens Information search results. Full page content was not retrieved; automated requests to this site returned HTTP 403. Descriptions provide signposting only and no page consultation date is claimed.",
+  )),
   retrieved(
     "https://www.irishimmigration.ie/",
     isd,
@@ -310,3 +318,4 @@ export function sourceInfo(url: string): SourceInfo {
   }
   return { publisher, scope: "general-information" };
 }
+

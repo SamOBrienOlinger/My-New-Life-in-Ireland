@@ -115,7 +115,7 @@ test("revisiting restores choice, focus and order and requires a changed answer 
   await expect(updated.getByText(steps[1].choices.find((choice) => choice.id === answers[1])!.label, { exact: true })).toHaveCount(0);
 });
 
-test("Priya gets professional and tax guidance and both translated additions join the hub search", async ({ page }) => {
+test("Priya keeps professional and tax guidance while moving guides join the translated hub search", async ({ page }) => {
   await finishJourney(page, "priya", [], async (index) => {
     const cards = page.locator(".stage-practical-resources");
     if (index === 0) {
@@ -131,15 +131,21 @@ test("Priya gets professional and tax guidance and both translated additions joi
   const related = page.locator(".recap-resources");
   await expect(related.getByRole("heading", { name: en.professionalTitle, exact: true })).toBeVisible();
   await expect(related.getByRole("heading", { name: en.taxTitle, exact: true })).toBeVisible();
+  const moving = page.locator(".recap-moving-guidance");
+  await expect(moving.getByRole("heading", { name: en.movingGuide.resources.work.title, exact: true })).toBeVisible();
+  await expect(moving.getByRole("link")).toHaveAttribute("href", "https://www.citizensinformation.ie/en/moving-country/working-in-ireland/migrant-workers/coming-to-work-in-ireland/");
   await page.locator(".completion-actions a").click();
   await expect(page).toHaveURL(/\/resources\/\?topic=work#resource-browser$/);
   await expect(page.locator(".topic-tabs").getByRole("button", { name: "Work", exact: true })).toHaveAttribute("aria-pressed", "true");
-  await expect(page.locator(".resource-card")).toHaveCount(6);
+  await expect(page.locator(".resource-card")).toHaveCount(7);
   await page.locator(".topic-tabs").getByRole("button", { name: "Study", exact: true }).click();
-  await expect(page.locator(".resource-card")).toHaveCount(2);
+  await expect(page.locator(".resource-card")).toHaveCount(3);
+  await page.locator(".topic-tabs").getByRole("button", { name: en.movingGuide.arrivalTopic, exact: true }).click();
+  await expect(page.locator(".resource-card")).toHaveCount(6);
+  await expect(page.locator(".resource-grid").getByRole("heading", { name: en.movingGuide.resources.beforeArrival.title, exact: true })).toBeVisible();
   await page.locator(".topic-tabs").getByRole("button", { name: "All information", exact: true }).click();
-  await expect(page.locator(".resource-card")).toHaveCount(26);
-  await expect(page.locator(".result-count")).toContainText("26");
+  await expect(page.locator(".resource-card")).toHaveCount(40);
+  await expect(page.locator(".result-count")).toContainText("40");
 
   await page.locator(".resources-nav > .language-control select").selectOption("fr");
   await expect(page.locator("html")).toHaveAttribute("lang", "fr");
@@ -147,6 +153,7 @@ test("Priya gets professional and tax guidance and both translated additions joi
   for (const [title, description, href] of [
     [french.professionalTitle, french.professionalDescription, practicalResourceUrls.nursing],
     [french.taxTitle, french.taxDescription, practicalResourceUrls.tax],
+    [french.movingGuide.resources.housing.title, french.movingGuide.resources.housing.description, "https://www.citizensinformation.ie/en/moving-country/moving-to-ireland/introduction-to-the-irish-system/accommodation/"],
   ]) {
     await search.fill(title);
     const card = page.locator(".resource-card");
@@ -156,7 +163,7 @@ test("Priya gets professional and tax guidance and both translated additions joi
     await expect(card.locator("a")).toHaveAttribute("href", href);
   }
   await search.fill("");
-  await expect(page.locator(".resource-card")).toHaveCount(26);
+  await expect(page.locator(".resource-card")).toHaveCount(40);
 });
 
 async function expectReadableWidth(page: Page, width: number, selector: string) {
@@ -168,6 +175,40 @@ async function expectReadableWidth(page: Page, width: number, selector: string) 
     });
   }, { expectedWidth: width, target: selector })).toBe(true);
 }
+
+test("moving guide links and localized search remain usable on narrow RTL screens", async ({ page }) => {
+  for (const [width, language, copy] of [[320, "ar", arabic], [390, "fa", farsi]] as const) {
+    await page.setViewportSize({ width, height: 844 });
+    await page.goto("./resources/?topic=arrival#resource-browser");
+    await page.locator(".mobile-menu-button").click();
+    await page.locator(".mobile-language-row select").selectOption(language);
+    await expect(page.locator("html")).toHaveAttribute("lang", language);
+    await expect(page.locator("html")).toHaveAttribute("dir", "rtl");
+    await page.keyboard.press("Escape");
+
+    const intro = page.locator(".moving-guide-intro");
+    await expect(intro.getByRole("heading", { name: copy.movingGuide.title, exact: true })).toBeVisible();
+    const openGuide = intro.getByRole("link", { name: copy.movingGuide.open, exact: true });
+    await expect(openGuide).toHaveAttribute("href", "https://www.citizensinformation.ie/en/moving-country/moving-to-ireland/");
+    await expect(openGuide).toHaveAttribute("target", "_blank");
+    await expect(intro.getByRole("link", { name: copy.movingGuide.beforeTravel, exact: true })).toHaveAttribute("href", "https://www.citizensinformation.ie/en/moving-country/moving-to-ireland/before-you-come-to-ireland/");
+    await openGuide.focus();
+    await expect(openGuide).toBeFocused();
+    await expect(page.locator(".topic-tabs").getByRole("button", { name: copy.movingGuide.arrivalTopic, exact: true })).toHaveAttribute("aria-pressed", "true");
+    await expect(page.locator(".resource-card")).toHaveCount(6);
+    await expectReadableWidth(page, width, ".moving-guide-intro, .moving-guide-actions, .moving-guide-actions a, .resource-card, .source-details");
+
+    await page.getByRole("searchbox").fill(copy.movingGuide.resources.registration.title);
+    const card = page.locator(".resource-card");
+    await expect(card).toHaveCount(1);
+    await expect(card.getByRole("heading", { name: copy.movingGuide.resources.registration.title, exact: true })).toBeVisible();
+    await expect(card).toContainText(copy.movingGuide.resources.registration.description);
+    await expect(card.getByRole("link")).toHaveAttribute("href", "https://www.citizensinformation.ie/en/moving-country/moving-to-ireland/rights-of-residence-in-ireland/registration-of-non-eea-nationals-in-ireland/");
+    await expect(card.locator(".source-details")).toContainText(copy.sourceUndated);
+    await expect(card.locator("time")).toHaveCount(0);
+    await expectReadableWidth(page, width, ".resource-card, .resource-card h3, .source-details");
+  }
+});
 
 test("narrow RTL recaps and insights wrap and keep keyboard focus across language changes", async ({ page }) => {
   test.setTimeout(60_000);
@@ -212,3 +253,4 @@ test("narrow RTL recaps and insights wrap and keep keyboard focus across languag
     await expect(page.locator(".decision-recap.needs-review")).toHaveCount(1);
   }
 });
+

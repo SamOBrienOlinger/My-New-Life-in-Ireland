@@ -10,6 +10,7 @@ import { loadJourneyLanguage } from "../app/journey-translations/index.ts";
 import en from "../app/learning-copy/en.ts";
 import { learningCopy, loadLearningLanguage } from "../app/learning-copy/index.ts";
 import { sourceInfo, sourceVerificationLog } from "../app/source-info.ts";
+import { movingGuideForRoute, movingGuideResources } from "../app/moving-guide.ts";
 
 const languages = ["en", "ga", "ar", "zh", "fr", "pt", "es", "nl", "fa", "xh"];
 
@@ -120,6 +121,57 @@ test("source metadata does not present an inaccessible or unknown page as consul
   }
 });
 
+test("moving guidance uses production sources and preserves destinations across languages", async () => {
+  await Promise.all(languages.map((language) => loadLearningLanguage(language)));
+  const original = movingGuideResources(en);
+  const urls = original.map(({ href }) => href);
+  assert.equal(new Set(urls).size, urls.length, "The hub must not add duplicate guide cards.");
+  assert.equal(new Set(original.map(({ id }) => id)).size, Object.keys(en.movingGuide.resources).length);
+
+  for (const resource of original) {
+    const url = new URL(resource.href);
+    assert.equal(url.origin, "https://www.citizensinformation.ie", "Staging and API hosts must never become public resource links.");
+    assert.equal(url.search, "");
+    assert.equal(url.hash, "");
+    const source = sourceInfo(resource.href);
+    assert.equal(source.publisher, "Citizens Information");
+    assert.equal(source.scope, resource.scope);
+    assert.equal(source.checkedAt, undefined, "Indexed snippets must not be presented as a page consultation.");
+  }
+
+  for (const language of languages) {
+    const translated = movingGuideResources(learningCopy(language));
+    assert.deepEqual(translated.map(({ href }) => href), urls, language);
+    for (const [index, resource] of translated.entries()) {
+      assert.ok(resource.title.trim() && resource.description.trim(), `${language}.${resource.id}`);
+      if (language !== "en") {
+        assert.notEqual(resource.title, original[index].title, `${language}.${resource.id} title must be translated.`);
+        assert.notEqual(resource.description, original[index].description, `${language}.${resource.id} description must be translated.`);
+      }
+    }
+  }
+});
+
+test("related moving guidance respects the journey purpose and keeps returning-citizen guidance separate", () => {
+  for (const character of characters) {
+    const resource = movingGuideForRoute(character.route, en);
+    assert.ok(resource && resource.href, character.id);
+    assert.notEqual(resource.id, "returning", "The fictional journeys do not concern returning Irish citizens.");
+    if (["critical", "general"].includes(character.route)) assert.equal(resource.topic, "work", character.id);
+    if (character.route === "study") assert.equal(resource.topic, "study", character.id);
+    if (character.route === "family") assert.equal(resource.topic, "family", character.id);
+    if (character.route === "eu-mobility") {
+      assert.equal(resource.topic, "immigration");
+      assert.match(resource.href, /\/rights-of-residence-in-ireland\/$/);
+    }
+    if (["protection", "protection-access", "family-safety"].includes(character.route)) {
+      assert.equal(resource.topic, "daily-life", `${character.id}: practical guidance must not imply an ordinary work or family immigration route.`);
+    }
+    if (character.route === "protection-access") assert.match(resource.href, /\/health-care-in-ireland\/$/);
+  }
+  assert.match(en.movingGuide.resources.returning.description, /Irish citizens/);
+});
+
 function textLeaves(value, path = "") {
   if (typeof value === "string") return [[path, value]];
   assert.ok(value && typeof value === "object" && !Array.isArray(value), `${path} must contain translated text.`);
@@ -150,3 +202,4 @@ test("all ten learning languages retain every field and interpolation placeholde
   assert.equal(new Set(languages.map((language) => learningCopy(language).recapTitle)).size, languages.length,
     "A locale must not resolve to another language's cached learning copy.");
 });
+

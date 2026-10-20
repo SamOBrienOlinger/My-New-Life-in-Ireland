@@ -17,6 +17,7 @@ import { learningCopy } from "../learning-copy";
 import { FooterTagline } from "../footer-tagline";
 import { practicalResources } from "../journey-learning";
 import { SourceDetails } from "../source-details";
+import { movingGuideDefinitions, movingGuideResources } from "../moving-guide";
 
 type Topic = "all" | "arrival" | "immigration" | "protection" | "work" | "study" | "daily-life" | "family" | "rights";
 
@@ -27,6 +28,15 @@ const topics: { id: Topic; label: string }[] = [
   { id: "daily-life", label: "Daily life" }, { id: "family", label: "Family" },
   { id: "rights", label: "Rights and advice" },
 ];
+
+const topicIcons = {
+  arrival: MapPin, immigration: BookOpen, protection: ShieldCheck,
+  work: BriefcaseBusiness, study: GraduationCap, "daily-life": Home,
+  family: HeartHandshake, rights: ShieldCheck,
+};
+
+const overviewUrl = movingGuideDefinitions.find(({ id }) => id === "overview")!.href;
+const beforeArrivalUrl = movingGuideDefinitions.find(({ id }) => id === "beforeArrival")!.href;
 
 const resources = [
   { topic: "arrival", title: "Registering immigration permission", description: "Who must register, what registration records and how to use the official process.", organisation: "Immigration Service Delivery", href: "https://www.irishimmigration.ie/registering-your-immigration-permission/", icon: MapPin },
@@ -101,6 +111,10 @@ export default function ResourcesPage() {
   const { language, setLanguage, dir } = useLanguage();
   const t = ui[language];
   const r = resourceCopy[language];
+  const learning = learningCopy(language);
+  const topicLabels = useMemo(() => ({
+    ...topicCopy[language], arrival: learning.movingGuide.arrivalTopic,
+  }), [language, learning]);
   const [topic, setTopic] = useState<Topic>("all");
   const [query, setQuery] = useState("");
   useEffect(() => {
@@ -118,15 +132,14 @@ export default function ResourcesPage() {
     return resources.filter((item, index) => {
       const title = language === "en" ? item.title : translatedTitles[language][index];
       const description = resourceDescription(item.title, item.description, language);
-      const searchable = `${title} ${description} ${item.organisation} ${topicCopy[language][item.topic]}`.toLocaleLowerCase(language);
+      const searchable = `${title} ${description} ${item.organisation} ${topicLabels[item.topic]}`.toLocaleLowerCase(language);
       return (topic === "all" || item.topic === topic || (topic === "rights" && rightsAndAdviceTitles.has(item.title))) && (!term || searchable.includes(term));
     });
-  }, [topic, query, language]);
-  const learning = learningCopy(language);
-  const extraResources = practicalResources(learning).filter((item) => {
+  }, [topic, query, language, topicLabels]);
+  const extraResources = [...practicalResources(learning), ...movingGuideResources(learning)].filter((item) => {
     const term = query.trim().toLocaleLowerCase(language);
-    const searchable = `${item.title} ${item.description} ${item.organisation} ${topicCopy[language][item.topic]}`.toLocaleLowerCase(language);
-    return (topic === "all" || topic === item.topic) && (!term || searchable.includes(term));
+    const searchable = `${item.title} ${item.description} ${item.organisation} ${topicLabels[item.topic]}`.toLocaleLowerCase(language);
+    return (topic === "all" || topic === item.topic || (topic === "rights" && "rightsAndAdvice" in item && item.rightsAndAdvice)) && (!term || searchable.includes(term));
   });
   const resultCount = filtered.length + extraResources.length;
 
@@ -144,13 +157,20 @@ export default function ResourcesPage() {
     </header>
 
     <section className="resource-browser" id="resource-browser" aria-labelledby="resource-browser-title">
+      <section className="moving-guide-intro" id="moving-to-ireland" aria-labelledby="moving-guide-title">
+        <div><p className="eyebrow"><bdi>Citizens Information</bdi></p><h2 id="moving-guide-title">{learning.movingGuide.title}</h2><p>{learning.movingGuide.intro}</p></div>
+        <div className="moving-guide-actions">
+          <a className="primary-button" href={overviewUrl} target="_blank" rel="noreferrer">{learning.movingGuide.open}<ExternalLink size={17} aria-hidden="true" /></a>
+          <a className="quiet-button" href={beforeArrivalUrl} target="_blank" rel="noreferrer">{learning.movingGuide.beforeTravel}<ExternalLink size={17} aria-hidden="true" /></a>
+        </div>
+      </section>
       <div className="resource-controls">
         <div><p className="eyebrow">{r.browse}</p><h2 id="resource-browser-title">{r.trusted}</h2></div>
         <label className="resource-search"><Search size={18} aria-hidden="true" /><span className="sr-only">{r.search}</span><input type="search" value={query} onChange={(event) => setQuery(event.target.value)} placeholder={r.placeholder} /></label>
       </div>
-      <div className="topic-tabs" role="group" aria-label={r.browse}>{topics.map((item) => <button type="button" aria-pressed={topic === item.id} className={topic === item.id ? "active" : ""} onClick={() => setTopic(item.id)} key={item.id}>{topicCopy[language][item.id]}</button>)}</div>
+      <div className="topic-tabs" role="group" aria-label={r.browse}>{topics.map((item) => <button type="button" aria-pressed={topic === item.id} className={topic === item.id ? "active" : ""} onClick={() => setTopic(item.id)} key={item.id}>{topicLabels[item.id]}</button>)}</div>
       <p className="result-count" aria-live="polite">{r.showing} {resultCount} {resultCount === 1 ? r.resource : r.resources}</p>
-      {resultCount ? <div className="resource-grid">{filtered.map((item) => { const Icon = item.icon; const index=resources.findIndex((entry)=>entry.href===item.href); const title=language === "en" ? item.title : translatedTitles[language][index]; return <article className="resource-card" key={item.href}><div className="resource-icon"><Icon size={22} aria-hidden="true" /></div><span className="resource-topic">{topicCopy[language][item.topic]}</span><h3>{title}</h3><p>{resourceDescription(item.title, item.description, language)}</p><SourceDetails href={item.href} language={language} publisher={item.organisation} /><a href={item.href} target="_blank" rel="noreferrer">{r.open}<span className="sr-only">: {title}</span> <ExternalLink size={15} aria-hidden="true" /></a></article>; })}{extraResources.map((item) => <article className="resource-card" key={item.href}><div className="resource-icon"><BriefcaseBusiness size={22} aria-hidden="true" /></div><span className="resource-topic">{topicCopy[language][item.topic]}</span><h3>{item.title}</h3><p>{item.description}</p><SourceDetails href={item.href} language={language} publisher={item.organisation} /><a href={item.href} target="_blank" rel="noreferrer">{r.open}<span className="sr-only">: {item.title}</span> <ExternalLink size={15} aria-hidden="true" /></a></article>)}</div>
+      {resultCount ? <div className="resource-grid">{filtered.map((item) => { const Icon = item.icon; const index=resources.findIndex((entry)=>entry.href===item.href); const title=language === "en" ? item.title : translatedTitles[language][index]; return <article className="resource-card" key={item.href}><div className="resource-icon"><Icon size={22} aria-hidden="true" /></div><span className="resource-topic">{topicLabels[item.topic]}</span><h3>{title}</h3><p>{resourceDescription(item.title, item.description, language)}</p><SourceDetails href={item.href} language={language} publisher={item.organisation} /><a href={item.href} target="_blank" rel="noreferrer">{r.open}<span className="sr-only">: {title}</span> <ExternalLink size={15} aria-hidden="true" /></a></article>; })}{extraResources.map((item) => { const Icon = topicIcons[item.topic]; return <article className="resource-card" key={item.href}><div className="resource-icon"><Icon size={22} aria-hidden="true" /></div><span className="resource-topic">{topicLabels[item.topic]}</span><h3>{item.title}</h3><p>{item.description}</p><SourceDetails href={item.href} language={language} publisher={item.organisation} /><a href={item.href} target="_blank" rel="noreferrer">{r.open}<span className="sr-only">: {item.title}</span> <ExternalLink size={15} aria-hidden="true" /></a></article>; })}</div>
         : <div className="resource-empty"><Search size={28} aria-hidden="true" /><h3>{r.none}</h3><p>{r.retry}</p><button type="button" className="quiet-button" onClick={() => { setQuery(""); setTopic("all"); }}>{r.clear}</button></div>}
     </section>
 
@@ -159,3 +179,4 @@ export default function ResourcesPage() {
     <footer className="site-footer"><div className="site-footer-content"><FooterTagline siteName={t.siteName} text={t.tagline} /><p><a href="https://samobrienolinger.github.io/SamOBrienOlinger/" target="_blank" rel="noreferrer">Sam Tim Solutions</a></p><p className="site-footer-copyright">{t.copyright}</p></div></footer>
   </main>;
 }
+

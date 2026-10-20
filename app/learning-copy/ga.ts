@@ -1,6 +1,31 @@
 import type { LearningCopy } from "./en";
 
 const copy = {
+  movingGuide: {
+    title: "Pleanáil do bhogadh go hÉirinn",
+    intro: "Faigh eolas ó Citizens Information ar ullmhú don bhogadh, ar chónaí agus ar staidéar in Éirinn, agus ar sheirbhísí laethúla.",
+    open: "Oscail an treoir don bhogadh",
+    beforeTravel: "Sula dtaistealaíonn tú",
+    arrivalTopic: "Pleanáil agus teacht go hÉirinn",
+    relatedTitle: "Fiosraigh an saol in Éirinn",
+    relatedIntro: "Lean ort le treoir ó Citizens Information a bhaineann leis an turas seo.",
+    resources: {
+      overview: { title: "Bogadh go hÉirinn", description: "Tosaigh le treoir ar bhogadh, ar chónaí, ar staidéar agus ar an saol laethúil." },
+      beforeArrival: { title: "Sula dtagann tú go hÉirinn", description: "Pleanáil cúrsaí inimirce, oibre, staidéir agus na socruithe praiticiúla sula dtaistealaíonn tú." },
+      settling: { title: "Teacht chun cónaí in Éirinn", description: "Fiosraigh cúrsaí scoir, peataí a thabhairt leat agus feithicil a allmhairiú agus tú ag pleanáil do bhogadh." },
+      residence: { title: "Cearta cónaithe in Éirinn", description: "Aimsigh treoir a bhaineann le do náisiúntacht, le do chúinsí teaghlaigh agus leis an gcúis atá agat le bogadh." },
+      family: { title: "Cearta cónaithe ball teaghlaigh", description: "Seiceáil an treoir chónaithe do ghaolta atá ag teacht chun cónaí le duine atá ina chónaí in Éirinn." },
+      registration: { title: "Clárú do náisiúnaigh neamh-LEE", description: "Seiceáil cé a chaithfidh cead inimirce a chlárú agus conas a oibríonn Ceadanna Cónaithe Éireannacha." },
+      work: { title: "Teacht chun oibriú in Éirinn", description: "Fiosraigh ceadanna fostaíochta, cead chun oibriú agus na céimeanna praiticiúla a bhaineann le tosú i bpost." },
+      study: { title: "Staidéar in Éirinn", description: "Aimsigh treoir ar staidéar idirnáisiúnta, ar oideachas tríú leibhéal agus ar na céimeanna ábhartha inimirce." },
+      systems: { title: "Córas na hÉireann a thuiscint", description: "Fiosraigh tithíocht, cúram sláinte, leas sóisialach, cáin ioncaim, scoileanna agus institiúidí poiblí." },
+      housing: { title: "Lóistín in Éirinn", description: "Fiosraigh roghanna lóistín agus eolas do thionóntaí agus tú ag pleanáil cá háit le cónaí." },
+      health: { title: "Cúram sláinte do chónaitheoirí nua", description: "Faigh buneolas ar chúram sláinte poiblí agus príobháideach, ar rochtain ar sheirbhísí agus ar árachas sláinte." },
+      socialSecurity: { title: "Leas sóisialach agus bogadh idir tíortha", description: "Seiceáil conas a d’fhéadfadh bogadh dul i bhfeidhm ar leas sóisialach, ar phinsin agus ar aistriú sochar." },
+      retirement: { title: "Bogadh go hÉirinn ar scor", description: "Fiosraigh ceisteanna cónaithe agus praiticiúla agus tú ag pleanáil do shaol ar scor in Éirinn." },
+      returning: { title: "Filleadh ar Éirinn", description: "Treoir do shaoránaigh Éireannacha atá ag filleadh abhaile, le heolas praiticiúil do chéimeanna éagsúla den saol." },
+    },
+  },
   recapTitle: "Do thuras le {name}",
   recapIntro: "Féach siar ar do chinntí, athscrúdaigh na pointí a bhfuil tuilleadh airde de dhíth orthu agus aimsigh foinsí úsáideacha don chéad chéim eile.",
   decisionsTitle: "Míniú ar do chinntí",
@@ -150,3 +175,4 @@ const copy = {
 } satisfies LearningCopy;
 
 export default copy;
+

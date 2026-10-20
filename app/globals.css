@@ -943,6 +943,7 @@ label:has([role="radio"]:focus-visible),
 .learning-resource-card p { margin: 0 0 14px; color: var(--muted-ink); font-size: .85rem; line-height: 1.65; }
 .learning-resource-card .source-details { margin-top: auto; }
 .learning-resource-card a { margin-block-start: 12px; }
+.recap-moving-guidance { margin-block-start: 30px; }
 .completion-card .source-date-note { margin-block-start: 17px; }
 
 @media (max-width: 480px) {
@@ -995,6 +996,17 @@ label:has([role="radio"]:focus-visible),
 .hub-caution { max-width: 760px; margin-top: 35px; padding: 16px 18px; display: flex; align-items: flex-start; gap: 12px; border: 1px solid rgba(255,255,255,.24); border-radius: 14px; background: rgba(50,16,29,.28); color: #f5edf0; }
 .hub-caution svg { flex: 0 0 auto; color: var(--gold); }
 .resource-browser { padding-top: 88px; padding-bottom: 105px; }
+.moving-guide-intro { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 28px; margin-block-end: 48px; padding: clamp(22px, 4vw, 38px); border: 1px solid rgba(23,122,115,.25); border-radius: 18px; background: #ddf5f2; scroll-margin-block-start: 24px; }
+.moving-guide-intro > div { min-width: 0; }
+.moving-guide-intro h2 { margin: 10px 0; font-family: Georgia, serif; font-size: clamp(1.6rem, 3vw, 2.2rem); line-height: 1.2; color: var(--maroon-dark); }
+.moving-guide-intro p:last-child { margin-block-end: 0; color: var(--muted-ink); line-height: 1.65; }
+.moving-guide-actions { display: flex; flex-direction: column; align-items: stretch; gap: 12px; max-width: 290px; }
+.moving-guide-actions a { max-width: 100%; min-width: 0; white-space: normal; text-align: start; overflow-wrap: anywhere; }
+.moving-guide-actions svg { flex: 0 0 auto; }
+@media (max-width: 700px) {
+  .moving-guide-intro { grid-template-columns: minmax(0, 1fr); gap: 22px; }
+  .moving-guide-actions { max-width: none; }
+}
 .resource-controls { display: flex; align-items: end; justify-content: space-between; gap: 30px; }
 .resource-search { width: min(390px, 100%); min-height: 50px; padding: 0 15px; display: flex; align-items: center; gap: 9px; border: 1px solid var(--line); border-radius: 999px; background: white; }
 .resource-search svg { color: var(--muted-ink); }
@@ -1334,3 +1346,4 @@ label:has([role="radio"]:focus-visible),
     transition-delay: 0s !important;
   }
 }
+

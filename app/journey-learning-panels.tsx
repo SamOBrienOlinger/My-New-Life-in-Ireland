@@ -3,12 +3,13 @@ import type { Character, Step } from "./journey-data";
 import type { Language } from "./i18n";
 import { learningCopy } from "./learning-copy";
 import { SourceDetails } from "./source-details";
+import { movingGuideForRoute } from "./moving-guide";
 import {
   buildJourneyRecap, guidanceForRecap, insightKeysByRoute,
   practicalResourcesForCharacter, type LearningResource,
 } from "./journey-learning";
 
-function PracticalCard({ resource, language }: { resource: LearningResource; language: Language }) {
+function PracticalCard({ resource, language }: { resource: Pick<LearningResource, "title" | "description" | "href" | "organisation">; language: Language }) {
   const copy = learningCopy(language);
   return <article className="learning-resource-card">
     <h4>{resource.title}</h4><p>{resource.description}</p>
@@ -39,6 +40,7 @@ export function JourneyRecap({ character, steps, answers, checkedSteps, language
   const decisions = buildJourneyRecap(steps, answers, checkedSteps);
   const reviewCount = decisions.filter((item) => item.needsReview).length;
   const practical = practicalResourcesForCharacter(character, copy);
+  const movingGuide = movingGuideForRoute(character.route, copy);
   const guidance = guidanceForRecap(decisions).slice(0, Math.max(1, 3 - practical.length));
   return <div className="journey-recap">
     <section className="recap-decisions" data-reveal={`recap-decisions-${character.id}`} aria-labelledby="recap-decisions-title">
@@ -82,5 +84,11 @@ export function JourneyRecap({ character, steps, answers, checkedSteps, language
       </div>
       <p className="source-date-note">{copy.sourceDateMeaning} <a href="about/#source-method">{copy.sourceMethodLink}</a></p>
     </section>
+
+    <section className="recap-moving-guidance" aria-labelledby="recap-moving-title">
+      <div className="recap-section-heading"><h3 id="recap-moving-title">{copy.movingGuide.relatedTitle}</h3><p>{copy.movingGuide.relatedIntro}</p></div>
+      <div className="learning-resource-grid"><PracticalCard resource={movingGuide} language={language} /></div>
+    </section>
   </div>;
 }
+

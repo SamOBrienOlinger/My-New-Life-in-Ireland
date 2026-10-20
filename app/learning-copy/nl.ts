@@ -1,6 +1,31 @@
 import type { LearningCopy } from './en';
 
 const copy = {
+  movingGuide: {
+    title: "Plan je verhuizing naar Ierland",
+    intro: "Bekijk informatie over voorbereiding, verblijf, studie en dagelijkse voorzieningen bij Citizens Information.",
+    open: "Open de verhuisgids",
+    beforeTravel: "Voordat je vertrekt",
+    arrivalTopic: "Voorbereiding en aankomst",
+    relatedTitle: "Ontdek het leven in Ierland",
+    relatedIntro: "Lees verder bij Citizens Information over onderwerpen die bij dit traject passen.",
+    resources: {
+      overview: { title: "Verhuizen naar Ierland", description: "Begin met informatie over verhuizen, verblijf, studie en het dagelijks leven." },
+      beforeArrival: { title: "Voordat je naar Ierland komt", description: "Bereid immigratie, werk, studie en praktische zaken voor voordat je op reis gaat." },
+      settling: { title: "In Ierland komen wonen", description: "Bekijk informatie over pensioen, het meenemen van huisdieren en het invoeren van een voertuig bij het plannen van je verhuizing." },
+      residence: { title: "Verblijfsrechten in Ierland", description: "Vind informatie voor jouw nationaliteit, gezinssituatie en reden om te verhuizen." },
+      family: { title: "Verblijfsrechten van familieleden", description: "Bekijk de verblijfsregels voor familieleden die zich bij iemand in Ierland voegen." },
+      registration: { title: "Registratie van burgers van buiten de EER", description: "Controleer wie een verblijfsvergunning moet registreren en hoe Ierse verblijfskaarten werken." },
+      work: { title: "In Ierland komen werken", description: "Bekijk werkvergunningen, toestemming om te werken en praktische stappen om aan een baan te beginnen." },
+      study: { title: "Studeren in Ierland", description: "Vind informatie over internationaal studeren, hoger onderwijs en de bijbehorende immigratiestappen." },
+      systems: { title: "Het Ierse systeem begrijpen", description: "Lees over huisvesting, gezondheidszorg, sociale zekerheid, inkomstenbelasting, scholen en overheidsinstellingen." },
+      housing: { title: "Woonruimte in Ierland", description: "Bekijk woonmogelijkheden en informatie voor huurders wanneer je bepaalt waar je wilt wonen." },
+      health: { title: "Gezondheidszorg voor nieuwe inwoners", description: "Maak kennis met publieke en particuliere gezondheidszorg, toegang tot diensten en zorgverzekeringen." },
+      socialSecurity: { title: "Sociale zekerheid bij verhuizing naar een ander land", description: "Controleer wat verhuizen kan betekenen voor sociale uitkeringen, pensioenen en het meenemen van uitkeringen." },
+      retirement: { title: "Met pensioen in Ierland", description: "Bekijk verblijfsvoorwaarden en praktische vragen wanneer je je pensioen in Ierland plant." },
+      returning: { title: "Terugkeren naar Ierland", description: "Informatie voor Ierse staatsburgers die terugkeren, met praktische uitleg voor verschillende levensfasen." },
+    },
+  },
   recapTitle: "Je reis met {name}",
   recapIntro: "Kijk terug op je beslissingen, bekijk opnieuw wat extra aandacht verdient en vind nuttige bronnen voor de volgende stappen.",
   decisionsTitle: "Je beslissingen, toegelicht",
@@ -150,3 +175,4 @@ const copy = {
 } satisfies LearningCopy;
 
 export default copy;
+

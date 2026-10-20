@@ -1,6 +1,31 @@
 import type { LearningCopy } from "./en";
 
 const copy = {
+  movingGuide: {
+    title: "Cwangcisa ukufudukela kwakho eIreland",
+    intro: "Funda ngokulungiselela, ukuhlala, ukufunda neenkonzo zemihla ngemihla ngeCitizens Information.",
+    open: "Vula isikhokelo sokufuduka",
+    beforeTravel: "Phambi kokuba uhambe",
+    arrivalTopic: "Ukucwangcisa nokufika",
+    relatedTitle: "Funda ngobomi baseIreland",
+    relatedIntro: "Qhubeka ufunda izikhokelo zeCitizens Information ezinxulumene nolu hambo.",
+    resources: {
+      overview: { title: "Ukufudukela eIreland", description: "Qala ngezikhokelo zokufuduka, ukuhlala, ukufunda nobomi bemihla ngemihla." },
+      beforeArrival: { title: "Phambi kokuba uze eIreland", description: "Cwangcisa imiba yokungena nokuhlala kweli lizwe, umsebenzi, izifundo namalungiselelo aluncedo phambi kohambo." },
+      settling: { title: "Ukuza kuhlala eIreland", description: "Funda ngomhlala-phantsi, ukuza nezilwanyana zasekhaya nokungenisa isithuthi kweli lizwe xa ucwangcisa ukufuduka." },
+      residence: { title: "Amalungelo okuhlala eIreland", description: "Fumana izikhokelo ezihambelana nobumi bakho, imeko yosapho nesizathu sokufuduka." },
+      family: { title: "Amalungelo okuhlala amalungu osapho", description: "Jonga izikhokelo zokuhlala zezalamane eziza kujoyina umntu ohlala eIreland." },
+      registration: { title: "Ukubhalisa kwabemi bamazwe angaphandle kwe-EEA", description: "Jonga ukuba ngubani omele abhalise imvume yokuhlala nokuba asebenza njani amakhadi eemvume zokuhlala zaseIreland." },
+      work: { title: "Ukuza kusebenza eIreland", description: "Funda ngeemvume zengqesho, imvume yokusebenza namanyathelo aluncedo xa uqala umsebenzi." },
+      study: { title: "Ukufunda eIreland", description: "Fumana izikhokelo zokufunda kwelinye ilizwe, imfundo ephakamileyo namanyathelo afanelekileyo okungena nokuhlala kweli lizwe." },
+      systems: { title: "Ukuqonda iinkqubo zaseIreland", description: "Funda ngezindlu, ukhathalelo lwempilo, uncedo lwentlalo, irhafu yengeniso, izikolo namaziko karhulumente." },
+      housing: { title: "Indawo yokuhlala eIreland", description: "Jonga iindlela zokufumana indawo yokuhlala nolwazi lwabantu abarenta izindlu xa ucwangcisa apho uza kuhlala khona." },
+      health: { title: "Ukhathalelo lwempilo lwabahlali abatsha", description: "Fumana ulwazi olusisiseko ngokhathalelo lwempilo lukarhulumente nolwabucala, ukufikelela kwiinkonzo ne-inshorensi yezempilo." },
+      socialSecurity: { title: "Uncedo lwentlalo nokufudukela kwelinye ilizwe", description: "Jonga ukuba ukufuduka kunokuluchaphazela njani uncedo lwentlalo, ipenshoni nokudluliselwa kwezibonelelo." },
+      retirement: { title: "Ukuthatha umhlala-phantsi eIreland", description: "Funda ngemibuzo yokuhlala namalungiselelo aluncedo xa ucwangcisa umhlala-phantsi eIreland." },
+      returning: { title: "Ukubuyela eIreland", description: "Izikhokelo zabemi baseIreland ababuyela ekhaya, ezinolwazi oluluncedo kumanqanaba ahlukeneyo obomi." },
+    },
+  },
   recapTitle: "Uhambo lwakho no{name}",
   recapIntro: "Jonga izigqibo ozenzileyo, ubuyele kwezo zifuna ukuphinda ziqwalaselwe, uze ufumane imithombo eluncedo yenyathelo elilandelayo.",
   decisionsTitle: "Izigqibo zakho, zichaziwe",
@@ -150,3 +175,4 @@ const copy = {
 } satisfies LearningCopy;
 
 export default copy;
+

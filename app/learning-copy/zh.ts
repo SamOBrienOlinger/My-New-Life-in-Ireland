@@ -1,6 +1,31 @@
 import type { LearningCopy } from "./en";
 
 const copy = {
+  movingGuide: {
+    title: "规划移居爱尔兰",
+    intro: "通过 Citizens Information 了解移居准备、居留、学习和日常服务。",
+    open: "打开移居指南",
+    beforeTravel: "出发前",
+    arrivalTopic: "规划与抵达",
+    relatedTitle: "了解爱尔兰的生活",
+    relatedIntro: "继续阅读 Citizens Information 提供的与本次旅程相关的指引。",
+    resources: {
+      overview: { title: "移居爱尔兰", description: "从移居、居留、学习和日常生活的相关指引入手。" },
+      beforeArrival: { title: "来爱尔兰之前", description: "出发前规划移民手续、工作、学习及其他实际安排。" },
+      settling: { title: "来爱尔兰生活", description: "规划移居时，了解退休、携带宠物和进口车辆等事项。" },
+      residence: { title: "在爱尔兰的居留权", description: "查找适用于你的国籍、家庭情况和移居原因的指引。" },
+      family: { title: "家庭成员的居留权", description: "查看亲属与居住在爱尔兰的人团聚时适用的居留指引。" },
+      registration: { title: "非欧洲经济区公民的居留登记", description: "了解哪些人须登记移民许可，以及爱尔兰居留许可的相关规定。" },
+      work: { title: "来爱尔兰工作", description: "了解就业许可证、获准工作的相关规定，以及开始一份工作的实际步骤。" },
+      study: { title: "在爱尔兰学习", description: "查找有关留学、高等教育及相关移民手续的指引。" },
+      systems: { title: "了解爱尔兰的制度与服务", description: "了解住房、医疗、社会福利、所得税、学校和公共机构。" },
+      housing: { title: "爱尔兰的住宿", description: "规划居住地点时，了解住宿选择和租房者所需的信息。" },
+      health: { title: "新居民的医疗服务", description: "了解公立和私立医疗、如何获得服务以及医疗保险的基本信息。" },
+      socialSecurity: { title: "社会福利与跨国移居", description: "了解移居可能如何影响社会福利、养老金及福利待遇的跨国转移。" },
+      retirement: { title: "移居爱尔兰养老", description: "规划在爱尔兰的退休生活时，了解居留和日常安排方面的问题。" },
+      returning: { title: "返回爱尔兰", description: "面向返乡爱尔兰公民的指引，提供适合不同人生阶段的实用信息。" },
+    },
+  },
   recapTitle: "回顾你与 {name} 的旅程",
   recapIntro: "回顾你的决定，重新思考需要再斟酌的地方，并查找下一步有用的信息来源。",
   decisionsTitle: "逐项解析你的决定",
@@ -150,3 +175,4 @@ const copy = {
 } satisfies LearningCopy;
 
 export default copy;
+

@@ -1,6 +1,31 @@
 import type { LearningCopy } from './en';
 
 const copy = {
+  movingGuide: {
+    title: "Planeie a sua mudança para a Irlanda",
+    intro: "Explore a preparação, a residência, os estudos e os serviços do dia a dia com Citizens Information.",
+    open: "Abrir o guia para a mudança",
+    beforeTravel: "Antes de viajar",
+    arrivalTopic: "Planeamento e chegada",
+    relatedTitle: "Explore a vida na Irlanda",
+    relatedIntro: "Continue com as informações de Citizens Information relacionadas com este percurso.",
+    resources: {
+      overview: { title: "Mudar-se para a Irlanda", description: "Comece pelas informações sobre a mudança, a residência, os estudos e a vida quotidiana." },
+      beforeArrival: { title: "Antes de vir para a Irlanda", description: "Planeie as questões de imigração, trabalho, estudos e outros aspetos práticos antes de viajar." },
+      settling: { title: "Vir viver para a Irlanda", description: "Explore as questões da reforma, da vinda com animais de companhia e da importação de um veículo ao planear a mudança." },
+      residence: { title: "Direitos de residência na Irlanda", description: "Encontre informações para a sua nacionalidade, situação familiar e motivo da mudança." },
+      family: { title: "Direitos de residência dos familiares", description: "Consulte as informações sobre residência para familiares que se juntam a alguém que vive na Irlanda." },
+      registration: { title: "Registo de cidadãos de países fora do EEE", description: "Verifique quem deve registar a autorização de residência e como funcionam os títulos de residência irlandeses." },
+      work: { title: "Vir trabalhar para a Irlanda", description: "Explore as autorizações de trabalho, a permissão para trabalhar e os passos práticos para começar um emprego." },
+      study: { title: "Estudar na Irlanda", description: "Encontre informações sobre estudos internacionais, ensino superior e as respetivas etapas de imigração." },
+      systems: { title: "Compreender o sistema irlandês", description: "Explore a habitação, os cuidados de saúde, a proteção social, o imposto sobre o rendimento, as escolas e as instituições públicas." },
+      housing: { title: "Alojamento na Irlanda", description: "Explore opções de alojamento e informações para inquilinos ao planear onde vai viver." },
+      health: { title: "Cuidados de saúde para novos residentes", description: "Conheça os cuidados de saúde públicos e privados, o acesso aos serviços e os seguros de saúde." },
+      socialSecurity: { title: "Proteção social e mudança de país", description: "Verifique como a mudança pode afetar as prestações sociais, as pensões e a transferência de prestações." },
+      retirement: { title: "Viver a reforma na Irlanda", description: "Explore as questões de residência e os aspetos práticos ao planear a sua reforma na Irlanda." },
+      returning: { title: "Regressar à Irlanda", description: "Orientações para cidadãos irlandeses que regressam ao país, com informações práticas para diferentes fases da vida." },
+    },
+  },
   recapTitle: "O seu percurso com {name}",
   recapIntro: "Reveja as suas decisões, volte aos pontos que merecem outra análise e encontre fontes úteis para os próximos passos.",
   decisionsTitle: "As suas decisões, explicadas",
@@ -150,3 +175,4 @@ const copy = {
 } satisfies LearningCopy;
 
 export default copy;
+

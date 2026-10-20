@@ -1,4 +1,29 @@
 const en = {
+  movingGuide: {
+    title: "Plan your move to Ireland",
+    intro: "Explore preparation, residence, study and everyday services with Citizens Information.",
+    open: "Open the moving guide",
+    beforeTravel: "Before you travel",
+    arrivalTopic: "Planning and arrival",
+    relatedTitle: "Explore life in Ireland",
+    relatedIntro: "Continue with Citizens Information guidance related to this journey.",
+    resources: {
+      overview: { title: "Moving to Ireland", description: "Start with guidance on moving, residence, study and everyday life." },
+      beforeArrival: { title: "Before you come to Ireland", description: "Plan immigration, work, study and practical arrangements before you travel." },
+      settling: { title: "Coming to live in Ireland", description: "Explore retirement, bringing pets and importing a vehicle when planning your move." },
+      residence: { title: "Rights of residence in Ireland", description: "Find guidance for your nationality, family circumstances and reason for moving." },
+      family: { title: "Residence rights of family members", description: "Check the residence guidance for relatives joining someone who lives in Ireland." },
+      registration: { title: "Registering as a non-EEA national", description: "Check who must register immigration permission and how Irish Residence Permits work." },
+      work: { title: "Coming to work in Ireland", description: "Explore employment permits, permission to work and practical steps for starting a job." },
+      study: { title: "Studying in Ireland", description: "Find guidance on international study, third-level education and the relevant immigration steps." },
+      systems: { title: "Understanding the Irish system", description: "Explore housing, healthcare, social welfare, income tax, schools and public institutions." },
+      housing: { title: "Accommodation in Ireland", description: "Explore accommodation options and information for renters when planning where to live." },
+      health: { title: "Healthcare for new residents", description: "Find introductions to public and private healthcare, access to services and health insurance." },
+      socialSecurity: { title: "Social welfare and moving countries", description: "Check how moving can affect social welfare, pensions and the transfer of benefits." },
+      retirement: { title: "Retiring to Ireland", description: "Explore residence and practical questions when planning retirement in Ireland." },
+      returning: { title: "Returning to Ireland", description: "Guidance for Irish citizens coming home, with practical information for different life stages." },
+    },
+  },
   recapTitle: "Your journey with {name}",
   recapIntro: "Look back at your decisions, revisit what needs another look, and find useful next sources.",
   decisionsTitle: "Your decisions, explained",
@@ -150,3 +175,4 @@ const en = {
 export type LearningCopy = typeof en;
 export type InsightKey = keyof LearningCopy["insights"];
 export default en;
+

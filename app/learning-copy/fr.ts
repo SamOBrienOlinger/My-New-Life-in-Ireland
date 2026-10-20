@@ -1,6 +1,31 @@
 import type { LearningCopy } from './en';
 
 const copy = {
+  movingGuide: {
+    title: "Préparez votre installation en Irlande",
+    intro: "Découvrez les préparatifs, le séjour, les études et les services du quotidien avec Citizens Information.",
+    open: "Ouvrir le guide pour s’installer",
+    beforeTravel: "Avant de partir",
+    arrivalTopic: "Préparation et arrivée",
+    relatedTitle: "Découvrez la vie en Irlande",
+    relatedIntro: "Poursuivez avec les informations de Citizens Information en lien avec ce parcours.",
+    resources: {
+      overview: { title: "S’installer en Irlande", description: "Commencez par les informations sur l’installation, le séjour, les études et la vie quotidienne." },
+      beforeArrival: { title: "Avant de venir en Irlande", description: "Préparez les démarches d’immigration, le travail, les études et les aspects pratiques avant votre départ." },
+      settling: { title: "Venir vivre en Irlande", description: "Explorez les questions de retraite, de voyage avec des animaux et d’importation d’un véhicule avant votre installation." },
+      residence: { title: "Droits de séjour en Irlande", description: "Trouvez les informations correspondant à votre nationalité, à votre situation familiale et au motif de votre installation." },
+      family: { title: "Droits de séjour des membres de la famille", description: "Consultez les informations sur le séjour des proches qui rejoignent une personne vivant en Irlande." },
+      registration: { title: "Enregistrement des ressortissants hors EEE", description: "Vérifiez qui doit faire enregistrer son autorisation de séjour et comment fonctionnent les titres de séjour irlandais." },
+      work: { title: "Venir travailler en Irlande", description: "Découvrez les permis de travail, l’autorisation de travailler et les démarches pratiques pour commencer un emploi." },
+      study: { title: "Étudier en Irlande", description: "Trouvez des informations sur les études à l’étranger, l’enseignement supérieur et les démarches d’immigration correspondantes." },
+      systems: { title: "Comprendre le système irlandais", description: "Découvrez le logement, la santé, la protection sociale, l’impôt sur le revenu, les écoles et les institutions publiques." },
+      housing: { title: "Se loger en Irlande", description: "Explorez les possibilités de logement et les informations destinées aux locataires pour préparer votre installation." },
+      health: { title: "Soins de santé pour les nouveaux résidents", description: "Découvrez les soins publics et privés, l’accès aux services de santé et l’assurance maladie." },
+      socialSecurity: { title: "Protection sociale et changement de pays", description: "Vérifiez les effets d’un déménagement sur les prestations sociales, les pensions et le transfert des prestations." },
+      retirement: { title: "Prendre sa retraite en Irlande", description: "Explorez les questions de séjour et les aspects pratiques pour préparer votre retraite en Irlande." },
+      returning: { title: "Revenir vivre en Irlande", description: "Des informations pour les citoyens irlandais qui rentrent au pays, adaptées aux différentes étapes de la vie." },
+    },
+  },
   recapTitle: "Votre parcours avec {name}",
   recapIntro: "Revenez sur vos décisions, réexaminez les points qui le méritent et trouvez des sources utiles pour la suite.",
   decisionsTitle: "Vos décisions, expliquées",
@@ -150,3 +175,4 @@ const copy = {
 } satisfies LearningCopy;
 
 export default copy;
+
