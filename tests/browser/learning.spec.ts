@@ -180,6 +180,7 @@ test("moving guide links and localized search remain usable on narrow RTL screen
   for (const [width, language, copy] of [[320, "ar", arabic], [390, "fa", farsi]] as const) {
     await page.setViewportSize({ width, height: 844 });
     await page.goto("./resources/?topic=arrival#resource-browser");
+    await page.getByRole("searchbox").fill("");
     await page.locator(".mobile-menu-button").click();
     await page.locator(".mobile-language-row select").selectOption(language);
     await expect(page.locator("html")).toHaveAttribute("lang", language);
