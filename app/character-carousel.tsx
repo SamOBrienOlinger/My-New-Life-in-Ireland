@@ -16,9 +16,6 @@ type CharacterCarouselProps = {
 };
 
 type Position = {
-  start: number;
-  end: number;
-  total: number;
   previous: boolean;
   next: boolean;
 };
@@ -51,26 +48,13 @@ function revealCard(viewport: HTMLElement, card: HTMLElement) {
 }
 
 function readPosition(viewport: HTMLElement, cards: HTMLElement[], direction: Direction): Position {
-  if (!cards.length) return { start: 0, end: 0, total: 0, previous: false, next: false };
+  if (!cards.length) return { previous: false, next: false };
 
   const bounds = viewportEdges(viewport);
-  const rects = cards.map((card) => card.getBoundingClientRect());
-  const visible: number[] = [];
-  const intersecting: number[] = [];
-  rects.forEach((rect, index) => {
-    const overlap = Math.min(rect.right, bounds.right) - Math.max(rect.left, bounds.left);
-    if (overlap > edgeTolerance) intersecting.push(index);
-    // A small preview of the next card does not inflate the announced range.
-    if (overlap >= Math.min(rect.width, bounds.right - bounds.left) / 2) visible.push(index);
-  });
-  const range = visible.length ? visible : intersecting;
-  const first = rects[0];
-  const last = rects[rects.length - 1];
+  const first = cards[0].getBoundingClientRect();
+  const last = cards[cards.length - 1].getBoundingClientRect();
 
   return {
-    start: range.length ? range[0] + 1 : 0,
-    end: range.length ? range[range.length - 1] + 1 : 0,
-    total: cards.length,
     previous: direction === "rtl"
       ? first.right > bounds.right + edgeTolerance
       : first.left < bounds.left - edgeTolerance,
@@ -118,8 +102,7 @@ export function CharacterCarousel({ children, itemIds, selectedId, direction, la
       preserveVisibility = false;
       resetEmptySelection = false;
       const next = readPosition(viewport, cards, direction);
-      setPosition((current) => current && current.start === next.start && current.end === next.end
-        && current.total === next.total && current.previous === next.previous && current.next === next.next
+      setPosition((current) => current && current.previous === next.previous && current.next === next.next
         ? current : next);
     }
 
@@ -152,7 +135,7 @@ export function CharacterCarousel({ children, itemIds, selectedId, direction, la
       window.removeEventListener("resize", resize);
       preference.removeEventListener("change", motionChanged);
     };
-  }, [itemsKey, selectedId, direction, label, copy.instructions, copy.range]);
+  }, [itemsKey, selectedId, direction, label, copy.instructions]);
 
   function move(step: -1 | 1) {
     const viewport = viewportRef.current;
@@ -179,10 +162,6 @@ export function CharacterCarousel({ children, itemIds, selectedId, direction, la
     if (viewport && card && viewport.contains(card)) revealCard(viewport, card);
   }
 
-  const range = position ? copy.range
-    .replaceAll("{start}", String(position.start))
-    .replaceAll("{end}", String(position.end))
-    .replaceAll("{total}", String(position.total)) : "";
   const PreviousIcon = direction === "rtl" ? ChevronRight : ChevronLeft;
   const NextIcon = direction === "rtl" ? ChevronLeft : ChevronRight;
 
@@ -198,7 +177,6 @@ export function CharacterCarousel({ children, itemIds, selectedId, direction, la
           aria-controls={viewportId} disabled={!position?.previous} onClick={() => move(-1)}>
           <PreviousIcon size={22} aria-hidden="true" />
         </button>
-        <span className="character-carousel-status" role="status" aria-live="polite" aria-atomic="true">{range}</span>
         <button className="carousel-arrow" type="button" aria-label={copy.next} title={copy.next}
           aria-controls={viewportId} disabled={!position?.next} onClick={() => move(1)}>
           <NextIcon size={22} aria-hidden="true" />

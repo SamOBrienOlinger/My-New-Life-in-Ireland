@@ -339,7 +339,6 @@ label:has([role="radio"]:focus-visible),
   scroll-snap-align: start;
 }
 .character-carousel-controls { margin-top: 18px; display: flex; align-items: center; justify-content: center; gap: 18px; }
-.character-carousel-status { min-width: 100px; margin: 0; color: var(--muted-ink); font-size: .88rem; text-align: center; font-variant-numeric: tabular-nums; }
 .carousel-arrow {
   width: 48px;
   height: 48px;

@@ -3,7 +3,6 @@ import { characters, stepsByRoute } from "../../app/journey-data";
 
 const previous = (page: Page) => page.getByRole("button", { name: "Previous characters", exact: true });
 const next = (page: Page) => page.getByRole("button", { name: "Next characters", exact: true });
-const status = (page: Page) => page.locator(".character-carousel-status");
 
 async function expectVisibleCards(page: Page, ids: string[]) {
   await expect.poll(() => page.locator(".character-carousel-viewport").evaluate((viewport) => {
@@ -32,13 +31,11 @@ async function selectNextWithKeyboard(page: Page, key: "ArrowLeft" | "ArrowRight
 test("desktop browsing reaches every character without changing the selected journey", async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 1000 });
   await page.goto("./#character-kwame");
-  await expect(status(page)).toHaveText("1–3 of 12");
   await expectVisibleCards(page, characters.slice(0, 3).map((item) => item.id));
   await expect(previous(page)).toBeDisabled();
 
   for (let start = 1; start <= characters.length - 3; start++) {
     await next(page).click();
-    await expect(status(page)).toHaveText(`${start + 1}–${start + 3} of 12`);
     await expectVisibleCards(page, characters.slice(start, start + 3).map((item) => item.id));
   }
   await expect(next(page)).toBeDisabled();
@@ -46,14 +43,12 @@ test("desktop browsing reaches every character without changing the selected jou
   await expect(page.locator('.character-grid [aria-checked="true"]')).toHaveCount(1);
 
   await previous(page).click();
-  await expect(status(page)).toHaveText("9–11 of 12");
   await expectVisibleCards(page, ["river", "adama", "elena"]);
 });
 
 test("mobile shows one card and keyboard selection brings the next character into view", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("./#character-kwame");
-  await expect(status(page)).toHaveText("1–1 of 12");
   await expectVisibleCards(page, ["kwame"]);
   await page.getByRole("button", { name: "Begin five-stage journey", exact: true }).focus();
   await page.keyboard.press("Tab");
@@ -70,14 +65,12 @@ test("route filters reset the carousel bounds and a single result needs no scrol
   await page.getByRole("button", { name: /^I want to study/ }).click();
   await expect(page.locator(".character-card")).toHaveCount(1);
   await expectVisibleCards(page, ["noor"]);
-  await expect(status(page)).toHaveText("1–1 of 1");
   await expect(previous(page)).toBeDisabled();
   await expect(next(page)).toBeDisabled();
   await expect(page.locator('.character-grid [aria-checked="true"]')).toHaveCount(0);
 
   await page.getByRole("button", { name: /^Show everyone/ }).click();
   await expect(page.locator(".character-card")).toHaveCount(12);
-  await expect(status(page)).toHaveText("1–3 of 12");
   await expect(previous(page)).toBeDisabled();
   await expect(next(page)).toBeEnabled();
 });
