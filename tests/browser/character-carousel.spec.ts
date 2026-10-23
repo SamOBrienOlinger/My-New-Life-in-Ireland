@@ -55,7 +55,9 @@ test("mobile shows one card and keyboard selection brings the next character int
   await page.goto("./#character-kwame");
   await expect(status(page)).toHaveText("1–1 of 12");
   await expectVisibleCards(page, ["kwame"]);
-  await page.locator("#kwame").focus();
+  await page.getByRole("button", { name: "Begin five-stage journey", exact: true }).focus();
+  await page.keyboard.press("Tab");
+  await expect(page.locator("#kwame")).toBeFocused();
   await selectNextWithKeyboard(page, "ArrowRight");
   await expect(page.locator(".start-bar")).toContainText("Mateo Álvarez");
   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(390);

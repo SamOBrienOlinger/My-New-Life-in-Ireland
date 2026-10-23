@@ -189,7 +189,8 @@ export function CharacterCarousel({ children, itemIds, selectedId, direction, la
   return (
     <div className="character-carousel" role="region" aria-label={label} aria-describedby={instructionsId} dir={direction}>
       <p className="character-carousel-instructions" id={instructionsId}>{copy.instructions}</p>
-      <div className="character-carousel-viewport" id={viewportId} ref={viewportRef} onFocusCapture={revealFocusedCard}>
+      {/* Skip Firefox's extra scroll-container Tab stop; the radio group and buttons provide keyboard access. */}
+      <div className="character-carousel-viewport" id={viewportId} ref={viewportRef} tabIndex={-1} onFocusCapture={revealFocusedCard}>
         {children}
       </div>
       <div className="character-carousel-controls">
