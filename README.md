@@ -30,7 +30,7 @@
   <a href="#using-the-project">Start here</a> ·
   <a href="#how-a-journey-works">Journey guide</a> ·
   <a href="#meet-the-characters">Characters</a> ·
-  <a href="#language-and-reading">Language &amp; reading</a> ·
+  <a href="#languages">🌐 Languages</a> ·
   <a href="#save-and-return">Save &amp; return</a> ·
   <a href="#learning-methodology-and-outcomes">Learning &amp; outcomes</a> ·
   <a href="#evidence-and-educational-approach">Evidence</a> ·
@@ -114,7 +114,9 @@ The **Information Hub contains 40 resources**, including 14 Citizens Information
 
 **[Open the Information Hub →](https://samobrienolinger.github.io/My-New-Life-in-Ireland/resources/)**
 
-## Language and reading
+<a name="language-and-reading"></a>
+
+## Languages
 
 Choose a language using the site's language control. Scenario text, answers and learning explanations are available in **ten languages**.
 
