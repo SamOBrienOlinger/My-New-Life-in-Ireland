@@ -802,7 +802,6 @@ label:has([role="radio"]:focus-visible),
   list-style: none;
 }
 .experience-map li {
-  min-height: 230px;
   padding: 24px 22px;
   display: flex;
   flex-direction: column;
@@ -821,9 +820,7 @@ label:has([role="radio"]:focus-visible),
   color: var(--teal-dark);
 }
 .experience-icon svg { width: 20px; height: 20px; stroke-width: 2; }
-.experience-map li > div { display: grid; gap: 9px; }
 .experience-map li strong { display: block; font-size: 1.03rem; line-height: 1.35; }
-.experience-map li p { margin: 0; color: var(--muted-ink); font-size: .9rem; line-height: 1.6; }
 
 .route-finder {
   max-width: none;
@@ -1260,7 +1257,7 @@ label:has([role="radio"]:focus-visible),
   .experience-map { padding: 62px 20px 58px; }
   .experience-map ol { grid-template-columns: 1fr; }
   .experience-map ol { gap: 10px; }
-  .experience-map li { min-height: auto; padding: 19px; flex-direction: row; align-items: flex-start; gap: 15px; }
+  .experience-map li { padding: 19px; flex-direction: row; align-items: center; gap: 15px; }
   .experience-icon { width: 40px; height: 40px; flex: 0 0 auto; }
   .route-finder { padding: 58px 20px; grid-template-columns: 1fr; gap: 28px; }
   .route-filter-grid { grid-template-columns: 1fr; }

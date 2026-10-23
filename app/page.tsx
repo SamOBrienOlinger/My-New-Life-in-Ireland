@@ -412,7 +412,15 @@ export default function Home() {
       </div>
     </section>
 
-    <section className="experience-map" data-reveal="experience-map" aria-labelledby="experience-title"><div><p className="eyebrow">{t.howEyebrow}</p><h2 id="experience-title">{t.howTitle}</h2></div><ol><li><span className="experience-icon" aria-hidden="true"><Users /></span><div><strong>{t.how1}</strong><p>{t.how1p}</p></div></li><li><span className="experience-icon" aria-hidden="true"><ArrowRight /></span><div><strong>{t.how2}</strong><p>{t.how2p}</p></div></li><li><span className="experience-icon" aria-hidden="true"><Scale /></span><div><strong>{t.how3}</strong><p>{t.how3p}</p></div></li><li><span className="experience-icon" aria-hidden="true"><CheckCircle2 /></span><div><strong>{t.how4}</strong><p>{t.how4p}</p></div></li></ol></section>
+    <section className="experience-map" data-reveal="experience-map" aria-labelledby="experience-title">
+      <div><p className="eyebrow">{t.howEyebrow}</p><h2 id="experience-title">{t.howTitle}</h2></div>
+      <ol>
+        <li><span className="experience-icon" aria-hidden="true"><Users /></span><strong>{t.how1}</strong></li>
+        <li><span className="experience-icon" aria-hidden="true"><ArrowRight /></span><strong>{t.how2}</strong></li>
+        <li><span className="experience-icon" aria-hidden="true"><Scale /></span><strong>{t.how3}</strong></li>
+        <li><span className="experience-icon" aria-hidden="true"><CheckCircle2 /></span><strong>{t.how4}</strong></li>
+      </ol>
+    </section>
 
     <section className="route-finder" id="route-finder" aria-labelledby="route-finder-title"><div className="route-finder-copy" data-reveal="route-finder-copy"><p className="eyebrow">{t.routeEyebrow}</p><h2 id="route-finder-title">{t.routeTitle}</h2><p>{t.routeNote}</p></div><div className="route-filter-grid" role="group" aria-label={t.routeTitle}>{routeFilters.map((item) => { const local = localFilter(item.id, language); const selected = filter === item.id; return <button type="button" className={"route-filter " + (selected ? "selected" : "")} aria-pressed={selected} onClick={() => { setFilter(item.id); if (selectedId && item.id !== "all" && character?.filter !== item.id) setSelectedId(""); window.setTimeout(() => document.querySelector("#choose-character")?.scrollIntoView({ behavior: scrollBehavior(), block: "start" }), 0); }} key={item.id}><span className="route-filter-heading"><span>{local.label}</span><span className="selection-indicator" aria-hidden="true">{selected ? <Check size={14} /> : null}</span></span><small>{local.description}</small></button>; })}</div></section>
 
