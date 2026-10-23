@@ -16,6 +16,8 @@ import { LanguageControl, localCharacter, localFilter, localRoute, localStep, ui
 import { additionalOfficialSourceDescriptions } from "./additional-page-copy";
 import { MobileNavigation } from "./mobile-navigation";
 import { CharacterPortrait } from "./character-portrait";
+import { CharacterCarousel } from "./character-carousel";
+import { characterCarouselCopy } from "./character-carousel-copy";
 import {
   completedStorageKey, createSavedJourney, parseCompletedJourneys, parseSavedJourneys,
   progressStorageKey, serialiseSavedJourneys, type SavedJourney, type SavedJourneys,
@@ -417,7 +419,39 @@ export default function Home() {
     <section className="character-section character-section-expanded" id="choose-character">
       <div className="section-heading" data-reveal="character-heading"><div><p className="eyebrow">{t.chooseEyebrow}</p><h2 id="character-picker-title" tabIndex={-1}>{t.chooseTitle}</h2></div><div className="learning-progress-card"><Sparkles size={20} aria-hidden="true" /><div><strong>{completedCharacters.length} {t.of} 12 {t.explored}</strong><span>{storageAvailable ? t.saved : controls.saveUnavailable}</span></div></div></div>
       <div className="start-bar" aria-live="polite">{character ? <><div><span className="mini-label">{t.selected}</span><strong>{character.name} · {localRoute(character.route, language).label}</strong>{selectedSavedJourney ? <span>{controls.stage} {selectedSavedJourney.stepIndex + 1} {t.of} {steps.length}</span> : null}</div><div className="start-actions"><button className="primary-button" type="button" disabled={!storageReady} onClick={beginJourney}>{selectedSavedJourney ? controls.resumeJourney.replace("{name}", character.name.split(" ")[0]) : t.begin}<ArrowRight size={18} aria-hidden="true" /></button>{selectedSavedJourney ? <button className="quiet-button restart-button" type="button" disabled={!storageReady} onClick={restartJourney}>{controls.restart}</button> : null}</div></> : <p>{visibleCharacters.length ? t.selectPrompt : t.emptyPrompt}</p>}</div>
-      <RadioGroup value={selectedId} onValueChange={setSelectedId} className="character-grid" aria-label={t.choose} dir={dir}>{visibleCharacters.map((item) => { const Icon = routeIcons[item.route]; const finished = completedCharacters.includes(item.id); return <label id={`character-${item.id}`} data-reveal={`character-${item.id}`} className={"character-card " + (selectedId === item.id ? "selected" : "")} key={item.id}><RadioGroupItem value={item.id} id={item.id} className="sr-only" aria-labelledby={`character-name-${item.id}`} aria-describedby={`character-summary-${item.id}`} /><div className="card-topline"><CharacterPortrait character={item} /><span className="route-tag"><Icon size={14} aria-hidden="true" />{localRoute(item.route, language).short}</span></div>{finished ? <span className="completed-badge"><Check size={13} aria-hidden="true" />{t.exploredBadge}</span> : null}<h3 id={`character-name-${item.id}`}>{item.name}</h3><p className="character-meta">{item.pronouns} · {item.origin}</p><p className="character-role">{item.role}</p><p className="character-summary" id={`character-summary-${item.id}`}>{item.summary}</p><a className="card-action" href={`#character-${item.id}`} onClick={(event) => { if (!event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey && event.button === 0) setSelectedId(item.id); }}>{t.walkWith} {item.name.split(" ")[0]} <ArrowRight size={16} aria-hidden="true" /></a></label>; })}</RadioGroup>
+      <CharacterCarousel
+        itemIds={visibleCharacters.map((item) => item.id)}
+        selectedId={selectedId}
+        direction={dir}
+        label={t.choose}
+        copy={characterCarouselCopy(language)}
+      >
+        <RadioGroup value={selectedId} onValueChange={setSelectedId} className="character-grid character-carousel-track" aria-label={t.choose} dir={dir}>
+          {visibleCharacters.map((item) => {
+            const Icon = routeIcons[item.route];
+            const finished = completedCharacters.includes(item.id);
+            return (
+              <label id={`character-${item.id}`} data-reveal={`character-${item.id}`} className={"character-card " + (selectedId === item.id ? "selected" : "")} key={item.id}>
+                <RadioGroupItem value={item.id} id={item.id} className="sr-only" aria-labelledby={`character-name-${item.id}`} aria-describedby={`character-summary-${item.id}`} />
+                <div className="card-topline">
+                  <CharacterPortrait character={item} />
+                  <span className="route-tag"><Icon size={14} aria-hidden="true" />{localRoute(item.route, language).short}</span>
+                </div>
+                {finished ? <span className="completed-badge"><Check size={13} aria-hidden="true" />{t.exploredBadge}</span> : null}
+                <h3 id={`character-name-${item.id}`}>{item.name}</h3>
+                <p className="character-meta">{item.pronouns} · {item.origin}</p>
+                <p className="character-role">{item.role}</p>
+                <p className="character-summary" id={`character-summary-${item.id}`}>{item.summary}</p>
+                <a className="card-action" href={`#character-${item.id}`} onClick={(event) => {
+                  if (!event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey && event.button === 0) setSelectedId(item.id);
+                }}>
+                  {t.walkWith} {item.name.split(" ")[0]} <ArrowRight size={16} aria-hidden="true" />
+                </a>
+              </label>
+            );
+          })}
+        </RadioGroup>
+      </CharacterCarousel>
     </section>
 
     <section className="hub-preview" id="information-hub-topics" aria-labelledby="hub-title"><div data-reveal="hub-introduction"><p className="eyebrow">{t.afterStory}</p><h2 id="hub-title">{t.practicalTitle}</h2><p>{t.practicalText}</p><a className="primary-button" href="resources/">{t.openHub} <ArrowRight size={18} aria-hidden="true" /></a></div><nav className="hub-topic-grid" data-reveal="hub-topics" aria-label={t.hub}><a href="resources/?topic=work#resource-browser"><BriefcaseBusiness aria-hidden="true" /><span>{t.workPermits}</span><ArrowRight className="hub-topic-arrow" size={18} aria-hidden="true" /></a><a href="resources/?topic=protection#resource-browser"><ShieldCheck aria-hidden="true" /><span>{t.protectionSafety}</span><ArrowRight className="hub-topic-arrow" size={18} aria-hidden="true" /></a><a href="resources/?topic=study#resource-browser"><GraduationCap aria-hidden="true" /><span>{t.studyEducation}</span><ArrowRight className="hub-topic-arrow" size={18} aria-hidden="true" /></a><a href="resources/?topic=family#resource-browser"><HeartHandshake aria-hidden="true" /><span>{t.familyCommunity}</span><ArrowRight className="hub-topic-arrow" size={18} aria-hidden="true" /></a><a href="resources/?topic=arrival#resource-browser"><MapPin aria-hidden="true" /><span>{t.arrivalRegistration}</span><ArrowRight className="hub-topic-arrow" size={18} aria-hidden="true" /></a><a href="resources/?topic=rights#resource-browser"><Scale aria-hidden="true" /><span>{t.rightsAdvice}</span><ArrowRight className="hub-topic-arrow" size={18} aria-hidden="true" /></a></nav></section>

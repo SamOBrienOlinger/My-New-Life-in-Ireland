@@ -317,6 +317,45 @@ label:has([role="radio"]:focus-visible),
 .section-heading h2 { font-size: clamp(2.4rem, 4vw, 4.2rem); }
 .section-heading > p { margin: 0; color: var(--muted-ink); font-size: 1.05rem; line-height: 1.7; }
 .character-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.character-carousel { min-width: 0; }
+.character-carousel-instructions { margin: 0 0 14px; color: var(--muted-ink); font-size: .9rem; }
+.character-carousel-viewport {
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: 8px;
+  margin-inline: -8px;
+  padding: 8px 8px 24px;
+  scrollbar-width: thin;
+  scrollbar-color: #a98f96 var(--paper-deep);
+}
+.character-grid.character-carousel-track { display: flex; align-items: stretch; }
+/* Keep room for the final card's focus ring beyond the overflowing track. */
+.character-carousel-track::after { content: ""; flex: 0 0 8px; margin-inline-start: -16px; }
+.character-carousel-track > .character-card {
+  position: relative;
+  flex: 0 0 calc((100% - 32px) / 3);
+  min-width: 0;
+  scroll-snap-align: start;
+}
+.character-carousel-controls { margin-top: 18px; display: flex; align-items: center; justify-content: center; gap: 18px; }
+.character-carousel-status { min-width: 100px; margin: 0; color: var(--muted-ink); font-size: .88rem; text-align: center; font-variant-numeric: tabular-nums; }
+.carousel-arrow {
+  width: 48px;
+  height: 48px;
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--maroon);
+  border-radius: 50%;
+  color: var(--maroon);
+  background: var(--white);
+  cursor: pointer;
+  transition: background .15s ease, color .15s ease;
+}
+.carousel-arrow:not(:disabled):hover { background: var(--maroon); color: white; }
+.carousel-arrow:disabled { border-color: var(--line); color: #a98f96; background: var(--paper-deep); cursor: default; }
 .character-card {
   scroll-margin-top: 110px;
   min-height: 355px;
@@ -1167,6 +1206,7 @@ label:has([role="radio"]:focus-visible),
 
 @media (max-width: 1000px) {
   .character-grid { grid-template-columns: repeat(2, 1fr); }
+  .character-carousel-track > .character-card { flex-basis: calc((100% - 16px) / 2); }
   .journey-layout { grid-template-columns: 220px 1fr; gap: 25px; }
   .decision-panel { padding: 32px; }
   .guidance-section { gap: 45px; }
@@ -1233,6 +1273,7 @@ label:has([role="radio"]:focus-visible),
   .character-section { padding: 70px 18px 76px; }
   .section-heading { grid-template-columns: 1fr; gap: 20px; align-items: start; }
   .character-grid { grid-template-columns: 1fr; }
+  .character-carousel-track > .character-card { flex-basis: 100%; }
   .character-card { min-height: 320px; }
   .start-bar { position: sticky; top: max(10px, env(safe-area-inset-top)); z-index: 5; padding: 13px; flex-direction: column; align-items: stretch; gap: 12px; box-shadow: 0 14px 45px rgba(75,16,38,.18); }
   .start-bar > div { display: flex; }
