@@ -17,7 +17,7 @@
 
 <p align="center">
   <a href="https://samobrienolinger.github.io/My-New-Life-in-Ireland/">
-    <img src="docs/images/a-new-life-in-ireland-banner.png" width="880" alt="People walking towards an Irish coastal town. Text: Every journey to Ireland is different. Decide. Adapt. Navigate. This is your new life in Ireland.">
+    <img src="public/images/ireland-rural-dublin-hero.webp" width="880" alt="Visit A New Life in Ireland: eight people walking beside a river, with rural fields on the left and Dublin landmarks on the right.">
   </a>
 </p>
 
