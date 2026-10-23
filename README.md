@@ -1,22 +1,181 @@
-# A New Life in Ireland
+<p align="center">
+  <img src="public/images/harp-heart-logo.png" width="96" alt="A New Life in Ireland harp-heart logo">
+</p>
 
-An interactive educational website that explores migration and settlement in Ireland through decisions made alongside twelve fictional characters.
+<h1 align="center">A New Life in Ireland</h1>
 
-**React · TypeScript · Vite**
+<p align="center">
+  <strong>Every journey to Ireland is different.</strong><br>
+  Explore migration and settlement through fictional people, decisions and explanations.
+</p>
 
-[Visit the website](https://samobrienolinger.github.io/My-New-Life-in-Ireland/) · [Distinctive proposition](#distinctive-proposition-and-educational-contribution) · [Getting started](#getting-started) · [Repository guide](#repository-guide) · [Checks](#checks-and-review) · [Credits](#credits-and-reuse)
+<p align="center">
+  <a href="https://samobrienolinger.github.io/My-New-Life-in-Ireland/#choose-character"><strong>Start a character journey →</strong></a>
+  &nbsp; · &nbsp;
+  <a href="https://samobrienolinger.github.io/My-New-Life-in-Ireland/resources/"><strong>Explore the Information Hub →</strong></a>
+</p>
 
-<img src="public/images/harp-heart-logo.png" alt="A New Life in Ireland harp-heart logo" width="160">
+<p align="center">
+  <a href="https://samobrienolinger.github.io/My-New-Life-in-Ireland/">
+    <img src="docs/images/a-new-life-in-ireland-banner.png" width="880" alt="People walking towards an Irish coastal town. Text: Every journey to Ireland is different. Decide. Adapt. Navigate. This is your new life in Ireland.">
+  </a>
+</p>
 
-![People walking towards an Irish coastal town. Text: Every journey to Ireland is different. Decide. Adapt. Navigate. This is your new life in Ireland](docs/images/a-new-life-in-ireland-banner.png)
+<p align="center">
+  <strong>12 fictional characters</strong> &nbsp; · &nbsp; <strong>5 stages per journey</strong> &nbsp; · &nbsp; <strong>10 languages</strong><br>
+  Decide. Adapt. Navigate. This is your new life in Ireland.
+</p>
 
-## Distinctive proposition and educational contribution
+<p align="center">
+  <a href="#using-the-project">Start here</a> ·
+  <a href="#how-a-journey-works">Journey guide</a> ·
+  <a href="#meet-the-characters">Characters</a> ·
+  <a href="#language-and-reading">Language &amp; reading</a> ·
+  <a href="#save-and-return">Save &amp; return</a> ·
+  <a href="#evidence-and-educational-approach">Evidence</a> ·
+  <a href="#getting-started">Developers</a>
+</p>
+
+---
+
+Follow a fictional person's circumstances from planning a move to building a life in Ireland. Make decisions, read the explanations and use the linked guidance to explore the questions behind each journey.
+
+> [!NOTE]
+> **An educational experience.** The characters and stories are fictional. The journeys and route finder cannot determine anyone's eligibility or legal status, and do not provide legal advice. Follow the official sources for current guidance about a real situation.
+
+## Using the project
+
+**Choose the way you want to explore.** You can start with a story or go straight to the information.
+
+| Start here | What you can do |
+| --- | --- |
+| **[Follow a character](https://samobrienolinger.github.io/My-New-Life-in-Ireland/#choose-character)** | Meet one of twelve fictional people and consider the decisions in their five-stage journey. |
+| **[Try the route finder](https://samobrienolinger.github.io/My-New-Life-in-Ireland/#route-finder)** | Filter characters by a broad reason for moving, such as work, study or family. This is an educational filter, not an eligibility checker. |
+| **[Browse the Information Hub](https://samobrienolinger.github.io/My-New-Life-in-Ireland/resources/)** | Search official and specialist resources, or filter by topic to find a useful starting point. |
+
+### How a journey works
+
+**Plan → Prepare → Travel → Arrive → Build a life**
+
+1. **Choose a person.** Read their profile, then select **Begin five-stage journey**.
+2. **Read the situation.** Consider the character's circumstances and the explanation of the relevant rules. Choose the plain-language or detailed version, or use **Listen** where supported.
+3. **Make and check a decision.** Select a response, then choose **Check decision** to reveal the feedback and stated consequences.
+4. **Learn why it matters.** Read the learning point, common misunderstanding, practical next step and supporting sources.
+5. **Continue through the five stages.** Select **Continue** after checking each decision. At the last stage, select **Complete journey**.
+6. **Reflect and explore further.** Review the recap, revisit a decision, consider the reflection questions or follow the relevant resources. Try another character to compare circumstances.
+
+> [!TIP]
+> **You can learn by reconsidering.** The recap lets you revisit an answer without resetting the attempt. Check a changed answer before returning to the recap. The five stages stay in sequence; your choices change the feedback and stated consequences.
+
+The recap counts informed decisions in the exercise. **You do not need five correct answers to finish**, and the result does not predict immigration eligibility or a real-world outcome. Reflection questions are unscored and request no personal information.
+
+## Meet the characters
+
+**Twelve fictional people. Different circumstances, reasons for moving and support needs.** Their graphic novel portraits stay with them from selection through the journey.
+
+<p align="center">
+  <img src="public/images/characters/priya.webp" width="96" alt="Priya, a fictional character illustrated in graphic novel style">
+  <img src="public/images/characters/mateo.webp" width="96" alt="Mateo, a fictional character illustrated in graphic novel style">
+  <img src="public/images/characters/noor.webp" width="96" alt="Noor, a fictional character illustrated in graphic novel style">
+  <img src="public/images/characters/elena.webp" width="96" alt="Elena, a fictional character illustrated in graphic novel style">
+  <img src="public/images/characters/kwame.webp" width="96" alt="Kwame, a fictional character illustrated in graphic novel style">
+  <img src="public/images/characters/mariam.webp" width="96" alt="Mariam, a fictional character illustrated in graphic novel style">
+</p>
+
+<p align="center">
+  <img src="public/images/characters/sofia.webp" width="96" alt="Sofia, a fictional character illustrated in graphic novel style">
+  <img src="public/images/characters/farid.webp" width="96" alt="Farid, a fictional character illustrated in graphic novel style">
+  <img src="public/images/characters/leila.webp" width="96" alt="Leila, a fictional character illustrated in graphic novel style">
+  <img src="public/images/characters/adama.webp" width="96" alt="Adama, a fictional character illustrated in graphic novel style">
+  <img src="public/images/characters/valentina.webp" width="96" alt="Valentina, a fictional character illustrated in graphic novel style">
+  <img src="public/images/characters/river.webp" width="96" alt="River, a fictional character illustrated in graphic novel style">
+</p>
+
+<p align="center">
+  <a href="https://samobrienolinger.github.io/My-New-Life-in-Ireland/#choose-character"><strong>Meet all 12 people and choose a journey →</strong></a>
+</p>
+
+The characters are fictional composites, not real-person testimony or representatives of every migrant's experience. Comparing their journeys is an opportunity to examine how personal circumstances and institutional requirements shape the available options. Choices do not imply complete control over migration outcomes.
+
+## What you can explore
+
+| Area | Questions and resources |
+| --- | --- |
+| **Migration pathways** | Work, study, family, EU free movement and international protection, with different circumstances and support needs. |
+| **Planning and arrival** | Preparing to move, residence, registration and finding the relevant official guidance. |
+| **Building a life** | Housing, healthcare, everyday services, work, social welfare and other settlement questions. |
+| **Practical next steps** | Professional registration in Priya's journey and tax setup in relevant work journeys, kept distinct from immigration permission. |
+| **Further learning** | Decision-specific sources, reflection prompts and relevant Citizens Information guides after each completed journey. |
+
+The **Information Hub contains 40 resources**, including 14 Citizens Information moving guides. Use its search and topic filters, or begin with the [Moving to Ireland overview](https://www.citizensinformation.ie/en/moving-country/moving-to-ireland/). Returning-home guidance addresses Irish citizens; it is not an additional fictional character route.
+
+**[Open the Information Hub →](https://samobrienolinger.github.io/My-New-Life-in-Ireland/resources/)**
+
+## Language and reading
+
+Choose a language using the site's language control. Scenario text, answers and learning explanations are available in **ten languages**.
+
+| Support | Available options |
+| --- | --- |
+| **Language** | English · Gaeilge · Arabic · Mandarin Chinese · French · Portuguese · Spanish · Dutch · Farsi/Persian · isiXhosa |
+| **Reading** | **Plain-language version** or **Detailed version** for the rule explanation. |
+| **Audio** | **Listen** reads the current title, scene and rule explanation using your browser's speech support. |
+
+Arabic and Farsi use right-to-left layouts. Changing language keeps your chosen answers and decision results. Translations are learning aids, not official translations of the underlying guidance. Available voices and speech support vary by browser and language.
+
+The interface includes keyboard controls, visible focus, stage-heading focus and feedback announcements. Motion effects respect reduced-motion preferences. Automated checks do not replace fluent-speaker review or manual accessibility testing, and do not certify the experience for every person or device.
+
+## Save and return
+
+**Unfinished journeys can be saved in your current browser, separately for each character.**
+
+| When you… | What happens |
+| --- | --- |
+| **Return to an unfinished journey** | **Continue with [name]** restores the stage, answers, checked decisions, answer order and reading mode. |
+| **Try another character** | Their progress is separate; changing characters does not delete the other unfinished attempt. |
+| **Restart this journey** | Replaces that character's unfinished attempt with a fresh start. |
+| **Complete a journey** | Removes the unfinished save and retains an **Explored** badge. A completed recap is not a permanent saved answer history. |
+
+Progress stays in that browser and does not automatically synchronise across devices. Clearing the site's browser data removes its local saves. If saving is unavailable, the page explains the limitation and remains usable while it stays open.
+
+---
+
+## Evidence and educational approach
+
+**Stories introduce the questions; sources help you investigate them.** Each journey connects fictional decisions with official or specialist guidance. Source information identifies the publisher, subject and recorded consultation date where available.
+
+A consultation date records a limited retrieval and subject check. It is **not** a publisher update date, a legal review or a guarantee that the information remains current. Some linked Citizens Information pages could not be fully retrieved during the documented check; the source record explains those limits.
+
+The project offers opportunities for discussion, comparison and information literacy. Legal/content review, lived-experience input and learner evaluation remain necessary to establish accuracy, relevance and educational benefit. Improved attitudes or behaviour are not claimed as measured outcomes.
+
+**[Read about the project and editorial approach](https://samobrienolinger.github.io/My-New-Life-in-Ireland/about/)** · **[Inspect the source record](app/source-info.ts)**
+
+<details>
+<summary><strong>Read the source-review details, educational rationale and related projects</strong></summary>
+
+### Source consultation and editorial scope
+
+`app/source-info.ts` records each source's publisher, subject, explicit consultation date and the scope of the check. A date means the linked page was retrieved and its publisher and relevant subject matter were checked. It is not a publisher update date, a legal review or a guarantee that all statements remain current. A blocked or unsuccessful retrieval receives no new consultation date; an unknown URL cannot inherit a date from another page on the same domain. Dates are maintained deliberately and never advance automatically during a build or deployment.
+
+The 18 October 2026 check identified a more suitable current WRC employment-rights overview and a more direct MRCI information-and-support destination. No new salary thresholds, time-limit figures or individual eligibility decisions were introduced. The About page explains the distinction between fictional learning, current source guidance, translations and real-person testimony.
+
+The Citizens Information additions of 20 October 2026 use production URLs, titles and topic scopes identified in indexed Citizens Information results. Automated page requests returned HTTP 403, so the full page bodies were not reviewed and no consultation date is claimed. The short descriptions signpost the linked guidance; they do not reproduce detailed eligibility rules. The keyed catalogue and journey mapping are in `app/moving-guide.ts`, with the verification limits recorded in `app/source-info.ts`.
+
+### Educational source links
+
+- [Immigration Service Delivery](https://www.irishimmigration.ie/).
+- [Employment Permits](https://enterprise.gov.ie/en/what-we-do/workplace-and-skills/employment-permits/).
+- [International Protection Office](https://ipo.irishimmigration.ie/).
+- [Irish Refugee Council — Information Hub](https://www.irishrefugeecouncil.ie/get-help/information-hub/).
+- [Workplace Relations Commission — employment rights](https://www.workplacerelations.ie/en/what_you_should_know/).
+
+### Distinctive proposition and educational contribution
 
 > **Explore why every journey to Ireland is different through fictional decisions that connect human circumstances with Irish migration pathways, rights and authoritative sources.**
 
 The strongest proposition is the **combination of human stories, contrasting migration routes and source-linked learning within one Irish setting**. Twelve fictional characters make different circumstances visible; choices and explanations connect those circumstances to work, study, family, EU free movement and international protection. The route finder and Information Hub provide alternative ways into the subject alongside the character journeys.
 
-### A potentially useful educational combination
+#### A potentially useful educational combination
 
 | What the site brings together | Potential educational contribution |
 | --- | --- |
@@ -27,42 +186,30 @@ The strongest proposition is the **combination of human stories, contrasting mig
 
 **Its distinctiveness lies in joining narrative understanding with practical, Ireland-specific information literacy.** A story can make a pathway easier to understand; source links allow the learner to inspect the information behind the explanation. Comparing characters within the same national context creates an opportunity to explore how overlapping personal circumstances and institutional requirements produce different journeys. Choices do not imply that people have complete control over migration outcomes.
 
-### Similar product: ODISSEU
+#### Similar product: ODISSEU
 
 [**ODISSEU — interactive migration storytelling game**](https://odisseu-project.eu/en/online-game) is a European educational project offering three character journeys for secondary students. Players make choices that influence stories of forced migration, from leaving a country of origin to reaching a country of asylum. It is a close comparator for the character-and-choice learning method.
 
 A New Life in Ireland's distinguishing proposition is its **combination of several migration routes, an Ireland-specific setting, settlement learning and a route finder/Information Hub with authoritative signposting**. The contribution lies not in inventing migration storytelling but in connecting that method to a comparative understanding of Irish pathways and the sources needed to explore them responsibly.
 
-### Contribution within the wider learning portfolio
+#### Contribution within the wider learning portfolio
 
 Alongside [Saggart & Citywest Together](https://samobrienolinger.github.io/saggart-and-citywest-together/), which connects local knowledge and community supports, and [Stopped: Both Sides](https://samobrienolinger.github.io/stopped-both-sides/), which explores public/Garda encounters, this site supplies the **migration-and-settlement learning layer**. Together they offer a potentially useful combination of migration understanding, local belonging and rights literacy. They remain independent resources for different audiences, not one eligibility or case-management system.
 
 Potential contributions include facilitated discussion, a more nuanced comparison of migration experiences and a better understanding of when to consult an authoritative source. Legal/content review, lived-experience input and learner evaluation are needed to establish accuracy, relevance and educational benefit; no improvement in attitudes or behaviour is claimed as a measured outcome. The comparator description was checked against its official website on **14 September 2026**; no affiliation, endorsement or exhaustive claim of uniqueness is implied.
 
-## What you can explore
-
-- Character journeys covering work, study, family, EU free movement and international protection.
-- Twelve strongly stylised graphic novel portraits with redesigned fictional faces, carried from character selection through each journey.
-- Immediate explanations, common misunderstandings and practical next steps linked to the relevant guidance.
-- A completion recap based on the character and the learner's actual decisions, with answers to revisit and relevant next resources.
-- Reflection questions about the character's circumstances, support needs and the limits of individual choice.
-- A route finder and an Information Hub.
-- Multilingual text, keyboard controls and responsive layouts.
-- Gentle card and recap entrances, short feedback transitions and button cues that respect reduced-motion preferences.
-- Specific scenario and answer translations in all ten selectable languages.
-- Unfinished journeys saved on the current browser, with separate progress for each character.
-- Source publishers, subject areas and recorded consultation dates beside guidance, plus an explanation of the editorial approach on About.
-
-## Using the project
-
-1. Explore what brings a character to Ireland, or use the route finder.
-2. Choose one of the twelve fictional people and work through the decisions.
-3. Read the explanation after each choice and compare the circumstances that shape different journeys.
-4. Use the Information Hub and source links to continue learning.
-
-> **Project notes:** General educational information only. The fictional journeys cannot determine anyone’s eligibility or legal status; follow the official sources for current guidance.
+</details>
 
 ## Getting started
+
+**For developers and maintainers.** Built with **React, TypeScript and Vite**, with a separate static build for GitHub Pages.
+
+To use the learning experience, [visit the live website](https://samobrienolinger.github.io/My-New-Life-in-Ireland/). Local setup, test commands and publishing details are below. Repository access and any proposed reuse remain subject to [LICENSE.md](LICENSE.md).
+
+<details>
+<summary><strong>Open local setup, repository guide, checks and deployment</strong></summary>
+
+### Local setup
 
 Requires Git, Node.js `>=22.13.0`, npm and a Bash-compatible shell. On Windows, use WSL for the shell scripts and POSIX-style environment assignments in the package commands.
 
@@ -75,7 +222,7 @@ npm run dev
 
 Open the local address printed by the Vite development server.
 
-## Repository guide
+### Repository guide
 
 | Path | Purpose |
 | --- | --- |
@@ -86,7 +233,7 @@ Open the local address printed by the Vite development server.
 | [.github/workflows/](.github/workflows/) | Build, test or deployment workflows |
 | [package.json](package.json) | Package dependencies and available commands |
 
-## Checks and review
+### Checks and review
 
 Use Node.js `>=22.13.0`, npm and a Bash-compatible shell for the commands below. Install the package dependencies before running build, test or lint commands.
 
@@ -116,14 +263,6 @@ The Information Hub includes 40 resources: the 24 original sources, NMBI registr
 
 Priya's journey surfaces professional registration, while relevant work journeys surface tax setup. These practical tasks are separate from immigration permission. Each completed journey also offers a relevant Citizens Information guide in a separate follow-on section, preserving the decision-specific sources and practical stage guidance. Returning-home guidance explicitly addresses Irish citizens; it is not a new fictional character route.
 
-### Source consultation and editorial scope
-
-`app/source-info.ts` records each source's publisher, subject, explicit consultation date and the scope of the check. A date means the linked page was retrieved and its publisher and relevant subject matter were checked. It is not a publisher update date, a legal review or a guarantee that all statements remain current. A blocked or unsuccessful retrieval receives no new consultation date; an unknown URL cannot inherit a date from another page on the same domain. Dates are maintained deliberately and never advance automatically during a build or deployment.
-
-The 18 October 2026 check identified a more suitable current WRC employment-rights overview and a more direct MRCI information-and-support destination. No new salary thresholds, time-limit figures or individual eligibility decisions were introduced. The About page explains the distinction between fictional learning, current source guidance, translations and real-person testimony.
-
-The Citizens Information additions of 20 October 2026 use production URLs, titles and topic scopes identified in indexed Citizens Information results. Automated page requests returned HTTP 403, so the full page bodies were not reviewed and no consultation date is claimed. The short descriptions signpost the linked guidance; they do not reproduce detailed eligibility rules. The keyed catalogue and journey mapping are in `app/moving-guide.ts`, with the verification limits recorded in `app/source-info.ts`.
-
 An attempt keeps its answer order, selected answers, checked stages, current stage and reading mode. Correct-answer positions are balanced across the five stages and randomized when an attempt starts. A resume preserves that order; an explicit restart clears that character's current attempt. Completion removes the unfinished save and retains the explored badge. Saving uses browser storage, so progress stays in that browser and can be removed by clearing its site data. If saving is unavailable, the current page remains usable and explains the limitation.
 
 The progress envelope is versioned in `app/journey-progress.ts`. If a future content change alters what existing answer IDs mean, revise the stored-progress version or add a migration before accepting old answers against the new content.
@@ -134,21 +273,36 @@ The progress envelope is versioned in `app/journey-progress.ts`. If a future con
 
 Generate fresh results from the revision you are working on; historical test reports describe earlier runs.
 
-## Deployment
+### Deployment
 
 GitHub Pages uses `npm run build:pages`, [vite.pages.config.ts](vite.pages.config.ts) and [.github/workflows/deploy-pages.yml](.github/workflows/deploy-pages.yml). Home, About and Resources have static entry points under [github-pages/](github-pages/); output goes to `dist-pages/`.
 
 `npm run build` is the separate Vinext/Sites build. Its wrapper requires a shell environment with GNU `timeout`; it is not interchangeable with the static Pages build.
 
+</details>
+
+### Find the relevant file
+
+| You want to understand… | Start with… |
+| --- | --- |
+| **Characters, scenarios and choices** | [Journey data](app/journey-data.ts) and [the main experience](app/page.tsx) |
+| **Translations and learning explanations** | [Journey translations](app/journey-translations/), [learning copy](app/learning-copy/) and [stage learning map](app/journey-learning.ts) |
+| **Saving and resuming** | [Journey progress](app/journey-progress.ts) |
+| **Information Hub and source provenance** | [Resources page](app/resources/page.tsx), [moving guides](app/moving-guide.ts) and [source records](app/source-info.ts) |
+| **Artwork and attribution** | [Character portrait production notes](public/images/characters/README.md) |
+
+## Support
+
+**[Report a problem or suggest an improvement →](https://github.com/SamOBrienOlinger/My-New-Life-in-Ireland/issues)**
+
+Include the affected page or command, steps to reproduce and expected behaviour. For a display or language issue, include the browser, device and selected language. Repository maintained in [Sam O’Brien-Olinger's GitHub account](https://github.com/SamOBrienOlinger). Any proposed reuse or redistribution remains subject to the licence terms below.
+
 ## Credits and reuse
 
-Created by Sam O'Brien-Olinger. Educational source links used by the project include:
+Created by **Sam O'Brien-Olinger**.
 
-- [Immigration Service Delivery](https://www.irishimmigration.ie/).
-- [Employment Permits](https://enterprise.gov.ie/en/what-we-do/workplace-and-skills/employment-permits/).
-- [International Protection Office](https://ipo.irishimmigration.ie/).
-- [Irish Refugee Council — Information Hub](https://www.irishrefugeecouncil.ie/get-help/information-hub/).
-- [Workplace Relations Commission — employment rights](https://www.workplacerelations.ie/en/what_you_should_know/).
+<details>
+<summary><strong>Artwork, technology and the original project record</strong></summary>
 
 The project uses React, Next.js/Vinext, Vite, Tailwind CSS, shadcn UI primitives and Lucide icons. Third-party software retains its own terms; the repository's ownership statement below applies as written.
 
@@ -157,6 +311,8 @@ The character portraits were generated with Create Image. The initial artwork us
 Design decisions, original feature notes, historical testing evidence and detailed acknowledgements remain available in the preserved project record:
 
 - [README.md · original project record](https://github.com/SamOBrienOlinger/My-New-Life-in-Ireland/blob/5dd9d57ca44dbffa7fea799d961f856331f3818c/README.md)
+
+</details>
 
 Copyright © 2026 Sam O'Brien-Olinger. All rights reserved.
 
@@ -176,9 +332,11 @@ without the copyright owner's prior written permission.
 
 See [LICENSE.md](LICENSE.md) for the complete terms.
 
-## Support
+---
 
-Repository maintained in [Sam O’Brien-Olinger’s GitHub account](https://github.com/SamOBrienOlinger). For a problem or suggested improvement, [open an issue](https://github.com/SamOBrienOlinger/My-New-Life-in-Ireland/issues) with the affected page or command, steps to reproduce, and expected behaviour. Any proposed reuse or redistribution remains subject to the licence terms above.
-
-[Back to top](#a-new-life-in-ireland)
-
+<p align="center">
+  <strong>Explore another person's circumstances. Keep asking questions.</strong><br>
+  <a href="https://samobrienolinger.github.io/My-New-Life-in-Ireland/#choose-character">Choose a character</a> ·
+  <a href="https://samobrienolinger.github.io/My-New-Life-in-Ireland/resources/">Visit the Information Hub</a> ·
+  <a href="#a-new-life-in-ireland">Back to top ↑</a>
+</p>
