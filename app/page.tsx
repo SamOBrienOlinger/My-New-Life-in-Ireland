@@ -383,7 +383,7 @@ export default function Home() {
         <div className="hero-heading">
           <img
             className="hero-mobile-image"
-            src="images/dublin-pathways-hero.webp"
+            src="images/ireland-rural-dublin-hero.webp"
             alt=""
             width={1672}
             height={941}

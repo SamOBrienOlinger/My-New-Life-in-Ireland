@@ -102,7 +102,7 @@ label:has([role="radio"]:focus-visible),
   overflow: hidden;
   background:
     linear-gradient(90deg, rgba(255,249,247,.82) 0%, rgba(250,239,240,.68) 35%, rgba(122,31,61,.12) 66%, rgba(122,31,61,0) 100%),
-    url("/images/dublin-pathways-hero.webp") center / cover no-repeat;
+    url("/images/ireland-rural-dublin-hero.webp") center / cover no-repeat;
   border-bottom: 1px solid var(--line);
 }
 .home-nav,
