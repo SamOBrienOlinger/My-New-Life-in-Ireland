@@ -6,6 +6,7 @@ import { additionalAboutCopy } from "../additional-page-copy";
 import { MobileNavigation } from "../mobile-navigation";
 import { learningCopy } from "../learning-copy";
 import { FooterTagline } from "../footer-tagline";
+import { AboutLearningNavigation, AboutLearningSections } from "./learning-sections";
 
 const repositoryUrl =
   "https://github.com/SamOBrienOlinger/My-New-Life-in-Ireland";
@@ -47,12 +48,15 @@ export default function AboutPage() {
       </section>
 
       <section className="about-content" aria-label={`${t.about}: ${t.siteName}`}>
+        <AboutLearningNavigation language={language} />
         <article className="about-card">
           <BookOpen size={24} aria-hidden="true" />
           <div>
             <h2>{a.how}</h2><p>{a.how1}</p><p>{a.how2}</p><p>{a.how3}</p>
           </div>
         </article>
+
+        <AboutLearningSections language={language} />
 
         <article className="about-card">
           <ShieldCheck size={24} aria-hidden="true" />

@@ -32,6 +32,7 @@
   <a href="#meet-the-characters">Characters</a> ·
   <a href="#language-and-reading">Language &amp; reading</a> ·
   <a href="#save-and-return">Save &amp; return</a> ·
+  <a href="#learning-methodology-and-outcomes">Learning &amp; outcomes</a> ·
   <a href="#evidence-and-educational-approach">Evidence</a> ·
   <a href="#getting-started">Developers</a>
 </p>
@@ -68,6 +69,8 @@ Follow a fictional person's circumstances from planning a move to building a lif
 > **You can learn by reconsidering.** The recap lets you revisit an answer without resetting the attempt. Check a changed answer before returning to the recap. The five stages stay in sequence; your choices change the feedback and stated consequences.
 
 The recap counts informed decisions in the exercise. **You do not need five correct answers to finish**, and the result does not predict immigration eligibility or a real-world outcome. Reflection questions are unscored and request no personal information.
+
+**[See the visual journey guide on the About page →](https://samobrienolinger.github.io/My-New-Life-in-Ireland/about/#how-to-play)**
 
 ## Meet the characters
 
@@ -139,6 +142,137 @@ The interface includes keyboard controls, visible focus, stage-heading focus and
 Progress stays in that browser and does not automatically synchronise across devices. Clearing the site's browser data removes its local saves. If saving is unavailable, the page explains the limitation and remains usable while it stays open.
 
 ---
+
+## Learning methodology and outcomes
+
+**Make a decision. Understand the explanation. Compare circumstances. Check the source.**
+
+A New Life in Ireland uses **guided, scenario-based learning**. Fictional cases give information a human context; visible rules support decisions; feedback explains why a choice matters. Recaps, reflection prompts, alternative characters and source links provide opportunities to reconsider assumptions and investigate further.
+
+The design aligns with research on [explanatory feedback](https://doi.org/10.3102/0034654314564881) and provides material for [structured case comparison](https://doi.org/10.1080/00461520.2013.775712). A facilitator or worksheet can extend the experience into a lesson that makes reasoning, comparison and source evaluation explicit.
+
+> [!NOTE]
+> **A pedagogical rationale, with outcomes still to evaluate.** The studies below concern other interventions and audiences. They support the educational approach but do not establish this website's effectiveness, retention, transfer, empathy gains or changes in attitudes and behaviour.
+
+### From a journey to a structured lesson
+
+| Phase | In the website | Suggested lesson activity |
+| --- | --- | --- |
+| **Orient** | Choose a fictional character and read their circumstances. | Identify the immediate issue and set a learning goal. |
+| **Decide** | Read the scene and available rules, then choose an answer. | Explain the reason **before** checking. |
+| **Examine feedback** | Read the explanation and revisit a decision if useful. | Explain which distinction or misunderstanding became clearer. |
+| **Compare** | Explore another character. | Identify what stays the same and which circumstances change the guidance. |
+| **Debrief and investigate** | Use the reflection prompts and source links. | Discuss personal action, institutional barriers and support; evaluate a relevant source. |
+| **Apply** | Use the exercise as a starting point. | Analyse an unfamiliar fictional case and identify what still needs checking. |
+
+The five stages follow a fixed sequence. Choices change the feedback and stated consequences; they do not create different subsequent story branches. Rules remain visible, so the activity supports **application with guidance**. Written reasoning, structured comparison and fresh-case assessment are proposed lesson activities, not requirements already enforced by the interface. See [journey interaction](app/page.tsx) and [learning guidance](app/journey-learning.ts).
+
+### Intended learning outcomes
+
+After the relevant activities, learners should be able to demonstrate the following. These are **intended outcomes**, not measured results from the website.
+
+| Learners should be able to… | Evidence to look for |
+| --- | --- |
+| **Distinguish relevant pathways and processes** | Explain which circumstances matter and where permissions, procedures or services need separate checks. |
+| **Justify a decision and revise a misunderstanding** | Give an initial reason, then explain what the feedback clarified. |
+| **Compare circumstances without overgeneralising** | Identify a meaningful similarity and consequential differences between two characters. |
+| **Examine agency, barriers and support** | Identify an available action, a constraint outside the person's control and a relevant institutional response. |
+| **Evaluate relevant information** | Identify a source's publisher, scope, currency information and relevant passage, while recognising remaining uncertainty. |
+| **Apply a principle to a fresh situation** | Explain a response to an unfamiliar vignette and identify missing information or a needed source check. |
+| **Recognise the exercise's limits** | Explain why a fictional case cannot determine a real person's status or outcome, and identify an appropriate next question or source. |
+
+**[Read the shorter overview on the About page →](https://samobrienolinger.github.io/My-New-Life-in-Ireland/about/#learning-methodology)**
+
+<details>
+<summary><strong>Explore three teaching examples: work routes, recruitment and access</strong></summary>
+
+These are proposed teaching activities using the [existing fictional scenarios](app/journey-data.ts), rather than activities already evaluated with learners.
+
+#### Kwame and Elena: identify the circumstance that changes the guidance
+
+Kwame's story involves an engineering job offer and an employer's assumption that the offer is sufficient. Elena's story involves a recruiter selling an employment permit that the case explains she does not need under her EU route. Both seek work, but the guidance is not interchangeable.
+
+Ask learners:
+
+- What practical aim do they share?
+- Which stated circumstance changes the relevant guidance?
+- Which concerns, such as checking the employer, remain relevant to both?
+- What else would you need to know before applying either example to another person?
+
+**Look for:** an explanation of the route-relevant distinction and a meaningful similarity, with limits to the comparison. Follow with a new vignette that changes one relevant circumstance and ask whether the earlier reasoning still applies.
+
+#### Mateo: investigate a recruitment claim
+
+Mateo faces a recruiter's demand for money and pressure to travel quickly. Choose a claim that needs checking, then use a linked source or the Information Hub to identify its publisher, intended scope, available update information and the passage relevant to the question. For an unfamiliar website, model checking the organisation through independent sources.
+
+**Look for:** a clear connection between the claim and the evidence, plus an explanation of what remains unanswered. A copied URL or a click alone does not demonstrate source evaluation. Discuss how urgency and unequal bargaining power can affect decisions.
+
+#### Adama: separate individual action from institutional responsibility
+
+Adama's cases include accommodation she cannot use safely, barriers to interview participation and needs spread across several services. Ask learners to map **an action available to Adama**, **a barrier outside her control** and **a service or institutional response**.
+
+Ask: What is the difference between being offered a service and being able to use it? Which changes require another actor? How would the situation change if access had been planned from the start?
+
+**Look for:** recognition of both possible action and structural constraint, without attributing the entire outcome to Adama's choices. A fictional exercise does not reproduce a person's lived experience.
+
+</details>
+
+<details>
+<summary><strong>Read the supporting research and its limits</strong></summary>
+
+#### Feedback, comparison and supported learning
+
+- **Explanatory feedback.** Van der Kleij, Feskens and Eggen's **2015** meta-analysis found stronger learning effects for feedback containing explanations than for correctness-only feedback or simply supplying the answer, particularly for higher-order outcomes. This supports the site's explanations and prompts to articulate what has been learned. [Effects of feedback in a computer-based learning environment](https://doi.org/10.3102/0034654314564881).
+- **Case comparison.** Alfieri, Nokes-Malach and Schunn's **2013** meta-analysis found that explicit comparison activities commonly improved learning relative to several alternative approaches. This supports focused questions about consequential similarities and differences; offering another character alone does not establish that comparison occurred. [Learning through case comparisons](https://doi.org/10.1080/00461520.2013.775712).
+- **Accompanying instruction.** Wouters and colleagues' **2013** meta-analysis found advantages for learning and retention, but no statistically significant overall motivation advantage over conventional instruction. Larger learning advantages were associated with supplementary instruction, repeated sessions and group work. This supports using the site within a broader lesson; this particular format was not tested. [Cognitive and motivational effects of serious games](https://doi.org/10.1037/a0031311).
+
+#### Migration education and information literacy
+
+- **Policy and personal narratives.** Wierszewski and O'Dell's **2025** teaching study combined policy simulation, refugee narratives, story exchange and policy revision. Student work, surveys and instructor observations indicated positive educational outcomes. It provides a relevant example of connecting institutions with individual circumstances, while its multi-part course cannot establish the effect of this website. [Teaching refugee and migrant policy and experiences using simulation and story](https://doi.org/10.20343/teachlearninqu.13.21).
+- **Source evaluation.** Breakstone and colleagues' **2021** study reported improvement after explicit online instruction in lateral reading: leaving an unfamiliar site to investigate it through other sources. Its pre/post design had no control group. The practical lesson is to model and assess source checking; authoritative links alone are not equivalent to that activity. [Lateral reading in an online course](https://doi.org/10.37016/mr-2020-56).
+
+#### Perspective-taking and attitudes: mixed findings
+
+Cross, Atherton and Stiff's **2025** study of *Path Out* reported more favourable explicit attitude and empathy measures than a comparison game; the implicit-attitude difference was not statistically significant. [A path out](https://doi.org/10.3390/bs15050583).
+
+Van 't Riet and colleagues' **2018** experiments with *Against All Odds* found no substantial advantage in willingness to help relative to comparison conditions. [Immersion, identification and willingness to help](https://doi.org/10.1080/01973533.2018.1459301).
+
+These studies concern other games. They justify investigating attitudes rather than assuming improvement. Confidence, enjoyment, empathy and supportive behaviour should be measured separately from understanding and decision reasoning.
+
+</details>
+
+<details>
+<summary><strong>Plan a facilitated session and assess learning</strong></summary>
+
+#### An illustrative 45-minute session
+
+These are proposed teaching allocations, **not measured completion times**. Adjust for reading, language, discussion and access needs. Use selected stages for the second-character comparison.
+
+| Time | Activity |
+| --- | --- |
+| 0–4 minutes | Introduce the fictional scope and lesson goal, without requiring personal disclosure. |
+| 4–8 minutes | Use two short baseline questions about the selected learning goals. |
+| 8–20 minutes | Complete one journey, giving reasons before checking decisions. |
+| 20–28 minutes | Compare relevant stages from another character. |
+| 28–36 minutes | Use the recap and reflection prompts to discuss changed reasoning, barriers and support. |
+| 36–42 minutes | Complete a source-check task and a brief unfamiliar vignette. |
+| 42–45 minutes | Exit response: one distinction learned, one uncertainty and one source to consult. |
+
+A useful debrief connects **a case, a general principle, a boundary or exception, and a relevant source**. For independent use, a worksheet can carry the same prompts.
+
+#### Evaluating the intended outcomes
+
+For an initial pilot, prioritise decision reasoning, comparison and source selection. Agree tasks and success criteria in advance, and involve relevant specialists, lived-experience contributors and intended learners in reviewing clarity, representation and relevance.
+
+- Use comparable baseline and post-activity tasks with different surface details. If supported reasoning is the goal, allow sources in both.
+- Assess explanations as well as selections, using criteria for accuracy, reasoning, source relevance and recognition of uncertainty.
+- Use unfamiliar cases to assess application beyond the original questions. A later task is needed when making claims about retention.
+- For stronger effectiveness claims, compare with equivalent content and learning time in a static guide, with random allocation where feasible.
+- Report the participants, task conditions, prior knowledge and missing responses. If a facilitator and worksheet form part of the lesson, evaluate that complete intervention.
+
+The current score records supported performance on the exercise's questions. Rules and explanations are available, and revising answers changes the score. It should not be the sole measure of prior knowledge, retained understanding or application elsewhere.
+
+</details>
 
 ## Evidence and educational approach
 
