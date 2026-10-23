@@ -90,7 +90,7 @@ export const ui = {
   en: {
     language: "Language", siteName: "A New Life in Ireland", about: "About", hub: "Information hub", official: "Official guidance", journeys: "Journeys", home: "Home", menu: "Menu", closeMenu: "Close",
     heroEyebrow: "An interactive journey through Ireland’s immigration system", heroTitle: "Every journey to Ireland is different.", heroIntro: "Decide. Adapt. Navigate. This is your new life in Ireland",
-    questionsExplored: "Questions explored", challengeLabel: "Challenges & choices", challengeQuestion: "What do people face when they come to Ireland?", peopleLabel: "People", peopleQuestion: "Who are they?", beginningLabel: "New beginnings", beginningQuestion: "How do they make a new life in Ireland?", atAGlance: "At a glance",
+    atAGlance: "At a glance",
     findJourney: "Find a journey", exploreInfo: "Explore practical information", people: "people", routes: "route types", decisions: "decisions", ireland: "Ireland",
     howEyebrow: "How the experience works", howTitle: "Plan. Choose. See what changes.", how1: "Explore a realistic situation", how2: "Choose what happens next", how3: "Understand Ireland’s immigration system", how4: "Prepare for life in Ireland",
     routeEyebrow: "Start from your situation", routeTitle: "What brings you to Ireland?", routeNote: "This is an educational filter, not an eligibility checker. A real case may involve more than one route or a route not shown here.",
@@ -104,7 +104,7 @@ export const ui = {
   ga: {
     language: "Teanga", siteName: "Saol Nua in Éirinn", about: "Maidir leis", hub: "Mol eolais", official: "Treoir oifigiúil", journeys: "Turais", home: "Baile", menu: "Roghchlár", closeMenu: "Dún",
     heroEyebrow: "Turas idirghníomhach trí chóras imirce na hÉireann", heroTitle: "Tá gach turas go hÉirinn difriúil.", heroIntro: "Roghnaigh duine ficseanúil as dáréag agus treoraigh a dturas ón imeacht go dtí an saol in Éirinn.",
-    questionsExplored: "Ceisteanna a fhiosraítear", challengeLabel: "Dúshláin agus roghanna", challengeQuestion: "Cad a bhíonn os comhair daoine nuair a thagann siad go hÉirinn?", peopleLabel: "Daoine", peopleQuestion: "Cé hiad?", beginningLabel: "Tús nua", beginningQuestion: "Conas a chruthaíonn siad saol nua in Éirinn?", atAGlance: "Sracfhéachaint",
+    atAGlance: "Sracfhéachaint",
     findJourney: "Aimsigh turas", exploreInfo: "Fiosraigh eolas praiticiúil", people: "duine", routes: "chineál bealaigh", decisions: "cinneadh", ireland: "Éire",
     howEyebrow: "Conas a oibríonn sé", howTitle: "Pleanáil. Roghnaigh. Féach cad a athraíonn.", how1: "Fiosraigh cás réalaíoch", how2: "Roghnaigh cad a tharlaíonn ina dhiaidh", how3: "Tuig córas inimirce na hÉireann", how4: "Ullmhaigh don saol in Éirinn",
     routeEyebrow: "Tosaigh le do chás", routeTitle: "Cad a thugann go hÉirinn thú?", routeNote: "Scagaire oideachais é seo, ní seiceálaí incháilitheachta. D’fhéadfadh níos mó ná bealach amháin a bheith i gceist i gcás fíor.",
@@ -118,7 +118,7 @@ export const ui = {
   ar: {
     language: "اللغة", siteName: "حياة جديدة في أيرلندا", about: "عن الموقع", hub: "مركز المعلومات", official: "الإرشادات الرسمية", journeys: "الرحلات", home: "الرئيسية", menu: "القائمة", closeMenu: "إغلاق",
     heroEyebrow: "رحلة تفاعلية عبر نظام الهجرة الأيرلندي", heroTitle: "كل رحلة إلى أيرلندا مختلفة.", heroIntro: "اختر شخصية خيالية من بين اثنتي عشرة شخصية ووجّه رحلتها من المغادرة إلى الحياة في أيرلندا.",
-    questionsExplored: "أسئلة تستكشفها الرحلات", challengeLabel: "التحديات والخيارات", challengeQuestion: "ما الذي يواجهه الناس عندما يأتون إلى أيرلندا؟", peopleLabel: "الأشخاص", peopleQuestion: "من هم؟", beginningLabel: "بدايات جديدة", beginningQuestion: "كيف يبنون حياة جديدة في أيرلندا؟", atAGlance: "لمحة سريعة",
+    atAGlance: "لمحة سريعة",
     findJourney: "اعثر على رحلة", exploreInfo: "استكشف المعلومات العملية", people: "شخصاً", routes: "أنواع مسارات", decisions: "قراراً", ireland: "أيرلندا",
     howEyebrow: "كيف تعمل التجربة", howTitle: "خطّط. اختر. شاهد ما يتغيّر.", how1: "استكشف حالة واقعية", how2: "اختر ما يحدث لاحقاً", how3: "افهم نظام الهجرة الأيرلندي", how4: "استعد للحياة في أيرلندا",
     routeEyebrow: "ابدأ من وضعك", routeTitle: "ما الذي يأتي بك إلى أيرلندا؟", routeNote: "هذا مرشّح تعليمي وليس أداة لتحديد الأهلية. قد تتضمن الحالة الحقيقية أكثر من مسار واحد أو مساراً غير معروض هنا.",

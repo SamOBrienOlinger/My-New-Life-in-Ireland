@@ -183,20 +183,6 @@ label:has([role="radio"]:focus-visible),
 }
 .hero-copy p { margin: 0 0 1em; }
 .hero-mobile-image { display: none; }
-.hero-question-board {
-  width: min(900px, 100%);
-  margin: 0 0 24px;
-  padding: 12px;
-  display: grid;
-  grid-template-columns: 1.25fr .75fr 1fr;
-  gap: 10px;
-  border: 1px solid rgba(75,16,38,.14);
-  border-radius: 30px;
-  background: rgba(255,255,255,.68);
-  box-shadow: 0 18px 42px rgba(75,16,38,.09);
-  backdrop-filter: blur(12px);
-}
-.hero-question-intro,
 .hero-proof-label {
   grid-column: 1 / -1;
   margin: 0;
@@ -205,49 +191,6 @@ label:has([role="radio"]:focus-visible),
   font-weight: 850;
   letter-spacing: .12em;
   text-transform: uppercase;
-}
-.hero-question-intro { padding: 3px 10px 1px; }
-.hero-question-card {
-  min-height: 146px;
-  padding: 22px;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  border: 1px solid rgba(75,16,38,.08);
-  color: inherit;
-  box-shadow: 0 5px 14px rgba(75,16,38,.04);
-}
-.hero-question-card span {
-  display: block;
-  margin-bottom: 24px;
-  font-size: .72rem;
-  font-weight: 840;
-  letter-spacing: .11em;
-  text-transform: uppercase;
-}
-.hero-question-card h2 {
-  max-width: 290px;
-  margin: 0;
-  font-size: clamp(1.08rem, 1.8vw, 1.35rem);
-  line-height: 1.25;
-}
-.question-challenges {
-  border-radius: 22px 12px 30px 22px;
-  background: var(--maroon);
-  color: var(--white);
-}
-.question-challenges span { color: #ffd8e3; }
-.question-people {
-  border-radius: 12px 28px 18px 28px;
-  background: #d9f3ef;
-  color: #135e59;
-}
-.question-people span { color: #177a73; }
-.question-new-life {
-  border-radius: 28px 18px 28px 12px;
-  background: #f4cf89;
-  color: var(--maroon-dark);
 }
 .primary-button,
 .quiet-button {
@@ -795,20 +738,41 @@ label:has([role="radio"]:focus-visible),
 }
 .experience-map ol {
   margin: 44px 0 0;
-  padding: 0;
+  padding: 12px;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 12px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
   list-style: none;
+  border: 1px solid rgba(75,16,38,.14);
+  border-radius: 30px;
+  background: rgba(255,255,255,.68);
+  box-shadow: 0 18px 42px rgba(75,16,38,.09);
+  backdrop-filter: blur(12px);
 }
 .experience-map li {
-  padding: 24px 22px;
+  min-width: 0;
+  padding: 22px;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   gap: 24px;
-  border: 1px solid var(--line);
-  border-radius: 18px;
-  background: rgba(255,255,255,.72);
+  border: 1px solid rgba(75,16,38,.08);
+  box-shadow: 0 5px 14px rgba(75,16,38,.04);
+}
+.experience-card-maroon {
+  border-radius: 22px 12px 30px 22px;
+  background: var(--maroon);
+  color: var(--white);
+}
+.experience-card-teal {
+  border-radius: 12px 28px 18px 28px;
+  background: #d9f3ef;
+  color: #135e59;
+}
+.experience-card-gold {
+  border-radius: 28px 18px 28px 12px;
+  background: #f4cf89;
+  color: var(--maroon-dark);
 }
 .experience-icon {
   width: 42px;
@@ -816,11 +780,12 @@ label:has([role="radio"]:focus-visible),
   display: grid;
   place-items: center;
   border-radius: 12px;
-  background: #ddf5f2;
-  color: var(--teal-dark);
+  background: rgba(255,255,255,.4);
+  color: inherit;
 }
+.experience-card-maroon .experience-icon { background: rgba(255,255,255,.14); color: #ffd8e3; }
 .experience-icon svg { width: 20px; height: 20px; stroke-width: 2; }
-.experience-map li strong { display: block; font-size: 1.03rem; line-height: 1.35; }
+.experience-map li strong { display: block; min-width: 0; font-size: clamp(1.08rem, 1.65vw, 1.25rem); line-height: 1.25; overflow-wrap: break-word; }
 
 .route-finder {
   max-width: none;
@@ -1069,7 +1034,6 @@ label:has([role="radio"]:focus-visible),
 .first-week-checklist li::before { content: "?"; width: 24px; height: 24px; position: absolute; inset-inline-start: 15px; inset-block-start: 15px; display: grid; place-items: center; border-radius: 50%; background: var(--teal-dark); color: white; font-size: .75rem; font-weight: 850; }
 
 .brand-button > span,
-.hero-question-card h2,
 .route-filter,
 .character-card,
 .hub-topic-grid > a,
@@ -1232,14 +1196,6 @@ label:has([role="radio"]:focus-visible),
   .hero-content,
   .hero-content-expanded { padding: 30px 20px 78px; }
   .hero-content .eyebrow { max-width: 340px; font-size: 10px; line-height: 1.55; letter-spacing: .13em; }
-  .hero-question-board { margin: 0 0 16px; padding: 8px; grid-template-columns: 1fr; gap: 8px; border-radius: 22px; }
-  .hero-question-intro { padding: 5px 9px 2px; }
-  .hero-question-card { min-height: auto; padding: 15px 16px; display: block; }
-  .hero-question-card span { margin-bottom: 6px; font-size: .66rem; }
-  .hero-question-card h2 { max-width: none; font-size: 1rem; line-height: 1.32; }
-  .question-challenges { border-radius: 18px 10px 20px 18px; }
-  .question-people { border-radius: 10px 20px 14px 20px; }
-  .question-new-life { border-radius: 20px 14px 20px 10px; }
   .hero-copy { max-width: 350px; margin-bottom: 24px; font-size: 1rem; line-height: 1.55; }
   .hero-copy p { margin: 0; }
   .hero-actions { width: 100%; padding: 7px; display: grid; grid-template-columns: 1fr; gap: 8px; border-radius: 22px; }
@@ -1255,9 +1211,12 @@ label:has([role="radio"]:focus-visible),
   .hero-proof strong { font-size: 1.5rem; }
   .hero-proof small { font-size: .75rem; }
   .experience-map { padding: 62px 20px 58px; }
-  .experience-map ol { grid-template-columns: 1fr; }
-  .experience-map ol { gap: 10px; }
-  .experience-map li { padding: 19px; flex-direction: row; align-items: center; gap: 15px; }
+  .experience-map ol { padding: 8px; grid-template-columns: 1fr; gap: 8px; border-radius: 22px; }
+  .experience-map li { padding: 15px 16px; flex-direction: row; align-items: center; justify-content: flex-start; gap: 15px; }
+  .experience-map li strong { font-size: 1rem; line-height: 1.32; }
+  .experience-card-maroon { border-radius: 18px 10px 20px 18px; }
+  .experience-card-teal { border-radius: 10px 20px 14px 20px; }
+  .experience-card-gold { border-radius: 20px 14px 20px 10px; }
   .experience-icon { width: 40px; height: 40px; flex: 0 0 auto; }
   .route-finder { padding: 58px 20px; grid-template-columns: 1fr; gap: 28px; }
   .route-filter-grid { grid-template-columns: 1fr; }
@@ -1353,7 +1312,7 @@ label:has([role="radio"]:focus-visible),
   .language-control select { max-width: 96px; }
   .hero-content,
   .hero-content-expanded { padding-inline: 16px; padding-bottom: 68px; }
-  .hero-question-card { padding: 14px; }
+  .experience-map li { padding: 14px; }
   .hero-actions .primary-button,
   .hero-actions .quiet-button { padding-inline: 14px; }
   .experience-map,

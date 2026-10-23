@@ -17,7 +17,7 @@ export const additionalUi = {
   zh: {
     language:"语言",siteName:"爱尔兰新生活",about:"关于",hub:"信息中心",official:"官方指南",journeys:"旅程",home:"首页",menu:"菜单",closeMenu:"关闭",
     heroEyebrow:"互动探索爱尔兰移民体系",heroTitle:"每一段前往爱尔兰的旅程都不一样。",heroIntro:"从十二位虚构人物中选择一位，引导其从离境走向在爱尔兰的生活。",
-    questionsExplored:"探索的问题",challengeLabel:"挑战与选择",challengeQuestion:"人们来到爱尔兰时会面对什么？",peopleLabel:"人物",peopleQuestion:"他们是谁？",beginningLabel:"新的开始",beginningQuestion:"他们如何在爱尔兰建立新生活？",atAGlance:"概览",
+    atAGlance:"概览",
     findJourney:"寻找一段旅程",exploreInfo:"探索实用信息",people:"人物",routes:"路线类型",decisions:"决定",ireland:"爱尔兰",
     howEyebrow:"体验如何运作",howTitle:"计划。选择。看看会发生什么。",how1:"探索真实感情境",how2:"选择下一步",how3:"了解爱尔兰移民体系",how4:"为爱尔兰生活做准备",
     routeEyebrow:"从你的情况出发",routeTitle:"是什么带你来到爱尔兰？",routeNote:"这是教育用途的筛选工具，不是资格审查器。真实个案可能涉及多个路线或这里未列出的路线。",
@@ -31,7 +31,7 @@ export const additionalUi = {
   fr: {
     language:"Langue",siteName:"Une nouvelle vie en Irlande",about:"À propos",hub:"Centre d’information",official:"Sources officielles",journeys:"Parcours",home:"Accueil",menu:"Menu",closeMenu:"Fermer",
     heroEyebrow:"Un parcours interactif dans le système migratoire irlandais",heroTitle:"Chaque parcours vers l’Irlande est différent.",heroIntro:"Choisissez l’une des douze personnes fictives et accompagnez son parcours, du départ à la vie en Irlande.",
-    questionsExplored:"Questions explorées",challengeLabel:"Défis et choix",challengeQuestion:"À quoi les personnes font-elles face en arrivant en Irlande ?",peopleLabel:"Personnes",peopleQuestion:"Qui sont-elles ?",beginningLabel:"Nouveaux départs",beginningQuestion:"Comment construisent-elles une nouvelle vie en Irlande ?",atAGlance:"En bref",
+    atAGlance:"En bref",
     findJourney:"Choisir un parcours",exploreInfo:"Explorer les informations pratiques",people:"personnes",routes:"types de parcours",decisions:"décisions",ireland:"Irlande",
     howEyebrow:"Fonctionnement de l’expérience",howTitle:"Planifiez. Choisissez. Voyez ce qui change.",how1:"Explorez une situation réaliste",how2:"Choisissez la suite",how3:"Comprenez le système migratoire irlandais",how4:"Préparez votre vie en Irlande",
     routeEyebrow:"Partez de votre situation",routeTitle:"Qu’est-ce qui vous amène en Irlande ?",routeNote:"Ce filtre est éducatif et ne vérifie pas l’admissibilité. Un cas réel peut relever de plusieurs parcours ou d’un parcours non présenté ici.",
@@ -45,7 +45,7 @@ export const additionalUi = {
   pt: {
     language:"Idioma",siteName:"Uma Nova Vida na Irlanda",about:"Sobre",hub:"Centro de informações",official:"Orientação oficial",journeys:"Percursos",home:"Início",menu:"Menu",closeMenu:"Fechar",
     heroEyebrow:"Uma viagem interativa pelo sistema de imigração irlandês",heroTitle:"Cada percurso para a Irlanda é diferente.",heroIntro:"Escolha uma de doze pessoas fictícias e acompanhe o seu percurso desde a partida até à vida na Irlanda.",
-    questionsExplored:"Questões exploradas",challengeLabel:"Desafios e escolhas",challengeQuestion:"O que enfrentam as pessoas quando chegam à Irlanda?",peopleLabel:"Pessoas",peopleQuestion:"Quem são?",beginningLabel:"Novos começos",beginningQuestion:"Como constroem uma nova vida na Irlanda?",atAGlance:"Visão geral",
+    atAGlance:"Visão geral",
     findJourney:"Encontrar um percurso",exploreInfo:"Explorar informações práticas",people:"pessoas",routes:"tipos de percurso",decisions:"decisões",ireland:"Irlanda",
     howEyebrow:"Como funciona a experiência",howTitle:"Planeie. Escolha. Veja o que muda.",how1:"Explore uma situação realista",how2:"Escolha o que acontece a seguir",how3:"Compreenda o sistema de imigração irlandês",how4:"Prepare-se para a vida na Irlanda",
     routeEyebrow:"Comece pela sua situação",routeTitle:"O que o traz à Irlanda?",routeNote:"Este é um filtro educativo, não um verificador de elegibilidade. Um caso real pode envolver mais de uma via ou uma via não apresentada aqui.",
@@ -59,7 +59,7 @@ export const additionalUi = {
   es: {
     language:"Idioma",siteName:"Una Nueva Vida en Irlanda",about:"Acerca de",hub:"Centro de información",official:"Orientación oficial",journeys:"Historias",home:"Inicio",menu:"Menú",closeMenu:"Cerrar",
     heroEyebrow:"Un recorrido interactivo por el sistema migratorio irlandés",heroTitle:"Cada viaje a Irlanda es diferente.",heroIntro:"Elige a una de doce personas ficticias y acompaña su recorrido desde la salida hasta su vida en Irlanda.",
-    questionsExplored:"Preguntas exploradas",challengeLabel:"Retos y decisiones",challengeQuestion:"¿A qué se enfrentan las personas al llegar a Irlanda?",peopleLabel:"Personas",peopleQuestion:"¿Quiénes son?",beginningLabel:"Nuevos comienzos",beginningQuestion:"¿Cómo construyen una nueva vida en Irlanda?",atAGlance:"De un vistazo",
+    atAGlance:"De un vistazo",
     findJourney:"Elegir un recorrido",exploreInfo:"Explorar información práctica",people:"personas",routes:"tipos de ruta",decisions:"decisiones",ireland:"Irlanda",
     howEyebrow:"Cómo funciona la experiencia",howTitle:"Planifica. Elige. Observa qué cambia.",how1:"Explora una situación realista",how2:"Elige qué sucede después",how3:"Comprende el sistema migratorio irlandés",how4:"Prepárate para la vida en Irlanda",
     routeEyebrow:"Empieza por tu situación",routeTitle:"¿Qué te trae a Irlanda?",routeNote:"Este es un filtro educativo, no una comprobación de elegibilidad. Un caso real puede incluir más de una ruta o una no mostrada aquí.",
@@ -73,7 +73,7 @@ export const additionalUi = {
   nl: {
     language:"Taal",siteName:"Een Nieuw Leven in Ierland",about:"Over",hub:"Informatiepunt",official:"Officiële informatie",journeys:"Trajecten",home:"Home",menu:"Menu",closeMenu:"Sluiten",
     heroEyebrow:"Een interactieve reis door het Ierse migratiesysteem",heroTitle:"Elke reis naar Ierland is anders.",heroIntro:"Kies één van twaalf fictieve personen en begeleid hun reis van vertrek tot een leven in Ierland.",
-    questionsExplored:"Onderzochte vragen",challengeLabel:"Uitdagingen en keuzes",challengeQuestion:"Waar krijgen mensen mee te maken als ze naar Ierland komen?",peopleLabel:"Mensen",peopleQuestion:"Wie zijn zij?",beginningLabel:"Een nieuw begin",beginningQuestion:"Hoe bouwen zij een nieuw leven op in Ierland?",atAGlance:"In één oogopslag",
+    atAGlance:"In één oogopslag",
     findJourney:"Kies een traject",exploreInfo:"Bekijk praktische informatie",people:"mensen",routes:"soorten routes",decisions:"beslissingen",ireland:"Ierland",
     howEyebrow:"Hoe de ervaring werkt",howTitle:"Plan. Kies. Zie wat verandert.",how1:"Verken een realistische situatie",how2:"Kies wat er daarna gebeurt",how3:"Begrijp het Ierse migratiesysteem",how4:"Bereid je voor op het leven in Ierland",
     routeEyebrow:"Begin bij jouw situatie",routeTitle:"Wat brengt jou naar Ierland?",routeNote:"Dit is een educatief filter, geen toelatingscontrole. Een echte zaak kan meerdere routes omvatten of een route die hier niet wordt getoond.",
@@ -87,7 +87,7 @@ export const additionalUi = {
   fa: {
     language:"زبان",siteName:"زندگی تازه در ایرلند",about:"درباره",hub:"مرکز اطلاعات",official:"راهنمای رسمی",journeys:"مسیرها",home:"خانه",menu:"منو",closeMenu:"بستن",
     heroEyebrow:"سفری تعاملی در نظام مهاجرت ایرلند",heroTitle:"هر سفر به ایرلند متفاوت است.",heroIntro:"یکی از دوازده شخصیت خیالی را انتخاب کنید و مسیر او را از خروج تا زندگی در ایرلند دنبال کنید.",
-    questionsExplored:"پرسش‌های بررسی‌شده",challengeLabel:"چالش‌ها و انتخاب‌ها",challengeQuestion:"مردم هنگام آمدن به ایرلند با چه چیزهایی روبه‌رو می‌شوند؟",peopleLabel:"افراد",peopleQuestion:"آن‌ها چه کسانی هستند؟",beginningLabel:"شروع‌های تازه",beginningQuestion:"چگونه در ایرلند زندگی تازه‌ای می‌سازند؟",atAGlance:"در یک نگاه",
+    atAGlance:"در یک نگاه",
     findJourney:"انتخاب یک مسیر",exploreInfo:"بررسی اطلاعات کاربردی",people:"نفر",routes:"نوع مسیر",decisions:"تصمیم",ireland:"ایرلند",
     howEyebrow:"این تجربه چگونه کار می‌کند",howTitle:"برنامه‌ریزی کنید. انتخاب کنید. تغییر را ببینید.",how1:"یک موقعیت واقع‌گرایانه را بررسی کنید",how2:"انتخاب کنید بعد چه می‌شود",how3:"نظام مهاجرت ایرلند را بشناسید",how4:"برای زندگی در ایرلند آماده شوید",
     routeEyebrow:"از وضعیت خود شروع کنید",routeTitle:"چه چیزی شما را به ایرلند می‌آورد؟",routeNote:"این یک فیلتر آموزشی است، نه ابزار سنجش صلاحیت. پرونده واقعی ممکن است چند مسیر یا مسیری را دربرگیرد که اینجا نمایش داده نشده است.",
@@ -101,7 +101,7 @@ export const additionalUi = {
   xh: {
     language:"Ulwimi",siteName:"Ubomi Obutsha eIreland",about:"Malunga",hub:"Iziko lolwazi",official:"Isikhokelo esisemthethweni",journeys:"Iihambo",home:"Ekhaya",menu:"Imenyu",closeMenu:"Vala",
     heroEyebrow:"Uhambo olusebenzisanayo kwinkqubo yokufudukela eIreland",heroTitle:"Uhambo ngalunye oluya eIreland lwahlukile.",heroIntro:"Khetha omnye kubantu abalishumi elinesibini abaqanjiweyo uze ukhokele uhambo lwabo ukusuka ekumkeni ukuya kubomi baseIreland.",
-    questionsExplored:"Imibuzo ephononongwayo",challengeLabel:"Imingeni nokhetho",challengeQuestion:"Abantu bajongana nantoni xa besiza eIreland?",peopleLabel:"Abantu",peopleQuestion:"Ngoobani?",beginningLabel:"Iziqalo ezintsha",beginningQuestion:"Babenza njani ubomi obutsha eIreland?",atAGlance:"Ngokufutshane",
+    atAGlance:"Ngokufutshane",
     findJourney:"Fumana uhambo",exploreInfo:"Phonononga ulwazi olusebenzayo",people:"abantu",routes:"iintlobo zeendlela",decisions:"izigqibo",ireland:"Ireland",
     howEyebrow:"Indlela amava asebenza ngayo",howTitle:"Cwangcisa. Khetha. Bona okutshintshayo.",how1:"Phonononga imeko eyinyani",how2:"Khetha okulandelayo",how3:"Qonda inkqubo yokufudukela eIreland",how4:"Lungiselela ubomi eIreland",
     routeEyebrow:"Qala ngemeko yakho",routeTitle:"Yintoni ekuzisa eIreland?",routeNote:"Esi sisihluzo semfundo, hayi isixhobo sokujonga ukufaneleka. Ityala lokwenene linokubandakanya iindlela ezininzi okanye indlela engaboniswanga apha.",

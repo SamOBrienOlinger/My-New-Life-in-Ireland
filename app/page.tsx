@@ -399,15 +399,6 @@ export default function Home() {
           <div><span className="mini-label">{controls.savedJourney}</span><strong>{recentCharacter.name}</strong><span>{controls.stage} {recentJourney.stepIndex + 1} {t.of} {stepsByRoute[recentCharacter.route].length} · {localStep(stepsByRoute[recentCharacter.route][recentJourney.stepIndex], recentCharacter.route, language).stage}</span></div>
           <button className="primary-button" type="button" disabled={!storageReady} onClick={() => resumeJourney(recentJourney)}>{controls.resumeJourney.replace("{name}", recentCharacter.name.split(" ")[0])}<ArrowRight size={18} aria-hidden="true" /></button>
         </div> : null}
-        <section
-          className="hero-question-board"
-          aria-label={t.questionsExplored}
-        >
-          <p className="hero-question-intro">{t.questionsExplored}</p>
-          <div className="hero-question-card question-challenges" data-reveal="question-challenges"><span>{t.challengeLabel}</span><h2>{t.challengeQuestion}</h2></div>
-          <div className="hero-question-card question-people" data-reveal="question-people"><span>{t.peopleLabel}</span><h2>{t.peopleQuestion}</h2></div>
-          <div className="hero-question-card question-new-life" data-reveal="question-new-life"><span>{t.beginningLabel}</span><h2>{t.beginningQuestion}</h2></div>
-        </section>
         <div className="hero-actions"><a className="primary-button hero-button" href="#route-finder">{t.findJourney} <ArrowRight size={18} aria-hidden="true" /></a><a className="quiet-button hero-secondary" href="resources/"><BookOpen size={18} aria-hidden="true" /><span>{t.exploreInfo}</span><ArrowRight className="action-arrow" size={18} aria-hidden="true" /></a></div>
       </div>
     </section>
@@ -415,10 +406,10 @@ export default function Home() {
     <section className="experience-map" data-reveal="experience-map" aria-labelledby="experience-title">
       <div><p className="eyebrow">{t.howEyebrow}</p><h2 id="experience-title">{t.howTitle}</h2></div>
       <ol>
-        <li><span className="experience-icon" aria-hidden="true"><Users /></span><strong>{t.how1}</strong></li>
-        <li><span className="experience-icon" aria-hidden="true"><ArrowRight /></span><strong>{t.how2}</strong></li>
-        <li><span className="experience-icon" aria-hidden="true"><Scale /></span><strong>{t.how3}</strong></li>
-        <li><span className="experience-icon" aria-hidden="true"><CheckCircle2 /></span><strong>{t.how4}</strong></li>
+        <li className="experience-card-maroon"><span className="experience-icon" aria-hidden="true"><Users /></span><strong>{t.how1}</strong></li>
+        <li className="experience-card-teal"><span className="experience-icon" aria-hidden="true"><ArrowRight /></span><strong>{t.how2}</strong></li>
+        <li className="experience-card-gold"><span className="experience-icon" aria-hidden="true"><Scale /></span><strong>{t.how3}</strong></li>
+        <li className="experience-card-maroon"><span className="experience-icon" aria-hidden="true"><CheckCircle2 /></span><strong>{t.how4}</strong></li>
       </ol>
     </section>
 
