@@ -58,15 +58,15 @@ Follow a fictional person's circumstances from planning a move to building a lif
 
 **Plan → Prepare → Travel → Arrive → Build a life**
 
-1. **Choose a person.** Read their profile, then select **Begin five-stage journey**.
-2. **Read the situation.** Consider the character's circumstances and the explanation of the relevant rules. Choose the plain-language or detailed version, or use **Listen** where supported.
+1. **Choose a person.** Browse the carousel or select **View all people**, then use **Walk with [name]** to start or resume directly. Selecting a profile also exposes the existing start, continue and restart controls.
+2. **Read the situation.** Each chapter has an illustration and the character's circumstances. Choose **With guidance** to read the explanation first, or **Try first** to make a decision before opening it. The plain-language and detailed versions remain available.
 3. **Make and check a decision.** Select a response, then choose **Check decision** to reveal the feedback and stated consequences.
-4. **Learn why it matters.** Read the learning point, common misunderstanding, practical next step and supporting sources.
+4. **Learn why it matters.** Read the learning point, common misunderstanding, practical next step and supporting sources. **What if I chose differently?** compares another answer's explanation without changing your saved choice. **Useful words** provides a small glossary with source links.
 5. **Continue through the five stages.** Select **Continue** after checking each decision. At the last stage, select **Complete journey**.
-6. **Reflect and explore further.** Review the recap, revisit a decision, consider the reflection questions or follow the relevant resources. Try another character to compare circumstances.
+6. **Reflect and explore further.** The completed journey enters your local learning journal. Add a reflection, download a text summary, review the recap or revisit a decision. Guided comparisons pair Kwame with Elena and Mariam with Adama, using the existing story explanations and sources.
 
 > [!TIP]
-> **You can learn by reconsidering.** The recap lets you revisit an answer without resetting the attempt. Check a changed answer before returning to the recap. The five stages stay in sequence; your choices change the feedback and stated consequences.
+> **You can learn by reconsidering.** The chapter navigation and recap let you revisit explored decisions without resetting the attempt. Check a changed answer before completing the journey again. On a phone, open **About [name]** to revisit the character's circumstances and chapters. The five stages stay in sequence; your choices change the feedback and stated consequences.
 
 The recap counts informed decisions in the exercise. **You do not need five correct answers to finish**, and the result does not predict immigration eligibility or a real-world outcome. Reflection questions are unscored and request no personal information.
 
@@ -124,7 +124,8 @@ Choose a language using the site's language control. Scenario text, answers and 
 | --- | --- |
 | **Language** | English · Gaeilge · Arabic · Mandarin Chinese · French · Portuguese · Spanish · Dutch · Farsi/Persian · isiXhosa |
 | **Reading** | **Plain-language version** or **Detailed version** for the rule explanation. |
-| **Audio** | **Listen** reads the current title, scene and rule explanation using your browser's speech support. |
+| **Audio** | **Listen**, **Pause**, **Resume** and **Stop** control narration. **Audio options** adjusts speed and includes choices or checked feedback. Guidance is narrated when revealed or after the decision is checked. |
+| **Useful words** | Short explanations of permission, registration, employment permits and PPS numbers, with links to official guidance. |
 
 Arabic and Farsi use right-to-left layouts. Changing language keeps your chosen answers and decision results. Translations are learning aids, not official translations of the underlying guidance. Available voices and speech support vary by browser and language.
 
@@ -136,10 +137,13 @@ The interface includes keyboard controls, visible focus, stage-heading focus and
 
 | When you… | What happens |
 | --- | --- |
-| **Return to an unfinished journey** | **Continue with [name]** restores the stage, answers, checked decisions, answer order and reading mode. |
+| **Return to an unfinished journey** | **Continue with [name]** or the character's **Walk with [name]** card restores the stage, answers, checked decisions, answer order, reading mode and guidance preference. |
 | **Try another character** | Their progress is separate; changing characters does not delete the other unfinished attempt. |
 | **Restart this journey** | Replaces that character's unfinished attempt with a fresh start. |
-| **Complete a journey** | Removes the unfinished save and retains an **Explored** badge. A completed recap is not a permanent saved answer history. |
+| **Complete a journey** | Removes the unfinished save, retains an **Explored** badge and saves the latest completed decisions for that person in the learning journal. |
+| **Write a journal reflection** | Use **Save reflection** to keep the note in this browser. A downloaded summary includes the current text, including any unsaved draft. |
+| **Remove a journal entry** | An inline confirmation removes that completed entry and note; other characters' unfinished saves remain available. |
+| **Return after a story update** | Your reflection and completion date remain available. The journal requests a fresh journey before displaying updated decision explanations. |
 
 Progress stays in that browser and does not automatically synchronise across devices. Clearing the site's browser data removes its local saves. If saving is unavailable, the page explains the limitation and remains usable while it stays open.
 

@@ -69,15 +69,15 @@ test("each character has an independent save and restarting clears only that att
   await page.getByRole("button", { name: "Change character", exact: true }).click();
   await expect(page.locator("#character-picker-title")).toBeFocused();
   await page.getByRole("link", { name: "Walk with Farid", exact: true }).click();
-  await page.getByRole("button", { name: "Begin five-stage journey", exact: true }).click();
   await page.locator('.choice-list [role="radio"]').first().click();
   await nextAction(page).click();
   await page.getByRole("button", { name: "Change character", exact: true }).click();
   await page.getByRole("link", { name: "Walk with Kwame", exact: true }).click();
-  await page.locator(".start-bar").getByRole("button", { name: "Continue with Kwame", exact: true }).click();
   await expectStageFocus(page, stepsByRoute.critical[1].title);
   await page.getByRole("button", { name: "Change character", exact: true }).click();
-  await page.getByRole("link", { name: "Walk with Kwame", exact: true }).click();
+  await expect(page.locator("#character-picker-title")).toBeFocused();
+  await page.getByRole("radio", { name: "Kwame Mensah", exact: true }).focus();
+  await page.keyboard.press("Space");
   await page.getByRole("button", { name: "Restart this journey", exact: true }).click();
   await expectStageFocus(page, stepsByRoute.critical[0].title);
   await expect(page.locator('.choice-list [aria-checked="true"]')).toHaveCount(0);
@@ -230,10 +230,8 @@ test(`${readable ? "Full" : "Blocked"} browser storage gives an honest notice an
   await expectStageFocus(page, stepsByRoute.critical[1].title);
   await page.getByRole("button", { name: "Change character", exact: true }).click();
   await page.getByRole("link", { name: "Walk with Farid", exact: true }).click();
-  await page.getByRole("button", { name: "Begin five-stage journey", exact: true }).click();
   await page.getByRole("button", { name: "Change character", exact: true }).click();
   await page.getByRole("link", { name: "Walk with Kwame", exact: true }).click();
-  await page.locator(".start-bar").getByRole("button", { name: "Continue with Kwame", exact: true }).click();
   await expectStageFocus(page, stepsByRoute.critical[1].title);
 });
 }

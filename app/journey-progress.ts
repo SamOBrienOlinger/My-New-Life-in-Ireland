@@ -11,6 +11,7 @@ export type SavedJourney = {
   checkedSteps: number[];
   choiceOrder: Record<number, string[]>;
   plainLanguage: boolean;
+  guidanceMode: "guided" | "practice";
   updatedAt: number;
 };
 
@@ -61,6 +62,7 @@ export function createSavedJourney(character: Character, now = Date.now()): Save
     checkedSteps: [],
     choiceOrder: createChoiceOrder(stepsByRoute[character.route]),
     plainLanguage: true,
+    guidanceMode: "guided",
     updatedAt: now,
   };
 }
@@ -110,6 +112,7 @@ export function parseSavedJourneys(raw: string | null): SavedJourneys {
       checkedSteps,
       choiceOrder,
       plainLanguage: value.plainLanguage !== false,
+      guidanceMode: value.guidanceMode === "practice" ? "practice" : "guided",
       updatedAt: typeof value.updatedAt === "number" && Number.isFinite(value.updatedAt) ? value.updatedAt : 0,
     };
   }

@@ -47,7 +47,6 @@ test("reduced motion leaves offscreen content, stage copy and feedback immediate
   await expectReadableWithoutAnimation(page, "[data-reveal]");
 
   await page.getByRole("link", { name: "Walk with Kwame", exact: true }).click();
-  await page.getByRole("button", { name: "Begin five-stage journey", exact: true }).click();
   await expectStageFocus(page, stepsByRoute.critical[0].title);
   await expectReadableWithoutAnimation(page, "[data-stage-copy]");
 
@@ -121,6 +120,5 @@ test("content remains readable when scroll observation is unavailable", async ({
   expect(await page.evaluate(() => "IntersectionObserver" in window)).toBe(false);
   await expectReadableWithoutAnimation(page, "[data-reveal]");
   await page.getByRole("link", { name: "Walk with Kwame", exact: true }).click();
-  await page.getByRole("button", { name: "Begin five-stage journey", exact: true }).press("Enter");
   await expectStageFocus(page, stepsByRoute.critical[0].title);
 });

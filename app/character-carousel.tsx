@@ -13,6 +13,7 @@ type CharacterCarouselProps = {
   direction: Direction;
   label: string;
   copy: CharacterCarouselCopy;
+  expanded?: boolean;
 };
 
 type Position = {
@@ -65,7 +66,7 @@ function readPosition(viewport: HTMLElement, cards: HTMLElement[], direction: Di
 }
 
 /** Browsing is independent of selection; the existing radio group owns keys. */
-export function CharacterCarousel({ children, itemIds, selectedId, direction, label, copy }: CharacterCarouselProps) {
+export function CharacterCarousel({ children, itemIds, selectedId, direction, label, copy, expanded = false }: CharacterCarouselProps) {
   const viewportRef = useRef<HTMLDivElement>(null);
   const [position, setPosition] = useState<Position | null>(null);
   const id = useId();
@@ -135,7 +136,7 @@ export function CharacterCarousel({ children, itemIds, selectedId, direction, la
       window.removeEventListener("resize", resize);
       preference.removeEventListener("change", motionChanged);
     };
-  }, [itemsKey, selectedId, direction, label, copy.instructions]);
+  }, [itemsKey, selectedId, direction, label, copy.instructions, expanded]);
 
   function move(step: -1 | 1) {
     const viewport = viewportRef.current;
@@ -164,6 +165,8 @@ export function CharacterCarousel({ children, itemIds, selectedId, direction, la
 
   const PreviousIcon = direction === "rtl" ? ChevronRight : ChevronLeft;
   const NextIcon = direction === "rtl" ? ChevronLeft : ChevronRight;
+
+  if (expanded) return <div className="character-gallery" role="region" aria-label={label} dir={direction}>{children}</div>;
 
   return (
     <div className="character-carousel" role="region" aria-label={label} aria-describedby={instructionsId} dir={direction}>

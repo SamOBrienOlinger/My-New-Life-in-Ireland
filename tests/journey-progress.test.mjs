@@ -28,9 +28,19 @@ test("two unfinished characters round-trip with answers, checked feedback and or
   kwame.checkedSteps = [0];
   kwame.stepIndex = 1;
   kwame.plainLanguage = false;
+  kwame.guidanceMode = "practice";
   const saved = { kwame, farid };
   assert.deepEqual(parseSavedJourneys(serialiseSavedJourneys(saved)), saved);
   assert.equal(parseSavedJourneys(serialiseSavedJourneys(saved)).kwame.checkedSteps.includes(1), false);
+});
+
+test("existing saves without a learning mode resume with guidance", () => {
+  const kwame = createSavedJourney(characters[0]);
+  delete kwame.guidanceMode;
+  const restored = parseSavedJourneys(serialiseSavedJourneys({ kwame })).kwame;
+  assert.equal(restored.guidanceMode, "guided");
+  assert.deepEqual(restored.choiceOrder, kwame.choiceOrder);
+  assert.deepEqual(restored.answers, kwame.answers);
 });
 
 test("invalid JSON, unsupported versions and malformed records are ignored", () => {
