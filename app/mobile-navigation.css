@@ -1,0 +1,25 @@
+/* Keep the disclosure usable when the viewport is short or browser text grows. */
+.mobile-navigation .mobile-navigation-panel[hidden] { display: none; }
+
+@media (max-width: 900px) {
+  .mobile-navigation { flex: 0 0 auto; }
+  .mobile-navigation .mobile-navigation-panel {
+    inset-inline-end: max(14px, env(safe-area-inset-right));
+    max-inline-size: calc(100vw - max(14px, env(safe-area-inset-left)) - max(14px, env(safe-area-inset-right)));
+    max-block-size: var(--mobile-menu-space, calc(100vh - 90px));
+    overflow-y: auto;
+    overscroll-behavior-y: contain;
+    scrollbar-width: thin;
+    scroll-padding-block: 10px;
+    overflow-wrap: anywhere;
+  }
+  [dir="rtl"] .mobile-navigation .mobile-navigation-panel { inset-inline-end: max(14px, env(safe-area-inset-left)); }
+  @supports (height: 100dvh) {
+    .mobile-navigation .mobile-navigation-panel { max-block-size: var(--mobile-menu-space, calc(100dvh - 90px)); }
+  }
+  .mobile-navigation .mobile-navigation-links a { min-inline-size: 0; }
+  .mobile-navigation .mobile-language-row { flex-wrap: wrap; }
+  .mobile-navigation .mobile-language-row > span { min-inline-size: 0; }
+  .mobile-navigation .mobile-language-row .language-control { max-inline-size: 100%; }
+  .mobile-navigation .mobile-language-row .language-control select { min-block-size: 44px; }
+}

@@ -393,6 +393,20 @@ For a manual review, follow the main user journey, check keyboard navigation and
 
 Before the first browser-test run, install the test browsers with `npx playwright install --with-deps chromium firefox webkit`. The suite covers hub visits, refresh and resume, independent character saves, restarting, completion, language changes, blocked storage, keyboard focus and Arabic/Farsi layouts at 320px and 390px. The Pages workflow runs these checks on pull requests and before deployment.
 
+#### Responsive layout checks
+
+After building Pages, run `npx playwright test tests/browser/responsive.spec.ts` for the focused responsive suite, or `npm run test:browser` for the complete regression suite. The responsive checks run in Chromium, Firefox and WebKit and cover:
+
+- Home, About and Information Hub pages, expanded decisions, completed journals and revealed comparisons at 16 viewport sizes from 320px to 2560px wide. The matrix includes both sides of the 760px, 900px and 1024px layout changes, plus short landscape views.
+- Component bounds and readable text, alongside document width, so hiding page overflow cannot conceal a broken card or control. The carousel and topic filters retain their intentional horizontal scrolling, with checks that their offscreen items remain reachable.
+- 200% root text size, including a 320px layout, Arabic and Farsi right-to-left layouts, and longer Dutch labels. Narrow viewport checks also exercise the reflow needed when browser zoom reduces the available CSS width.
+- Primary controls with at least 44px touch targets, menu scrolling, Escape and focus recovery when crossing into desktop navigation, and carousel position after rotation or switching views.
+- Preserved answers, answer ordering and unsaved journal text while the viewport changes.
+
+The layouts use content wrapping and intrinsic grid sizes as well as breakpoints. Below 901px, the character context becomes an expandable panel above the journey. Short viewports use normal page scrolling instead of sticky journey actions. Native selectors and notes remain readable at phone sizes, and navigation respects device safe areas.
+
+These are browser-engine regression checks. Physical-device testing remains useful for operating-system controls, on-screen keyboards and browser chrome.
+
 ### Journey content and progress
 
 The English source remains in `app/journey-data.ts`. Each non-English catalog in `app/journey-translations/` uses `route:canonical English stage` keys and the original choice IDs. Translate the individual scene, rules, answer labels, feedback and consequences; preserve source URLs, correctness and qualified wording. The catalog tests check all 40 stages and 24 hub descriptions per language. Languages load on demand. Source comparison and automated coverage checks complement fluent-speaker review of wording.

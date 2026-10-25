@@ -144,7 +144,7 @@ export default function Home() {
         const heading = completed ? completionHeadingRef.current : stageHeadingRef.current;
         heading?.focus({ preventScroll: true });
         // A new screen must settle before the next keyboard or pointer action.
-        const start = window.matchMedia("(max-width: 760px)").matches && !completed
+        const start = window.matchMedia("(max-width: 900px)").matches && !completed
           ? pageRef.current?.querySelector(".journey-layout") : decisionPanelRef.current;
         start?.scrollIntoView({ block: "start", behavior: "instant" });
         if (heading && heading.getBoundingClientRect().bottom > window.innerHeight - 20) {
