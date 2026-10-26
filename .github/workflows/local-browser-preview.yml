@@ -25,37 +25,37 @@ jobs:
           mkdir -p local-preview/My-New-Life-in-Ireland
           cp -a dist-pages/. local-preview/My-New-Life-in-Ireland/
           cat > local-preview/README.txt <<'EOF'
-JOURNEYS TO IRELAND - FEATURE BRANCH BROWSER PREVIEW
-
-Contents: a static build of branch ui-ux-engagement-2026-10-25,
-including the new Fact or Fiction hub. This is not a production release.
-
-1. Extract the entire archive into a folder.
-2. Run start-mac-linux.sh on macOS/Linux, or start-windows.bat on Windows.
-   Python 3 is required. Alternatively, from this folder run:
-   python3 -m http.server 4173
-3. Open http://localhost:4173/My-New-Life-in-Ireland/
-4. To inspect the new hub directly:
-   http://localhost:4173/My-New-Life-in-Ireland/fact-or-fiction/
-
-Close the terminal window or press Ctrl+C to stop the local server.
-This preview does not upload your journey progress; it is saved only
-in the browser on this device. Do not open index.html using file://,
-because site assets expect an HTTP server at the paths above.
-EOF
+          JOURNEYS TO IRELAND - FEATURE BRANCH BROWSER PREVIEW
+          
+          Contents: a static build of branch ui-ux-engagement-2026-10-25,
+          including the new Fact or Fiction hub. This is not a production release.
+          
+          1. Extract the entire archive into a folder.
+          2. Run start-mac-linux.sh on macOS/Linux, or start-windows.bat on Windows.
+             Python 3 is required. Alternatively, from this folder run:
+             python3 -m http.server 4173
+          3. Open http://localhost:4173/My-New-Life-in-Ireland/
+          4. To inspect the new hub directly:
+             http://localhost:4173/My-New-Life-in-Ireland/fact-or-fiction/
+          
+          Close the terminal window or press Ctrl+C to stop the local server.
+          This preview does not upload your journey progress; it is saved only
+          in the browser on this device. Do not open index.html using file://,
+          because site assets expect an HTTP server at the paths above.
+          EOF
           cat > local-preview/start-mac-linux.sh <<'EOF'
-#!/bin/sh
-cd "$(dirname "$0")" || exit 1
-printf '%s\n' 'Open http://localhost:4173/My-New-Life-in-Ireland/'
-exec python3 -m http.server 4173 --bind 127.0.0.1
-EOF
+          #!/bin/sh
+          cd "$(dirname "$0")" || exit 1
+          printf '%s\n' 'Open http://localhost:4173/My-New-Life-in-Ireland/'
+          exec python3 -m http.server 4173 --bind 127.0.0.1
+          EOF
           chmod +x local-preview/start-mac-linux.sh
           cat > local-preview/start-windows.bat <<'EOF'
-@echo off
-cd /d "%~dp0"
-echo Open http://localhost:4173/My-New-Life-in-Ireland/
-py -3 -m http.server 4173 --bind 127.0.0.1
-EOF
+          @echo off
+          cd /d "%~dp0"
+          echo Open http://localhost:4173/My-New-Life-in-Ireland/
+          py -3 -m http.server 4173 --bind 127.0.0.1
+          EOF
       - name: Upload browser-ready preview
         uses: actions/upload-artifact@v4
         with:
