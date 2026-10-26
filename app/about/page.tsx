@@ -6,6 +6,7 @@ import { additionalAboutCopy } from "../additional-page-copy";
 import { MobileNavigation } from "../mobile-navigation";
 import { learningCopy } from "../learning-copy";
 import { FooterTagline } from "../footer-tagline";
+import { factNavLabel } from "../fact-or-fiction/locales";
 import { AboutLearningNavigation, AboutLearningSections } from "./learning-sections";
 
 const repositoryUrl =
@@ -32,10 +33,11 @@ export default function AboutPage() {
         </a>
         <div className="nav-links">
           <a className="nav-link" href="../resources/">{t.hub}</a>
+          <a className="nav-link" href="../fact-or-fiction/">{factNavLabel(language)}</a>
           <a className="nav-link" href="../#official-guidance">{t.official}</a>
         </div>
         <LanguageControl language={language} setLanguage={setLanguage} label={t.language} />
-        <MobileNavigation links={[{ href: "../", label: t.home }, { href: "../#route-finder", label: t.journeys }, { href: "../resources/", label: t.hub }, { href: "../#official-guidance", label: t.official }]} language={language} setLanguage={setLanguage} languageLabel={t.language} menuLabel={t.menu} closeLabel={t.closeMenu} />
+        <MobileNavigation links={[{ href: "../", label: t.home }, { href: "../#route-finder", label: t.journeys }, { href: "../resources/", label: t.hub }, { href: "../fact-or-fiction/", label: factNavLabel(language) }, { href: "../#official-guidance", label: t.official }]} language={language} setLanguage={setLanguage} languageLabel={t.language} menuLabel={t.menu} closeLabel={t.closeMenu} />
       </header>
 
       <section className="about-hero">

@@ -35,6 +35,7 @@ test("renders the public experience with ownership and About links", async () =>
   assert.match(html, /<title>Journeys to Ireland<\/title>/);
   assert.match(html, /href="about\/"/);
   assert.match(html, /href="resources\/"/);
+  assert.match(html, /href="fact-or-fiction\/"/);
   assert.match(html, /href="resources\/\?topic=work#resource-browser"/);
   assert.match(html, /href="resources\/\?topic=protection#resource-browser"/);
   assert.match(html, /href="resources\/\?topic=study#resource-browser"/);
@@ -75,4 +76,16 @@ test("renders the Ireland information hub", async () => {
   assert.match(html, /is an interactive learning platform\. The goal is to educate everybody to empower everyone\./);
   assert.match(html, /Copyright © 2026\. All rights reserved/);
   assert.match(html, /href="https:\/\/samobrienolinger\.github\.io\/SamOBrienOlinger\/"/);
+});
+
+
+test("renders Fact or Fiction with original sources and independent educational context", async () => {
+  const html = await render("/fact-or-fiction");
+  assert.match(html, /<title>Fact or Fiction \| Journeys to Ireland<\/title>/);
+  assert.match(html, /Fact or Fiction\?/);
+  assert.match(html, /check-standard-welfare/);
+  assert.match(html, /check-permit-equals-fairness/);
+  assert.match(html, /Economic and Social Research Institute/);
+  assert.match(html, /Migrant Rights Centre Ireland/);
+  assert.match(html, /2026-10-26/);
 });

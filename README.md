@@ -28,6 +28,7 @@
 
 <p align="center">
   <a href="#using-the-project">Start here</a> ·
+  <a href="https://samobrienolinger.github.io/My-New-Life-in-Ireland/fact-or-fiction/">Fact or Fiction</a> ·
   <a href="#how-a-journey-works">Journey guide</a> ·
   <a href="#meet-the-characters">Characters</a> ·
   <a href="#languages">🌐 Languages</a> ·
@@ -53,6 +54,13 @@ Follow a fictional person's circumstances from planning a move to building a lif
 | **[Follow a character](https://samobrienolinger.github.io/My-New-Life-in-Ireland/#choose-character)** | Meet one of twelve fictional people and consider the decisions in their five-stage journey. |
 | **[Try the route finder](https://samobrienolinger.github.io/My-New-Life-in-Ireland/#route-finder)** | Filter characters by a broad reason for moving, such as work, study or family. This is an educational filter, not an eligibility checker. |
 | **[Browse the Information Hub](https://samobrienolinger.github.io/My-New-Life-in-Ireland/resources/)** | Search official and specialist resources, or filter by topic to find a useful starting point. |
+| **[Fact or Fiction](https://samobrienolinger.github.io/My-New-Life-in-Ireland/fact-or-fiction/)** | Reveal answers to ten commonly repeated claims; search by topic and check the original Irish sources. |
+
+### Fact or Fiction: the evidence hub
+
+The source-linked hub checks ten claims about international protection, welfare, housing, migrant workers, public perceptions and reporting racism. It provides **Fact**, **Fiction** and **Needs context** verdicts, topic filters, search, deep links and an accessible reveal pattern. Content is available in the same ten learning languages as the journeys; linked publications may be in English. It cites INAR, MRCI, ESRI, the Irish Refugee Council and official government/WRC guidance. The publication dates are distinguished from the **26 October 2026 source-link check**. Each entry explains its scope and limits: self-selected reports are not population statistics, and a 2024 study is not a current entitlement checker. These independent educational summaries are not endorsed by the sources and should be reviewed when laws or evidence change.
+
+Static GitHub Pages entry: `github-pages/fact-or-fiction/`; Next route: `app/fact-or-fiction/`. Automated page checks: `tests/browser/facts.spec.ts`.
 
 ### How a journey works
 

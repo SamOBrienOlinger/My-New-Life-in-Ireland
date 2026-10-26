@@ -29,6 +29,7 @@ import { JourneyInsight, JourneyRecap } from "./journey-learning-panels";
 import { resourceTopicForRoute } from "./journey-learning";
 import { usePageMotion } from "./use-page-motion";
 import { FooterTagline } from "./footer-tagline";
+import { factNavLabel, factUi } from "./fact-or-fiction/locales";
 import { engagementCopy } from "./engagement-copy";
 import { ChapterBanner, JourneyCharacter } from "./journey-chapter";
 import { JourneyChoiceComparison } from "./journey-choice-comparison";
@@ -37,6 +38,7 @@ import { JourneyGlossary } from "./journey-glossary";
 import { JourneyJournalEntry, JourneyJournalLibrary, useJourneyJournal } from "./journey-journal-panels";
 import { JourneyComparison } from "./journey-comparison";
 import "./engagement.css";
+import "./fact-or-fiction/facts.css";
 
 const scrollBehavior = (): ScrollBehavior => window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth";
 
@@ -427,7 +429,7 @@ export default function Home() {
 
   return <main ref={pageRef} lang={language} dir={dir}>
     <section className="hero-section hero-section-expanded" id="top">
-      <nav className="home-nav" aria-label={`${t.siteName}: ${t.menu}`}><a className="brand-button" href="#top" aria-label={`${t.siteName}: ${t.home}`}><img className="brand-mark" src="images/harp-heart-logo.png" alt="" aria-hidden="true" /><span>{t.siteName}</span></a><div className="nav-links"><a className="nav-link" href="about/">{t.about}</a><a className="nav-link" href="resources/">{t.hub}</a><a className="nav-link" href="#official-guidance">{t.official}</a></div><LanguageControl language={language} setLanguage={setLanguage} label={t.language} /><MobileNavigation links={[{ href: "#top", label: t.home }, { href: "about/", label: t.about }, { href: "resources/", label: t.hub }, { href: "#official-guidance", label: t.official }]} language={language} setLanguage={setLanguage} languageLabel={t.language} menuLabel={t.menu} closeLabel={t.closeMenu} /></nav>
+      <nav className="home-nav" aria-label={`${t.siteName}: ${t.menu}`}><a className="brand-button" href="#top" aria-label={`${t.siteName}: ${t.home}`}><img className="brand-mark" src="images/harp-heart-logo.png" alt="" aria-hidden="true" /><span>{t.siteName}</span></a><div className="nav-links"><a className="nav-link" href="about/">{t.about}</a><a className="nav-link" href="resources/">{t.hub}</a><a className="nav-link" href="fact-or-fiction/">{factNavLabel(language)}</a><a className="nav-link" href="#official-guidance">{t.official}</a></div><LanguageControl language={language} setLanguage={setLanguage} label={t.language} /><MobileNavigation links={[{ href: "#top", label: t.home }, { href: "about/", label: t.about }, { href: "resources/", label: t.hub }, { href: "fact-or-fiction/", label: factNavLabel(language) }, { href: "#official-guidance", label: t.official }]} language={language} setLanguage={setLanguage} languageLabel={t.language} menuLabel={t.menu} closeLabel={t.closeMenu} /></nav>
       <div className="hero-content hero-content-expanded">
         <p className="eyebrow">{t.heroEyebrow}</p>
         <div className="hero-heading">
@@ -507,6 +509,11 @@ export default function Home() {
     </section>
 
     <JourneyJournalLibrary journal={journal} language={language} onExplore={startCharacter} />
+
+    <section className="fact-home-teaser" aria-labelledby="fact-home-teaser-title">
+      <div><p className="eyebrow">{factUi[language].eyebrow}</p><h2 id="fact-home-teaser-title">{factNavLabel(language)}</h2><p>{factUi[language].intro}</p></div>
+      <a className="primary-button" href="fact-or-fiction/">{factNavLabel(language)} <ArrowRight size={18} aria-hidden="true" /></a>
+    </section>
 
     <section className="hub-preview" id="information-hub-topics" aria-labelledby="hub-title"><div data-reveal="hub-introduction"><p className="eyebrow">{t.afterStory}</p><h2 id="hub-title">{t.practicalTitle}</h2><p>{t.practicalText}</p><a className="primary-button" href="resources/">{t.openHub} <ArrowRight size={18} aria-hidden="true" /></a></div><nav className="hub-topic-grid" data-reveal="hub-topics" aria-label={t.hub}><a href="resources/?topic=work#resource-browser"><BriefcaseBusiness aria-hidden="true" /><span>{t.workPermits}</span><ArrowRight className="hub-topic-arrow" size={18} aria-hidden="true" /></a><a href="resources/?topic=protection#resource-browser"><ShieldCheck aria-hidden="true" /><span>{t.protectionSafety}</span><ArrowRight className="hub-topic-arrow" size={18} aria-hidden="true" /></a><a href="resources/?topic=study#resource-browser"><GraduationCap aria-hidden="true" /><span>{t.studyEducation}</span><ArrowRight className="hub-topic-arrow" size={18} aria-hidden="true" /></a><a href="resources/?topic=family#resource-browser"><HeartHandshake aria-hidden="true" /><span>{t.familyCommunity}</span><ArrowRight className="hub-topic-arrow" size={18} aria-hidden="true" /></a><a href="resources/?topic=arrival#resource-browser"><MapPin aria-hidden="true" /><span>{t.arrivalRegistration}</span><ArrowRight className="hub-topic-arrow" size={18} aria-hidden="true" /></a><a href="resources/?topic=rights#resource-browser"><Scale aria-hidden="true" /><span>{t.rightsAdvice}</span><ArrowRight className="hub-topic-arrow" size={18} aria-hidden="true" /></a></nav></section>
 

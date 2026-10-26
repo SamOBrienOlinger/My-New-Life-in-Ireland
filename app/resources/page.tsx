@@ -15,6 +15,7 @@ import { MobileNavigation } from "../mobile-navigation";
 import { resourceDescription } from "../journey-translations";
 import { learningCopy } from "../learning-copy";
 import { FooterTagline } from "../footer-tagline";
+import { factNavLabel } from "../fact-or-fiction/locales";
 import { practicalResources } from "../journey-learning";
 import { SourceDetails } from "../source-details";
 import { movingGuideDefinitions, movingGuideResources } from "../moving-guide";
@@ -146,7 +147,7 @@ export default function ResourcesPage() {
   return <main className="resources-page" lang={language} dir={dir}>
     <nav className="home-nav resources-nav" aria-label={`${t.siteName}: ${t.menu}`}>
       <a className="brand-button" href="../" aria-label={`${t.siteName}: ${t.home}`}><img className="brand-mark" src="../images/harp-heart-logo.png" alt="" aria-hidden="true" /><span>{t.siteName}</span></a>
-      <div className="nav-links"><a className="nav-link" href="../">{t.journeys}</a><a className="nav-link" href="../about/">{t.about}</a></div><LanguageControl language={language} setLanguage={setLanguage} label={t.language} /><MobileNavigation links={[{ href: "../", label: t.home }, { href: "../#route-finder", label: t.journeys }, { href: "../about/", label: t.about }, { href: "../#official-guidance", label: t.official }]} language={language} setLanguage={setLanguage} languageLabel={t.language} menuLabel={t.menu} closeLabel={t.closeMenu} />
+      <div className="nav-links"><a className="nav-link" href="../">{t.journeys}</a><a className="nav-link" href="../about/">{t.about}</a><a className="nav-link" href="../fact-or-fiction/">{factNavLabel(language)}</a></div><LanguageControl language={language} setLanguage={setLanguage} label={t.language} /><MobileNavigation links={[{ href: "../", label: t.home }, { href: "../#route-finder", label: t.journeys }, { href: "../about/", label: t.about }, { href: "../fact-or-fiction/", label: factNavLabel(language) }, { href: "../#official-guidance", label: t.official }]} language={language} setLanguage={setLanguage} languageLabel={t.language} menuLabel={t.menu} closeLabel={t.closeMenu} />
     </nav>
 
     <header className="resources-hero">
