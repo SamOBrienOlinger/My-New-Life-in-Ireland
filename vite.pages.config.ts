@@ -6,7 +6,7 @@ const repositoryName = "My-New-Life-in-Ireland";
 
 export default defineConfig({
   root: "github-pages",
-  base: process.env.PREVIEW_PAGES_BASE ?? `/${repositoryName}/`,
+  base: `/${repositoryName}/`,
   publicDir: "../public",
   plugins: [react()],
   resolve: {
