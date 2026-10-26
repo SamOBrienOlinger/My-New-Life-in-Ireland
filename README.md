@@ -1,8 +1,8 @@
 <p align="center">
-  <img src="public/images/harp-heart-logo.png" width="96" alt="A New Life in Ireland harp-heart logo">
+  <img src="public/images/harp-heart-logo.png" width="96" alt="Journeys to Ireland harp-heart logo">
 </p>
 
-<h1 align="center">A New Life in Ireland</h1>
+<h1 align="center">Journeys to Ireland</h1>
 
 <p align="center">
   <strong>Every journey to Ireland is different.</strong><br>
@@ -17,7 +17,7 @@
 
 <p align="center">
   <a href="https://samobrienolinger.github.io/My-New-Life-in-Ireland/">
-    <img src="public/images/ireland-rural-dublin-hero.webp" width="880" alt="Visit A New Life in Ireland: eight people walking beside a river, with rural fields on the left and Dublin landmarks on the right.">
+    <img src="public/images/ireland-rural-dublin-hero.webp" width="880" alt="Visit Journeys to Ireland: eight people walking beside a river, with rural fields on the left and Dublin landmarks on the right.">
   </a>
 </p>
 
@@ -153,7 +153,7 @@ Progress stays in that browser and does not automatically synchronise across dev
 
 **Make a decision. Understand the explanation. Compare circumstances. Check the source.**
 
-A New Life in Ireland uses **guided, scenario-based learning**. Fictional cases give information a human context; visible rules support decisions; feedback explains why a choice matters. Recaps, reflection prompts, alternative characters and source links provide opportunities to reconsider assumptions and investigate further.
+Journeys to Ireland uses **guided, scenario-based learning**. Fictional cases give information a human context; visible rules support decisions; feedback explains why a choice matters. Recaps, reflection prompts, alternative characters and source links provide opportunities to reconsider assumptions and investigate further.
 
 The design aligns with research on [explanatory feedback](https://doi.org/10.3102/0034654314564881) and provides material for [structured case comparison](https://doi.org/10.1080/00461520.2013.775712). A facilitator or worksheet can extend the experience into a lesson that makes reasoning, comparison and source evaluation explicit.
 
@@ -330,7 +330,7 @@ The strongest proposition is the **combination of human stories, contrasting mig
 
 [**ODISSEU — interactive migration storytelling game**](https://odisseu-project.eu/en/online-game) is a European educational project offering three character journeys for secondary students. Players make choices that influence stories of forced migration, from leaving a country of origin to reaching a country of asylum. It is a close comparator for the character-and-choice learning method.
 
-A New Life in Ireland's distinguishing proposition is its **combination of several migration routes, an Ireland-specific setting, settlement learning and a route finder/Information Hub with authoritative signposting**. The contribution lies not in inventing migration storytelling but in connecting that method to a comparative understanding of Irish pathways and the sources needed to explore them responsibly.
+Journeys to Ireland's distinguishing proposition is its **combination of several migration routes, an Ireland-specific setting, settlement learning and a route finder/Information Hub with authoritative signposting**. The contribution lies not in inventing migration storytelling but in connecting that method to a comparative understanding of Irish pathways and the sources needed to explore them responsibly.
 
 #### Contribution within the wider learning portfolio
 
@@ -470,7 +470,7 @@ Design decisions, original feature notes, historical testing evidence and detail
 
 Copyright © 2026 Sam O'Brien-Olinger. All rights reserved.
 
-A New Life in Ireland™ and its original source code, written content,
+Journeys to Ireland™ and its original source code, written content,
 characters, fictional narratives, decision pathways, educational materials,
 artwork, visual identity and interface designs are the intellectual property of
 Sam O'Brien-Olinger, except where third-party material is separately identified.
@@ -492,5 +492,5 @@ See [LICENSE.md](LICENSE.md) for the complete terms.
   <strong>Explore another person's circumstances. Keep asking questions.</strong><br>
   <a href="https://samobrienolinger.github.io/My-New-Life-in-Ireland/#choose-character">Choose a character</a> ·
   <a href="https://samobrienolinger.github.io/My-New-Life-in-Ireland/resources/">Visit the Information Hub</a> ·
-  <a href="#a-new-life-in-ireland">Back to top ↑</a>
+  <a href="#journeys-to-ireland">Back to top ↑</a>
 </p>

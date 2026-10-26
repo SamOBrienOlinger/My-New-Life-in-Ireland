@@ -88,7 +88,7 @@ export function LanguageControl({ language, setLanguage, label }: { language: La
 
 export const ui = {
   en: {
-    language: "Language", siteName: "A New Life in Ireland", about: "About", hub: "Information hub", official: "Official guidance", journeys: "Journeys", home: "Home", menu: "Menu", closeMenu: "Close",
+    language: "Language", siteName: "Journeys to Ireland", about: "About", hub: "Information hub", official: "Official guidance", journeys: "Journeys", home: "Home", menu: "Menu", closeMenu: "Close",
     heroEyebrow: "An interactive journey through Ireland’s immigration system", heroTitle: "Every journey to Ireland is different.", heroIntro: "Decide. Adapt. Navigate. This is your new life in Ireland",
     atAGlance: "At a glance",
     findJourney: "Find a journey", exploreInfo: "Explore practical information", people: "people", routes: "route types", decisions: "decisions", ireland: "Ireland",
@@ -102,7 +102,7 @@ export const ui = {
     done: "Journey complete", walked: "You walked five stages with", scoreBefore: "You identified", scoreAfter: "safer, informed decisions. Replay the journey to explore different consequences without changing anyone’s real legal position.", checkRoute: "Check the route", checkRouteP: "Visa, residence, work, study and family permission are not interchangeable.", evidence: "Keep your evidence", evidenceP: "Documents, dates and truthful explanations help people navigate separate systems.", network: "Build a support network", networkP: "Official information, independent advice and community connections all matter.", chooseAnother: "Choose another person", openIrelandHub: "Open the Ireland information hub", disclaimer: "Fictional composite story. General education only. Rules and circumstances change.",
   },
   ga: {
-    language: "Teanga", siteName: "Saol Nua in Éirinn", about: "Maidir leis", hub: "Mol eolais", official: "Treoir oifigiúil", journeys: "Turais", home: "Baile", menu: "Roghchlár", closeMenu: "Dún",
+    language: "Teanga", siteName: "Turais go hÉirinn", about: "Maidir leis", hub: "Mol eolais", official: "Treoir oifigiúil", journeys: "Turais", home: "Baile", menu: "Roghchlár", closeMenu: "Dún",
     heroEyebrow: "Turas idirghníomhach trí chóras imirce na hÉireann", heroTitle: "Tá gach turas go hÉirinn difriúil.", heroIntro: "Roghnaigh duine ficseanúil as dáréag agus treoraigh a dturas ón imeacht go dtí an saol in Éirinn.",
     atAGlance: "Sracfhéachaint",
     findJourney: "Aimsigh turas", exploreInfo: "Fiosraigh eolas praiticiúil", people: "duine", routes: "chineál bealaigh", decisions: "cinneadh", ireland: "Éire",
@@ -116,7 +116,7 @@ export const ui = {
     done: "Turas críochnaithe", walked: "Shiúil tú cúig chéim le", scoreBefore: "D’aithin tú", scoreAfter: "cinneadh níos sábháilte. Déan an turas arís chun iarmhairtí eile a fhiosrú gan seasamh dlíthiúil aon duine a athrú.", checkRoute: "Seiceáil an bealach", checkRouteP: "Ní hionann víosa, cónaí, obair, staidéar agus cead teaghlaigh.", evidence: "Coinnigh d’fhianaise", evidenceP: "Cabhraíonn doiciméid, dátaí agus mínithe fírinneacha le daoine córais éagsúla a thuiscint.", network: "Tóg líonra tacaíochta", networkP: "Tá eolas oifigiúil, comhairle neamhspleách agus naisc phobail tábhachtach.", chooseAnother: "Roghnaigh duine eile", openIrelandHub: "Oscail mol eolais na hÉireann", disclaimer: "Scéal cumaisc ficseanúil. Oideachas ginearálta amháin. Athraíonn rialacha agus cúinsí.",
   },
   ar: {
-    language: "اللغة", siteName: "حياة جديدة في أيرلندا", about: "عن الموقع", hub: "مركز المعلومات", official: "الإرشادات الرسمية", journeys: "الرحلات", home: "الرئيسية", menu: "القائمة", closeMenu: "إغلاق",
+    language: "اللغة", siteName: "رحلات إلى أيرلندا", about: "عن الموقع", hub: "مركز المعلومات", official: "الإرشادات الرسمية", journeys: "الرحلات", home: "الرئيسية", menu: "القائمة", closeMenu: "إغلاق",
     heroEyebrow: "رحلة تفاعلية عبر نظام الهجرة الأيرلندي", heroTitle: "كل رحلة إلى أيرلندا مختلفة.", heroIntro: "اختر شخصية خيالية من بين اثنتي عشرة شخصية ووجّه رحلتها من المغادرة إلى الحياة في أيرلندا.",
     atAGlance: "لمحة سريعة",
     findJourney: "اعثر على رحلة", exploreInfo: "استكشف المعلومات العملية", people: "شخصاً", routes: "أنواع مسارات", decisions: "قراراً", ireland: "أيرلندا",

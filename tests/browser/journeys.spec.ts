@@ -174,7 +174,7 @@ for (const width of [320, 390]) {
     test(`${language} at ${width}px keeps keyboard names, visible focus and readable RTL choices`, async ({ page }, testInfo) => {
       await page.setViewportSize({ width, height: 844 });
       await page.goto("./#character-kwame");
-      await expect(page.locator(".home-nav .brand-button")).toHaveAccessibleName("A New Life in Ireland: Home");
+      await expect(page.locator(".home-nav .brand-button")).toHaveAccessibleName("Journeys to Ireland: Home");
       await page.getByRole("button", { name: "Begin five-stage journey", exact: true }).focus();
       await page.keyboard.press("Tab");
       const character = page.getByRole("radio", { name: "Kwame Mensah", exact: true });

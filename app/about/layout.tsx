@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "About | A New Life in Ireland",
+  title: "About | Journeys to Ireland",
   description:
-    "About the educational purpose, sources, creator, copyright and ownership of A New Life in Ireland.",
+    "About the educational purpose, sources, creator, copyright and ownership of Journeys to Ireland.",
 };
 
 export default function AboutLayout({
