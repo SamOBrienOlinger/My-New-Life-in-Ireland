@@ -88,9 +88,8 @@ test("a mobile deep link reveals the last character and its saved journey remain
   await expect(page.locator('.character-grid [aria-checked="true"]')).toHaveCount(0);
   await expect(page.locator(".resume-banner")).toContainText("Continue with Leila");
   await page.getByRole("link", { name: "Walk with Leila", exact: true }).click();
-  await expectVisibleCards(page, ["leila"]);
-  await expect(page.locator("#leila")).toHaveAttribute("aria-checked", "true");
-  await expect(page.locator(".start-bar")).toContainText("Continue with Leila");
+  await expect(page.locator("#decision-title")).toHaveText(stepsByRoute["family-safety"][0].title);
+  await expect(page.locator("#decision-title")).toBeFocused();
 });
 
 for (const language of ["ar", "fa"]) {

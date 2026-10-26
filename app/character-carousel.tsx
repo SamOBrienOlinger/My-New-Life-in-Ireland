@@ -13,6 +13,7 @@ type CharacterCarouselProps = {
   direction: Direction;
   label: string;
   copy: CharacterCarouselCopy;
+  expanded?: boolean;
 };
 
 type Position = {
@@ -65,8 +66,10 @@ function readPosition(viewport: HTMLElement, cards: HTMLElement[], direction: Di
 }
 
 /** Browsing is independent of selection; the existing radio group owns keys. */
-export function CharacterCarousel({ children, itemIds, selectedId, direction, label, copy }: CharacterCarouselProps) {
+export function CharacterCarousel({ children, itemIds, selectedId, direction, label, copy, expanded = false }: CharacterCarouselProps) {
   const viewportRef = useRef<HTMLDivElement>(null);
+  const browsingAnchorRef = useRef<string | null>(null);
+  const previousSelectionRef = useRef<{ itemsKey: string; selectedId: string } | null>(null);
   const [position, setPosition] = useState<Position | null>(null);
   const id = useId();
   const viewportId = `${id}-viewport`;
@@ -81,26 +84,40 @@ export function CharacterCarousel({ children, itemIds, selectedId, direction, la
     const preference = window.matchMedia(reducedMotionQuery);
     let frame = 0;
     let preserveVisibility = true;
-    let resetEmptySelection = true;
+    let selectionChanged = !previousSelectionRef.current || previousSelectionRef.current.itemsKey !== itemsKey || previousSelectionRef.current.selectedId !== selectedId;
+    previousSelectionRef.current = { itemsKey, selectedId };
 
     function measure() {
       frame = 0;
       if (!viewport) return;
+      // A direction change can reset WebKit's scroll position before React
+      // cleans up the previous effect. Keep that transient offset out of the anchor.
+      if (getComputedStyle(viewport).direction !== direction) return;
       if (preserveVisibility) {
         const focused = document.activeElement instanceof Element
           ? document.activeElement.closest<HTMLElement>(".character-card") : null;
         const selected = cards.find((card) => card.id === `character-${selectedId}`);
-        const target = focused && viewport.contains(focused) ? focused : selected;
+        const anchor = cards.find((card) => card.id === browsingAnchorRef.current);
+        const target = focused && viewport.contains(focused) ? focused : selectionChanged ? selected : anchor ?? selected;
         if (target) {
           revealCard(viewport, target);
-        } else if (resetEmptySelection && cards[0]) {
+        } else if (selectionChanged && cards[0]) {
           const bounds = viewportEdges(viewport);
           const first = cards[0].getBoundingClientRect();
           viewport.scrollBy({ left: direction === "rtl" ? first.right - bounds.right : first.left - bounds.left, behavior: "instant" });
         }
       }
       preserveVisibility = false;
-      resetEmptySelection = false;
+      selectionChanged = false;
+      // Track the browsed card separately from the selected journey. Resizing
+      // or returning from the full grid must not jump back to an offscreen selection.
+      const bounds = viewportEdges(viewport);
+      const nearest = cards.reduce<{ id: string; distance: number } | null>((current, card) => {
+        const rect = card.getBoundingClientRect();
+        const distance = Math.abs(direction === "rtl" ? bounds.right - rect.right : rect.left - bounds.left);
+        return !current || distance < current.distance ? { id: card.id, distance } : current;
+      }, null);
+      browsingAnchorRef.current = nearest?.id ?? null;
       const next = readPosition(viewport, cards, direction);
       setPosition((current) => current && current.previous === next.previous && current.next === next.next
         ? current : next);
@@ -135,7 +152,7 @@ export function CharacterCarousel({ children, itemIds, selectedId, direction, la
       window.removeEventListener("resize", resize);
       preference.removeEventListener("change", motionChanged);
     };
-  }, [itemsKey, selectedId, direction, label, copy.instructions]);
+  }, [itemsKey, selectedId, direction, label, copy.instructions, expanded]);
 
   function move(step: -1 | 1) {
     const viewport = viewportRef.current;
@@ -164,6 +181,8 @@ export function CharacterCarousel({ children, itemIds, selectedId, direction, la
 
   const PreviousIcon = direction === "rtl" ? ChevronRight : ChevronLeft;
   const NextIcon = direction === "rtl" ? ChevronLeft : ChevronRight;
+
+  if (expanded) return <div className="character-gallery" role="region" aria-label={label} dir={direction}>{children}</div>;
 
   return (
     <div className="character-carousel" role="region" aria-label={label} aria-describedby={instructionsId} dir={direction}>

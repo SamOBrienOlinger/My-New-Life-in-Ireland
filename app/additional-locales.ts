@@ -15,7 +15,7 @@ export const additionalLanguageOptions: { value: AdditionalLanguage; label: stri
 
 export const additionalUi = {
   zh: {
-    language:"语言",siteName:"爱尔兰新生活",about:"关于",hub:"信息中心",official:"官方指南",journeys:"旅程",home:"首页",menu:"菜单",closeMenu:"关闭",
+    language:"语言",siteName:"前往爱尔兰的旅程",about:"关于",hub:"信息中心",official:"官方指南",journeys:"旅程",home:"首页",menu:"菜单",closeMenu:"关闭",
     heroEyebrow:"互动探索爱尔兰移民体系",heroTitle:"每一段前往爱尔兰的旅程都不一样。",heroIntro:"从十二位虚构人物中选择一位，引导其从离境走向在爱尔兰的生活。",
     atAGlance:"概览",
     findJourney:"寻找一段旅程",exploreInfo:"探索实用信息",people:"人物",routes:"路线类型",decisions:"决定",ireland:"爱尔兰",
@@ -29,7 +29,7 @@ export const additionalUi = {
     done:"旅程完成",walked:"你与其走过了五个阶段：",scoreBefore:"你识别出",scoreAfter:"个更安全、知情的决定。可重新体验其他后果，但不会改变任何人的真实法律身份。",checkRoute:"核实路线",checkRouteP:"签证、居留、工作、学习和家庭许可不可互相替代。",evidence:"保留证据",evidenceP:"文件、日期和真实说明有助于应对不同体系。",network:"建立支持网络",networkP:"官方信息、独立建议和社区联系都很重要。",chooseAnother:"选择其他人物",openIrelandHub:"打开爱尔兰信息中心",disclaimer:"虚构综合故事，仅供一般教育。规则和情况会改变。",
   },
   fr: {
-    language:"Langue",siteName:"Une nouvelle vie en Irlande",about:"À propos",hub:"Centre d’information",official:"Sources officielles",journeys:"Parcours",home:"Accueil",menu:"Menu",closeMenu:"Fermer",
+    language:"Langue",siteName:"Parcours vers l’Irlande",about:"À propos",hub:"Centre d’information",official:"Sources officielles",journeys:"Parcours",home:"Accueil",menu:"Menu",closeMenu:"Fermer",
     heroEyebrow:"Un parcours interactif dans le système migratoire irlandais",heroTitle:"Chaque parcours vers l’Irlande est différent.",heroIntro:"Choisissez l’une des douze personnes fictives et accompagnez son parcours, du départ à la vie en Irlande.",
     atAGlance:"En bref",
     findJourney:"Choisir un parcours",exploreInfo:"Explorer les informations pratiques",people:"personnes",routes:"types de parcours",decisions:"décisions",ireland:"Irlande",
@@ -43,7 +43,7 @@ export const additionalUi = {
     done:"Parcours terminé",walked:"Vous avez parcouru cinq étapes avec",scoreBefore:"Vous avez identifié",scoreAfter:"décisions plus sûres et éclairées. Recommencez pour explorer d’autres conséquences sans modifier la situation juridique réelle de quiconque.",checkRoute:"Vérifier le parcours",checkRouteP:"Visa, séjour, travail, études et autorisation familiale ne sont pas interchangeables.",evidence:"Conserver les preuves",evidenceP:"Documents, dates et explications sincères aident à naviguer entre les systèmes.",network:"Créer un réseau de soutien",networkP:"Informations officielles, conseils indépendants et liens communautaires comptent tous.",chooseAnother:"Choisir une autre personne",openIrelandHub:"Ouvrir le centre d’information sur l’Irlande",disclaimer:"Histoire composite fictive. Information générale uniquement. Les règles et situations changent.",
   },
   pt: {
-    language:"Idioma",siteName:"Uma Nova Vida na Irlanda",about:"Sobre",hub:"Centro de informações",official:"Orientação oficial",journeys:"Percursos",home:"Início",menu:"Menu",closeMenu:"Fechar",
+    language:"Idioma",siteName:"Percursos para a Irlanda",about:"Sobre",hub:"Centro de informações",official:"Orientação oficial",journeys:"Percursos",home:"Início",menu:"Menu",closeMenu:"Fechar",
     heroEyebrow:"Uma viagem interativa pelo sistema de imigração irlandês",heroTitle:"Cada percurso para a Irlanda é diferente.",heroIntro:"Escolha uma de doze pessoas fictícias e acompanhe o seu percurso desde a partida até à vida na Irlanda.",
     atAGlance:"Visão geral",
     findJourney:"Encontrar um percurso",exploreInfo:"Explorar informações práticas",people:"pessoas",routes:"tipos de percurso",decisions:"decisões",ireland:"Irlanda",
@@ -57,7 +57,7 @@ export const additionalUi = {
     done:"Percurso concluído",walked:"Percorreu cinco etapas com",scoreBefore:"Identificou",scoreAfter:"decisões mais seguras e informadas. Repita o percurso para explorar outras consequências sem alterar a situação jurídica real de ninguém.",checkRoute:"Verificar a via",checkRouteP:"Visto, residência, trabalho, estudo e autorização familiar não são intercambiáveis.",evidence:"Guarde as provas",evidenceP:"Documentos, datas e explicações verdadeiras ajudam a navegar sistemas distintos.",network:"Crie uma rede de apoio",networkP:"Informação oficial, aconselhamento independente e ligações comunitárias são importantes.",chooseAnother:"Escolher outra pessoa",openIrelandHub:"Abrir o centro de informações da Irlanda",disclaimer:"História composta fictícia. Apenas educação geral. As regras e circunstâncias mudam.",
   },
   es: {
-    language:"Idioma",siteName:"Una Nueva Vida en Irlanda",about:"Acerca de",hub:"Centro de información",official:"Orientación oficial",journeys:"Historias",home:"Inicio",menu:"Menú",closeMenu:"Cerrar",
+    language:"Idioma",siteName:"Viajes a Irlanda",about:"Acerca de",hub:"Centro de información",official:"Orientación oficial",journeys:"Historias",home:"Inicio",menu:"Menú",closeMenu:"Cerrar",
     heroEyebrow:"Un recorrido interactivo por el sistema migratorio irlandés",heroTitle:"Cada viaje a Irlanda es diferente.",heroIntro:"Elige a una de doce personas ficticias y acompaña su recorrido desde la salida hasta su vida en Irlanda.",
     atAGlance:"De un vistazo",
     findJourney:"Elegir un recorrido",exploreInfo:"Explorar información práctica",people:"personas",routes:"tipos de ruta",decisions:"decisiones",ireland:"Irlanda",
@@ -71,7 +71,7 @@ export const additionalUi = {
     done:"Recorrido completado",walked:"Has recorrido cinco etapas con",scoreBefore:"Identificaste",scoreAfter:"decisiones más seguras e informadas. Repite el recorrido para explorar otras consecuencias sin cambiar la situación jurídica real de nadie.",checkRoute:"Comprobar la ruta",checkRouteP:"Visado, residencia, trabajo, estudios y permiso familiar no son intercambiables.",evidence:"Conserva las pruebas",evidenceP:"Los documentos, fechas y explicaciones veraces ayudan a navegar sistemas distintos.",network:"Crea una red de apoyo",networkP:"La información oficial, el asesoramiento independiente y los vínculos comunitarios son importantes.",chooseAnother:"Elegir otra persona",openIrelandHub:"Abrir el centro de información de Irlanda",disclaimer:"Historia ficticia compuesta. Solo educación general. Las normas y circunstancias cambian.",
   },
   nl: {
-    language:"Taal",siteName:"Een Nieuw Leven in Ierland",about:"Over",hub:"Informatiepunt",official:"Officiële informatie",journeys:"Trajecten",home:"Home",menu:"Menu",closeMenu:"Sluiten",
+    language:"Taal",siteName:"Reizen naar Ierland",about:"Over",hub:"Informatiepunt",official:"Officiële informatie",journeys:"Trajecten",home:"Home",menu:"Menu",closeMenu:"Sluiten",
     heroEyebrow:"Een interactieve reis door het Ierse migratiesysteem",heroTitle:"Elke reis naar Ierland is anders.",heroIntro:"Kies één van twaalf fictieve personen en begeleid hun reis van vertrek tot een leven in Ierland.",
     atAGlance:"In één oogopslag",
     findJourney:"Kies een traject",exploreInfo:"Bekijk praktische informatie",people:"mensen",routes:"soorten routes",decisions:"beslissingen",ireland:"Ierland",
@@ -85,7 +85,7 @@ export const additionalUi = {
     done:"Traject voltooid",walked:"Je doorliep vijf stappen met",scoreBefore:"Je herkende",scoreAfter:"veiligere, geïnformeerde beslissingen. Herhaal het traject om andere gevolgen te verkennen zonder iemands echte juridische positie te veranderen.",checkRoute:"Controleer de route",checkRouteP:"Visum, verblijf, werk, studie en gezinsvergunning zijn niet uitwisselbaar.",evidence:"Bewaar je bewijs",evidenceP:"Documenten, data en eerlijke uitleg helpen bij verschillende systemen.",network:"Bouw een steunnetwerk",networkP:"Officiële informatie, onafhankelijk advies en contacten in de gemeenschap zijn allemaal belangrijk.",chooseAnother:"Kies een andere persoon",openIrelandHub:"Open het Ierse informatiepunt",disclaimer:"Fictief samengesteld verhaal. Alleen algemene educatie. Regels en omstandigheden veranderen.",
   },
   fa: {
-    language:"زبان",siteName:"زندگی تازه در ایرلند",about:"درباره",hub:"مرکز اطلاعات",official:"راهنمای رسمی",journeys:"مسیرها",home:"خانه",menu:"منو",closeMenu:"بستن",
+    language:"زبان",siteName:"سفرها به ایرلند",about:"درباره",hub:"مرکز اطلاعات",official:"راهنمای رسمی",journeys:"مسیرها",home:"خانه",menu:"منو",closeMenu:"بستن",
     heroEyebrow:"سفری تعاملی در نظام مهاجرت ایرلند",heroTitle:"هر سفر به ایرلند متفاوت است.",heroIntro:"یکی از دوازده شخصیت خیالی را انتخاب کنید و مسیر او را از خروج تا زندگی در ایرلند دنبال کنید.",
     atAGlance:"در یک نگاه",
     findJourney:"انتخاب یک مسیر",exploreInfo:"بررسی اطلاعات کاربردی",people:"نفر",routes:"نوع مسیر",decisions:"تصمیم",ireland:"ایرلند",
@@ -99,7 +99,7 @@ export const additionalUi = {
     done:"مسیر کامل شد",walked:"پنج مرحله را همراه بودید با",scoreBefore:"شما تشخیص دادید",scoreAfter:"تصمیم امن‌تر و آگاهانه‌تر. مسیر را دوباره طی کنید تا پیامدهای دیگر را بدون تغییر جایگاه حقوقی واقعی کسی بررسی کنید.",checkRoute:"مسیر را بررسی کنید",checkRouteP:"ویزا، اقامت، کار، تحصیل و مجوز خانوادگی جای یکدیگر را نمی‌گیرند.",evidence:"مدارک را نگه دارید",evidenceP:"اسناد، تاریخ‌ها و توضیحات صادقانه به عبور از نظام‌های جداگانه کمک می‌کنند.",network:"شبکه پشتیبانی بسازید",networkP:"اطلاعات رسمی، مشاوره مستقل و ارتباطات اجتماعی همگی مهم‌اند.",chooseAnother:"انتخاب فرد دیگر",openIrelandHub:"باز کردن مرکز اطلاعات ایرلند",disclaimer:"داستانی خیالی و ترکیبی. فقط برای آموزش عمومی. مقررات و شرایط تغییر می‌کنند.",
   },
   xh: {
-    language:"Ulwimi",siteName:"Ubomi Obutsha eIreland",about:"Malunga",hub:"Iziko lolwazi",official:"Isikhokelo esisemthethweni",journeys:"Iihambo",home:"Ekhaya",menu:"Imenyu",closeMenu:"Vala",
+    language:"Ulwimi",siteName:"Iihambo eziya eIreland",about:"Malunga",hub:"Iziko lolwazi",official:"Isikhokelo esisemthethweni",journeys:"Iihambo",home:"Ekhaya",menu:"Imenyu",closeMenu:"Vala",
     heroEyebrow:"Uhambo olusebenzisanayo kwinkqubo yokufudukela eIreland",heroTitle:"Uhambo ngalunye oluya eIreland lwahlukile.",heroIntro:"Khetha omnye kubantu abalishumi elinesibini abaqanjiweyo uze ukhokele uhambo lwabo ukusuka ekumkeni ukuya kubomi baseIreland.",
     atAGlance:"Ngokufutshane",
     findJourney:"Fumana uhambo",exploreInfo:"Phonononga ulwazi olusebenzayo",people:"abantu",routes:"iintlobo zeendlela",decisions:"izigqibo",ireland:"Ireland",

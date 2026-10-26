@@ -1,8 +1,8 @@
 <p align="center">
-  <img src="public/images/harp-heart-logo.png" width="96" alt="A New Life in Ireland harp-heart logo">
+  <img src="public/images/harp-heart-logo.png" width="96" alt="Journeys to Ireland harp-heart logo">
 </p>
 
-<h1 align="center">A New Life in Ireland</h1>
+<h1 align="center">Journeys to Ireland</h1>
 
 <p align="center">
   <strong>Every journey to Ireland is different.</strong><br>
@@ -17,7 +17,7 @@
 
 <p align="center">
   <a href="https://samobrienolinger.github.io/My-New-Life-in-Ireland/">
-    <img src="public/images/ireland-rural-dublin-hero.webp" width="880" alt="Visit A New Life in Ireland: eight people walking beside a river, with rural fields on the left and Dublin landmarks on the right.">
+    <img src="public/images/ireland-rural-dublin-hero.webp" width="880" alt="Visit Journeys to Ireland: eight people walking beside a river, with rural fields on the left and Dublin landmarks on the right.">
   </a>
 </p>
 
@@ -28,6 +28,7 @@
 
 <p align="center">
   <a href="#using-the-project">Start here</a> ·
+  <a href="https://samobrienolinger.github.io/My-New-Life-in-Ireland/fact-or-fiction/">Fact or Fiction</a> ·
   <a href="#how-a-journey-works">Journey guide</a> ·
   <a href="#meet-the-characters">Characters</a> ·
   <a href="#languages">🌐 Languages</a> ·
@@ -53,20 +54,27 @@ Follow a fictional person's circumstances from planning a move to building a lif
 | **[Follow a character](https://samobrienolinger.github.io/My-New-Life-in-Ireland/#choose-character)** | Meet one of twelve fictional people and consider the decisions in their five-stage journey. |
 | **[Try the route finder](https://samobrienolinger.github.io/My-New-Life-in-Ireland/#route-finder)** | Filter characters by a broad reason for moving, such as work, study or family. This is an educational filter, not an eligibility checker. |
 | **[Browse the Information Hub](https://samobrienolinger.github.io/My-New-Life-in-Ireland/resources/)** | Search official and specialist resources, or filter by topic to find a useful starting point. |
+| **[Fact or Fiction](https://samobrienolinger.github.io/My-New-Life-in-Ireland/fact-or-fiction/)** | Reveal answers to ten commonly repeated claims; search by topic and check the original Irish sources. |
+
+### Fact or Fiction: the evidence hub
+
+The source-linked hub checks ten claims about international protection, welfare, housing, migrant workers, public perceptions and reporting racism. It provides **Fact**, **Fiction** and **Needs context** verdicts, topic filters, search, deep links and an accessible reveal pattern. Content is available in the same ten learning languages as the journeys; linked publications may be in English. It cites INAR, MRCI, ESRI, the Irish Refugee Council and official government/WRC guidance. The publication dates are distinguished from the **26 October 2026 source-link check**. Each entry explains its scope and limits: self-selected reports are not population statistics, and a 2024 study is not a current entitlement checker. These independent educational summaries are not endorsed by the sources and should be reviewed when laws or evidence change.
+
+Static GitHub Pages entry: `github-pages/fact-or-fiction/`; Next route: `app/fact-or-fiction/`. Automated page checks: `tests/browser/facts.spec.ts`.
 
 ### How a journey works
 
 **Plan → Prepare → Travel → Arrive → Build a life**
 
-1. **Choose a person.** Read their profile, then select **Begin five-stage journey**.
-2. **Read the situation.** Consider the character's circumstances and the explanation of the relevant rules. Choose the plain-language or detailed version, or use **Listen** where supported.
+1. **Choose a person.** Browse the carousel or select **View all people**, then use **Walk with [name]** to start or resume directly. Selecting a profile also exposes the existing start, continue and restart controls.
+2. **Read the situation.** Each chapter has an illustration and the character's circumstances. Choose **With guidance** to read the explanation first, or **Try first** to make a decision before opening it. The plain-language and detailed versions remain available.
 3. **Make and check a decision.** Select a response, then choose **Check decision** to reveal the feedback and stated consequences.
-4. **Learn why it matters.** Read the learning point, common misunderstanding, practical next step and supporting sources.
+4. **Learn why it matters.** Read the learning point, common misunderstanding, practical next step and supporting sources. **What if I chose differently?** compares another answer's explanation without changing your saved choice. **Useful words** provides a small glossary with source links.
 5. **Continue through the five stages.** Select **Continue** after checking each decision. At the last stage, select **Complete journey**.
-6. **Reflect and explore further.** Review the recap, revisit a decision, consider the reflection questions or follow the relevant resources. Try another character to compare circumstances.
+6. **Reflect and explore further.** The completed journey enters your local learning journal. Add a reflection, download a text summary, review the recap or revisit a decision. Guided comparisons pair Kwame with Elena and Mariam with Adama, using the existing story explanations and sources.
 
 > [!TIP]
-> **You can learn by reconsidering.** The recap lets you revisit an answer without resetting the attempt. Check a changed answer before returning to the recap. The five stages stay in sequence; your choices change the feedback and stated consequences.
+> **You can learn by reconsidering.** The chapter navigation and recap let you revisit explored decisions without resetting the attempt. Check a changed answer before completing the journey again. On a phone, open **About [name]** to revisit the character's circumstances and chapters. The five stages stay in sequence; your choices change the feedback and stated consequences.
 
 The recap counts informed decisions in the exercise. **You do not need five correct answers to finish**, and the result does not predict immigration eligibility or a real-world outcome. Reflection questions are unscored and request no personal information.
 
@@ -124,7 +132,8 @@ Choose a language using the site's language control. Scenario text, answers and 
 | --- | --- |
 | **Language** | English · Gaeilge · Arabic · Mandarin Chinese · French · Portuguese · Spanish · Dutch · Farsi/Persian · isiXhosa |
 | **Reading** | **Plain-language version** or **Detailed version** for the rule explanation. |
-| **Audio** | **Listen** reads the current title, scene and rule explanation using your browser's speech support. |
+| **Audio** | **Listen**, **Pause**, **Resume** and **Stop** control narration. **Audio options** adjusts speed and includes choices or checked feedback. Guidance is narrated when revealed or after the decision is checked. |
+| **Useful words** | Short explanations of permission, registration, employment permits and PPS numbers, with links to official guidance. |
 
 Arabic and Farsi use right-to-left layouts. Changing language keeps your chosen answers and decision results. Translations are learning aids, not official translations of the underlying guidance. Available voices and speech support vary by browser and language.
 
@@ -136,10 +145,13 @@ The interface includes keyboard controls, visible focus, stage-heading focus and
 
 | When you… | What happens |
 | --- | --- |
-| **Return to an unfinished journey** | **Continue with [name]** restores the stage, answers, checked decisions, answer order and reading mode. |
+| **Return to an unfinished journey** | **Continue with [name]** or the character's **Walk with [name]** card restores the stage, answers, checked decisions, answer order, reading mode and guidance preference. |
 | **Try another character** | Their progress is separate; changing characters does not delete the other unfinished attempt. |
 | **Restart this journey** | Replaces that character's unfinished attempt with a fresh start. |
-| **Complete a journey** | Removes the unfinished save and retains an **Explored** badge. A completed recap is not a permanent saved answer history. |
+| **Complete a journey** | Removes the unfinished save, retains an **Explored** badge and saves the latest completed decisions for that person in the learning journal. |
+| **Write a journal reflection** | Use **Save reflection** to keep the note in this browser. A downloaded summary includes the current text, including any unsaved draft. |
+| **Remove a journal entry** | An inline confirmation removes that completed entry and note; other characters' unfinished saves remain available. |
+| **Return after a story update** | Your reflection and completion date remain available. The journal requests a fresh journey before displaying updated decision explanations. |
 
 Progress stays in that browser and does not automatically synchronise across devices. Clearing the site's browser data removes its local saves. If saving is unavailable, the page explains the limitation and remains usable while it stays open.
 
@@ -149,7 +161,7 @@ Progress stays in that browser and does not automatically synchronise across dev
 
 **Make a decision. Understand the explanation. Compare circumstances. Check the source.**
 
-A New Life in Ireland uses **guided, scenario-based learning**. Fictional cases give information a human context; visible rules support decisions; feedback explains why a choice matters. Recaps, reflection prompts, alternative characters and source links provide opportunities to reconsider assumptions and investigate further.
+Journeys to Ireland uses **guided, scenario-based learning**. Fictional cases give information a human context; visible rules support decisions; feedback explains why a choice matters. Recaps, reflection prompts, alternative characters and source links provide opportunities to reconsider assumptions and investigate further.
 
 The design aligns with research on [explanatory feedback](https://doi.org/10.3102/0034654314564881) and provides material for [structured case comparison](https://doi.org/10.1080/00461520.2013.775712). A facilitator or worksheet can extend the experience into a lesson that makes reasoning, comparison and source evaluation explicit.
 
@@ -326,7 +338,7 @@ The strongest proposition is the **combination of human stories, contrasting mig
 
 [**ODISSEU — interactive migration storytelling game**](https://odisseu-project.eu/en/online-game) is a European educational project offering three character journeys for secondary students. Players make choices that influence stories of forced migration, from leaving a country of origin to reaching a country of asylum. It is a close comparator for the character-and-choice learning method.
 
-A New Life in Ireland's distinguishing proposition is its **combination of several migration routes, an Ireland-specific setting, settlement learning and a route finder/Information Hub with authoritative signposting**. The contribution lies not in inventing migration storytelling but in connecting that method to a comparative understanding of Irish pathways and the sources needed to explore them responsibly.
+Journeys to Ireland's distinguishing proposition is its **combination of several migration routes, an Ireland-specific setting, settlement learning and a route finder/Information Hub with authoritative signposting**. The contribution lies not in inventing migration storytelling but in connecting that method to a comparative understanding of Irish pathways and the sources needed to explore them responsibly.
 
 #### Contribution within the wider learning portfolio
 
@@ -388,6 +400,20 @@ Use Node.js `>=22.13.0`, npm and a Bash-compatible shell for the commands below.
 For a manual review, follow the main user journey, check keyboard navigation and narrow-screen layouts, and inspect the browser console for missing assets or failed requests.
 
 Before the first browser-test run, install the test browsers with `npx playwright install --with-deps chromium firefox webkit`. The suite covers hub visits, refresh and resume, independent character saves, restarting, completion, language changes, blocked storage, keyboard focus and Arabic/Farsi layouts at 320px and 390px. The Pages workflow runs these checks on pull requests and before deployment.
+
+#### Responsive layout checks
+
+After building Pages, run `npx playwright test tests/browser/responsive.spec.ts` for the focused responsive suite, or `npm run test:browser` for the complete regression suite. The responsive checks run in Chromium, Firefox and WebKit and cover:
+
+- Home, About and Information Hub pages, expanded decisions, completed journals and revealed comparisons at 16 viewport sizes from 320px to 2560px wide. The matrix includes both sides of the 760px, 900px and 1024px layout changes, plus short landscape views.
+- Component bounds and readable text, alongside document width, so hiding page overflow cannot conceal a broken card or control. The carousel and topic filters retain their intentional horizontal scrolling, with checks that their offscreen items remain reachable.
+- 200% root text size, including a 320px layout, Arabic and Farsi right-to-left layouts, and longer Dutch labels. Narrow viewport checks also exercise the reflow needed when browser zoom reduces the available CSS width.
+- Primary controls with at least 44px touch targets, menu scrolling, Escape and focus recovery when crossing into desktop navigation, and carousel position after rotation or switching views.
+- Preserved answers, answer ordering and unsaved journal text while the viewport changes.
+
+The layouts use content wrapping and intrinsic grid sizes as well as breakpoints. Below 901px, the character context becomes an expandable panel above the journey. Short viewports use normal page scrolling instead of sticky journey actions. Native selectors and notes remain readable at phone sizes, and navigation respects device safe areas.
+
+These are browser-engine regression checks. Physical-device testing remains useful for operating-system controls, on-screen keyboards and browser chrome.
 
 ### Journey content and progress
 
@@ -452,7 +478,7 @@ Design decisions, original feature notes, historical testing evidence and detail
 
 Copyright © 2026 Sam O'Brien-Olinger. All rights reserved.
 
-A New Life in Ireland™ and its original source code, written content,
+Journeys to Ireland™ and its original source code, written content,
 characters, fictional narratives, decision pathways, educational materials,
 artwork, visual identity and interface designs are the intellectual property of
 Sam O'Brien-Olinger, except where third-party material is separately identified.
@@ -474,5 +500,5 @@ See [LICENSE.md](LICENSE.md) for the complete terms.
   <strong>Explore another person's circumstances. Keep asking questions.</strong><br>
   <a href="https://samobrienolinger.github.io/My-New-Life-in-Ireland/#choose-character">Choose a character</a> ·
   <a href="https://samobrienolinger.github.io/My-New-Life-in-Ireland/resources/">Visit the Information Hub</a> ·
-  <a href="#a-new-life-in-ireland">Back to top ↑</a>
+  <a href="#journeys-to-ireland">Back to top ↑</a>
 </p>

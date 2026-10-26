@@ -9,6 +9,8 @@
   align-items: center;
   gap: 8px;
   min-height: 46px;
+  min-width: 0;
+  max-width: 100%;
   padding: 10px 16px;
   border: 1px solid var(--line);
   border-radius: 999px;
@@ -17,6 +19,7 @@
   font-size: .9rem;
   font-weight: 700;
   text-decoration: none;
+  overflow-wrap: anywhere;
 }
 .about-learning-nav a:hover { border-color: var(--maroon); background: var(--paper-deep); }
 .about-learning-nav svg { flex-shrink: 0; }
@@ -170,6 +173,19 @@
 .learning-read-more { margin-block-start: 20px; font-size: .95rem; }
 [dir="rtl"] .learning-node-arrow, [dir="rtl"] .learning-link-arrow { transform: scaleX(-1); }
 [dir="rtl"] .learning-evidence-limit { border-radius: 9px 0 0 9px; }
+@media (max-width: 900px) {
+  .learning-loop-steps { grid-template-columns: minmax(0, 1fr); gap: 26px; }
+  .learning-loop-steps li { padding: 18px; }
+  .learning-loop-steps .learning-node-arrow,
+  [dir="rtl"] .learning-loop-steps .learning-node-arrow {
+    inset-inline-start: auto;
+    inset-inline-end: auto;
+    left: 50%;
+    top: auto;
+    bottom: -23px;
+    transform: translateX(-50%) rotate(90deg);
+  }
+}
 @media (max-width: 760px) {
   .learning-methods { grid-template-columns: 1fr; }
   .learning-methods article { padding: 22px; }

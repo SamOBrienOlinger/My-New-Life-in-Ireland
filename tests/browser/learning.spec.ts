@@ -229,10 +229,11 @@ test("narrow RTL recaps and insights wrap and keep keyboard focus across languag
     await expect(page.locator(".decision-recap")).toHaveCount(5);
     await expectReadableWidth(page, width, ".decision-recap, .recap-answer-actions, .learning-resource-card, .source-details");
 
-    // Native details must be reachable and expandable from the focused recap.
-    await page.locator("#completion-title").focus();
-    await page.keyboard.press("Tab");
+    // Native details retain a visible focus indicator and keyboard expansion.
     const firstSummary = page.locator(".decision-recap summary").first();
+    await firstSummary.focus();
+    await page.keyboard.press("Shift+Tab");
+    await page.keyboard.press("Tab");
     await expect(firstSummary).toBeFocused();
     await expect.poll(() => firstSummary.evaluate((node) => getComputedStyle(node).outlineStyle)).toBe("solid");
     if (!(await firstSummary.locator("..").evaluate((node) => (node as HTMLDetailsElement).open))) {

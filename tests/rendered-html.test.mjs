@@ -32,9 +32,10 @@ async function render(pathname) {
 test("renders the public experience with ownership and About links", async () => {
   const html = await render("/");
 
-  assert.match(html, /<title>A New Life in Ireland<\/title>/);
+  assert.match(html, /<title>Journeys to Ireland<\/title>/);
   assert.match(html, /href="about\/"/);
   assert.match(html, /href="resources\/"/);
+  assert.match(html, /href="fact-or-fiction\/"/);
   assert.match(html, /href="resources\/\?topic=work#resource-browser"/);
   assert.match(html, /href="resources\/\?topic=protection#resource-browser"/);
   assert.match(html, /href="resources\/\?topic=study#resource-browser"/);
@@ -47,7 +48,8 @@ test("renders the public experience with ownership and About links", async () =>
   assert.match(html, /Adama Sissoko/);
   assert.match(html, /Elena Petrova/);
   assert.match(html, /Leila Rahman/);
-  assert.match(html, /<strong>40<\/strong><small>decisions<\/small>/);
+  assert.match(html, /aria-label="Journeys to Ireland: Home"/);
+  assert.match(html, /<span>Journeys to Ireland<\/span>/);
   assert.match(html, /is an interactive learning platform\. The goal is to educate everybody to empower everyone\./);
   assert.match(html, /Copyright © 2026\. All rights reserved/);
   assert.match(html, /href="https:\/\/samobrienolinger\.github\.io\/SamOBrienOlinger\/"/);
@@ -56,7 +58,7 @@ test("renders the public experience with ownership and About links", async () =>
 test("renders the About route with launch information", async () => {
   const html = await render("/about");
 
-  assert.match(html, /<title>About \| A New Life in Ireland<\/title>/);
+  assert.match(html, /<title>About \| Journeys to Ireland<\/title>/);
   assert.match(html, /Creator, copyright and ownership/);
   assert.match(html, /twelve fictional characters/);
   assert.match(html, /intersectional barriers/);
@@ -67,11 +69,23 @@ test("renders the About route with launch information", async () => {
 test("renders the Ireland information hub", async () => {
   const html = await render("/resources");
 
-  assert.match(html, /<title>Ireland Information Hub \| A New Life in Ireland<\/title>/);
+  assert.match(html, /<title>Ireland Information Hub \| Journeys to Ireland<\/title>/);
   assert.match(html, /Find the right source for the next question/);
   assert.match(html, /Registering immigration permission/);
   assert.match(html, /Independent status after domestic abuse/);
   assert.match(html, /is an interactive learning platform\. The goal is to educate everybody to empower everyone\./);
   assert.match(html, /Copyright © 2026\. All rights reserved/);
   assert.match(html, /href="https:\/\/samobrienolinger\.github\.io\/SamOBrienOlinger\/"/);
+});
+
+
+test("renders Fact or Fiction with original sources and independent educational context", async () => {
+  const html = await render("/fact-or-fiction");
+  assert.match(html, /<title>Fact or Fiction \| Journeys to Ireland<\/title>/);
+  assert.match(html, /Fact or Fiction\?/);
+  assert.match(html, /check-standard-welfare/);
+  assert.match(html, /check-permit-equals-fairness/);
+  assert.match(html, /Economic and Social Research Institute/);
+  assert.match(html, /Migrant Rights Centre Ireland/);
+  assert.match(html, /2026-10-26/);
 });
