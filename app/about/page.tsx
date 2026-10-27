@@ -6,6 +6,7 @@ import { additionalAboutCopy } from "../additional-page-copy";
 import { MobileNavigation } from "../mobile-navigation";
 import { learningCopy } from "../learning-copy";
 import { FooterTagline } from "../footer-tagline";
+import { FooterNavigation, primarySiteLinks } from "../footer-navigation";
 import { factNavLabel } from "../fact-or-fiction/locales";
 import { searchText } from "../search/search-copy";
 import { Search } from "lucide-react";
@@ -40,7 +41,7 @@ export default function AboutPage() {
           <a className="nav-link" href="../#official-guidance">{t.official}</a>
         </div>
         <LanguageControl language={language} setLanguage={setLanguage} label={t.language} />
-        <MobileNavigation links={[{ href: "../", label: t.home }, { href: "../#route-finder", label: t.journeys }, { href: "../resources/", label: t.hub }, { href: "../fact-or-fiction/", label: factNavLabel(language) }, { href: "../search/", label: searchText[language].nav }, { href: "../#official-guidance", label: t.official }]} language={language} setLanguage={setLanguage} languageLabel={t.language} menuLabel={t.menu} closeLabel={t.closeMenu} />
+        <MobileNavigation links={primarySiteLinks(language, "../", "about")} language={language} setLanguage={setLanguage} languageLabel={t.language} menuLabel={t.menu} closeLabel={t.closeMenu} />
       </header>
 
       <section className="about-hero">
@@ -108,6 +109,7 @@ export default function AboutPage() {
       <footer className="site-footer about-footer">
         <div className="site-footer-content">
           <FooterTagline siteName={t.siteName} text={t.tagline} />
+          <FooterNavigation language={language} rootPrefix="../" currentPage="about" />
           <p><a href="https://samobrienolinger.github.io/SamOBrienOlinger/" target="_blank" rel="noreferrer">Sam Tim Solutions</a></p>
           <p className="site-footer-copyright">{t.copyright}</p>
         </div>

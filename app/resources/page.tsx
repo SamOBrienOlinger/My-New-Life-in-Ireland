@@ -15,6 +15,7 @@ import { MobileNavigation } from "../mobile-navigation";
 import { resourceDescription } from "../journey-translations";
 import { learningCopy } from "../learning-copy";
 import { FooterTagline } from "../footer-tagline";
+import { FooterNavigation, primarySiteLinks } from "../footer-navigation";
 import { factNavLabel } from "../fact-or-fiction/locales";
 import { searchText } from "../search/search-copy";
 import { practicalResources } from "../journey-learning";
@@ -148,7 +149,7 @@ export default function ResourcesPage() {
   return <main className="resources-page" lang={language} dir={dir}>
     <nav className="home-nav resources-nav" aria-label={`${t.siteName}: ${t.menu}`}>
       <a className="brand-button" href="../" aria-label={`${t.siteName}: ${t.home}`}><img className="brand-mark" src="../images/harp-heart-logo.png" alt="" aria-hidden="true" /><span>{t.siteName}</span></a>
-      <div className="nav-links"><a className="nav-link" href="../">{t.journeys}</a><a className="nav-link" href="../about/">{t.about}</a><a className="nav-link" href="../fact-or-fiction/">{factNavLabel(language)}</a><a className="nav-link site-search-link" href="../search/"><Search size={17} aria-hidden="true" />{searchText[language].nav}</a></div><LanguageControl language={language} setLanguage={setLanguage} label={t.language} /><MobileNavigation links={[{ href: "../", label: t.home }, { href: "../#route-finder", label: t.journeys }, { href: "../about/", label: t.about }, { href: "../fact-or-fiction/", label: factNavLabel(language) }, { href: "../search/", label: searchText[language].nav }, { href: "../#official-guidance", label: t.official }]} language={language} setLanguage={setLanguage} languageLabel={t.language} menuLabel={t.menu} closeLabel={t.closeMenu} />
+      <div className="nav-links"><a className="nav-link" href="../">{t.journeys}</a><a className="nav-link" href="../about/">{t.about}</a><a className="nav-link" href="../fact-or-fiction/">{factNavLabel(language)}</a><a className="nav-link site-search-link" href="../search/"><Search size={17} aria-hidden="true" />{searchText[language].nav}</a></div><LanguageControl language={language} setLanguage={setLanguage} label={t.language} /><MobileNavigation links={primarySiteLinks(language, "../", "resources")} language={language} setLanguage={setLanguage} languageLabel={t.language} menuLabel={t.menu} closeLabel={t.closeMenu} />
     </nav>
 
     <header className="resources-hero">
@@ -178,7 +179,7 @@ export default function ResourcesPage() {
 
     <section className="first-week-checklist" aria-labelledby="first-week-title"><div><p className="eyebrow">{r.arrival}</p><h2 id="first-week-title">{r.week}</h2><p>{r.weekIntro}</p></div><ul>{r.questions.map((question)=><li key={question}>{question}</li>)}</ul></section>
 
-    <footer className="site-footer"><div className="site-footer-content"><FooterTagline siteName={t.siteName} text={t.tagline} /><p><a href="https://samobrienolinger.github.io/SamOBrienOlinger/" target="_blank" rel="noreferrer">Sam Tim Solutions</a></p><p className="site-footer-copyright">{t.copyright}</p></div></footer>
+    <footer className="site-footer"><div className="site-footer-content"><FooterTagline siteName={t.siteName} text={t.tagline} /><FooterNavigation language={language} rootPrefix="../" currentPage="resources" /><p><a href="https://samobrienolinger.github.io/SamOBrienOlinger/" target="_blank" rel="noreferrer">Sam Tim Solutions</a></p><p className="site-footer-copyright">{t.copyright}</p></div></footer>
   </main>;
 }
 
