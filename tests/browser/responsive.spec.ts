@@ -52,10 +52,10 @@ const completionContent = ".completion-card, .completion-actions, .journal-entry
 const completionControls = ".completion-actions button, .journal-decisions > summary, .journal-note-actions button, .journal-entry-actions button, .comparison-picker select, .comparison-person button, .comparison-reveal-actions button, .decision-recap > summary, .recap-answer-actions button";
 
 async function settleLayout(page: Page) {
-  await page.evaluate(async () => {
-    await document.fonts.ready;
-    await new Promise<void>((resolve) => requestAnimationFrame(() => requestAnimationFrame(() => resolve())));
-  });
+  // Geometry reads synchronously flush layout after setViewportSize.
+  // In background WebKit tabs, requestAnimationFrame may be throttled and
+  // document.fonts.ready can remain pending even though content is rendered.
+  await page.evaluate(() => document.documentElement.getBoundingClientRect().width);
 }
 
 /** Check real component overflow as well as document width: body overflow-x:
@@ -227,6 +227,7 @@ test("an expanded decision preserves answers and exposes its controls across scr
 });
 
 test("completion, journal drafts, and revealed comparisons reflow without losing work", async ({ page }) => {
+  test.slow(); // 16 viewport sizes, every expanded journal section and control.
   await seedJourney(page, { complete: true });
   await openCompletionDetails(page);
   const note = "I will compare the official guidance and discuss the next practical step with my class. ".repeat(8);
