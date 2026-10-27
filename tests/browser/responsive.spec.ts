@@ -39,6 +39,11 @@ const publicPages = [
     content: ".home-nav, .nav-links, .brand-button, .resources-hero h1, .resources-hero, .moving-guide-intro, .moving-guide-actions, .resource-controls, .topic-tabs, .resource-grid, .resource-card, .resource-card h3, .source-details, .first-week-checklist, .site-footer",
     controls: ".mobile-menu-button, .moving-guide-actions a, .resource-search input, .topic-tabs button",
   },
+  {
+    name: "search", path: "./search/", ready: ".search-hero h1",
+    content: ".site-search-nav, .site-search-nav .brand-button, .search-hero, .search-hero h1, .search-intro, .site-search-form, .search-scope, .search-body, .search-section-title, .search-suggestion-list, .search-suggestion-list button, .search-sections-grid, .search-section-summary",
+    controls: ".mobile-menu-button, .site-search-form input, .site-search-form button, .search-suggestion-list button",
+  },
 ] as const;
 
 const decisionContent = ".journey-topbar, .journey-tools, .story-character, .story-context, .story-person-heading, .chapter-navigation, .chapter-banner, .decision-panel, #decision-title, .scene, .learning-tools, .reading-audio, .reading-audio__controls, .reading-audio__settings, .learning-mode, .story-guidance, .story-source, .law-card, .choice-card, .choice-text, .feedback-card, .journey-insight, .choice-comparison, .choice-comparison-grid article, .reading-glossary, .reading-glossary__term, .reading-glossary__definition, .decision-actions, .story-save-status";
@@ -47,9 +52,27 @@ const completionContent = ".completion-card, .completion-actions, .journal-entry
 const completionControls = ".completion-actions button, .journal-decisions > summary, .journal-note-actions button, .journal-entry-actions button, .comparison-picker select, .comparison-person button, .comparison-reveal-actions button, .decision-recap > summary, .recap-answer-actions button";
 
 async function settleLayout(page: Page) {
+  // Browser drivers may acknowledge setViewportSize before Safari has painted
+  // the matching media-query layout. A synchronous geometry read by itself
+  // can therefore measure the previous (ultrawide) arrangement.
+  const viewportWidth = page.viewportSize()!.width;
+  await page.waitForFunction((expectedWidth) =>
+    Math.abs(window.innerWidth - expectedWidth) <= 1,
+    viewportWidth, { timeout: 5000, polling: 50 });
+
+  // Wait for two paint opportunities so the responsive reflow can settle.
+  // requestAnimationFrame and document.fonts.ready can stall in background
+  // WebKit tabs, so each paint has a bounded timer fallback.
   await page.evaluate(async () => {
-    await document.fonts.ready;
-    await new Promise<void>((resolve) => requestAnimationFrame(() => requestAnimationFrame(() => resolve())));
+    const nextPaint = () => new Promise<void>((resolve) => {
+      let finished = false;
+      const done = () => { if (!finished) { finished = true; resolve(); } };
+      window.setTimeout(done, 140);
+      requestAnimationFrame(done);
+    });
+    await nextPaint();
+    await nextPaint();
+    void document.documentElement.getBoundingClientRect().width;
   });
 }
 
@@ -222,6 +245,7 @@ test("an expanded decision preserves answers and exposes its controls across scr
 });
 
 test("completion, journal drafts, and revealed comparisons reflow without losing work", async ({ page }) => {
+  test.slow(); // 16 viewport sizes, every expanded journal section and control.
   await seedJourney(page, { complete: true });
   await openCompletionDetails(page);
   const note = "I will compare the official guidance and discuss the next practical step with my class. ".repeat(8);

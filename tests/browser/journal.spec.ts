@@ -135,6 +135,7 @@ test("a blocked journal write retains the current visit and reports that it was 
 });
 
 test("an older story keeps its reflection and date without reconstructing obsolete decisions", async ({ page }) => {
+  test.slow(); // Replaying five chapters plus download/storage checks can be slower in CI WebKit.
   await completeKwame(page);
   const reflection = "Keep this reflection when the story changes.";
   await page.locator(".journal-entry").getByLabel("My reflection", { exact: true }).fill(reflection);
@@ -165,7 +166,10 @@ test("an older story keeps its reflection and date without reconstructing obsole
   await entry.getByRole("button", { name: "Walk with Kwame", exact: true }).click();
   for (const [index, step] of stepsByRoute.critical.entries()) {
     await expect(page.locator("#decision-title")).toHaveText(step.title);
-    await page.locator(`[id="${index}-${step.choices.find((choice) => choice.correct)!.id}"]`).click();
+    // The whole answer card is the accessible pointer target; Safari can stall
+    // when clicking the nested 16px radio icon as the page scrolls.
+    const correctRadio = page.locator(`[id="${index}-${step.choices.find((choice) => choice.correct)!.id}"]`);
+    await page.locator(".choice-card").filter({ has: correctRadio }).click();
     await page.getByRole("button", { name: "Check decision", exact: true }).click();
     await page.locator(".decision-actions .primary-button").click();
   }

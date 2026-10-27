@@ -23,6 +23,7 @@ export default defineConfig({
         about: fileURLToPath(new URL("./github-pages/about/index.html", import.meta.url)),
         resources: fileURLToPath(new URL("./github-pages/resources/index.html", import.meta.url)),
         facts: fileURLToPath(new URL("./github-pages/fact-or-fiction/index.html", import.meta.url)),
+        search: fileURLToPath(new URL("./github-pages/search/index.html", import.meta.url)),
       },
     },
   },

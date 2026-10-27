@@ -36,6 +36,7 @@ test("renders the public experience with ownership and About links", async () =>
   assert.match(html, /href="about\/"/);
   assert.match(html, /href="resources\/"/);
   assert.match(html, /href="fact-or-fiction\/"/);
+  assert.match(html, /href="search\/"/);
   assert.match(html, /href="resources\/\?topic=work#resource-browser"/);
   assert.match(html, /href="resources\/\?topic=protection#resource-browser"/);
   assert.match(html, /href="resources\/\?topic=study#resource-browser"/);
@@ -88,4 +89,13 @@ test("renders Fact or Fiction with original sources and independent educational 
   assert.match(html, /Economic and Social Research Institute/);
   assert.match(html, /Migrant Rights Centre Ireland/);
   assert.match(html, /2026-10-26/);
+});
+
+test("renders site-wide Search and its responsive navigation", async () => {
+  const html = await render("/search");
+  assert.match(html, /<title>Search \| Journeys to Ireland<\/title>/);
+  assert.match(html, /Search the entire site/);
+  assert.match(html, /id="site-search-query"/);
+  assert.match(html, /href="\.\.\/fact-or-fiction\//);
+  assert.match(html, /href="\.\.\/resources\//);
 });

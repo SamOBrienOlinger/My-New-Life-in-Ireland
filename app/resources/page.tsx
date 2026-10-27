@@ -16,6 +16,7 @@ import { resourceDescription } from "../journey-translations";
 import { learningCopy } from "../learning-copy";
 import { FooterTagline } from "../footer-tagline";
 import { factNavLabel } from "../fact-or-fiction/locales";
+import { searchText } from "../search/search-copy";
 import { practicalResources } from "../journey-learning";
 import { SourceDetails } from "../source-details";
 import { movingGuideDefinitions, movingGuideResources } from "../moving-guide";
@@ -39,7 +40,7 @@ const topicIcons = {
 const overviewUrl = movingGuideDefinitions.find(({ id }) => id === "overview")!.href;
 const beforeArrivalUrl = movingGuideDefinitions.find(({ id }) => id === "beforeArrival")!.href;
 
-const resources = [
+export const resources = [
   { topic: "arrival", title: "Registering immigration permission", description: "Who must register, what registration records and how to use the official process.", organisation: "Immigration Service Delivery", href: "https://www.irishimmigration.ie/registering-your-immigration-permission/", icon: MapPin },
   { topic: "arrival", title: "Personal Public Service number", description: "How a PPS number is used for public services and official transactions. It is not immigration permission.", organisation: "Department of Social Protection", href: "https://www.gov.ie/en/department-of-social-protection/services/get-a-personal-public-service-pps-number/", icon: MapPin },
   { topic: "immigration", title: "Choose an immigration purpose", description: "Official starting points for visiting, working, studying, living in Ireland or joining family.", organisation: "Immigration Service Delivery", href: "https://www.irishimmigration.ie/", icon: BookOpen },
@@ -102,7 +103,7 @@ function isTopic(value: string | null): value is Topic {
   return topics.some((item) => item.id === value);
 }
 
-const translatedTitles: Record<Exclude<Language,"en">, string[]> = {
+export const translatedTitles: Record<Exclude<Language,"en">, string[]> = {
   ga:["Cead inimirce a chlárú","Uimhir Phearsanta Seirbhíse Poiblí","Roghnaigh cuspóir inimirce","Stampaí ceada inimirce","Iarratas ar chosaint idirnáisiúnta","Iarratais tar éis 12 Meitheamh 2026","Cóiríocht agus tacaíochtaí glactha","Riachtanais leochaileachta agus chóiríochta","Tacaíocht neamhspleách dlí agus phraiticiúil","Cineálacha ceada fostaíochta","Cearta agus tú ag obair in Éirinn","Tacaíocht d’fhostaíocht imirceach agus dúshaothrú","Saoránaigh AE ag teacht chun oibre","Cearta cónaithe AE","Teacht chun staidéir in Éirinn","Oideachas in Éirinn","Seirbhísí cúraim sláinte","Teach a aimsiú agus a fháil ar cíos","Eolas poiblí neamhspleách","Cearta comhionannais an Lucht Siúil agus na Romach","Teacht le teaghlach","Comhairle speisialtóra d’imircigh agus dídeanaithe","Stádas neamhspleách tar éis foréigin teaghlaigh","Sábháilteacht agus tacaíocht i gcás foréigin teaghlaigh"],
   ar:["تسجيل إذن الهجرة","رقم الخدمة العامة الشخصية","اختر غرض الهجرة","أختام إذن الهجرة","التقدم للحماية الدولية","الطلبات المقدمة بعد 12 يونيو 2026","السكن ودعم الاستقبال","احتياجات الضعف والسكن","دعم قانوني وعملي مستقل","أنواع تصاريح العمل","الحقوق عند العمل في أيرلندا","دعم العمال المهاجرين والاستغلال","مواطنو الاتحاد الأوروبي القادمون للعمل","حقوق الإقامة الأوروبية","القدوم للدراسة في أيرلندا","التعليم في أيرلندا","خدمات الرعاية الصحية","العثور على منزل واستئجاره","معلومات عامة مستقلة","حقوق المساواة للرحّل والروما","القدوم للانضمام إلى الأسرة","مشورة متخصصة للمهاجرين واللاجئين","وضع مستقل بعد العنف الأسري","السلامة والدعم في حالات العنف الأسري"],
   ...additionalTranslatedTitles,
@@ -147,7 +148,7 @@ export default function ResourcesPage() {
   return <main className="resources-page" lang={language} dir={dir}>
     <nav className="home-nav resources-nav" aria-label={`${t.siteName}: ${t.menu}`}>
       <a className="brand-button" href="../" aria-label={`${t.siteName}: ${t.home}`}><img className="brand-mark" src="../images/harp-heart-logo.png" alt="" aria-hidden="true" /><span>{t.siteName}</span></a>
-      <div className="nav-links"><a className="nav-link" href="../">{t.journeys}</a><a className="nav-link" href="../about/">{t.about}</a><a className="nav-link" href="../fact-or-fiction/">{factNavLabel(language)}</a></div><LanguageControl language={language} setLanguage={setLanguage} label={t.language} /><MobileNavigation links={[{ href: "../", label: t.home }, { href: "../#route-finder", label: t.journeys }, { href: "../about/", label: t.about }, { href: "../fact-or-fiction/", label: factNavLabel(language) }, { href: "../#official-guidance", label: t.official }]} language={language} setLanguage={setLanguage} languageLabel={t.language} menuLabel={t.menu} closeLabel={t.closeMenu} />
+      <div className="nav-links"><a className="nav-link" href="../">{t.journeys}</a><a className="nav-link" href="../about/">{t.about}</a><a className="nav-link" href="../fact-or-fiction/">{factNavLabel(language)}</a><a className="nav-link site-search-link" href="../search/"><Search size={17} aria-hidden="true" />{searchText[language].nav}</a></div><LanguageControl language={language} setLanguage={setLanguage} label={t.language} /><MobileNavigation links={[{ href: "../", label: t.home }, { href: "../#route-finder", label: t.journeys }, { href: "../about/", label: t.about }, { href: "../fact-or-fiction/", label: factNavLabel(language) }, { href: "../search/", label: searchText[language].nav }, { href: "../#official-guidance", label: t.official }]} language={language} setLanguage={setLanguage} languageLabel={t.language} menuLabel={t.menu} closeLabel={t.closeMenu} />
     </nav>
 
     <header className="resources-hero">

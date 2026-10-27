@@ -28,6 +28,7 @@
 
 <p align="center">
   <a href="#using-the-project">Start here</a> ·
+  <a href="https://samobrienolinger.github.io/My-New-Life-in-Ireland/search/">Search the site</a> ·
   <a href="https://samobrienolinger.github.io/My-New-Life-in-Ireland/fact-or-fiction/">Fact or Fiction</a> ·
   <a href="#how-a-journey-works">Journey guide</a> ·
   <a href="#meet-the-characters">Characters</a> ·
@@ -55,6 +56,13 @@ Follow a fictional person's circumstances from planning a move to building a lif
 | **[Try the route finder](https://samobrienolinger.github.io/My-New-Life-in-Ireland/#route-finder)** | Filter characters by a broad reason for moving, such as work, study or family. This is an educational filter, not an eligibility checker. |
 | **[Browse the Information Hub](https://samobrienolinger.github.io/My-New-Life-in-Ireland/resources/)** | Search official and specialist resources, or filter by topic to find a useful starting point. |
 | **[Fact or Fiction](https://samobrienolinger.github.io/My-New-Life-in-Ireland/fact-or-fiction/)** | Reveal answers to ten commonly repeated claims; search by topic and check the original Irish sources. |
+| **[Search the site](https://samobrienolinger.github.io/My-New-Life-in-Ireland/search/)** | Find a character, decision-stage explanation, myth-buster, Information Hub resource or learning topic with keywords. |
+
+### Site-wide keyword search
+
+The [Search page](https://samobrienolinger.github.io/My-New-Life-in-Ireland/search/) uses a compact, browser-local index generated from the site's actual characters, stage content, decision feedback, Fact or Fiction summaries, practical resource catalogue and About/learning sections. It supports multi-word terms, Unicode scripts, case and accent differences, result excerpts, highlighted matches, filters for the four sections and shareable `?q=` URLs. The homepage also offers a search field and every page links to Search in desktop and mobile navigation, including during a journey.
+
+Results link to the relevant site content. Decision-stage matches open their character, with a clear note that the five stages must be completed in order; Fact or Fiction links expand the relevant evidence card, and Information Hub links open a filtered resource listing. The index does not send queries to any third-party service or read personal progress, answers or reflections. Results are from the site's own published content, not a general web search. Search interface copy is available in all ten site languages. Add `tests/browser/site-search.spec.ts` to browser regression coverage.
 
 ### Fact or Fiction: the evidence hub
 

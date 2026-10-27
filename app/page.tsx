@@ -4,7 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import {
   Accessibility, ArrowLeft, ArrowRight, BookOpen, BriefcaseBusiness, Check, CheckCircle2,
   BookmarkCheck, ChevronDown, ExternalLink, GalleryHorizontal, Globe2, GraduationCap, HeartHandshake, Languages, LayoutGrid, Map, MapPin,
-  NotebookPen, RotateCcw, Scale, ShieldCheck, Sparkles, Users,
+  NotebookPen, RotateCcw, Scale, Search, ShieldCheck, Sparkles, Users,
 } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
@@ -30,6 +30,7 @@ import { resourceTopicForRoute } from "./journey-learning";
 import { usePageMotion } from "./use-page-motion";
 import { FooterTagline } from "./footer-tagline";
 import { factNavLabel, factUi } from "./fact-or-fiction/locales";
+import { searchText } from "./search/search-copy";
 import { engagementCopy } from "./engagement-copy";
 import { ChapterBanner, JourneyCharacter } from "./journey-chapter";
 import { JourneyChoiceComparison } from "./journey-choice-comparison";
@@ -38,6 +39,7 @@ import { JourneyGlossary } from "./journey-glossary";
 import { JourneyJournalEntry, JourneyJournalLibrary, useJourneyJournal } from "./journey-journal-panels";
 import { JourneyComparison } from "./journey-comparison";
 import "./engagement.css";
+import "./search/search.css";
 import "./fact-or-fiction/facts.css";
 
 const scrollBehavior = (): ScrollBehavior => window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth";
@@ -346,6 +348,7 @@ export default function Home() {
           <div className="journey-tools">
             <LanguageControl language={language} setLanguage={setLanguage} label={t.language} />
             <a className="quiet-button compact-button" href="resources/" aria-label={t.hub}><BookOpen size={17} aria-hidden="true" />{t.hub}</a>
+            <a className="quiet-button compact-button" href="search/" aria-label={searchText[language].nav}><Search size={17} aria-hidden="true" />{searchText[language].nav}</a>
             <a className="quiet-button compact-button journal-nav-link" href="#learning-journal" aria-label={experience.journal} onClick={(event) => { event.preventDefault(); resetJourney("#learning-journal"); }}><NotebookPen size={17} aria-hidden="true" />{experience.journal}</a>
             <button className="quiet-button compact-button" type="button" aria-label={t.change} onClick={() => resetJourney("#choose-character")}><Users size={17} aria-hidden="true" /> {t.change}</button>
           </div>
@@ -429,7 +432,7 @@ export default function Home() {
 
   return <main ref={pageRef} lang={language} dir={dir}>
     <section className="hero-section hero-section-expanded" id="top">
-      <nav className="home-nav" aria-label={`${t.siteName}: ${t.menu}`}><a className="brand-button" href="#top" aria-label={`${t.siteName}: ${t.home}`}><img className="brand-mark" src="images/harp-heart-logo.png" alt="" aria-hidden="true" /><span>{t.siteName}</span></a><div className="nav-links"><a className="nav-link" href="about/">{t.about}</a><a className="nav-link" href="resources/">{t.hub}</a><a className="nav-link" href="fact-or-fiction/">{factNavLabel(language)}</a><a className="nav-link" href="#official-guidance">{t.official}</a></div><LanguageControl language={language} setLanguage={setLanguage} label={t.language} /><MobileNavigation links={[{ href: "#top", label: t.home }, { href: "about/", label: t.about }, { href: "resources/", label: t.hub }, { href: "fact-or-fiction/", label: factNavLabel(language) }, { href: "#official-guidance", label: t.official }]} language={language} setLanguage={setLanguage} languageLabel={t.language} menuLabel={t.menu} closeLabel={t.closeMenu} /></nav>
+      <nav className="home-nav" aria-label={`${t.siteName}: ${t.menu}`}><a className="brand-button" href="#top" aria-label={`${t.siteName}: ${t.home}`}><img className="brand-mark" src="images/harp-heart-logo.png" alt="" aria-hidden="true" /><span>{t.siteName}</span></a><div className="nav-links"><a className="nav-link" href="about/">{t.about}</a><a className="nav-link" href="resources/">{t.hub}</a><a className="nav-link" href="fact-or-fiction/">{factNavLabel(language)}</a><a className="nav-link site-search-link" href="search/"><Search size={17} aria-hidden="true" />{searchText[language].nav}</a><a className="nav-link" href="#official-guidance">{t.official}</a></div><LanguageControl language={language} setLanguage={setLanguage} label={t.language} /><MobileNavigation links={[{ href: "#top", label: t.home }, { href: "about/", label: t.about }, { href: "resources/", label: t.hub }, { href: "fact-or-fiction/", label: factNavLabel(language) }, { href: "search/", label: searchText[language].nav }, { href: "#official-guidance", label: t.official }]} language={language} setLanguage={setLanguage} languageLabel={t.language} menuLabel={t.menu} closeLabel={t.closeMenu} /></nav>
       <div className="hero-content hero-content-expanded">
         <p className="eyebrow">{t.heroEyebrow}</p>
         <div className="hero-heading">
@@ -450,6 +453,11 @@ export default function Home() {
           <button className="primary-button" type="button" disabled={!storageReady} onClick={() => resumeJourney(recentJourney)}>{controls.resumeJourney.replace("{name}", recentCharacter.name.split(" ")[0])}<ArrowRight size={18} aria-hidden="true" /></button>
         </div> : null}
         <div className="hero-actions"><a className="primary-button hero-button" href="#route-finder">{t.findJourney} <ArrowRight size={18} aria-hidden="true" /></a><a className="quiet-button hero-secondary" href="resources/"><BookOpen size={18} aria-hidden="true" /><span>{t.exploreInfo}</span><ArrowRight className="action-arrow" size={18} aria-hidden="true" /></a></div>
+        <form className="home-search" method="get" action="search/" role="search" aria-label={searchText[language].title}>
+          <Search size={19} aria-hidden="true" /><label className="sr-only" htmlFor="home-keyword-search">{searchText[language].title}</label>
+          <input id="home-keyword-search" name="q" type="search" autoComplete="off" enterKeyHint="search" placeholder={searchText[language].placeholder} />
+          <button type="submit"><span>{searchText[language].submit}</span><ArrowRight size={17} aria-hidden="true" /></button>
+        </form>
       </div>
     </section>
 
