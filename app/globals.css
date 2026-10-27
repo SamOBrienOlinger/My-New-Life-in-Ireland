@@ -515,6 +515,40 @@ label:has([role="radio"]:focus-visible),
 }
 .footer-back-to-top svg { flex-shrink: 0; }
 .site-footer .footer-back-to-top:hover { background: #fff6e5; color: #4b1026; }
+/* A discoverable shortcut appears only after scrolling and disappears once
+   the equivalent footer control is in view. Inline-safe for RTL languages. */
+.site-footer .floating-back-to-top {
+  position: fixed;
+  z-index: 14;
+  inset-inline-end: max(15px, env(safe-area-inset-right));
+  bottom: max(17px, env(safe-area-inset-bottom));
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  max-width: min(260px, calc(100vw - 30px));
+  min-height: 48px;
+  padding: 11px 17px;
+  border: 2px solid #e4b871;
+  border-radius: 999px;
+  background: #4b1026;
+  color: #fff;
+  font-size: .88rem;
+  font-weight: 800;
+  line-height: 1.35;
+  box-shadow: 0 6px 24px rgba(29,9,18,.26);
+  cursor: pointer;
+  touch-action: manipulation;
+}
+.site-footer .floating-back-to-top:hover {
+  background: #fff6e5;
+  color: #4b1026;
+}
+.site-footer .floating-back-to-top[hidden] { display: none !important; }
+.floating-back-to-top svg { flex-shrink: 0; }
+@media (prefers-reduced-motion: reduce) {
+  .site-footer .floating-back-to-top { transition: none !important; }
+}
 .footer-navigation {
   display: flex;
   flex-wrap: wrap;

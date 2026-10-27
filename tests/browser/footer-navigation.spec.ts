@@ -17,7 +17,7 @@ async function footerLinkData(page: Page, selector: string) {
   );
 }
 
-test("footer navigation matches the mobile menu on every public page and Back to top preserves the route", async ({ page }) => {
+test("footer navigation matches the mobile menu on every public page and Back to the top preserves the route", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   for (const item of pages) await test.step(item.url, async () => {
     await page.goto(item.url);
@@ -37,7 +37,7 @@ test("footer navigation matches the mobile menu on every public page and Back to
     const before = page.url();
     await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight));
     await expect.poll(() => page.evaluate(() => window.scrollY)).toBeGreaterThan(100);
-    await page.getByRole("button", { name: "Back to top", exact: true }).click();
+    await page.locator(".footer-back-to-top").click();
     await expect.poll(() => page.evaluate(() => window.scrollY)).toBeLessThanOrEqual(2);
     await expect(page.locator("main").first()).toBeFocused();
     expect(page.url()).toBe(before);
@@ -55,7 +55,7 @@ test("footer offers keyboard-accessible links with 44px targets and an accessibl
     return { width: rect.width, height: rect.height };
   }));
   expect(sizes.every((size) => size.width >= 44 && size.height >= 44)).toBe(true);
-  await page.getByRole("button", { name: "Back to top", exact: true }).focus();
+  await page.locator(".footer-back-to-top").focus();
   await page.keyboard.press("Enter");
   await expect(page.locator("main").first()).toBeFocused();
   await nav.getByRole("link", { name: "Search", exact: true }).click();
@@ -63,7 +63,7 @@ test("footer offers keyboard-accessible links with 44px targets and an accessibl
   await expect(page.getByRole("heading", { name: "Search the entire site" })).toBeVisible();
 });
 
-test("Back to top on an active character journey does not restart the story", async ({ page }) => {
+test("Back to the top on an active character journey does not restart the story", async ({ page }) => {
   await page.goto("./");
   await page.getByRole("link", { name: "Walk with Kwame", exact: true }).first().click();
   await expect(page.locator("#decision-title")).toBeVisible();
@@ -82,7 +82,8 @@ test("Arabic RTL footer is responsive and back-to-top uses the chosen language",
   await page.setViewportSize({ width: 320, height: 700 });
   await page.goto("./fact-or-fiction/");
   await expect(page.locator("html")).toHaveAttribute("dir", "rtl");
-  const back = page.getByRole("button", { name: "العودة إلى أعلى الصفحة", exact: true });
+  const back = page.locator(".footer-back-to-top");
+  await expect(back).toHaveText("العودة إلى أعلى الصفحة");
   await expect(back).toBeVisible();
   const nav = page.locator(".footer-navigation");
   await expect(nav.locator("a")).toHaveCount(7);
@@ -106,4 +107,43 @@ test("all primary footer links resolve under the GitHub Pages base", async ({ pa
   const urls = await anchors.evaluateAll((links) => links.map((a) => (a as HTMLAnchorElement).pathname));
   expect(urls.every((path) => path.startsWith("/My-New-Life-in-Ireland/"))).toBe(true);
   await expect(anchors).toHaveCount(7);
+});
+
+test("a visible floating Back to the top shortcut is available after scrolling, without covering the footer button", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  for (const location of ["./", "./about/", "./resources/", "./fact-or-fiction/", "./search/?q=work"]) {
+    await test.step(location, async () => {
+      await page.goto(location);
+      const floating = page.locator(".floating-back-to-top");
+      await expect(floating).toBeHidden();
+      await page.evaluate(() => window.scrollTo(0, 900));
+      await expect(floating).toBeVisible();
+      await expect(floating).toHaveText("Back to the top");
+      const size = await floating.boundingBox();
+      expect(size!.width).toBeGreaterThanOrEqual(44);
+      expect(size!.height).toBeGreaterThanOrEqual(44);
+      const url = page.url();
+      await floating.click();
+      await expect.poll(() => page.evaluate(() => window.scrollY)).toBeLessThanOrEqual(2);
+      await expect(page.locator("main").first()).toBeFocused();
+      expect(page.url()).toBe(url);
+      await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight));
+      await expect(page.locator(".footer-back-to-top")).toBeVisible();
+      await expect(floating).toBeHidden();
+    });
+  }
+});
+
+test("the floating shortcut preserves an active journey and works with a keyboard", async ({ page }) => {
+  await page.goto("./");
+  await page.getByRole("link", { name: "Walk with Kwame", exact: true }).first().click();
+  const previous = await page.locator("#decision-title").innerText();
+  await page.evaluate(() => window.scrollTo(0, 900));
+  const floating = page.locator(".floating-back-to-top");
+  await expect(floating).toBeVisible();
+  await floating.focus();
+  await page.keyboard.press("Enter");
+  await expect.poll(() => page.evaluate(() => window.scrollY)).toBeLessThanOrEqual(2);
+  await expect(page.locator("main")).toBeFocused();
+  await expect(page.locator("#decision-title")).toHaveText(previous);
 });

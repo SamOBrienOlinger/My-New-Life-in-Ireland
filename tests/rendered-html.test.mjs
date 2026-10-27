@@ -105,7 +105,8 @@ test("footer navigation and return-to-top are server-rendered on all public page
     const html = await render(pathname);
     assert.match(html, /class="footer-navigation-section"/, pathname);
     assert.match(html, /class="footer-back-to-top"/, pathname);
-    assert.match(html, />Back to top</, pathname);
+    assert.match(html, />Back to the top</, pathname);
+    assert.match(html, /class="floating-back-to-top"/, pathname);
     const footerNav = html.match(/<nav class="footer-navigation"[^>]*>[\s\S]*?<\/nav>/);
     assert.ok(footerNav, "Footer navigation missing on " + pathname);
     assert.equal((footerNav[0].match(/class="footer-nav-link"/g) || []).length, 7, pathname);
