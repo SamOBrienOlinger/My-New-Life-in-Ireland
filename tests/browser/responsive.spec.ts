@@ -39,6 +39,11 @@ const publicPages = [
     content: ".home-nav, .nav-links, .brand-button, .resources-hero h1, .resources-hero, .moving-guide-intro, .moving-guide-actions, .resource-controls, .topic-tabs, .resource-grid, .resource-card, .resource-card h3, .source-details, .first-week-checklist, .site-footer",
     controls: ".mobile-menu-button, .moving-guide-actions a, .resource-search input, .topic-tabs button",
   },
+  {
+    name: "search", path: "./search/", ready: ".search-hero h1",
+    content: ".site-search-nav, .site-search-nav .brand-button, .search-hero, .search-hero h1, .search-intro, .site-search-form, .search-scope, .search-body, .search-section-title, .search-suggestion-list, .search-suggestion-list button, .search-sections-grid, .search-section-summary",
+    controls: ".mobile-menu-button, .site-search-form input, .site-search-form button, .search-suggestion-list button",
+  },
 ] as const;
 
 const decisionContent = ".journey-topbar, .journey-tools, .story-character, .story-context, .story-person-heading, .chapter-navigation, .chapter-banner, .decision-panel, #decision-title, .scene, .learning-tools, .reading-audio, .reading-audio__controls, .reading-audio__settings, .learning-mode, .story-guidance, .story-source, .law-card, .choice-card, .choice-text, .feedback-card, .journey-insight, .choice-comparison, .choice-comparison-grid article, .reading-glossary, .reading-glossary__term, .reading-glossary__definition, .decision-actions, .story-save-status";

@@ -12,6 +12,7 @@ import { FooterTagline } from "../footer-tagline";
 import { factEntries, evidenceSources, editorialCheckDate, type FactTopic } from "./facts";
 import { localFact } from "./translations";
 import { factUi, factNavLabel } from "./locales";
+import { searchText } from "../search/search-copy";
 import "./facts.css";
 
 const topics: Array<"all" | FactTopic> = ["all", "protection", "welfare", "housing", "work", "community"];
@@ -69,6 +70,7 @@ export default function FactOrFictionPage() {
         <a className="nav-link" href="../">{shared.journeys}</a>
         <a className="nav-link" href="../resources/">{shared.hub}</a>
         <a className="nav-link" href="../about/">{shared.about}</a>
+        <a className="nav-link site-search-link" href="../search/"><Search size={17} aria-hidden="true" />{searchText[language].nav}</a>
         <a className="nav-link facts-current" href="./" aria-current="page">{factNavLabel(language)}</a>
       </div>
       <LanguageControl language={language} setLanguage={setLanguage} label={shared.language} />
@@ -78,6 +80,7 @@ export default function FactOrFictionPage() {
           { href: "../#route-finder", label: shared.journeys },
           { href: "../resources/", label: shared.hub },
           { href: "../about/", label: shared.about },
+          { href: "../search/", label: searchText[language].nav },
           { href: "./", label: t.nav },
         ]}
         language={language} setLanguage={setLanguage} languageLabel={shared.language}
