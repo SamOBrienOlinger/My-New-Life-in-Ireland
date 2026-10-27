@@ -35,7 +35,7 @@ test("hub visits and reloads retain answers, checked feedback, answer order and 
   await radio(page, 1, "agent").click();
   const order = await choiceOrder(page);
 
-  await page.getByRole("link", { name: "Information hub", exact: true }).click();
+  await page.locator(".journey-topbar").getByRole("link", { name: "Information hub", exact: true }).click();
   await expect(page).toHaveURL(/\/resources\/$/);
   await page.getByRole("link", { name: "Back to the journeys", exact: true }).click();
   await page.locator(".resume-banner").getByRole("button", { name: "Continue with Kwame", exact: true }).click();
@@ -163,7 +163,7 @@ test("a language selection survives navigation before its translation finishes l
   });
   await page.locator(".journey-topbar select").selectOption("fr");
   expect(await page.evaluate(() => localStorage.getItem("mnli-language"))).toBe("fr");
-  await page.getByRole("link", { name: "Information hub", exact: true }).click();
+  await page.locator(".journey-topbar").getByRole("link", { name: "Information hub", exact: true }).click();
   release();
   await expect(page.locator("html")).toHaveAttribute("lang", "fr");
   await expect(page.locator("html")).toHaveAttribute("dir", "ltr");
