@@ -48,7 +48,7 @@ Follow a fictional person's circumstances from planning a move to building a lif
 
 ## Consistent site navigation
 
-The same seven navigation links now appear in the mobile menu and every page footer: Home, Journeys, About, Information Hub, Fact or Fiction, Search and Official guidance. Footer links use the matching language labels from all ten supported languages, and remain within the GitHub Pages site path. The **Back to top** button is available in every footer, including the active five-stage journey: it scrolls to the top, returns keyboard focus to the main landmark and preserves the current journey. Reduced-motion preferences are respected. All links and controls have touch-friendly targets and responsive wrapping.
+The same seven navigation links now appear in the mobile menu and every page footer: Home, Journeys, About, Information Hub, Fact or Fiction, Search and Official guidance. Footer links use the matching language labels from all ten supported languages, and remain within the GitHub Pages site path. The **Back to the top** button is available in every footer, including the active five-stage journey. A matching floating shortcut becomes visible after scrolling and hides when the footer control is in view. Either button scrolls to the top, returns keyboard focus to the main landmark and preserves the current journey. Reduced-motion preferences are respected. All links and controls have touch-friendly targets and responsive wrapping.
 
 ## Using the project
 
