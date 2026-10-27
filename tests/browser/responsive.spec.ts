@@ -52,10 +52,28 @@ const completionContent = ".completion-card, .completion-actions, .journal-entry
 const completionControls = ".completion-actions button, .journal-decisions > summary, .journal-note-actions button, .journal-entry-actions button, .comparison-picker select, .comparison-person button, .comparison-reveal-actions button, .decision-recap > summary, .recap-answer-actions button";
 
 async function settleLayout(page: Page) {
-  // Geometry reads synchronously flush layout after setViewportSize.
-  // In background WebKit tabs, requestAnimationFrame may be throttled and
-  // document.fonts.ready can remain pending even though content is rendered.
-  await page.evaluate(() => document.documentElement.getBoundingClientRect().width);
+  // Browser drivers may acknowledge setViewportSize before Safari has painted
+  // the matching media-query layout. A synchronous geometry read by itself
+  // can therefore measure the previous (ultrawide) arrangement.
+  const viewportWidth = page.viewportSize()!.width;
+  await page.waitForFunction((expectedWidth) =>
+    Math.abs(window.innerWidth - expectedWidth) <= 1,
+    viewportWidth, { timeout: 5000, polling: 50 });
+
+  // Wait for two paint opportunities so the responsive reflow can settle.
+  // requestAnimationFrame and document.fonts.ready can stall in background
+  // WebKit tabs, so each paint has a bounded timer fallback.
+  await page.evaluate(async () => {
+    const nextPaint = () => new Promise<void>((resolve) => {
+      let finished = false;
+      const done = () => { if (!finished) { finished = true; resolve(); } };
+      window.setTimeout(done, 140);
+      requestAnimationFrame(done);
+    });
+    await nextPaint();
+    await nextPaint();
+    void document.documentElement.getBoundingClientRect().width;
+  });
 }
 
 /** Check real component overflow as well as document width: body overflow-x:
