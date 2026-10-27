@@ -46,6 +46,10 @@ Follow a fictional person's circumstances from planning a move to building a lif
 > [!NOTE]
 > **An educational experience.** The characters and stories are fictional. The journeys and route finder cannot determine anyone's eligibility or legal status, and do not provide legal advice. Follow the official sources for current guidance about a real situation.
 
+## Consistent site navigation
+
+The same seven navigation links now appear in the mobile menu and every page footer: Home, Journeys, About, Information Hub, Fact or Fiction, Search and Official guidance. Footer links use the matching language labels from all ten supported languages, and remain within the GitHub Pages site path. The **Back to top** button is available in every footer, including the active five-stage journey: it scrolls to the top, returns keyboard focus to the main landmark and preserves the current journey. Reduced-motion preferences are respected. All links and controls have touch-friendly targets and responsive wrapping.
+
 ## Using the project
 
 **Choose the way you want to explore.** You can start with a story or go straight to the information.

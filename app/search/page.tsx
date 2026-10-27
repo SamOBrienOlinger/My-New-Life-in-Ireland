@@ -8,6 +8,7 @@ import {
 import { LanguageControl, ui, useLanguage } from "../i18n";
 import { MobileNavigation } from "../mobile-navigation";
 import { FooterTagline } from "../footer-tagline";
+import { FooterNavigation, primarySiteLinks } from "../footer-navigation";
 import { factNavLabel } from "../fact-or-fiction/locales";
 import { searchText, suggestedQueries, type SearchGroup } from "./search-copy";
 import { buildSearchDocuments, searchDocuments, searchExcerpt, type SearchDocument } from "./search-index";
@@ -89,14 +90,7 @@ export default function SiteSearchPage() {
         <a className="nav-link" href="./" aria-current="page"><Search size={16} aria-hidden="true" /> {t.nav}</a>
       </div>
       <LanguageControl language={language} setLanguage={setLanguage} label={shared.language} />
-      <MobileNavigation links={[
-        { href: "../", label: shared.home },
-        { href: "../#route-finder", label: shared.journeys },
-        { href: "../resources/", label: shared.hub },
-        { href: "../fact-or-fiction/", label: factNavLabel(language) },
-        { href: "../about/", label: shared.about },
-        { href: "./", label: t.nav },
-      ]} language={language} setLanguage={setLanguage} languageLabel={shared.language}
+      <MobileNavigation links={primarySiteLinks(language, "../", "search")} language={language} setLanguage={setLanguage} languageLabel={shared.language}
       menuLabel={shared.menu} closeLabel={shared.closeMenu} />
     </nav>
 
@@ -172,6 +166,7 @@ export default function SiteSearchPage() {
     </section>
     <footer className="site-footer"><div className="site-footer-content">
       <FooterTagline siteName={shared.siteName} text={shared.tagline} />
+      <FooterNavigation language={language} rootPrefix="../" currentPage="search" />
       <p><a href="https://samobrienolinger.github.io/SamOBrienOlinger/" target="_blank" rel="noreferrer">Sam Tim Solutions<ExternalLink size={15} aria-hidden="true" /></a></p>
       <p className="site-footer-copyright">{shared.copyright}</p>
     </div></footer>

@@ -99,3 +99,18 @@ test("renders site-wide Search and its responsive navigation", async () => {
   assert.match(html, /href="\.\.\/fact-or-fiction\//);
   assert.match(html, /href="\.\.\/resources\//);
 });
+
+test("footer navigation and return-to-top are server-rendered on all public pages", async () => {
+  for (const pathname of ["/", "/about", "/resources", "/fact-or-fiction", "/search"]) {
+    const html = await render(pathname);
+    assert.match(html, /class="footer-navigation-section"/, pathname);
+    assert.match(html, /class="footer-back-to-top"/, pathname);
+    assert.match(html, />Back to top</, pathname);
+    const footerNav = html.match(/<nav class="footer-navigation"[^>]*>[\s\S]*?<\/nav>/);
+    assert.ok(footerNav, "Footer navigation missing on " + pathname);
+    assert.equal((footerNav[0].match(/class="footer-nav-link"/g) || []).length, 7, pathname);
+    for (const label of ["Home", "Journeys", "About", "Information hub", "Fact or Fiction", "Search", "Official guidance"]) {
+      assert.ok(footerNav[0].includes(">" + label + "</a>"), pathname + ": " + label);
+    }
+  }
+});

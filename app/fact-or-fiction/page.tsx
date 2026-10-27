@@ -9,6 +9,7 @@ import {
 import { LanguageControl, ui, useLanguage } from "../i18n";
 import { MobileNavigation } from "../mobile-navigation";
 import { FooterTagline } from "../footer-tagline";
+import { FooterNavigation, primarySiteLinks } from "../footer-navigation";
 import { factEntries, evidenceSources, editorialCheckDate, type FactTopic } from "./facts";
 import { localFact } from "./translations";
 import { factUi, factNavLabel } from "./locales";
@@ -75,14 +76,7 @@ export default function FactOrFictionPage() {
       </div>
       <LanguageControl language={language} setLanguage={setLanguage} label={shared.language} />
       <MobileNavigation
-        links={[
-          { href: "../", label: shared.home },
-          { href: "../#route-finder", label: shared.journeys },
-          { href: "../resources/", label: shared.hub },
-          { href: "../about/", label: shared.about },
-          { href: "../search/", label: searchText[language].nav },
-          { href: "./", label: t.nav },
-        ]}
+        links={primarySiteLinks(language, "../", "facts")}
         language={language} setLanguage={setLanguage} languageLabel={shared.language}
         menuLabel={shared.menu} closeLabel={shared.closeMenu}
       />
@@ -218,6 +212,7 @@ export default function FactOrFictionPage() {
     </section>
     <footer className="site-footer"><div className="site-footer-content">
       <FooterTagline siteName={shared.siteName} text={shared.tagline} />
+      <FooterNavigation language={language} rootPrefix="../" currentPage="facts" />
       <p><a href="https://samobrienolinger.github.io/SamOBrienOlinger/" target="_blank" rel="noopener noreferrer">Sam Tim Solutions</a></p>
       <p className="site-footer-copyright">{shared.copyright}</p>
     </div></footer>
