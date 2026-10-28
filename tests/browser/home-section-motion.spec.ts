@@ -98,7 +98,11 @@ test("keyboard focus immediately removes the entrance and the Fact or Fiction li
   const link = page.locator(".fact-home-teaser > a");
   await link.focus();
   await expect(link).toBeFocused();
-  expect(await page.locator(".fact-home-teaser").evaluate((node) => node.getAnimations({ subtree: true }).length)).toBe(0);
+  // The existing arrow focus transition is intentionally retained. Only the
+  // decorative section entrance must cancel immediately on keyboard focus.
+  expect(await page.locator(".fact-home-teaser").evaluate((node) => node.getAnimations({ subtree: true }).filter(
+    (animation) => animation.id.startsWith("home-section:"),
+  ).length)).toBe(0);
   await expect(link).toHaveCSS("opacity", "1");
   await page.keyboard.press("Enter");
   await expect(page).toHaveURL(/\/fact-or-fiction\/$/);
@@ -111,7 +115,9 @@ test("pointer interaction cancels the section stagger before activating a contro
   await page.goto("./");
   await enterSection(page, ".hub-preview", "hub");
   await page.locator(".hub-topic-grid > a").first().dispatchEvent("pointerdown");
-  expect(await page.locator(".hub-preview").evaluate((node) => node.getAnimations({ subtree: true }).length)).toBe(0);
+  expect(await page.locator(".hub-preview").evaluate((node) => node.getAnimations({ subtree: true }).filter(
+    (animation) => animation.id.startsWith("home-section:"),
+  ).length)).toBe(0);
   await expect(page.locator(".hub-topic-grid > a").first()).toHaveCSS("opacity", "1");
 });
 
