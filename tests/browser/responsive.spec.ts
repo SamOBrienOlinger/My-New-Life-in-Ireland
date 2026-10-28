@@ -220,6 +220,7 @@ for (const item of publicPages) {
 }
 
 test("an expanded decision preserves answers and exposes its controls across screen changes", async ({ page }, testInfo) => {
+  test.slow(); // Sixteen viewport changes and expanded controls need more time in CI WebKit.
   await page.setViewportSize(viewports[0]);
   await seedJourney(page);
   await openDecisionTools(page);
