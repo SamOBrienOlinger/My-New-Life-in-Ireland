@@ -1,10 +1,11 @@
 "use client";
 
 import { useEffect, useRef, type RefObject } from "react";
+import { homeSectionMotionSelector, startHomeSectionMotion } from "./home-section-motion";
 
 const motionPreference = "(prefers-reduced-motion: reduce)";
 
-/** Decorative entrances never control visibility, focus, layout or saved state. */
+/** Decorative entrances never block interaction, alter layout or change saved state. */
 export function usePageMotion(rootRef: RefObject<HTMLElement | null>, contentKey: string, stageKey: string | null) {
   const revealed = useRef(new Set<string>());
 
@@ -12,8 +13,12 @@ export function usePageMotion(rootRef: RefObject<HTMLElement | null>, contentKey
     const root = rootRef.current;
     if (!root) return;
 
+    const stopHomeSections = startHomeSectionMotion(root, revealed.current);
     const preference = window.matchMedia(motionPreference);
-    const targets = Array.from(root.querySelectorAll<HTMLElement>("[data-reveal]"));
+    // The lower homepage sections have their own slower grouped entrance.
+    // Exclude their existing data-reveal markers to avoid double animations.
+    const targets = Array.from(root.querySelectorAll<HTMLElement>("[data-reveal]"))
+      .filter((target) => !target.closest(homeSectionMotionSelector));
     const animations = new Map<HTMLElement, Animation>();
     let observer: IntersectionObserver | undefined;
 
@@ -70,6 +75,7 @@ export function usePageMotion(rootRef: RefObject<HTMLElement | null>, contentKey
     root.addEventListener("pointerdown", stopForInteraction);
     preference.addEventListener("change", stopForPreference);
     return () => {
+      stopHomeSections();
       observer?.disconnect();
       animations.forEach((animation) => animation.cancel());
       root.removeEventListener("focusin", stopForInteraction);
