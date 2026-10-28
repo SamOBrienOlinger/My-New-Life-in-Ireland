@@ -520,13 +520,52 @@ export default function Home() {
     <JourneyJournalLibrary journal={journal} language={language} onExplore={startCharacter} />
 
     <section className="fact-home-teaser" aria-labelledby="fact-home-teaser-title">
-      <div><p className="eyebrow">{factUi[language].eyebrow}</p><h2 id="fact-home-teaser-title">{factNavLabel(language)}</h2><p>{factUi[language].intro}</p></div>
-      <a className="primary-button" href="fact-or-fiction/">{factNavLabel(language)} <ArrowRight size={18} aria-hidden="true" /></a>
+      <div>
+        <p className="eyebrow" data-reveal="facts-kicker" data-reveal-motion="gentle" data-reveal-delay="0">{factUi[language].eyebrow}</p>
+        <h2 id="fact-home-teaser-title" data-reveal="facts-heading" data-reveal-motion="gentle" data-reveal-delay="110">{factNavLabel(language)}</h2>
+        <p data-reveal="facts-description" data-reveal-motion="gentle" data-reveal-delay="210">{factUi[language].intro}</p>
+      </div>
+      <a className="primary-button" href="fact-or-fiction/" data-reveal="facts-action" data-reveal-motion="gentle" data-reveal-delay="300">
+        {factNavLabel(language)} <ArrowRight size={18} aria-hidden="true" />
+      </a>
     </section>
 
-    <section className="hub-preview" id="information-hub-topics" aria-labelledby="hub-title"><div data-reveal="hub-introduction"><p className="eyebrow">{t.afterStory}</p><h2 id="hub-title">{t.practicalTitle}</h2><p>{t.practicalText}</p><a className="primary-button" href="resources/">{t.openHub} <ArrowRight size={18} aria-hidden="true" /></a></div><nav className="hub-topic-grid" data-reveal="hub-topics" aria-label={t.hub}><a href="resources/?topic=work#resource-browser"><BriefcaseBusiness aria-hidden="true" /><span>{t.workPermits}</span><ArrowRight className="hub-topic-arrow" size={18} aria-hidden="true" /></a><a href="resources/?topic=protection#resource-browser"><ShieldCheck aria-hidden="true" /><span>{t.protectionSafety}</span><ArrowRight className="hub-topic-arrow" size={18} aria-hidden="true" /></a><a href="resources/?topic=study#resource-browser"><GraduationCap aria-hidden="true" /><span>{t.studyEducation}</span><ArrowRight className="hub-topic-arrow" size={18} aria-hidden="true" /></a><a href="resources/?topic=family#resource-browser"><HeartHandshake aria-hidden="true" /><span>{t.familyCommunity}</span><ArrowRight className="hub-topic-arrow" size={18} aria-hidden="true" /></a><a href="resources/?topic=arrival#resource-browser"><MapPin aria-hidden="true" /><span>{t.arrivalRegistration}</span><ArrowRight className="hub-topic-arrow" size={18} aria-hidden="true" /></a><a href="resources/?topic=rights#resource-browser"><Scale aria-hidden="true" /><span>{t.rightsAdvice}</span><ArrowRight className="hub-topic-arrow" size={18} aria-hidden="true" /></a></nav></section>
+    <section className="hub-preview" id="information-hub-topics" aria-labelledby="hub-title">
+      <div>
+        <p className="eyebrow" data-reveal="hub-kicker" data-reveal-motion="gentle" data-reveal-delay="0">{t.afterStory}</p>
+        <h2 id="hub-title" data-reveal="hub-heading" data-reveal-motion="gentle" data-reveal-delay="110">{t.practicalTitle}</h2>
+        <p data-reveal="hub-description" data-reveal-motion="gentle" data-reveal-delay="220">{t.practicalText}</p>
+        <a className="primary-button" href="resources/" data-reveal="hub-action" data-reveal-motion="gentle" data-reveal-delay="320">
+          {t.openHub} <ArrowRight size={18} aria-hidden="true" />
+        </a>
+      </div>
+      <nav className="hub-topic-grid" aria-label={t.hub}>
+        <a href="resources/?topic=work#resource-browser" data-reveal="hub-topic-work" data-reveal-motion="gentle" data-reveal-delay="70"><BriefcaseBusiness aria-hidden="true" /><span>{t.workPermits}</span><ArrowRight className="hub-topic-arrow" size={18} aria-hidden="true" /></a>
+        <a href="resources/?topic=protection#resource-browser" data-reveal="hub-topic-protection" data-reveal-motion="gentle" data-reveal-delay="140"><ShieldCheck aria-hidden="true" /><span>{t.protectionSafety}</span><ArrowRight className="hub-topic-arrow" size={18} aria-hidden="true" /></a>
+        <a href="resources/?topic=study#resource-browser" data-reveal="hub-topic-study" data-reveal-motion="gentle" data-reveal-delay="210"><GraduationCap aria-hidden="true" /><span>{t.studyEducation}</span><ArrowRight className="hub-topic-arrow" size={18} aria-hidden="true" /></a>
+        <a href="resources/?topic=family#resource-browser" data-reveal="hub-topic-family" data-reveal-motion="gentle" data-reveal-delay="280"><HeartHandshake aria-hidden="true" /><span>{t.familyCommunity}</span><ArrowRight className="hub-topic-arrow" size={18} aria-hidden="true" /></a>
+        <a href="resources/?topic=arrival#resource-browser" data-reveal="hub-topic-arrival" data-reveal-motion="gentle" data-reveal-delay="350"><MapPin aria-hidden="true" /><span>{t.arrivalRegistration}</span><ArrowRight className="hub-topic-arrow" size={18} aria-hidden="true" /></a>
+        <a href="resources/?topic=rights#resource-browser" data-reveal="hub-topic-rights" data-reveal-motion="gentle" data-reveal-delay="420"><Scale aria-hidden="true" /><span>{t.rightsAdvice}</span><ArrowRight className="hub-topic-arrow" size={18} aria-hidden="true" /></a>
+      </nav>
+    </section>
 
-    <section className="guidance-section" id="official-guidance"><div className="guidance-intro" data-reveal="guidance-introduction"><p className="eyebrow">{t.checkEyebrow}</p><h2>{t.checkTitle}</h2><p>{t.checkText}</p><a className="source-method-link" href="about/#source-method">{learning.sourceMethodLink}</a></div><div className="source-list source-list-detailed">{officialSources.map(([label, description, href], index) => <a href={href} target="_blank" rel="noreferrer" key={href}><span><strong>{label}</strong><small>{language === "en" ? description : officialSourceDescriptions[language][index]}</small></span><ExternalLink size={17} aria-hidden="true" /></a>)}</div></section>
+    <section className="guidance-section" id="official-guidance">
+      <div className="guidance-intro">
+        <p className="eyebrow" data-reveal="check-kicker" data-reveal-motion="gentle" data-reveal-delay="0">{t.checkEyebrow}</p>
+        <h2 data-reveal="check-heading" data-reveal-motion="gentle" data-reveal-delay="110">{t.checkTitle}</h2>
+        <p data-reveal="check-description" data-reveal-motion="gentle" data-reveal-delay="210">{t.checkText}</p>
+        <a className="source-method-link" href="about/#source-method" data-reveal="check-method" data-reveal-motion="gentle" data-reveal-delay="300">{learning.sourceMethodLink}</a>
+      </div>
+      <div className="source-list source-list-detailed">
+        {officialSources.map(([label, description, href], index) => (
+          <a href={href} target="_blank" rel="noreferrer" key={href}
+            data-reveal={`check-source-${index}`} data-reveal-motion="gentle" data-reveal-delay={Math.min(80 + index * 85, 420)}>
+            <span><strong>{label}</strong><small>{language === "en" ? description : officialSourceDescriptions[language][index]}</small></span>
+            <ExternalLink size={17} aria-hidden="true" />
+          </a>
+        ))}
+      </div>
+    </section>
     <footer className="site-footer"><div className="site-footer-content"><FooterTagline siteName={t.siteName} text={t.tagline} /><FooterNavigation language={language} rootPrefix="" currentPage="home" /><p><a href="https://samobrienolinger.github.io/SamOBrienOlinger/" target="_blank" rel="noreferrer">Sam Tim Solutions</a></p><p className="site-footer-copyright">{t.copyright}</p></div></footer>
   </main>;
 }

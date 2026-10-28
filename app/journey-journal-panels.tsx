@@ -220,9 +220,17 @@ export function JourneyJournalLibrary({ journal, language, onExplore }: { journa
   const copy = journalCopy(language);
   const entries = Object.values(journal.entries).sort((a, b) => b.updatedAt - a.updatedAt);
   return <section id="learning-journal" className="journal-library" aria-labelledby="learning-journal-title">
-    <div className="journal-library-heading"><div><p className="eyebrow">{copy.title}</p><h2 id="learning-journal-title" tabIndex={-1}>{copy.intro}</h2></div><BookOpen size={34} aria-hidden="true" /></div>
-    <p className="journal-storage-note">{journal.available ? copy.storage : copy.unavailable}</p>
-    {!entries.length ? <p className="journal-empty">{copy.empty}</p> : <div className="journal-library-list">
+    <div className="journal-library-heading">
+      <div>
+        <p className="eyebrow" data-reveal="journal-kicker" data-reveal-motion="gentle" data-reveal-delay="0">{copy.title}</p>
+        <h2 id="learning-journal-title" tabIndex={-1} data-reveal="journal-heading" data-reveal-motion="gentle" data-reveal-delay="110">{copy.intro}</h2>
+      </div>
+      <BookOpen size={34} aria-hidden="true" />
+    </div>
+    <p className="journal-storage-note" data-reveal="journal-storage" data-reveal-motion="gentle" data-reveal-delay="210">{journal.available ? copy.storage : copy.unavailable}</p>
+    {!entries.length
+      ? <p className="journal-empty" data-reveal="journal-empty" data-reveal-motion="gentle" data-reveal-delay="300">{copy.empty}</p>
+      : <div className="journal-library-list" data-reveal="journal-entries" data-reveal-motion="gentle" data-reveal-delay="300">
       {entries.map((entry) => {
         const character = localCharacter(characters.find((item) => item.id === entry.characterId)!, language);
         return <details className="journal-library-item" key={entry.characterId}>

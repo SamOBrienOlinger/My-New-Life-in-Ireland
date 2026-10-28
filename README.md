@@ -46,6 +46,10 @@ Follow a fictional person's circumstances from planning a move to building a lif
 > [!NOTE]
 > **An educational experience.** The characters and stories are fictional. The journeys and route finder cannot determine anyone's eligibility or legal status, and do not provide legal advice. Follow the official sources for current guidance about a real situation.
 
+## Staggered lower-page entrances
+
+The Journey Journal, Fact or Fiction teaser, Practical Information hub, and Check/official-guidance sections reveal their headings, explanatory text, buttons and cards with a gentle stagger as they enter the viewport. The effect uses the site's existing IntersectionObserver/Web Animations infrastructure: a restrained 600 ms fade-and-rise with small 70–110 ms offsets between elements, rather than hiding content during loading. Each item animates only once, focus/pointer interaction cancels motion, and visitors who request reduced motion see the full content immediately. It does not change the links, journals, saved decisions, responsive layout or original content.
+
 ## Consistent site navigation
 
 The same seven navigation links now appear in the mobile menu and every page footer: Home, Journeys, About, Information Hub, Fact or Fiction, Search and Official guidance. Footer links use the matching language labels from all ten supported languages, and remain within the GitHub Pages site path. The **Back to the top** button is available in every footer, including the active five-stage journey. A matching floating shortcut becomes visible after scrolling and hides when the footer control is in view. Either button scrolls to the top, returns keyboard focus to the main landmark and preserves the current journey. Reduced-motion preferences are respected. All links and controls have touch-friendly targets and responsive wrapping.

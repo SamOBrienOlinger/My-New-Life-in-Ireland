@@ -115,3 +115,16 @@ test("footer navigation and return-to-top are server-rendered on all public page
     }
   }
 });
+
+test("home lower sections have readable staggered reveal markers", async () => {
+  const html = await render("/");
+  for (const name of ["journal-kicker", "journal-heading", "journal-storage", "journal-empty",
+    "facts-kicker", "facts-heading", "facts-description", "facts-action",
+    "hub-kicker", "hub-heading", "hub-description", "hub-action",
+    "hub-topic-work", "hub-topic-rights", "check-kicker", "check-heading",
+    "check-description", "check-method", "check-source-0"]) {
+    assert.ok(html.includes('data-reveal="' + name + '"'), "Missing: " + name);
+  }
+  assert.match(html, /data-reveal-motion="gentle"/);
+  assert.match(html, /data-reveal-delay="420"/);
+});

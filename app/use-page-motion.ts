@@ -30,12 +30,24 @@ export function usePageMotion(rootRef: RefObject<HTMLElement | null>, contentKey
       revealed.current.add(target.dataset.reveal!);
       if (alreadyRevealed || preference.matches || typeof target.animate !== "function" || target.contains(document.activeElement)) return;
 
-      // No backwards/forwards fill: the normal, readable styles apply during
-      // any short delay and after the entrance, including hover transforms.
+      // Gentle, explicitly staggered reveals are reserved for the lower home
+      // sections. Keep the existing short animation elsewhere on the site.
+      const gentle = target.dataset.revealMotion === "gentle";
+      const requestedDelay = Number(target.dataset.revealDelay ?? delay);
+      const stagger = Number.isFinite(requestedDelay)
+        ? Math.min(Math.max(requestedDelay, 0), 420)
+        : delay;
+
+      // Do not hide an unrevealed section or use backwards/forwards fill:
+      // text stays readable without JS, with reduced motion or while loading.
       const animation = target.animate([
-        { opacity: .9, transform: "translateY(10px)" },
+        { opacity: gentle ? .82 : .9, transform: gentle ? "translateY(14px)" : "translateY(10px)" },
         { opacity: 1, transform: "translateY(0)" },
-      ], { duration: 360, delay, easing: "cubic-bezier(.22,.8,.25,1)" });
+      ], {
+        duration: gentle ? 600 : 360,
+        delay: gentle ? stagger : delay,
+        easing: "cubic-bezier(.22,.8,.25,1)",
+      });
       animations.set(target, animation);
       animation.onfinish = () => animations.delete(target);
     }
