@@ -42,7 +42,7 @@ test("reduced motion leaves offscreen content, stage copy and feedback immediate
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("./");
   await expect(page.locator("#home-title")).toBeVisible();
-  expect(await page.locator('[data-reveal="guidance-introduction"]').evaluate((node) =>
+  expect(await page.locator("#official-guidance").evaluate((node) =>
     node.getBoundingClientRect().top > window.innerHeight)).toBe(true);
   await expectReadableWithoutAnimation(page, "[data-reveal]");
 
