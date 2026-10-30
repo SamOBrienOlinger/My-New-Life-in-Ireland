@@ -67,6 +67,25 @@ test("renders the About route with launch information", async () => {
   assert.match(html, /href="https:\/\/samobrienolinger\.github\.io\/SamOBrienOlinger\/"/);
 });
 
+test("all four lower homepage sections include readable content and links before hydration", async () => {
+  const html = await render("/");
+  const sections = [
+    ["learning-journal", /<section\b[^>]*id="learning-journal"[^>]*>([\s\S]*?)<\/section>/, /Return to the decisions, ideas and questions you explored\./],
+    ["facts", /<section\b[^>]*class="fact-home-teaser"[^>]*>([\s\S]*?)<\/section>/, /href="fact-or-fiction\/"/],
+    ["hub", /<section\b[^>]*id="information-hub-topics"[^>]*>([\s\S]*?)<\/section>/, /href="resources\/"/],
+    ["guidance", /<section\b[^>]*id="official-guidance"[^>]*>([\s\S]*?)<\/section>/, /href="about\/#source-method"/],
+  ];
+  for (const [name, pattern, content] of sections) {
+    const section = html.match(pattern)?.[0];
+    assert.ok(section, "Missing section: " + name);
+    assert.match(section, /<h2\b[^>]*>[^<]+<\/h2>/, name + " heading");
+    assert.match(section, /<p\b[^>]*>[^<]+<\/p>/, name + " explanation");
+    assert.match(section, content, name + " content");
+    assert.doesNotMatch(section, /<(?:section|div|h2|p|a)\b[^>]*(?:\shidden(?:\s|=|>)|aria-hidden="true"|style="[^"]*(?:opacity:\s*0(?:;|")|visibility:\s*hidden|display:\s*none))/, name + " must not be hidden before hydration");
+  }
+  assert.match(html, /Complete a journey to keep your decisions and a reflection here\./);
+});
+
 test("renders the Ireland information hub", async () => {
   const html = await render("/resources");
 
