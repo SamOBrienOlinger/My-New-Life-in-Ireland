@@ -13,6 +13,48 @@
   </head>
   <body>
     <div id="root"></div>
+    <noscript>
+      <style>
+        .no-script-home { max-width: 70rem; margin: 0 auto; padding: clamp(1rem, 4vw, 3rem); overflow-wrap: anywhere; }
+        .no-script-home section { margin-top: 2rem; padding: clamp(1rem, 3vw, 2rem); border: 1px solid #d8cccf; border-radius: 1rem; background: #fff; }
+        .no-script-home h1 { font-size: clamp(2rem, 5vw, 3rem); color: #4b1026; }
+        .no-script-home h2 { margin-bottom: .75rem; font-size: 1.5rem; color: #4b1026; }
+        .no-script-home p + p { margin-top: .75rem; }
+        .no-script-home a { display: inline-block; padding: .75rem 0; color: #7a1f3d; text-decoration: underline; }
+        .no-script-home a:focus-visible { outline: 3px solid #177a73; outline-offset: 3px; }
+      </style>
+      <main class="no-script-home" aria-labelledby="no-script-title">
+        <h1 id="no-script-title">Journeys to Ireland</h1>
+        <p>Explore migration and settlement through fictional people, decisions and explanations.</p>
+        <p>JavaScript is disabled. Enable it and reload to use the interactive journeys, translations, evidence hub and saved journals. The guidance links below work without JavaScript.</p>
+        <a href="#official-guidance">Skip to guidance links</a>
+        <section id="learning-journal" aria-labelledby="no-script-journal-title">
+          <h2 id="no-script-journal-title">Your journey journal</h2>
+          <p>Return to the decisions, ideas and questions you explored.</p>
+          <p>JavaScript is required to view or save your journal. This page cannot read or change journeys or reflections already saved on this device.</p>
+        </section>
+        <section aria-labelledby="no-script-facts-title">
+          <h2 id="no-script-facts-title">Fact or Fiction</h2>
+          <p>Examine claims about migration in Ireland and follow the original evidence. Not every claim is a simple yes or no.</p>
+          <p>The interactive evidence hub requires JavaScript. You can still consult the official and specialist sources below.</p>
+        </section>
+        <section aria-labelledby="no-script-hub-title">
+          <h2 id="no-script-hub-title">Practical information for life in Ireland</h2>
+          <p>Explore guidance about work, protection, study, family, arrival, registration and rights. Follow the sources below for current information about your circumstances.</p>
+        </section>
+        <section id="official-guidance" aria-labelledby="no-script-guidance-title">
+          <h2 id="no-script-guidance-title">Official guidance</h2>
+          <p>These official and specialist sources provide further information. This educational site does not determine eligibility or legal status and does not provide legal advice.</p>
+          <ul>
+            <li><a href="https://www.irishimmigration.ie/">Irish Immigration Service</a></li>
+            <li><a href="https://enterprise.gov.ie/en/what-we-do/workplace-and-skills/employment-permits/">Employment Permits</a></li>
+            <li><a href="https://ipo.irishimmigration.ie/">International Protection Office</a></li>
+            <li><a href="https://www.irishrefugeecouncil.ie/get-help/information-hub/">Irish Refugee Council</a></li>
+            <li><a href="https://www.workplacerelations.ie/en/what_you_should_know/">Workplace Relations Commission</a></li>
+          </ul>
+        </section>
+      </main>
+    </noscript>
     <script type="module" src="/main.tsx"></script>
   </body>
 </html>

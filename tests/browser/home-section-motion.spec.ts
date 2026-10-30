@@ -53,7 +53,7 @@ async function expectSettled(page: Page) {
     ).length, 0,
   ))).toBe(0);
   const states = await page.locator(targets).evaluateAll((nodes) => nodes.flatMap((node) =>
-    [node, ...Array.from(node.children)].map((item) => {
+    [node, ...Array.from(node.querySelectorAll("div, h2, p, a"))].map((item) => {
       const style = getComputedStyle(item);
       return { opacity: style.opacity, visibility: style.visibility };
     }),
@@ -139,8 +139,15 @@ for (const mode of ["reduced-motion", "no-observer", "no-animate"] as const) {
     await page.emulateMedia({ reducedMotion: mode === "reduced-motion" ? "reduce" : "no-preference" });
     if (mode === "no-observer") await page.addInitScript(() => { Reflect.deleteProperty(window, "IntersectionObserver"); });
     if (mode === "no-animate") await page.addInitScript(() => { Reflect.deleteProperty(Element.prototype, "animate"); });
+    else await recordEntrances(page);
     await page.goto("./");
     await expect(page.locator("#home-title")).toBeVisible();
+    await expectSettled(page);
+    for (const section of sections) {
+      await page.locator(section.selector).evaluate((node) => node.scrollIntoView({ behavior: "instant" }));
+      await expect(page.locator(section.selector).getByRole("heading", { level: 2 })).toBeInViewport();
+    }
+    if (mode !== "no-animate") expect(await page.evaluate(() => window.__homeSectionEntrances)).toEqual([]);
     await expectSettled(page);
     await page.locator(".fact-home-teaser > a").click();
     await expect(page).toHaveURL(/\/fact-or-fiction\/$/);
@@ -159,4 +166,43 @@ test("staggered sections remain readable on a narrow Arabic layout", async ({ pa
   await expectSettled(page);
   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(321);
   await expect(page.locator(".hub-topic-grid > a")).toHaveCount(6);
+});
+
+test("lower section links retain their destinations and keyboard navigation through the hub", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await recordEntrances(page, true);
+  await page.goto("./");
+  await expect(page.locator(".fact-home-teaser > a")).toHaveAttribute("href", "fact-or-fiction/");
+  await expect(page.locator(".hub-preview > div > a")).toHaveAttribute("href", "resources/");
+  const topics = ["work", "protection", "study", "family", "arrival", "rights"];
+  await expect(page.locator(".hub-topic-grid > a")).toHaveCount(topics.length);
+  for (const [index, topic] of topics.entries()) {
+    await expect(page.locator(".hub-topic-grid > a").nth(index)).toHaveAttribute("href", "resources/?topic=" + topic + "#resource-browser");
+  }
+  await expect(page.locator("#official-guidance .source-method-link")).toHaveAttribute("href", "about/#source-method");
+  const sources = page.locator("#official-guidance .source-list > a");
+  await expect(sources).toHaveCount(5);
+  for (const source of await sources.all()) {
+    await expect(source).toHaveAttribute("href", /^https:\/\//);
+    await expect(source).toHaveAttribute("target", "_blank");
+    await expect(source).toHaveAttribute("rel", /noreferrer/);
+  }
+  // Keep the no-JavaScript guidance destinations aligned with the real homepage.
+  const fallbackSources = await page.locator("noscript").evaluate((node) => {
+    const template = document.createElement("template");
+    template.innerHTML = node.textContent || "";
+    return Array.from(template.content.querySelectorAll("#official-guidance a"), (link) => link.getAttribute("href"));
+  });
+  expect(fallbackSources).toEqual(await sources.evaluateAll((links) => links.map((link) => link.getAttribute("href"))));
+
+  await enterSection(page, ".hub-preview", "hub");
+  await page.locator(".hub-preview > div > a").focus();
+  await page.keyboard.press("Tab");
+  await expect(page.locator(".hub-topic-grid > a").first()).toBeFocused();
+  expect(await page.locator(".hub-preview").evaluate((node) => node.getAnimations({ subtree: true }).filter(
+    (animation) => animation.id.startsWith("home-section:"),
+  ).length)).toBe(0);
+  await page.keyboard.press("Enter");
+  await expect(page).toHaveURL(/\/resources\/\?topic=work#resource-browser$/);
+  await expect(page.locator(".resources-hero h1")).toBeVisible();
 });
