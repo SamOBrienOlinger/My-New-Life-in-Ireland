@@ -95,13 +95,6 @@ export function FooterNavigation({
 
   return (
     <section className="footer-navigation-section" aria-label={labels.navigation}>
-      <div className="footer-navigation-heading">
-        <h2>{labels.navigation}</h2>
-        <button ref={footerTopButtonRef} type="button" className="footer-back-to-top" onClick={backToTop}>
-          <ArrowUp size={18} aria-hidden="true" />
-          <span>{labels.backToTop}</span>
-        </button>
-      </div>
       <nav className="footer-navigation" aria-label={ui[language].siteName + ": " + labels.navigation}>
         {links.map((item) => (
           <a className="footer-nav-link" key={item.id} href={item.href}
@@ -109,6 +102,10 @@ export function FooterNavigation({
             {item.label}
           </a>
         ))}
+        <button ref={footerTopButtonRef} type="button" className="footer-back-to-top" onClick={backToTop}>
+          <ArrowUp size={18} aria-hidden="true" />
+          <span>{labels.backToTop}</span>
+        </button>
       </nav>
       <button type="button" className="floating-back-to-top"
         onClick={backToTop} hidden={!showFloating}>
