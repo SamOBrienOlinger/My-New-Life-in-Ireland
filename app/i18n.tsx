@@ -19,7 +19,7 @@ import {
 export type Language = "en" | "ga" | "ar" | AdditionalLanguage | PackedLanguage;
 const storageKey = "mnli-language";
 const supportedLanguages = new Set<Language>(["en", "ga", "ar", ...additionalLanguageOptions.map((option) => option.value)]);
-const isRtl = (language: Language) => language === "ar" || language === "fa";
+const isRtl = (language: Language) => language === "ar" || language === "fa" || language === "ps";
 
 export function useLanguage() {
   const [language, setLanguageState] = useState<Language>("en");

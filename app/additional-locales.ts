@@ -16,6 +16,8 @@ export const additionalLanguageOptions: { value: AdditionalLanguage | PackedLang
   { value: "ln", label: "Lingala" },
   { value: "yo", label: "Yorùbá" },
   { value: "sw", label: "Kiswahili" },
+  { value: "tr", label: "Türkçe" },
+  { value: "ps", label: "پښتو" },
 ];
 
 export const additionalUi = {

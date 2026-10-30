@@ -5,7 +5,7 @@ import ts from "typescript";
 import { stepsByRoute } from "../app/journey-data.ts";
 import { loadJourneyLanguage, translateJourneyStep, resourceDescription, journeyControls } from "../app/journey-translations/index.ts";
 
-const languages = ["ga", "ar", "zh", "fr", "pt", "es", "nl", "fa", "xh", "ln", "yo", "sw"];
+const languages = ["ga", "ar", "zh", "fr", "pt", "es", "nl", "fa", "xh", "ln", "yo", "sw", "tr", "ps"];
 const entries = Object.entries(stepsByRoute).flatMap(([route, steps]) => steps.map((step) => ({ route, step, key: `${route}:${step.stage}` })));
 const source = ts.createSourceFile("resources.tsx", await readFile(new URL("../app/resources/page.tsx", import.meta.url), "utf8"), ts.ScriptTarget.Latest, true, ts.ScriptKind.TSX);
 const resources = [];

@@ -18,6 +18,7 @@ const loaders: Record<TranslatedLanguage, () => Promise<LanguageCatalog>> = {
   nl: () => import("./nl.ts"), fa: () => import("./fa.ts"),
   xh: () => import("./xh.ts"),
   ln: () => import("./ln.ts"), yo: () => import("./yo.ts"), sw: () => import("./sw.ts"),
+  tr: () => import("./tr.ts"), ps: () => import("./ps.ts"),
 };
 
 const loaded: Partial<Record<TranslatedLanguage, LanguageCatalog>> = {};

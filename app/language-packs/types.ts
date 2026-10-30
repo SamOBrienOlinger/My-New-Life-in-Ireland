@@ -1,5 +1,5 @@
 /** Shared shape for complete file-based interface translations. */
-export type PackedLanguage = "ln" | "yo" | "sw";
+export type PackedLanguage = "ln" | "yo" | "sw" | "tr" | "ps";
 export type LanguagePackCopy = {
 "ui": {
 "language": string;

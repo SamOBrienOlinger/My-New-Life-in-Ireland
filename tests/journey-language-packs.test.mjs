@@ -16,7 +16,7 @@ const expectedPlaceholders = {
   "journal.explore": ["{name}"],
 };
 
-for (const language of ["ln", "yo", "sw"]) {
+for (const language of ["ln", "yo", "sw", "tr", "ps"]) {
   test(`${language}: interface text is complete and preserves character, fact and interpolation identities`, async () => {
     const { default: copy } = await import(`../app/language-packs/${language}.ts`);
     const strings = new Map(leaves(copy));

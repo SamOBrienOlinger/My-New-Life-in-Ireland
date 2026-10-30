@@ -12,7 +12,7 @@ import { learningCopy, loadLearningLanguage } from "../app/learning-copy/index.t
 import { sourceInfo, sourceVerificationLog } from "../app/source-info.ts";
 import { movingGuideForRoute, movingGuideResources } from "../app/moving-guide.ts";
 
-const languages = ["en", "ga", "ar", "zh", "fr", "pt", "es", "nl", "fa", "xh", "ln", "yo", "sw"];
+const languages = ["en", "ga", "ar", "zh", "fr", "pt", "es", "nl", "fa", "xh", "ln", "yo", "sw", "tr", "ps"];
 
 function answersFor(steps, reviewIndices = []) {
   return Object.fromEntries(steps.map((step, index) => [

@@ -22,7 +22,7 @@
 </p>
 
 <p align="center">
-  <strong>12 fictional characters</strong> &nbsp; · &nbsp; <strong>5 stages per journey</strong> &nbsp; · &nbsp; <strong>13 languages</strong><br>
+  <strong>12 fictional characters</strong> &nbsp; · &nbsp; <strong>5 stages per journey</strong> &nbsp; · &nbsp; <strong>15 languages</strong><br>
   Decide. Adapt. Navigate. This is your new life in Ireland.
 </p>
 
@@ -58,7 +58,7 @@ Regression coverage lives in `tests/browser/home-section-motion.spec.ts`, `tests
 
 ## Consistent site navigation
 
-The same seven navigation links now appear in the mobile menu and every page footer: Home, Journeys, About, Information Hub, Fact or Fiction, Search and Official guidance. Footer links use the matching language labels from all thirteen supported languages, and remain within the GitHub Pages site path. The **Back to the top** button is available in every footer, including the active five-stage journey. A matching floating shortcut becomes visible after scrolling and hides when the footer control is in view. Either button scrolls to the top, returns keyboard focus to the main landmark and preserves the current journey. Reduced-motion preferences are respected. All links and controls have touch-friendly targets and responsive wrapping.
+The same seven navigation links now appear in the mobile menu and every page footer: Home, Journeys, About, Information Hub, Fact or Fiction, Search and Official guidance. Footer links use the matching language labels from all fifteen supported languages, and remain within the GitHub Pages site path. The **Back to the top** button is available in every footer, including the active five-stage journey. A matching floating shortcut becomes visible after scrolling and hides when the footer control is in view. Either button scrolls to the top, returns keyboard focus to the main landmark and preserves the current journey. Reduced-motion preferences are respected. All links and controls have touch-friendly targets and responsive wrapping.
 
 ## Using the project
 
@@ -76,11 +76,11 @@ The same seven navigation links now appear in the mobile menu and every page foo
 
 The [Search page](https://samobrienolinger.github.io/My-New-Life-in-Ireland/search/) uses a compact, browser-local index generated from the site's actual characters, stage content, decision feedback, Fact or Fiction summaries, practical resource catalogue and About/learning sections. It supports multi-word terms, Unicode scripts, case and accent differences, result excerpts, highlighted matches, filters for the four sections and shareable `?q=` URLs. The homepage also offers a search field and every page links to Search in desktop and mobile navigation, including during a journey.
 
-Results link to the relevant site content. Decision-stage matches open their character, with a clear note that the five stages must be completed in order; Fact or Fiction links expand the relevant evidence card, and Information Hub links open a filtered resource listing. The index does not send queries to any third-party service or read personal progress, answers or reflections. Results are from the site's own published content, not a general web search. Search interface copy is available in all thirteen site languages. Add `tests/browser/site-search.spec.ts` to browser regression coverage.
+Results link to the relevant site content. Decision-stage matches open their character, with a clear note that the five stages must be completed in order; Fact or Fiction links expand the relevant evidence card, and Information Hub links open a filtered resource listing. The index does not send queries to any third-party service or read personal progress, answers or reflections. Results are from the site's own published content, not a general web search. Search interface copy is available in all fifteen site languages. Add `tests/browser/site-search.spec.ts` to browser regression coverage.
 
 ### Fact or Fiction: the evidence hub
 
-The source-linked hub checks ten claims about international protection, welfare, housing, migrant workers, public perceptions and reporting racism. It provides **Fact**, **Fiction** and **Needs context** verdicts, topic filters, search, deep links and an accessible reveal pattern. Content is available in the same thirteen learning languages as the journeys; linked publications may be in English. It cites INAR, MRCI, ESRI, the Irish Refugee Council and official government/WRC guidance. The publication dates are distinguished from the **26 October 2026 source-link check**. Each entry explains its scope and limits: self-selected reports are not population statistics, and a 2024 study is not a current entitlement checker. These independent educational summaries are not endorsed by the sources and should be reviewed when laws or evidence change.
+The source-linked hub checks ten claims about international protection, welfare, housing, migrant workers, public perceptions and reporting racism. It provides **Fact**, **Fiction** and **Needs context** verdicts, topic filters, search, deep links and an accessible reveal pattern. Content is available in the same fifteen learning languages as the journeys; linked publications may be in English. It cites INAR, MRCI, ESRI, the Irish Refugee Council and official government/WRC guidance. The publication dates are distinguished from the **26 October 2026 source-link check**. Each entry explains its scope and limits: self-selected reports are not population statistics, and a 2024 study is not a current entitlement checker. These independent educational summaries are not endorsed by the sources and should be reviewed when laws or evidence change.
 
 Static GitHub Pages entry: `github-pages/fact-or-fiction/`; Next route: `app/fact-or-fiction/`. Automated page checks: `tests/browser/facts.spec.ts`.
 
@@ -148,18 +148,18 @@ The **Information Hub contains 40 resources**, including 14 Citizens Information
 
 ## Languages
 
-Choose a language using the site's language control. Scenario text, answers and learning explanations are available in **thirteen languages**.
+Choose a language using the site's language control. Scenario text, answers and learning explanations are available in **fifteen languages**.
 
 | Support | Available options |
 | --- | --- |
-| **Language** | English · Gaeilge · Arabic · Mandarin Chinese · French · Portuguese · Spanish · Dutch · Farsi/Persian · isiXhosa · Lingala · Yorùbá · Kiswahili |
+| **Language** | English · Gaeilge · Arabic · Mandarin Chinese · French · Portuguese · Spanish · Dutch · Farsi/Persian · isiXhosa · Lingala · Yorùbá · Kiswahili · Türkçe · پښتو |
 | **Reading** | **Plain-language version** or **Detailed version** for the rule explanation. |
 | **Audio** | **Listen**, **Pause**, **Resume** and **Stop** control narration. **Audio options** adjusts speed and includes choices or checked feedback. Guidance is narrated when revealed or after the decision is checked. |
 | **Useful words** | Short explanations of permission, registration, employment permits and PPS numbers, with links to official guidance. |
 
-Arabic and Farsi use right-to-left layouts. Changing language keeps your chosen answers and decision results. Translations are learning aids, not official translations of the underlying guidance. Available voices and speech support vary by browser and language.
+Arabic, Farsi and Pashto use right-to-left layouts. Changing language keeps your chosen answers and decision results. Translations are learning aids, not official translations of the underlying guidance. Available voices and speech support vary by browser and language.
 
-Lingala (`ln`), Yoruba (`yo`) and Swahili (`sw`) have interface packs in `app/language-packs/`, with separate journey and learning catalogs loaded when selected. Coverage includes navigation, all 40 decision stages, answer feedback, the journal, reading tools, the information hub, Fact or Fiction, Search and About. The new translations were prepared with AI assistance and have not been independently reviewed by fluent speakers. Automated checks verify completeness, placeholders and behaviour; they do not certify linguistic or legal accuracy. No visitor text is sent to a translation service.
+Lingala (`ln`), Yoruba (`yo`), Swahili (`sw`), Turkish (`tr`) and Pashto (`ps`) have interface packs in `app/language-packs/`, with separate journey and learning catalogs loaded when selected. Coverage includes navigation, all 40 decision stages, answer feedback, the journal, reading tools, the information hub, Fact or Fiction, Search and About. The new translations were prepared with AI assistance and have not been independently reviewed by fluent speakers. Automated checks verify completeness, placeholders and behaviour; they do not certify linguistic or legal accuracy. No visitor text is sent to a translation service.
 
 The interface includes keyboard controls, visible focus, stage-heading focus and feedback announcements. Motion effects respect reduced-motion preferences. Automated checks do not replace fluent-speaker review or manual accessibility testing, and do not certify the experience for every person or device.
 
@@ -443,9 +443,9 @@ These are browser-engine regression checks. Physical-device testing remains usef
 
 The English source remains in `app/journey-data.ts`. Each non-English catalog in `app/journey-translations/` uses `route:canonical English stage` keys and the original choice IDs. Translate the individual scene, rules, answer labels, feedback and consequences; preserve source URLs, correctness and qualified wording. The catalog tests check all 40 stages and 24 hub descriptions per language. Languages load on demand. Source comparison and automated coverage checks complement fluent-speaker review of wording.
 
-The additional learning copy in `app/learning-copy/` follows the same thirteen-language coverage and loads alongside each selected journey language. `app/journey-learning.ts` maps every route and stage to a short explanation and next step. Recaps use checked answer IDs, so changing language or answer order does not change the result. Revisit controls restore the selected stage without resetting the attempt; a changed answer must be checked before returning to the recap. Reflection prompts are unscored and request no personal information. Scores describe choices in the exercise, not immigration eligibility or the likelihood of a real outcome.
+The additional learning copy in `app/learning-copy/` follows the same fifteen-language coverage and loads alongside each selected journey language. `app/journey-learning.ts` maps every route and stage to a short explanation and next step. Recaps use checked answer IDs, so changing language or answer order does not change the result. Revisit controls restore the selected stage without resetting the attempt; a changed answer must be checked before returning to the recap. Reflection prompts are unscored and request no personal information. Scores describe choices in the exercise, not immigration eligibility or the likelihood of a real outcome.
 
-The Information Hub includes 40 resources: the 24 original sources, NMBI registration and Revenue's first-job tax guide, plus 14 Citizens Information guides on preparing a move, residence, family, registration, work, study, everyday services, housing, healthcare, social welfare, retirement and returning to Ireland. A prominent moving-guide introduction links to the [Moving to Ireland overview](https://www.citizensinformation.ie/en/moving-country/moving-to-ireland/) and its before-travel checklist. All additions have titles and descriptions in the thirteen supported languages and participate in the existing search and topic filters. The arrival filter is labelled “Planning and arrival” to include preparation before travelling.
+The Information Hub includes 40 resources: the 24 original sources, NMBI registration and Revenue's first-job tax guide, plus 14 Citizens Information guides on preparing a move, residence, family, registration, work, study, everyday services, housing, healthcare, social welfare, retirement and returning to Ireland. A prominent moving-guide introduction links to the [Moving to Ireland overview](https://www.citizensinformation.ie/en/moving-country/moving-to-ireland/) and its before-travel checklist. All additions have titles and descriptions in the fifteen supported languages and participate in the existing search and topic filters. The arrival filter is labelled “Planning and arrival” to include preparation before travelling.
 
 Priya's journey surfaces professional registration, while relevant work journeys surface tax setup. These practical tasks are separate from immigration permission. Each completed journey also offers a relevant Citizens Information guide in a separate follow-on section, preserving the decision-specific sources and practical stage guidance. Returning-home guidance explicitly addresses Irish citizens; it is not a new fictional character route.
 
