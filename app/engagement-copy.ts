@@ -1,3 +1,4 @@
+import { packedLanguageCopy } from "./language-packs";
 import type { Language } from "./i18n";
 
 type EngagementCopy = {
@@ -10,6 +11,7 @@ type EngagementCopy = {
 };
 
 const copy: Record<Language, EngagementCopy> = {
+  ...packedLanguageCopy("engagement"),
   en: {
     chapter: "Chapter", about: "About {name}", chapters: "Your journey", review: "Review", current: "Current chapter",
     completed: "Explored", nextChapter: "Still to explore", allPeople: "View all people", carousel: "Use the carousel",

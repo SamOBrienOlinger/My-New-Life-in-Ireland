@@ -1,3 +1,4 @@
+import { packedLanguageCopy } from "../language-packs";
 import type { Language } from "../i18n";
 
 export type SearchGroup = "journeys" | "facts" | "resources" | "about";
@@ -31,6 +32,7 @@ export type SearchText = {
 };
 
 export const searchText: Record<Language, SearchText> = {
+  ...packedLanguageCopy("search"),
   en: {
     nav: "Search", title: "Search the entire site", eyebrow: "Find what matters",
     intro: "Find people, decisions, myth-busters, practical information and learning guidance. Search by a word or phrase.",
@@ -153,6 +155,7 @@ export const searchText: Record<Language, SearchText> = {
 };
 
 export const suggestedQueries: Partial<Record<Language, string[]>> = {
+  ...packedLanguageCopy("suggestedQueries"),
   en: ["housing", "employment permit", "international protection", "PPS number", "racism"],
   ga: ["tithíocht", "cead fostaíochta", "cosaint idirnáisiúnta", "uimhir PSP", "ciníochas"],
   ar: ["السكن", "تصريح العمل", "الحماية الدولية", "PPS", "العنصرية"],

@@ -8,6 +8,7 @@ const loaders: Record<TranslatedLanguage, () => Promise<{ default: LearningCopy 
   pt: () => import("./pt.ts"), es: () => import("./es.ts"),
   nl: () => import("./nl.ts"), fa: () => import("./fa.ts"),
   xh: () => import("./xh.ts"),
+  ln: () => import("./ln.ts"), yo: () => import("./yo.ts"), sw: () => import("./sw.ts"),
 };
 const loaded: Partial<Record<TranslatedLanguage, LearningCopy>> = {};
 const pending: Partial<Record<TranslatedLanguage, Promise<void>>> = {};

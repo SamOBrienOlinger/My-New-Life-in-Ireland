@@ -1,4 +1,5 @@
 import type { Language } from "../i18n";
+import { packedLanguageCopy } from "../language-packs";
 import { localCharacter, localStep } from "../i18n";
 import { characters, stepsByRoute } from "../journey-data";
 import { factEntries, evidenceSources } from "../fact-or-fiction/facts";
@@ -28,7 +29,7 @@ export type SearchDocument = {
 
 export type SearchMatch = SearchDocument & { score: number };
 
-const learningLocales = { ...learningLocalesA, ...learningLocalesB };
+const learningLocales = { ...packedLanguageCopy("aboutLearning"), ...learningLocalesA, ...learningLocalesB };
 
 /**
  * A small, deterministic, browser-local index of the editorial content already
@@ -172,7 +173,7 @@ export function buildSearchDocuments(language: Language): SearchDocument[] {
   return documents;
 }
 
-/** Accent- and punctuation-tolerant, case-insensitive matching for ten scripts. */
+/** Accent- and punctuation-tolerant, case-insensitive matching across supported languages. */
 export function normaliseSearch(value: string): string {
   return value.normalize("NFKD")
     .replace(/\p{M}/gu, "")

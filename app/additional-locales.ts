@@ -1,9 +1,11 @@
+import type { PackedLanguage } from "./language-packs";
+import { packedLanguageCopy } from "./language-packs";
 import type { RouteFilter, RouteKey } from "./journey-data";
 
 export type AdditionalLanguage = "zh" | "fr" | "pt" | "es" | "nl" | "fa" | "xh";
 export type TopicKey = "all" | "arrival" | "immigration" | "protection" | "work" | "study" | "daily-life" | "family" | "rights";
 
-export const additionalLanguageOptions: { value: AdditionalLanguage; label: string }[] = [
+export const additionalLanguageOptions: { value: AdditionalLanguage | PackedLanguage; label: string }[] = [
   { value: "zh", label: "中文（普通话）" },
   { value: "fr", label: "Français" },
   { value: "pt", label: "Português" },
@@ -11,9 +13,13 @@ export const additionalLanguageOptions: { value: AdditionalLanguage; label: stri
   { value: "nl", label: "Nederlands" },
   { value: "fa", label: "فارسی" },
   { value: "xh", label: "isiXhosa" },
+  { value: "ln", label: "Lingala" },
+  { value: "yo", label: "Yorùbá" },
+  { value: "sw", label: "Kiswahili" },
 ];
 
 export const additionalUi = {
+  ...packedLanguageCopy("ui"),
   zh: {
     language:"语言",siteName:"前往爱尔兰的旅程",about:"关于",hub:"信息中心",official:"官方指南",journeys:"旅程",home:"首页",menu:"菜单",closeMenu:"关闭",
     heroEyebrow:"互动探索爱尔兰移民体系",heroTitle:"每一段前往爱尔兰的旅程都不一样。",heroIntro:"从十二位虚构人物中选择一位，引导其从离境走向在爱尔兰的生活。",
@@ -118,7 +124,8 @@ type RouteText = Record<RouteKey, { label: string; short: string; focus: string 
 type FilterText = Record<RouteFilter, { label: string; description: string }>;
 type CharacterTuple = [string, string, string, string, string];
 
-export const additionalRouteText: Record<AdditionalLanguage, RouteText> = {
+export const additionalRouteText: Record<AdditionalLanguage | PackedLanguage, RouteText> = {
+  ...packedLanguageCopy("routeText"),
   zh:{critical:{label:"关键技能就业许可",short:"技能工作",focus:"关键技能就业旅程"},general:{label:"一般就业许可",short:"就业",focus:"一般就业许可旅程"},protection:{label:"国际保护",short:"保护",focus:"国际保护旅程"},study:{label:"长期学习",short:"学习",focus:"长期学习旅程"},family:{label:"家庭团聚",short:"家庭",focus:"家庭团聚旅程"},"protection-access":{label:"有无障碍需求的保护",short:"保护与无障碍",focus:"涉及残障和接待需求的保护"},"eu-mobility":{label:"欧盟自由流动",short:"欧盟流动",focus:"欧盟自由流动、工作和平等"},"family-safety":{label:"家庭暴力后的独立许可",short:"家庭与安全",focus:"安全和独立移民许可"}},
   fr:{critical:{label:"Permis de travail pour compétences critiques",short:"Emploi qualifié",focus:"un parcours d’emploi à compétences critiques"},general:{label:"Permis général de travail",short:"Emploi",focus:"un parcours de permis général de travail"},protection:{label:"Protection internationale",short:"Protection",focus:"un parcours de protection internationale"},study:{label:"Études de longue durée",short:"Études",focus:"un parcours d’études de longue durée"},family:{label:"Rejoindre sa famille",short:"Famille",focus:"un parcours de réunification familiale"},"protection-access":{label:"Protection et besoins d’accessibilité",short:"Protection + accès",focus:"la protection avec handicap et besoins d’accueil"},"eu-mobility":{label:"Libre circulation dans l’UE",short:"Mobilité UE",focus:"la libre circulation, le travail et l’égalité dans l’UE"},"family-safety":{label:"Autorisation indépendante après violences familiales",short:"Famille + sécurité",focus:"la sécurité et une autorisation d’immigration indépendante"}},
   pt:{critical:{label:"Autorização de trabalho para competências críticas",short:"Trabalho qualificado",focus:"um percurso de emprego de competências críticas"},general:{label:"Autorização geral de trabalho",short:"Emprego",focus:"um percurso de autorização geral de trabalho"},protection:{label:"Proteção internacional",short:"Proteção",focus:"um percurso de proteção internacional"},study:{label:"Estudo de longa duração",short:"Estudo",focus:"um percurso de estudo de longa duração"},family:{label:"Reunificação familiar",short:"Família",focus:"um percurso de reunificação familiar"},"protection-access":{label:"Proteção com necessidades de acessibilidade",short:"Proteção + acesso",focus:"proteção com deficiência e necessidades de acolhimento"},"eu-mobility":{label:"Livre circulação na UE",short:"Mobilidade UE",focus:"livre circulação, trabalho e igualdade na UE"},"family-safety":{label:"Autorização independente após violência doméstica",short:"Família + segurança",focus:"segurança e autorização de imigração independente"}},
@@ -128,7 +135,8 @@ export const additionalRouteText: Record<AdditionalLanguage, RouteText> = {
   xh:{critical:{label:"Imvume yengqesho yezakhono ezibalulekileyo",short:"Umsebenzi wezakhono",focus:"uhambo lomsebenzi lwezakhono ezibalulekileyo"},general:{label:"Imvume yengqesho ngokubanzi",short:"Ingqesho",focus:"uhambo lwemvume yengqesho ngokubanzi"},protection:{label:"Ukhuseleko lwamazwe ngamazwe",short:"Ukhuseleko",focus:"uhambo lokhuseleko lwamazwe ngamazwe"},study:{label:"Ukufunda ixesha elide",short:"Ukufunda",focus:"uhambo lokufunda ixesha elide"},family:{label:"Ukujoyina usapho",short:"Usapho",focus:"uhambo lokudibanisa usapho"},"protection-access":{label:"Ukhuseleko neemfuno zofikelelo",short:"Ukhuseleko + ufikelelo",focus:"ukhuseleko oluneemfuno zokukhubazeka nezolwamkelo"},"eu-mobility":{label:"Ukuhamba ngokukhululekileyo kwi-EU",short:"Ukuhamba kwe-EU",focus:"ukuhamba ngokukhululekileyo, umsebenzi nokulingana kwi-EU"},"family-safety":{label:"Imvume ezimeleyo emva kobundlobongela basekhaya",short:"Usapho + ukhuseleko",focus:"ukhuseleko nemvume yokufudukela ezimeleyo"}},
 };
 
-export const additionalFilterText: Record<AdditionalLanguage, FilterText> = {
+export const additionalFilterText: Record<AdditionalLanguage | PackedLanguage, FilterText> = {
+  ...packedLanguageCopy("filterText"),
   zh:{all:{label:"显示所有人物",description:"比较全部十二段虚构旅程。"},work:{label:"我想工作",description:"就业许可相关旅程。"},study:{label:"我想学习",description:"课程、签证、资金和Stamp 2决定。"},family:{label:"我想与家人团聚",description:"担保人、关系和许可相关决定。"},protection:{label:"我需要安全保护",description:"国际保护和接待相关决定。"},eu:{label:"我是欧盟公民",description:"自由流动、工作和平等相关决定。"}},
   fr:{all:{label:"Voir tout le monde",description:"Comparer les douze parcours fictifs."},work:{label:"Je veux travailler",description:"Parcours liés aux permis de travail."},study:{label:"Je veux étudier",description:"Décisions sur la formation, le visa, les finances et le Stamp 2."},family:{label:"Je veux rejoindre ma famille",description:"Décisions sur le répondant, la relation et l’autorisation."},protection:{label:"J’ai besoin de sécurité",description:"Décisions de protection internationale et d’accueil."},eu:{label:"Je suis citoyen de l’UE",description:"Décisions de libre circulation, travail et égalité."}},
   pt:{all:{label:"Mostrar todas as pessoas",description:"Compare os doze percursos fictícios."},work:{label:"Quero trabalhar",description:"Percursos de autorização de trabalho."},study:{label:"Quero estudar",description:"Decisões sobre curso, visto, finanças e Stamp 2."},family:{label:"Quero juntar-me à família",description:"Decisões sobre patrocinador, relação e autorização."},protection:{label:"Preciso de segurança",description:"Decisões de proteção internacional e acolhimento."},eu:{label:"Sou cidadão da UE",description:"Decisões de livre circulação, trabalho e igualdade."}},
@@ -138,7 +146,8 @@ export const additionalFilterText: Record<AdditionalLanguage, FilterText> = {
   xh:{all:{label:"Bonisa wonke umntu",description:"Thelekisa zonke iihambo ezilishumi elinesibini eziqanjiweyo."},work:{label:"Ndifuna ukusebenza",description:"Iihambo zeemvume zengqesho."},study:{label:"Ndifuna ukufunda",description:"Izigqibo zekhosi, ivisa, imali neStamp 2."},family:{label:"Ndifuna ukujoyina usapho",description:"Izigqibo zomxhasi, ubudlelwane nemvume."},protection:{label:"Ndifuna ukhuseleko",description:"Izigqibo zokhuseleko lwamazwe ngamazwe nolwamkelo."},eu:{label:"Ndingummi we-EU",description:"Izigqibo zokuhamba ngokukhululekileyo, umsebenzi nokulingana."}},
 };
 
-export const additionalCharacterText: Record<AdditionalLanguage, Record<string, CharacterTuple>> = {
+export const additionalCharacterText: Record<AdditionalLanguage | PackedLanguage, Record<string, CharacterTuple>> = {
+  ...packedLanguageCopy("characterText"),
   zh:{
     kwame:["他","加纳","土木工程师","独自前往爱尔兰从事两年工程工作","Kwame获得了可再生能源基础设施工作的录用。入职日期临近，而雇主以为录用通知已经足够。"],
     mateo:["他","阿根廷","厨师","有经验的厨师，计划第一次移居国外","Mateo找到了一位爱尔兰雇主，但职位和录用仍须符合条件。招聘人员催他支付现金并尽快出发。"],

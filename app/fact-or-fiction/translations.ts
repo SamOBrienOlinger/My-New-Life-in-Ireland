@@ -1,3 +1,4 @@
+import { packedLanguageCopy } from "../language-packs";
 import type { Language } from "../i18n";
 import type { FactEntry } from "./facts";
 
@@ -5,6 +6,7 @@ type Translation = readonly [claim: string, answer: string, context: string];
 // Editorial translations of claim, answer and limitation. English source links
 // remain unchanged. A fluent-speaker review is recommended before public launch.
 const translated: Partial<Record<Language, Record<string, Translation>>> = {
+  ...packedLanguageCopy("facts"),
   ga: {
     "standard-welfare":["An bhfaigheann gach iarratasóir tearmainn gnáthíocaíochtaí leasa shóisialaigh go huathoibríoch?","Ní fhaigheann. Ní thugann iarratas ar chosaint idirnáisiúnta teideal do ghnáthíocaíochtaí leasa nó do thithíocht shóisialta. D'fhéadfadh tacaíochtaí glactha agus Liúntas Speansas Laethúil a bheith ar fáil.","Baineann sé seo le daoine atá ag fanacht le cinneadh. Tá rialacha eile ann do dhaoine ar deonaíodh cosaint dóibh agus do dhaoine ar bhealaí inimirce eile."],
     "asylum-employment":["An bhfuil cosc ar iarratasóirí cosanta idirnáisiúnta obair a dhéanamh le linn an phróisis ar fad?","Níl. D'fhéadfadh iarratasóirí cáiliú do rochtain ar an margadh saothair tar éis sé mhí gan chéad chinneadh. Caithfear cead a fháil roimh obair.","Ní hionann iarratas ar chosaint agus cead oibre. D'athraigh Acht um Chosaint Idirnáisiúnta 2026 cuid den phróiseas ón 12 Meitheamh 2026."],

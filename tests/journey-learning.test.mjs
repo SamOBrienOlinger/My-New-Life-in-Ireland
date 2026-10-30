@@ -12,7 +12,7 @@ import { learningCopy, loadLearningLanguage } from "../app/learning-copy/index.t
 import { sourceInfo, sourceVerificationLog } from "../app/source-info.ts";
 import { movingGuideForRoute, movingGuideResources } from "../app/moving-guide.ts";
 
-const languages = ["en", "ga", "ar", "zh", "fr", "pt", "es", "nl", "fa", "xh"];
+const languages = ["en", "ga", "ar", "zh", "fr", "pt", "es", "nl", "fa", "xh", "ln", "yo", "sw"];
 
 function answersFor(steps, reviewIndices = []) {
   return Object.fromEntries(steps.map((step, index) => [
@@ -186,7 +186,7 @@ test("a completed journey-language load also makes its learning copy ready to re
   }
 });
 
-test("all ten learning languages retain every field and interpolation placeholder", async () => {
+test("all supported learning languages retain every field and interpolation placeholder", async () => {
   await Promise.all(languages.map((language) => loadLearningLanguage(language)));
   const expected = new Map(textLeaves(en));
   const placeholders = (text) => (text.match(/\{[^{}]+\}/g) ?? []).sort();

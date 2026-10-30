@@ -5,6 +5,7 @@ import { sourceInfo } from "./source-info";
 const dateLocales: Record<Language, string> = {
   en: "en-IE", ga: "ga-IE", ar: "ar", zh: "zh-CN", fr: "fr-FR",
   pt: "pt-PT", es: "es-ES", nl: "nl-NL", fa: "fa-IR", xh: "xh-ZA",
+  ln: "ln-CD", yo: "yo-NG", sw: "sw-KE",
 };
 
 export function SourceDetails({ href, language, publisher }: { href: string; language: Language; publisher?: string }) {

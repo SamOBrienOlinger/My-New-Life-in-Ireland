@@ -1,3 +1,4 @@
+import { packedLanguageCopy } from "./language-packs";
 import type { Language } from "./i18n";
 
 export type GlossaryKey = "permission" | "registration" | "permit" | "pps";
@@ -22,6 +23,7 @@ export const glossarySources: Record<GlossaryKey, string> = {
 };
 
 export const readingToolsCopy: Record<Language, ReadingToolsCopy> = {
+  ...packedLanguageCopy("reading"),
   en: {
     listen: "Listen", pause: "Pause", resume: "Resume audio", stop: "Stop", options: "Audio options",
     speed: "Reading speed", includeChoices: "Read the question and choices", includeFeedback: "Read feedback when available",

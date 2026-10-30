@@ -1,5 +1,7 @@
 "use client";
 
+import { isPackedLanguage, packedLanguageCopy, type PackedLanguage } from "./language-packs";
+
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Languages } from "lucide-react";
 import type { Character, RouteFilter, RouteKey, Step } from "./journey-data";
@@ -14,7 +16,7 @@ import {
   type AdditionalLanguage,
 } from "./additional-locales";
 
-export type Language = "en" | "ga" | "ar" | AdditionalLanguage;
+export type Language = "en" | "ga" | "ar" | AdditionalLanguage | PackedLanguage;
 const storageKey = "mnli-language";
 const supportedLanguages = new Set<Language>(["en", "ga", "ar", ...additionalLanguageOptions.map((option) => option.value)]);
 const isRtl = (language: Language) => language === "ar" || language === "fa";
@@ -55,6 +57,7 @@ export function useLanguage() {
 }
 
 const languageLoadErrors: Record<Language, string> = {
+  ...packedLanguageCopy("loadError"),
   en: "This translation could not load. Please try again.",
   ga: "Níorbh fhéidir an t-aistriúchán a lódáil. Bain triail eile as.",
   ar: "تعذّر تحميل هذه الترجمة. يُرجى المحاولة مرة أخرى.",
@@ -213,7 +216,10 @@ const stageText = {
   ...additionalStageText,
 } as const;
 
+const packedStages = packedLanguageCopy("stageLabels");
+
 export function localStep(step: Step, route: RouteKey, language: Language): Step {
   if (language === "en") return step;
-  return translateJourneyStep(step, route, language, stageText[language][step.stage][0]);
+  const stageLabel = isPackedLanguage(language) ? packedStages[language][step.stage] : stageText[language][step.stage][0];
+  return translateJourneyStep(step, route, language, stageLabel);
 }

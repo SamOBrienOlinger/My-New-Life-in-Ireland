@@ -1,5 +1,7 @@
 "use client";
 
+import { packedLanguageCopy } from "./language-packs";
+
 import { useEffect, useRef, useState } from "react";
 import { ArrowUp } from "lucide-react";
 import { ui, type Language } from "./i18n";
@@ -10,6 +12,7 @@ export type SitePage = "home" | "journeys" | "about" | "resources" | "facts" | "
 type NavItem = { id: SitePage | "official"; href: string; label: string };
 
 const footerCopy: Record<Language, { navigation: string; backToTop: string }> = {
+  ...packedLanguageCopy("footer"),
   en: { navigation: "Footer navigation", backToTop: "Back to the top" },
   ga: { navigation: "Nascleanúint na buntásca", backToTop: "Ar ais go barr an leathanaigh" },
   ar: { navigation: "التنقل في تذييل الصفحة", backToTop: "العودة إلى أعلى الصفحة" },

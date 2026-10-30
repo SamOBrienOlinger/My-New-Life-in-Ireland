@@ -1,3 +1,4 @@
+import { packedLanguageCopy } from "./language-packs";
 import type { Language } from "./i18n";
 
 export type CharacterCarouselCopy = {
@@ -7,6 +8,7 @@ export type CharacterCarouselCopy = {
 };
 
 const copy: Record<Language, CharacterCarouselCopy> = {
+  ...packedLanguageCopy("carousel"),
   en: {
     previous: "Previous characters",
     next: "Next characters",

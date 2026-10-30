@@ -1,3 +1,4 @@
+import { packedLanguageCopy } from "./language-packs";
 import type { Language } from "./i18n";
 
 const en = {
@@ -41,6 +42,7 @@ const en = {
 type JournalCopy = typeof en;
 
 const copies: Record<Language, JournalCopy> = {
+  ...packedLanguageCopy("journal"),
   en,
   ga: {
     stale: "Tá an scéal seo athraithe. Coinnítear do mhachnamh agus an dáta críochnaithe. Críochnaigh an turas nuashonraithe chun do chinntí a athnuachan.",

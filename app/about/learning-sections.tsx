@@ -1,3 +1,4 @@
+import { packedLanguageCopy } from "../language-packs";
 import {
   ArrowDown, ArrowRight, BookOpen, Check, CheckCircle2, ChevronDown,
   ExternalLink, GitCompareArrows, Lightbulb, MousePointer2, RotateCcw,
@@ -9,7 +10,7 @@ import { learningLocalesA } from "./learning-locales-a";
 import { learningLocalesB } from "./learning-locales-b";
 import "./learning.css";
 
-const translations = { ...learningLocalesA, ...learningLocalesB };
+const translations = { ...packedLanguageCopy("aboutLearning"), ...learningLocalesA, ...learningLocalesB };
 const copyFor = (language: Language) => language === "en" ? englishLearningCopy : translations[language];
 const loopIcons = [BookOpen, MousePointer2, Check, Lightbulb];
 const methodIcons = [Lightbulb, GitCompareArrows, Search];

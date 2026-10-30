@@ -1,3 +1,4 @@
+import { packedLanguageCopy } from "../language-packs";
 import type { Language } from "../i18n";
 import type { EvidenceKind, FactTopic, FactVerdict } from "./facts";
 
@@ -16,6 +17,7 @@ export type FactUi = {
 };
 
 export const factUi: Record<Language, FactUi> = {
+  ...packedLanguageCopy("factUi"),
   en: {
     nav:"Fact or Fiction",eyebrow:"Evidence over assumptions",title:"Fact or Fiction?",intro:"Heard a claim about migration in Ireland? Turn it over, examine the evidence, and follow the original source. Not every claim is a simple yes or no.",
     sectionTitle:"Explore the claims",sectionIntro:"Choose a topic or search. Open a card to reveal its answer, context and sources.",

@@ -10,13 +10,14 @@ type LanguageCatalog = {
   controls: JourneyControls;
 };
 
-// Each language is a separate cached chunk; English does not download nine catalogs.
+// Each language is a separate cached chunk; English does not download other journey catalogs.
 const loaders: Record<TranslatedLanguage, () => Promise<LanguageCatalog>> = {
   ga: () => import("./ga.ts"), ar: () => import("./ar.ts"),
   zh: () => import("./zh.ts"), fr: () => import("./fr.ts"),
   pt: () => import("./pt.ts"), es: () => import("./es.ts"),
   nl: () => import("./nl.ts"), fa: () => import("./fa.ts"),
   xh: () => import("./xh.ts"),
+  ln: () => import("./ln.ts"), yo: () => import("./yo.ts"), sw: () => import("./sw.ts"),
 };
 
 const loaded: Partial<Record<TranslatedLanguage, LanguageCatalog>> = {};
