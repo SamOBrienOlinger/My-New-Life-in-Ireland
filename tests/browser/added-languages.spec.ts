@@ -1,6 +1,7 @@
 import { expect, test, type Page } from "@playwright/test";
 import { packedLanguageCopy, type PackedLanguage } from "../../app/language-packs";
 import { stepsByRoute } from "../../app/journey-data";
+import { loadJourneyLanguage, translateJourneyStep } from "../../app/journey-translations";
 
 const languages: PackedLanguage[] = ["ln", "yo", "sw", "tr", "ps"];
 const ui = packedLanguageCopy("ui");
@@ -28,6 +29,8 @@ async function selectJourneyLanguage(page: Page, language: string) {
 for (const language of languages) {
   test(`${language}: mobile language selection persists across pages and preserves a checked journey`, async ({ page }) => {
     test.setTimeout(60_000);
+    await loadJourneyLanguage(language);
+    const expectedTitle = translateJourneyStep(stepsByRoute.critical[0], "critical", language, "").title;
     const errors: string[] = [];
     page.on("pageerror", error => errors.push(error.message));
     await page.setViewportSize({ width: 390, height: 844 });
@@ -53,8 +56,9 @@ for (const language of languages) {
       await page.setViewportSize({ width: 390, height: 844 });
     }
 
-    // Search still matches Yoruba diacritics and the other native-language text.
-    const query = ui[language].journeys.normalize("NFKD").replace(/\p{M}/gu, "");
+    // Search indexed story text, including when the query omits its diacritics.
+    // Navigation labels need not occur in a language's story or resource copy.
+    const query = expectedTitle.normalize("NFKD").replace(/\p{M}/gu, "");
     await page.locator("#site-search-query").fill(query);
     await expect(page.locator(".site-search-result").first()).toBeVisible();
 
@@ -62,6 +66,7 @@ for (const language of languages) {
     await expect(page.locator("html")).toHaveAttribute("lang", language);
     await page.getByRole("button", { name: ui[language].begin, exact: true }).click();
     const translatedTitle = await page.locator("#decision-title").innerText();
+    expect(translatedTitle).toBe(expectedTitle);
     expect(translatedTitle).not.toBe(stepsByRoute.critical[0].title);
     for (const width of [320, 390, 1280]) {
       await page.setViewportSize({ width, height: 844 });
