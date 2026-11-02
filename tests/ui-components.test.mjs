@@ -113,8 +113,9 @@ test("ships complete selectable dictionaries for every supported language", asyn
     assert.equal(Object.keys(additionalCharacterText[language]).length, 12);
     if (isPackedLanguage(language)) {
       // New packs use stageLabels plus route-specific journey catalogs, not
-      // the legacy generic StageText/JourneyText dictionaries. The full
-      // journey-translations suite checks every scene, rule and answer.
+      // legacy generic StageText/JourneyText or topic descriptions. The full
+      // journey-translations suite checks every scene, rule, answer and the
+      // individual resource descriptions used by the Information Hub.
       assert.deepEqual(Object.keys(packedStages[language]), stageKeys, language);
       for (const label of Object.values(packedStages[language])) {
         assert.ok(typeof label === "string" && label.trim(), `${language}: empty stage label`);
@@ -122,11 +123,11 @@ test("ships complete selectable dictionaries for every supported language", asyn
     } else {
       assert.deepEqual(Object.keys(additionalStageText[language]), stageKeys, language);
       assert.ok(additionalJourneyText[language].plainLaw);
+      assert.equal(Object.keys(additionalTopicDescriptions[language]).length, 9);
     }
     assert.ok(additionalAboutCopy[language].intro);
     assert.equal(additionalResourceCopy[language].questions.length, 5);
     assert.equal(Object.keys(additionalTopicCopy[language]).length, 9);
-    assert.equal(Object.keys(additionalTopicDescriptions[language]).length, 9);
     assert.equal(additionalTranslatedTitles[language].length, 24);
     assert.equal(additionalOfficialSourceDescriptions[language].length, 5);
   }
