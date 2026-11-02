@@ -303,7 +303,7 @@ test("enlarged Dutch text fits public pages, a completed journal, and comparison
     await preparePublicPage(page, item);
     await page.addStyleTag({ content: "html { font-size: 200% !important; }" });
     await expectReadableLayout(page, item.content, `Dutch ${item.name}, 200% text`);
-  }
+  });
   await seedJourney(page, { complete: true, language: "nl" });
   await openCompletionDetails(page);
   await page.addStyleTag({ content: "html { font-size: 200% !important; }" });
