@@ -39,7 +39,7 @@ export function ImmigrationQuestionsPanel({ topic, query, language }: Props) {
         ))}
       </div>
       {questions.length === 0 && <p>No learning questions match these filters. Try a broader search or choose “All information” above. Source-card results are shown separately below.</p>}
-      <p className="immigration-questions-research">Wider research context: <a href={integrationResearchUrl}>ESRI's Monitoring Report on Integration 2024</a>, published in March 2025, examines employment, education, social inclusion and active citizenship. It does not rank these ten questions.</p>
+      <p className="immigration-questions-research">Wider research context: <a href={integrationResearchUrl}>ESRI&apos;s Monitoring Report on Integration 2024</a>, published in March 2025, examines employment, education, social inclusion and active citizenship. It does not rank these ten questions.</p>
     </section>
   );
 }
