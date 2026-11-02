@@ -1,0 +1,87 @@
+name: Full application and browser verification
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: full-verification-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  application:
+    name: Full application build and Node tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 22.13.0
+          cache: npm
+      - run: npm ci
+      - name: Check application types and lint
+        run: |
+          set -o pipefail
+          mkdir -p verification
+          npm run typecheck:pages 2>&1 | tee verification/types.log
+          npm run lint 2>&1 | tee verification/lint.log
+      - name: Build the complete Vinext application and run all Node tests
+        run: |
+          set -o pipefail
+          npm test 2>&1 | tee verification/application-build-and-tests.log
+      - name: Save build verification evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: application-verification
+          path: verification/
+          retention-days: 14
+          if-no-files-found: warn
+
+  browsers:
+    name: Browser verification (${{ matrix.browser }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: [chromium, firefox, webkit]
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 22.13.0
+          cache: npm
+      - run: npm ci
+      - name: Build the complete GitHub Pages website
+        run: |
+          set -o pipefail
+          mkdir -p verification
+          npm run build:pages 2>&1 | tee verification/pages-build.log
+      - name: Install the selected browser and system dependencies
+        run: npx playwright install --with-deps ${{ matrix.browser }}
+      - name: Run the full browser suite, including resource-guide rendering
+        run: |
+          set -o pipefail
+          npx playwright test --project=${{ matrix.browser }} 2>&1 | tee verification/browser-tests.log
+      - name: Save browser reports, screenshots and failure traces
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: browser-verification-${{ matrix.browser }}
+          path: |
+            verification/
+            playwright-report/
+            test-results/
+          retention-days: 14
+          if-no-files-found: warn
