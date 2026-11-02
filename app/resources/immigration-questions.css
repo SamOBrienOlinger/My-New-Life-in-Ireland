@@ -1,0 +1,59 @@
+.immigration-questions {
+  margin-block: 1.5rem 2rem;
+  padding: clamp(1rem, 3vw, 2rem);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--paper);
+  color: var(--ink);
+  text-align: start;
+  overflow-wrap: anywhere;
+  scroll-margin-top: 6rem;
+}
+.immigration-questions header > p { max-width: 78ch; line-height: 1.65; }
+.immigration-questions h2 { margin-block: .35rem .8rem; }
+.immigration-questions-scope,
+.immigration-questions-meta,
+.immigration-questions-count,
+.immigration-questions-research { font-size: .95rem; line-height: 1.6; }
+.immigration-questions-language {
+  padding: .85rem 1rem;
+  border-inline-start: 3px solid var(--teal-dark);
+  background: var(--white);
+}
+.immigration-questions-list { display: grid; gap: .65rem; }
+.immigration-question {
+  min-width: 0;
+  border: 1px solid var(--line);
+  border-radius: .65rem;
+  background: var(--white);
+  scroll-margin-top: 6rem;
+}
+.immigration-question > summary {
+  padding: 1rem;
+  min-height: 44px;
+  cursor: pointer;
+  color: var(--maroon-dark);
+  font-weight: 700;
+  line-height: 1.5;
+}
+.immigration-question > summary::marker { color: var(--maroon); }
+.immigration-question > summary:hover { background: var(--paper-deep); }
+.immigration-question > summary:focus-visible,
+.immigration-questions a:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
+.immigration-question[open] > summary { border-bottom: 1px solid var(--line); }
+.immigration-question-body { padding: 0 1rem 1rem; line-height: 1.7; }
+.immigration-question-body h3 { font-size: 1rem; line-height: 1.5; margin-block: 1rem .4rem; }
+.immigration-question-perspectives { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; }
+.immigration-question-perspectives p { margin-block-start: .3rem; }
+.immigration-question-sources { padding-inline-start: 1.3rem; }
+.immigration-question-sources li + li { margin-block-start: .5rem; }
+.immigration-questions a { color: var(--maroon); text-decoration: underline; text-underline-offset: .18em; }
+.immigration-questions-research { margin-block: 1rem 0; }
+@media (max-width: 640px) {
+  .immigration-question-perspectives { grid-template-columns: 1fr; gap: 0; }
+  .immigration-question-sources span { display: block; }
+}
+@media print {
+  .immigration-questions { background: white; color: black; }
+  .immigration-question { break-inside: avoid; }
+}
