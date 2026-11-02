@@ -49,16 +49,21 @@ test("renders a distinct character link for every selectable journey", async () 
   assert.doesNotMatch(html, /class="journey-shell"/);
 });
 
-test("emits the public launch and reduced-motion styles", async () => {
+test("emits public layout, resource-guide and reduced-motion styles", async () => {
   const css = await readCssTree(path.join(root, "dist"));
 
   assert.match(css, /\.about-hero/);
   assert.match(css, /\.about-content/);
   assert.match(css, /\.site-footer/);
   assert.match(css, /\.journey-footer/);
-  assert.match(css, /hero-question-reveal/);
-  assert.match(css, /--question-delay:\s*\.34s/);
+  // The old hero-question-reveal animation was removed with its markup.
+  // Verify the current layouts and the actual reduced-motion safeguards instead.
+  assert.match(css, /\.hero-copy/);
+  assert.match(css, /\.immigration-questions/);
+  assert.match(css, /\.immigration-question-perspectives/);
   assert.match(css, /prefers-reduced-motion:\s*reduce/);
+  assert.match(css, /animation:\s*none\s*!important/);
+  assert.match(css, /transition-duration:\s*(?:0?\.01ms|0?\.00001s)\s*!important/);
 });
 
 test("emits mobile accessibility and safe-area protections", async () => {
@@ -94,8 +99,9 @@ test("ships complete selectable dictionaries for every supported language", asyn
     additionalOfficialSourceDescriptions,
   } = await vite.ssrLoadModule("/app/additional-page-copy.ts");
 
-  const expected = ["zh", "fr", "pt", "es", "nl", "fa", "xh"];
+  const expected = ["zh", "fr", "pt", "es", "nl", "fa", "xh", "ln", "yo", "sw", "tr", "ps"];
   assert.deepEqual(additionalLanguageOptions.map(({ value }) => value), expected);
+  assert.deepEqual(Object.keys(ui).sort(), ["en", "ga", "ar", ...expected].sort());
 
   for (const language of expected) {
     assert.ok(Object.keys(ui[language]).length >= Object.keys(ui.en).length);
