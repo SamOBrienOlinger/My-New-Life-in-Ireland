@@ -1,11 +1,11 @@
-/* Use the repository's newest generated illustration (25 October 2026) in the homepage hero. */
+/* Use the newest illustration from public/images in the homepage hero. */
 .hero-section {
   background:
     linear-gradient(90deg, rgba(255,249,247,.82) 0%, rgba(250,239,240,.68) 35%, rgba(122,31,61,.12) 66%, rgba(122,31,61,0) 100%),
-    url("/images/chapters/build-a-life.webp") center / cover no-repeat !important;
+    url("../public/images/chapters/build-a-life.webp") center / cover no-repeat !important;
 }
 
-/* The hero artwork is a CSS background at every viewport size. */
+/* The background image is shared across desktop and mobile layouts. */
 .hero-mobile-image {
   display: none !important;
 }
