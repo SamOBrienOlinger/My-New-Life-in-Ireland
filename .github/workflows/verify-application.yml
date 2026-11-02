@@ -70,10 +70,10 @@ jobs:
           npm run build:pages 2>&1 | tee verification/pages-build.log
       - name: Install the selected browser and system dependencies
         run: npx playwright install --with-deps ${{ matrix.browser }}
-      - name: Run the full browser suite, including resource-guide rendering
+      - name: Run the full browser suite without whole-test retries
         run: |
           set -o pipefail
-          npx playwright test --project=${{ matrix.browser }} 2>&1 | tee verification/browser-tests.log
+          npx playwright test --project=${{ matrix.browser }} --retries=0 2>&1 | tee verification/browser-tests.log
       - name: Save browser reports, screenshots and failure traces
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
