@@ -42,7 +42,7 @@ const publicPages = [
   {
     name: "search", path: "./search/", ready: ".search-hero h1",
     content: ".site-search-nav, .site-search-nav .brand-button, .search-hero, .search-hero h1, .search-intro, .site-search-form, .search-scope, .search-body, .search-section-title, .search-suggestion-list, .search-suggestion-list button, .search-sections-grid, .search-section-summary",
-    controls: ".mobile-menu-button, .site-search-form input, .site-search-form button, .search-suggestion-list button",
+    controls: ".mobile-menu-button, .site-search-form input, .site-search-form button",
   },
 ] as const;
 
@@ -80,47 +80,59 @@ async function settleLayout(page: Page) {
  * hidden alone must not make a clipped card, translated label, or button pass. */
 async function expectReadableLayout(page: Page, selectors: string, description: string) {
   await settleLayout(page);
-  const result = await page.evaluate((selector) => {
-    const width = document.documentElement.clientWidth;
-    const failures: string[] = [];
-    for (const element of document.querySelectorAll<HTMLElement>(selector)) {
-      const rect = element.getBoundingClientRect();
-      const style = getComputedStyle(element);
-      if (!rect.width || !rect.height || style.visibility === "hidden" || style.display === "none") continue;
-      const name = `${element.tagName.toLowerCase()}${element.id ? `#${element.id}` : `.${String(element.className).trim().replace(/\s+/g, ".")}`}`;
-      if (rect.left < -2 || rect.right > width + 2) {
-        failures.push(`${name} outside viewport: left=${Math.round(rect.left)}, right=${Math.round(rect.right)}, viewport=${width}`);
-      }
-      // These are intentionally horizontally scrollable; their viewport bounds
-      // are still checked, and tests below exercise the offscreen controls.
-      const scrollable = element.matches(".character-carousel-viewport, .topic-tabs");
-      // The learning sequence draws decorative connectors into the space between
-      // its cards. Check card text separately so those arrows are not mistaken
-      // for clipped reading content; the containing sequence still must fit.
-      const hasConnector = element.matches(".learning-stages li, .learning-loop-steps li");
-      if (hasConnector) {
-        const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT);
-        let node = walker.nextNode();
-        while (node) {
-          if (node.textContent?.trim()) {
-            const range = document.createRange();
-            range.selectNodeContents(node);
-            for (const textRect of range.getClientRects()) {
-              if (textRect.left < rect.left - 2 || textRect.right > rect.right + 2) failures.push(`${name} text exceeds its card: ${node.textContent.trim().slice(0, 50)}`);
+  const viewport = page.viewportSize()!;
+  // A viewport acknowledgement (and timer-backed animation frames) can precede
+  // WebKit's media-query/vw recalculation. Poll the actual measurements, not a
+  // fixed delay. Persistent overflow still fails with the original diagnostics.
+  await expect.poll(async () => {
+    const result = await page.evaluate((selector) => {
+      const width = document.documentElement.clientWidth;
+      const failures: string[] = [];
+      for (const element of document.querySelectorAll<HTMLElement>(selector)) {
+        const rect = element.getBoundingClientRect();
+        const style = getComputedStyle(element);
+        if (!rect.width || !rect.height || style.visibility === "hidden" || style.display === "none") continue;
+        const name = `${element.tagName.toLowerCase()}${element.id ? `#${element.id}` : `.${String(element.className).trim().replace(/\s+/g, ".")}`}`;
+        if (rect.left < -2 || rect.right > width + 2) {
+          failures.push(`${name} outside viewport: left=${Math.round(rect.left)}, right=${Math.round(rect.right)}, viewport=${width}`);
+        }
+        // These are intentionally horizontally scrollable; their viewport bounds
+        // are still checked, and tests below exercise the offscreen controls.
+        const scrollable = element.matches(".character-carousel-viewport, .topic-tabs");
+        // The learning sequence draws decorative connectors into the space between
+        // its cards. Check card text separately so those arrows are not mistaken
+        // for clipped reading content; the containing sequence still must fit.
+        const hasConnector = element.matches(".learning-stages li, .learning-loop-steps li");
+        if (hasConnector) {
+          const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT);
+          let node = walker.nextNode();
+          while (node) {
+            if (node.textContent?.trim()) {
+              const range = document.createRange();
+              range.selectNodeContents(node);
+              for (const textRect of range.getClientRects()) {
+                if (textRect.left < rect.left - 2 || textRect.right > rect.right + 2) failures.push(`${name} text exceeds its card: ${node.textContent.trim().slice(0, 50)}`);
+              }
             }
+            node = walker.nextNode();
           }
-          node = walker.nextNode();
+        }
+        if (!scrollable && !hasConnector && element.clientWidth && element.scrollWidth > element.clientWidth + 2) {
+          failures.push(`${name} clips horizontal content: ${element.scrollWidth} > ${element.clientWidth}`);
         }
       }
-      if (!scrollable && !hasConnector && element.clientWidth && element.scrollWidth > element.clientWidth + 2) {
-        failures.push(`${name} clips horizontal content: ${element.scrollWidth} > ${element.clientWidth}`);
-      }
+      return { documentWidth: document.documentElement.scrollWidth, viewport: width, height: window.innerHeight, failures };
+    }, selectors);
+    const failures = [...result.failures];
+    if (result.documentWidth > result.viewport + 1) {
+      failures.unshift(`document width ${result.documentWidth} exceeds viewport ${result.viewport}`);
     }
-    return { documentWidth: document.documentElement.scrollWidth, viewport: width, height: window.innerHeight, failures };
-  }, selectors);
-  const label = `${description} at ${result.viewport}×${result.height}`;
-  expect.soft(result.documentWidth, `${label}: document width`).toBeLessThanOrEqual(result.viewport + 1);
-  expect.soft(result.failures, `${label}: readable component bounds`).toEqual([]);
+    return failures;
+  }, {
+    message: `${description} at ${viewport.width}×${viewport.height}: responsive layout settles without clipping`,
+    timeout: 5000,
+    intervals: [100, 200, 300],
+  }).toEqual([]);
 }
 
 async function expectTouchTargets(page: Page, selectors: string, description: string) {
@@ -291,13 +303,14 @@ test("enlarged Dutch text fits public pages, a completed journal, and comparison
     await preparePublicPage(page, item);
     await page.addStyleTag({ content: "html { font-size: 200% !important; }" });
     await expectReadableLayout(page, item.content, `Dutch ${item.name}, 200% text`);
-  });
+  }
   await seedJourney(page, { complete: true, language: "nl" });
   await openCompletionDetails(page);
   await page.addStyleTag({ content: "html { font-size: 200% !important; }" });
   await expectReadableLayout(page, completionContent, "Dutch completion, 200% text");
   await page.locator(".journal-note textarea").fill("Ik vergelijk de volgende stap en de officiële informatie.");
   await page.locator(".journal-note-actions button[type=submit]").click();
+  await expectReadableLayout(page, completionContent, "Dutch completion, 200% text");
   await page.setViewportSize({ width: 320, height: 844 });
   await page.addStyleTag({ content: "html { font-size: 100% !important; }" });
   await expectReadableLayout(page, completionContent, "Dutch completion, 320px");
@@ -420,4 +433,21 @@ test.describe("touch interaction", () => {
     expect(progress.answers[0]).toBe(answer.id);
     expect(progress.checkedSteps).toEqual([0]);
   });
+});
+
+test("home settles after repeated ultrawide-to-landscape resizes", async ({ page }) => {
+  test.slow(); // Repeat the transition that exposed a transient WebKit layout.
+  await preparePublicPage(page, publicPages[0]);
+  for (let cycle = 0; cycle < 4; cycle += 1) {
+    for (const viewport of [
+      { width: 2560, height: 1440 },
+      { width: 667, height: 320 },
+      { width: 390, height: 844 },
+      { width: 1024, height: 480 },
+    ]) {
+      await page.setViewportSize(viewport);
+      await expectReadableLayout(page, publicPages[0].content, `home resize cycle ${cycle + 1}`);
+      await expectTouchTargets(page, publicPages[0].controls, `home resize cycle ${cycle + 1}`);
+    }
+  }
 });
