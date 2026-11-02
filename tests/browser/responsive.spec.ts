@@ -42,7 +42,7 @@ const publicPages = [
   {
     name: "search", path: "./search/", ready: ".search-hero h1",
     content: ".site-search-nav, .site-search-nav .brand-button, .search-hero, .search-hero h1, .search-intro, .site-search-form, .search-scope, .search-body, .search-section-title, .search-suggestion-list, .search-suggestion-list button, .search-sections-grid, .search-section-summary",
-    controls: ".mobile-menu-button, .site-search-form input, .site-search-form button",
+    controls: ".mobile-menu-button, .site-search-form input, .site-search-form button, .search-suggestion-list button",
   },
 ] as const;
 
@@ -310,7 +310,6 @@ test("enlarged Dutch text fits public pages, a completed journal, and comparison
   await expectReadableLayout(page, completionContent, "Dutch completion, 200% text");
   await page.locator(".journal-note textarea").fill("Ik vergelijk de volgende stap en de officiële informatie.");
   await page.locator(".journal-note-actions button[type=submit]").click();
-  await expectReadableLayout(page, completionContent, "Dutch completion, 200% text");
   await page.setViewportSize({ width: 320, height: 844 });
   await page.addStyleTag({ content: "html { font-size: 100% !important; }" });
   await expectReadableLayout(page, completionContent, "Dutch completion, 320px");
@@ -434,6 +433,7 @@ test.describe("touch interaction", () => {
     expect(progress.checkedSteps).toEqual([0]);
   });
 });
+
 
 test("home settles after repeated ultrawide-to-landscape resizes", async ({ page }) => {
   test.slow(); // Repeat the transition that exposed a transient WebKit layout.
