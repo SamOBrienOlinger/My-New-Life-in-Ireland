@@ -98,6 +98,9 @@ test("ships complete selectable dictionaries for every supported language", asyn
     additionalTranslatedTitles,
     additionalOfficialSourceDescriptions,
   } = await vite.ssrLoadModule("/app/additional-page-copy.ts");
+  const { isPackedLanguage, packedLanguageCopy } = await vite.ssrLoadModule("/app/language-packs/index.ts");
+  const packedStages = packedLanguageCopy("stageLabels");
+  const stageKeys = ["Plan", "Prepare", "Travel", "Arrive", "Build a life"];
 
   const expected = ["zh", "fr", "pt", "es", "nl", "fa", "xh", "ln", "yo", "sw", "tr", "ps"];
   assert.deepEqual(additionalLanguageOptions.map(({ value }) => value), expected);
@@ -108,8 +111,18 @@ test("ships complete selectable dictionaries for every supported language", asyn
     assert.equal(Object.keys(additionalRouteText[language]).length, 8);
     assert.equal(Object.keys(additionalFilterText[language]).length, 6);
     assert.equal(Object.keys(additionalCharacterText[language]).length, 12);
-    assert.equal(Object.keys(additionalStageText[language]).length, 5);
-    assert.ok(additionalJourneyText[language].plainLaw);
+    if (isPackedLanguage(language)) {
+      // New packs use stageLabels plus route-specific journey catalogs, not
+      // the legacy generic StageText/JourneyText dictionaries. The full
+      // journey-translations suite checks every scene, rule and answer.
+      assert.deepEqual(Object.keys(packedStages[language]), stageKeys, language);
+      for (const label of Object.values(packedStages[language])) {
+        assert.ok(typeof label === "string" && label.trim(), `${language}: empty stage label`);
+      }
+    } else {
+      assert.deepEqual(Object.keys(additionalStageText[language]), stageKeys, language);
+      assert.ok(additionalJourneyText[language].plainLaw);
+    }
     assert.ok(additionalAboutCopy[language].intro);
     assert.equal(additionalResourceCopy[language].questions.length, 5);
     assert.equal(Object.keys(additionalTopicCopy[language]).length, 9);
