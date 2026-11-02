@@ -21,6 +21,7 @@ import { searchText } from "../search/search-copy";
 import { practicalResources } from "../journey-learning";
 import { SourceDetails } from "../source-details";
 import { movingGuideDefinitions, movingGuideResources } from "../moving-guide";
+import { ImmigrationQuestionsPanel } from "./immigration-questions-panel";
 
 type Topic = "all" | "arrival" | "immigration" | "protection" | "work" | "study" | "daily-life" | "family" | "rights";
 
@@ -172,6 +173,7 @@ export default function ResourcesPage() {
         <label className="resource-search"><Search size={18} aria-hidden="true" /><span className="sr-only">{r.search}</span><input type="search" value={query} onChange={(event) => setQuery(event.target.value)} placeholder={r.placeholder} /></label>
       </div>
       <div className="topic-tabs" role="group" aria-label={r.browse}>{topics.map((item) => <button type="button" aria-pressed={topic === item.id} className={topic === item.id ? "active" : ""} onClick={() => setTopic(item.id)} key={item.id}>{topicLabels[item.id]}</button>)}</div>
+      <ImmigrationQuestionsPanel topic={topic} query={query} language={language} />
       <p className="result-count" aria-live="polite">{r.showing} {resultCount} {resultCount === 1 ? r.resource : r.resources}</p>
       {resultCount ? <div className="resource-grid">{filtered.map((item) => { const Icon = item.icon; const index=resources.findIndex((entry)=>entry.href===item.href); const title=language === "en" ? item.title : translatedTitles[language][index]; return <article className="resource-card" key={item.href}><div className="resource-icon"><Icon size={22} aria-hidden="true" /></div><span className="resource-topic">{topicLabels[item.topic]}</span><h3>{title}</h3><p>{resourceDescription(item.title, item.description, language)}</p><SourceDetails href={item.href} language={language} publisher={item.organisation} /><a href={item.href} target="_blank" rel="noreferrer">{r.open}<span className="sr-only">: {title}</span> <ExternalLink size={15} aria-hidden="true" /></a></article>; })}{extraResources.map((item) => { const Icon = topicIcons[item.topic]; return <article className="resource-card" key={item.href}><div className="resource-icon"><Icon size={22} aria-hidden="true" /></div><span className="resource-topic">{topicLabels[item.topic]}</span><h3>{item.title}</h3><p>{item.description}</p><SourceDetails href={item.href} language={language} publisher={item.organisation} /><a href={item.href} target="_blank" rel="noreferrer">{r.open}<span className="sr-only">: {item.title}</span> <ExternalLink size={15} aria-hidden="true" /></a></article>; })}</div>
         : <div className="resource-empty"><Search size={28} aria-hidden="true" /><h3>{r.none}</h3><p>{r.retry}</p><button type="button" className="quiet-button" onClick={() => { setQuery(""); setTopic("all"); }}>{r.clear}</button></div>}
