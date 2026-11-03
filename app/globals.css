@@ -804,6 +804,7 @@ label:has([role="radio"]:focus-visible),
 .hero-content-expanded { padding-top: 28px; }
 .hero-heading { margin: 14px 0 24px; }
 .hero-content .hero-heading h1 {
+  color: var(--maroon);
   max-width: 660px;
   margin: 0 auto 0 0;
   font-size: clamp(3rem, 5vw, 4.5rem);
