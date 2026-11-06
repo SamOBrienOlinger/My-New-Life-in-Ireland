@@ -34,6 +34,7 @@
   <a href="#meet-the-characters">Characters</a> ·
   <a href="#languages">🌐 Languages</a> ·
   <a href="#save-and-return">Save &amp; return</a> ·
+  <a href="#entity-relationship-diagram">Data model</a> ·
   <a href="#learning-methodology-and-outcomes">Learning &amp; outcomes</a> ·
   <a href="#evidence-and-educational-approach">Evidence</a> ·
   <a href="#getting-started">Developers</a>
@@ -180,6 +181,49 @@ The interface includes keyboard controls, visible focus, stage-heading focus and
 Progress stays in that browser and does not automatically synchronise across devices. Clearing the site's browser data removes its local saves. If saving is unavailable, the page explains the limitation and remains usable while it stays open.
 
 ---
+
+## Entity relationship diagram
+
+Characters follow one of eight shared routes. Each route has five ordered steps, and each step offers choices with feedback and an official source link. A browser can hold one saved journey and one journal entry per character. The journal stores checked answers and a reflection with a content version, so the app can flag older entries for review. [Story definitions](app/journey-data.ts) · [Saved journeys](app/journey-progress.ts) · [Journal entries](app/journey-journal.ts)
+
+```mermaid
+erDiagram
+    accTitle: Journeys to Ireland story content and saved learning
+    accDescr: Characters follow shared routes with ordered steps and choices. Each character can have a saved journey and a journal entry in a browser.
+    Route ||..|{ Character : guides
+    Route ||--|{ Step : contains
+    Step ||--|{ Choice : offers
+    Character ||..o| "Saved Journey" : has
+    Character ||..o| "Journal Entry" : has
+
+    Route {
+        string routeKey
+    }
+    Character {
+        string id
+        string name
+    }
+    Step {
+        string stage
+        string question
+        url sourceUrl
+    }
+    Choice {
+        string id
+        string label
+        string consequence
+    }
+    "Saved Journey" {
+        number stepIndex
+        map answers
+        list checkedSteps
+    }
+    "Journal Entry" {
+        string contentVersion
+        string note
+        number completedAt
+    }
+```
 
 ## Learning methodology and outcomes
 
