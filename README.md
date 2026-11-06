@@ -186,44 +186,7 @@ Progress stays in that browser and does not automatically synchronise across dev
 
 Characters follow one of eight shared routes. Each route has five ordered steps, and each step offers choices with feedback and an official source link. A browser can hold one saved journey and one journal entry per character. The journal stores checked answers and a reflection with a content version, so the app can flag older entries for review. [Story definitions](app/journey-data.ts) · [Saved journeys](app/journey-progress.ts) · [Journal entries](app/journey-journal.ts)
 
-```mermaid
-erDiagram
-    accTitle: Journeys to Ireland story content and saved learning
-    accDescr: Characters follow shared routes with ordered steps and choices. Each character can have a saved journey and a journal entry in a browser.
-    Route ||..|{ Character : guides
-    Route ||--|{ Step : contains
-    Step ||--|{ Choice : offers
-    Character ||..o| "Saved Journey" : has
-    Character ||..o| "Journal Entry" : has
-
-    Route {
-        string routeKey
-    }
-    Character {
-        string id
-        string name
-    }
-    Step {
-        string stage
-        string question
-        url sourceUrl
-    }
-    Choice {
-        string id
-        string label
-        string consequence
-    }
-    "Saved Journey" {
-        number stepIndex
-        map answers
-        list checkedSteps
-    }
-    "Journal Entry" {
-        string contentVersion
-        string note
-        number completedAt
-    }
-```
+[![Characters follow shared routes with ordered steps and choices. Each character can have a saved journey and a journal entry in a browser.](docs/diagrams/journeys-to-ireland-story-content-and-saved-learning.svg)](docs/diagrams/journeys-to-ireland-story-content-and-saved-learning.svg)
 
 ## Learning methodology and outcomes
 
