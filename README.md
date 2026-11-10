@@ -507,23 +507,15 @@ Design decisions, original feature notes, historical testing evidence and detail
 
 </details>
 
-Copyright © 2026 Sam O'Brien-Olinger. All rights reserved.
+## Copyright & reuse
 
-Journeys to Ireland™ and its original source code, written content,
-characters, fictional narratives, decision pathways, educational materials,
-artwork, visual identity and interface designs are the intellectual property of
-Sam O'Brien-Olinger, except where third-party material is separately identified.
+Copyright © 2026 Sam O’Brien-Olinger. All rights reserved for original Journeys to Ireland™ materials, including the source code, written content, fictional characters and narratives, decision pathways, educational materials, artwork, visual identity and interface designs.
 
-This repository is publicly accessible for viewing and portfolio demonstration
-purposes only. Public availability does not make the project open source and
-does not grant permission to reuse it.
+You may use the [live website](https://samobrienolinger.github.io/My-New-Life-in-Ireland/) as intended. [GitHub’s Terms of Service](https://docs.github.com/en/site-policy/github-terms/github-terms-of-service#5-license-grant-to-other-users) govern viewing and forking this public repository through GitHub.
 
-No permission is granted to copy, reproduce, modify, adapt, translate, publish,
-distribute, sublicense, sell, commercially exploit, deploy, host, publicly
-display or create derivative works from this project, in whole or in part,
-without the copyright owner's prior written permission.
+For other copying, adaptation, redistribution, rehosting or commercial reuse of original project materials, obtain prior written permission from the relevant rights holder unless an applicable licence or law permits it. Third-party materials are governed by their own licences and terms.
 
-See [LICENSE.md](LICENSE.md) for the complete terms.
+See [LICENSE.md](LICENSE.md) for the project’s proprietary terms.
 
 ---
 
