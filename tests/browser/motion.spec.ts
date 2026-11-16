@@ -89,7 +89,7 @@ test("normal motion preserves narrow RTL keyboard choices, stage focus and saved
   } finally {
     await page.keyboard.up("ArrowLeft");
   }
-  expect(await choices.nth(1).evaluate((node) => getComputedStyle(node.closest("label")!).outlineStyle)).toBe("solid");
+  expect(await choices.nth(1).evaluate((node) => getComputedStyle(node).outlineStyle)).toBe("solid");
   // Moving to a control cancels decorative copy motion, so reading and
   // keyboard interaction do not compete with an unfinished entrance.
   await expectReadableWithoutAnimation(page, "[data-stage-copy]");
@@ -98,6 +98,8 @@ test("normal motion preserves narrow RTL keyboard choices, stage focus and saved
 
   await nextAction(page).press("Enter");
   await expect(page.locator(".feedback-status")).toContainText(selectedFeedback);
+  await expect(page.locator(".feedback-card")).toBeFocused();
+  await page.keyboard.press("Tab");
   await expect(nextAction(page)).toBeFocused();
   await page.keyboard.press("Enter");
   await expectStageFocus(page, arabic["critical:Prepare"].title);

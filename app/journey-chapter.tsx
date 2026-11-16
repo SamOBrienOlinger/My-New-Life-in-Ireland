@@ -10,7 +10,7 @@ const chapterPositions = ["50% 57%", "50% 57%", "50% 48%", "50% 55%", "50% 45%"]
 export function ChapterBanner({ index, stage, language }: { index: number; stage: string; language: Language }) {
   const copy = engagementCopy(language);
   return <figure className="chapter-banner" aria-hidden="true">
-    <img src={`images/chapters/${chapterImages[index]}.webp`} width={1200} height={800} alt="" decoding="async" style={{ objectPosition: chapterPositions[index] }} />
+    <img src={`images/chapters/${chapterImages[index]}.webp`} width={1200} height={800} alt="" loading="lazy" decoding="async" style={{ objectPosition: chapterPositions[index] }} />
     <figcaption><BookOpen size={15} /><span>{copy.chapter} {index + 1}</span><span className="chapter-banner-divider" />{stage}</figcaption>
   </figure>;
 }
@@ -51,22 +51,23 @@ function PersonDetails({ character, language }: { character: Character; language
   </div>;
 }
 
-export function JourneyCharacter(props: JourneyCharacterProps) {
-  const { character, language } = props;
-  const copy = engagementCopy(language);
+export function JourneyCharacter({ character, language }: Pick<JourneyCharacterProps, "character" | "language">) {
   return <aside className="story-character" aria-label={ui[language].selected}>
     <div className="story-person-heading">
       <CharacterPortrait character={character} eager />
       <div><p className="mini-label">{ui[language].walking}</p><h1>{character.name}</h1><p>{character.pronouns}</p></div>
     </div>
-    <div className="story-character-desktop">
+  </aside>;
+}
+
+export function JourneyContext(props: JourneyCharacterProps) {
+  const { character, language } = props;
+  const copy = engagementCopy(language);
+  return <details className="story-context detail-card" key={character.id}>
+    <summary><Compass size={19} aria-hidden="true" /><span>{copy.about.replace("{name}", character.name.split(" ")[0])} · {ui[language].stages}</span><ChevronDown size={18} aria-hidden="true" /></summary>
+    <div className="detail-body">
       <PersonDetails character={character} language={language} />
       <ChapterTrail {...props} />
     </div>
-    <details className="story-context" key={character.id}>
-      <summary><span>{copy.about.replace("{name}", character.name.split(" ")[0])}<small>{ui[language].stages}</small></span><ChevronDown size={18} aria-hidden="true" /></summary>
-      <PersonDetails character={character} language={language} />
-      <ChapterTrail {...props} />
-    </details>
-  </aside>;
+  </details>;
 }

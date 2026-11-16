@@ -14,9 +14,12 @@ import { factEntries, evidenceSources, editorialCheckDate, type FactTopic } from
 import { localFact } from "./translations";
 import { factUi, factNavLabel } from "./locales";
 import { searchText } from "../search/search-copy";
+import { browseJourneysHref, informationHubHref } from "../journey-browse";
+import { usePageTopic } from "../use-page-topic";
 import "./facts.css";
 
 const topics: Array<"all" | FactTopic> = ["all", "protection", "welfare", "housing", "work", "community"];
+const availableTopic = (value: string | null) => topics.find((item) => item === value) ?? "all";
 const toolkitLinks = [
   { url: "https://inar.ie/resources/", name: "INAR", description: "Anti-racism resources", icon: Users },
   { url: "https://www.mrci.ie/tied-to-exploitation-experience-of-migrant-workers-in-ireland/", name: "MRCI", description: "Migrant worker rights", icon: ShieldCheck },
@@ -38,8 +41,9 @@ export default function FactOrFictionPage() {
   const { language, setLanguage, dir } = useLanguage();
   const shared = ui[language];
   const t = factUi[language];
-  const [topic, setTopic] = useState<"all" | FactTopic>("all");
+  const [topic, setTopic] = usePageTopic(availableTopic);
   const [search, setSearch] = useState("");
+  const journeyHref = browseJourneysHref(topic, "../");
 
   useEffect(() => {
     const frame = window.requestAnimationFrame(revealHashClaim);
@@ -68,15 +72,15 @@ export default function FactOrFictionPage() {
         <span>{shared.siteName}</span>
       </a>
       <div className="nav-links">
-        <a className="nav-link" href="../">{shared.journeys}</a>
-        <a className="nav-link" href="../resources/">{shared.hub}</a>
+        <a className="nav-link" href={journeyHref}>{shared.journeys}</a>
+        <a className="nav-link" href={informationHubHref(topic, "../")}>{shared.hub}</a>
         <a className="nav-link" href="../about/">{shared.about}</a>
         <a className="nav-link site-search-link" href="../search/"><Search size={17} aria-hidden="true" />{searchText[language].nav}</a>
         <a className="nav-link facts-current" href="./" aria-current="page">{factNavLabel(language)}</a>
       </div>
       <LanguageControl language={language} setLanguage={setLanguage} label={shared.language} />
       <MobileNavigation
-        links={primarySiteLinks(language, "../", "facts")}
+        links={primarySiteLinks(language, "../", "facts", topic)}
         language={language} setLanguage={setLanguage} languageLabel={shared.language}
         menuLabel={shared.menu} closeLabel={shared.closeMenu}
       />
@@ -84,7 +88,7 @@ export default function FactOrFictionPage() {
 
     <header className="facts-hero">
       <div className="facts-hero-inner">
-        <a className="facts-back" href="../"><ArrowLeft size={17} aria-hidden="true" /> {t.back}</a>
+        <a className="facts-back" href={journeyHref}><ArrowLeft size={17} aria-hidden="true" /> {t.back}</a>
         <div className="facts-hero-intro">
           <p className="eyebrow"><Sparkles size={15} aria-hidden="true" />{t.eyebrow}</p>
           <h1>{t.title}</h1>
@@ -212,7 +216,7 @@ export default function FactOrFictionPage() {
     </section>
     <footer className="site-footer"><div className="site-footer-content">
       <FooterTagline siteName={shared.siteName} text={shared.tagline} />
-      <FooterNavigation language={language} rootPrefix="../" currentPage="facts" />
+      <FooterNavigation language={language} rootPrefix="../" currentPage="facts" topic={topic} />
       <p><a href="https://samobrienolinger.github.io/SamOBrienOlinger/" target="_blank" rel="noopener noreferrer">Sam Tim Solutions</a></p>
       <p className="site-footer-copyright">{shared.copyright}</p>
     </div></footer>

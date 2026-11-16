@@ -38,7 +38,7 @@ test("hub visits and reloads retain answers, checked feedback, answer order and 
   await page.locator(".journey-topbar").getByRole("link", { name: "Information hub", exact: true }).click();
   await expect(page).toHaveURL(/\/resources\/$/);
   await page.getByRole("link", { name: "Back to the journeys", exact: true }).click();
-  await page.locator(".resume-banner").getByRole("button", { name: "Continue with Kwame", exact: true }).click();
+  await page.locator(".resume-banner").getByRole("button", { name: "Resume journey", exact: true }).click();
   await expectStageFocus(page, stepsByRoute.critical[1].title);
   await expect(radio(page, 1, "agent")).toHaveAttribute("aria-checked", "true");
   expect(await choiceOrder(page)).toEqual(order);
@@ -199,7 +199,8 @@ for (const width of [320, 390]) {
       await answers.first().focus();
       await page.keyboard.press("ArrowLeft");
       await expect(answers.nth(1)).toBeFocused();
-      expect(await page.locator(".choice-card").first().evaluate((node) => getComputedStyle(node).gridTemplateColumns.split(" ").length)).toBe(2);
+      await expect(answers.nth(1)).toHaveClass(/choice-card/);
+      await expect.poll(() => answers.nth(1).evaluate((node) => getComputedStyle(node).outlineStyle)).toBe("solid");
       expect(await page.locator(".choice-text").evaluateAll((nodes) => Math.min(...nodes.map((node) => node.getBoundingClientRect().width)))).toBeGreaterThan(100);
       expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width);
       await page.screenshot({ path: testInfo.outputPath(`${language}-${width}.png`), fullPage: true });

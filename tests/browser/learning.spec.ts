@@ -44,7 +44,7 @@ async function finishJourney(
     await expect(page.locator(".journey-insight")).toHaveCount(0);
     await radio(page, index, answers[index]).click();
     await nextAction(page).click();
-    await expect(page.locator(".journey-insight").getByRole("heading", { name: en.misunderstanding, exact: true })).toBeVisible();
+    await expect(page.locator(".journey-insight > summary")).toHaveText(en.misunderstanding);
     if (afterCheck) await afterCheck(index);
     await nextAction(page).click();
   }
@@ -98,7 +98,8 @@ test("revisiting restores choice, focus and order and requires a changed answer 
 
   const corrected = steps[1].choices.find((choice) => choice.correct)!;
   await radio(page, 1, corrected.id).click();
-  await expect(returnToRecap).toBeDisabled();
+  await expect(returnToRecap).toHaveCount(0);
+  await expect(page.locator(".decision-actions .primary-button")).toHaveText("Check decision");
   await expect(page.locator(".feedback-status")).toBeEmpty();
   await expect(page.locator(".journey-insight")).toHaveCount(0);
   await page.getByRole("button", { name: "Check decision", exact: true }).click();
@@ -118,6 +119,7 @@ test("revisiting restores choice, focus and order and requires a changed answer 
 test("Priya keeps professional and tax guidance while moving guides join the translated hub search", async ({ page }) => {
   await finishJourney(page, "priya", [], async (index) => {
     const cards = page.locator(".stage-practical-resources");
+    if (index === 0 || index === 3) await page.locator(".journey-insight > summary").press("Enter");
     if (index === 0) {
       await expect(cards.getByRole("heading", { name: en.professionalTitle, exact: true })).toBeVisible();
       await expect(cards.locator(`a[href="${practicalResourceUrls.nursing}"]`)).toBeVisible();
@@ -248,7 +250,8 @@ test("narrow RTL recaps and insights wrap and keep keyboard focus across languag
     await expectStageFocus(page, catalog["critical:Prepare"].title);
     await expect(radio(page, 1, answers[1])).toHaveAttribute("aria-checked", "true");
     expect(await choiceOrder(page)).toEqual(order[1]);
-    await expect(page.locator(".journey-insight")).toContainText(copy.insights.permissions.explanation);
+    await page.locator(".journey-insight > summary").press("Enter");
+    await expect(page.locator(".journey-insight .detail-body")).toContainText(copy.insights.permissions.explanation);
     await expectReadableWidth(page, width, ".journey-insight, .insight-source-link, .source-details, .recap-return");
     await page.getByRole("button", { name: copy.returnToRecap, exact: true }).click();
     await expect(page.locator("#completion-title")).toBeFocused();

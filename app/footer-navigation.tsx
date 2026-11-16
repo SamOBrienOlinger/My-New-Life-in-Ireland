@@ -7,6 +7,7 @@ import { ArrowUp } from "lucide-react";
 import { ui, type Language } from "./i18n";
 import { factNavLabel } from "./fact-or-fiction/locales";
 import { searchText } from "./search/search-copy";
+import { browseJourneysHref, factsHref, informationHubHref } from "./journey-browse";
 
 export type SitePage = "home" | "journeys" | "about" | "resources" | "facts" | "search";
 type NavItem = { id: SitePage | "official"; href: string; label: string };
@@ -30,16 +31,16 @@ const footerCopy: Record<Language, { navigation: string; backToTop: string }> = 
  * relative to the existing GitHub Pages base directory on every route.
  * The active story is not exited by Back to top (the button only scrolls).
  */
-export function primarySiteLinks(language: Language, rootPrefix: string, currentPage: SitePage): NavItem[] {
+export function primarySiteLinks(language: Language, rootPrefix: string, currentPage: SitePage, topic: string | null = null): NavItem[] {
   const t = ui[language];
   const root = rootPrefix || "./";
   const onHome = currentPage === "home";
   return [
     { id: "home", href: onHome ? "#top" : root, label: t.home },
-    { id: "journeys", href: onHome ? "#route-finder" : root + "#route-finder", label: t.journeys },
+    { id: "journeys", href: onHome ? "#choose-character" : browseJourneysHref(topic, root), label: t.journeys },
     { id: "about", href: rootPrefix + "about/", label: t.about },
-    { id: "resources", href: rootPrefix + "resources/", label: t.hub },
-    { id: "facts", href: rootPrefix + "fact-or-fiction/", label: factNavLabel(language) },
+    { id: "resources", href: informationHubHref(topic, rootPrefix), label: t.hub },
+    { id: "facts", href: factsHref(topic, rootPrefix), label: factNavLabel(language) },
     { id: "search", href: rootPrefix + "search/", label: searchText[language].nav },
     { id: "official", href: onHome ? "#official-guidance" : root + "#official-guidance", label: t.official },
   ];
@@ -61,13 +62,15 @@ export function FooterNavigation({
   language,
   rootPrefix,
   currentPage,
+  topic = null,
 }: {
   language: Language;
   rootPrefix: string;
   currentPage: SitePage;
+  topic?: string | null;
 }) {
   const labels = footerCopy[language];
-  const links = primarySiteLinks(language, rootPrefix, currentPage);
+  const links = primarySiteLinks(language, rootPrefix, currentPage, topic);
   const footerTopButtonRef = useRef<HTMLButtonElement>(null);
   const [showFloating, setShowFloating] = useState(false);
 

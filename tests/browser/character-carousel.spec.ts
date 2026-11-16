@@ -62,14 +62,14 @@ test("route filters reset the carousel bounds and a single result needs no scrol
   await page.setViewportSize({ width: 1440, height: 1000 });
   await page.goto("./#character-leila");
   await expectVisibleCards(page, ["adama", "elena", "leila"]);
-  await page.getByRole("button", { name: /^I want to study/ }).click();
+  await page.locator("#route-finder").getByRole("button", { name: /^I want to study/ }).click();
   await expect(page.locator(".character-card")).toHaveCount(1);
   await expectVisibleCards(page, ["noor"]);
   await expect(previous(page)).toBeDisabled();
   await expect(next(page)).toBeDisabled();
   await expect(page.locator('.character-grid [aria-checked="true"]')).toHaveCount(0);
 
-  await page.getByRole("button", { name: /^Show everyone/ }).click();
+  await page.locator("#route-finder").getByRole("button", { name: /^All journeys/ }).click();
   await expect(page.locator(".character-card")).toHaveCount(12);
   await expect(previous(page)).toBeDisabled();
   await expect(next(page)).toBeEnabled();
@@ -86,7 +86,8 @@ test("a mobile deep link reveals the last character and its saved journey remain
   await page.getByRole("button", { name: "Change character", exact: true }).click();
   await expectVisibleCards(page, ["kwame"]);
   await expect(page.locator('.character-grid [aria-checked="true"]')).toHaveCount(0);
-  await expect(page.locator(".resume-banner")).toContainText("Continue with Leila");
+  await expect(page.locator(".resume-banner")).toContainText("Leila Rahman");
+  await expect(page.locator(".resume-banner").getByRole("button", { name: "Resume journey", exact: true })).toBeVisible();
   await page.getByRole("link", { name: "Walk with Leila", exact: true }).click();
   await expect(page.locator("#decision-title")).toHaveText(stepsByRoute["family-safety"][0].title);
   await expect(page.locator("#decision-title")).toBeFocused();

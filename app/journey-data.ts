@@ -1,5 +1,7 @@
+import type { RouteFilter } from "./journey-browse.ts";
+
+export { routeFilters, type RouteFilter } from "./journey-browse.ts";
 export type RouteKey = "critical" | "general" | "protection" | "study" | "family" | "protection-access" | "eu-mobility" | "family-safety";
-export type RouteFilter = "all" | "work" | "study" | "family" | "protection" | "eu";
 
 export type Character = {
   id: string;
@@ -754,12 +756,3 @@ export const routeMeta = {
   "eu-mobility": { label: "EU free movement", short: "EU mobility", family: "eu" as const },
   "family-safety": { label: "Independent permission after domestic abuse", short: "Family + safety", family: "family" as const },
 };
-
-export const routeFilters: { id: RouteFilter; label: string; description: string }[] = [
-  { id: "all", label: "Show everyone", description: "Compare all twelve fictional journeys." },
-  { id: "work", label: "I want to work", description: "Employment-permit journeys." },
-  { id: "study", label: "I want to study", description: "Course, visa, finance and Stamp 2 decisions." },
-  { id: "family", label: "I want to join family", description: "Sponsor, relationship and permission decisions." },
-  { id: "protection", label: "I need safety", description: "International-protection and reception decisions." },
-  { id: "eu", label: "I am an EU citizen", description: "Free-movement, work and equality decisions." },
-];

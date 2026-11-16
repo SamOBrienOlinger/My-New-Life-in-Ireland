@@ -84,7 +84,7 @@ test("removing a journal requires a clear action and preserves another unfinishe
   expect(stored.progress.journeys.elena.checkedSteps).toEqual([0]);
   await page.reload();
   await expect(page.locator(".journal-library-item")).toHaveCount(0);
-  await page.locator(".resume-banner").getByRole("button", { name: "Continue with Elena", exact: true }).click();
+  await page.locator(".resume-banner").getByRole("button", { name: "Resume journey", exact: true }).click();
   await expect(page.locator(`[id="0-${answer.id}"]`)).toHaveAttribute("aria-checked", "true");
 });
 
@@ -166,10 +166,7 @@ test("an older story keeps its reflection and date without reconstructing obsole
   await entry.getByRole("button", { name: "Walk with Kwame", exact: true }).click();
   for (const [index, step] of stepsByRoute.critical.entries()) {
     await expect(page.locator("#decision-title")).toHaveText(step.title);
-    // The whole answer card is the accessible pointer target; Safari can stall
-    // when clicking the nested 16px radio icon as the page scrolls.
-    const correctRadio = page.locator(`[id="${index}-${step.choices.find((choice) => choice.correct)!.id}"]`);
-    await page.locator(".choice-card").filter({ has: correctRadio }).click();
+    await page.locator(`[id="${index}-${step.choices.find((choice) => choice.correct)!.id}"]`).click();
     await page.getByRole("button", { name: "Check decision", exact: true }).click();
     await page.locator(".decision-actions .primary-button").click();
   }

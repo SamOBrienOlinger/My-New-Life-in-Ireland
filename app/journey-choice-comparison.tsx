@@ -13,7 +13,7 @@ export function JourneyChoiceComparison({ step, choice, language }: { step: Step
   const id = useId();
   const [alternativeId, setAlternativeId] = useState("");
   const alternative = step.choices.find((option) => option.id === alternativeId && option.id !== choice.id);
-  return <details className="choice-comparison">
+  return <details className="choice-comparison detail-card">
     <summary><ArrowLeftRight size={19} aria-hidden="true" /><span>{copy.compareChoices}</span><ChevronDown size={17} aria-hidden="true" /></summary>
     <div className="choice-comparison-content">
       <p>{copy.compareIntro}</p>

@@ -16,6 +16,8 @@ import { resourceDescription } from "../journey-translations";
 import { learningCopy } from "../learning-copy";
 import { FooterTagline } from "../footer-tagline";
 import { FooterNavigation, primarySiteLinks } from "../footer-navigation";
+import { browseJourneysHref, factsHref } from "../journey-browse";
+import { usePageTopic } from "../use-page-topic";
 import { factNavLabel } from "../fact-or-fiction/locales";
 import { searchText } from "../search/search-copy";
 import { practicalResources } from "../journey-learning";
@@ -101,8 +103,8 @@ const topicCopy: Record<Language, Record<Topic, string>> = {
   ...additionalTopicCopy,
 };
 
-function isTopic(value: string | null): value is Topic {
-  return topics.some((item) => item.id === value);
+function availableTopic(value: string | null): Topic {
+  return topics.find((item) => item.id === value)?.id ?? "all";
 }
 
 export const translatedTitles: Record<Exclude<Language,"en">, string[]> = {
@@ -119,18 +121,26 @@ export default function ResourcesPage() {
   const topicLabels = useMemo(() => ({
     ...topicCopy[language], arrival: learning.movingGuide.arrivalTopic,
   }), [language, learning]);
-  const [topic, setTopic] = useState<Topic>("all");
+  const [topic, setTopic] = usePageTopic(availableTopic);
   const [query, setQuery] = useState("");
   useEffect(() => {
-    const frame = window.requestAnimationFrame(() => {
-      const params = new URLSearchParams(window.location.search);
-      const requestedTopic = params.get("topic");
-      const requestedQuery = params.get("q");
-      if (isTopic(requestedTopic)) setTopic(requestedTopic);
-      if (requestedQuery) setQuery(requestedQuery);
-    });
-    return () => window.cancelAnimationFrame(frame);
+    const restoreQuery = () => setQuery(new URLSearchParams(window.location.search).get("q") ?? "");
+    const frame = window.requestAnimationFrame(restoreQuery);
+    window.addEventListener("popstate", restoreQuery);
+    return () => {
+      window.cancelAnimationFrame(frame);
+      window.removeEventListener("popstate", restoreQuery);
+    };
   }, []);
+  const journeyHref = browseJourneysHref(topic, "../");
+
+  function changeQuery(next: string) {
+    setQuery(next);
+    const url = new URL(window.location.href);
+    if (next.trim()) url.searchParams.set("q", next.trim());
+    else url.searchParams.delete("q");
+    window.history.replaceState(window.history.state, "", url);
+  }
   const filtered = useMemo(() => {
     const term = query.trim().toLocaleLowerCase(language);
     return resources.filter((item, index) => {
@@ -150,11 +160,11 @@ export default function ResourcesPage() {
   return <main className="resources-page" lang={language} dir={dir}>
     <nav className="home-nav resources-nav" aria-label={`${t.siteName}: ${t.menu}`}>
       <a className="brand-button" href="../" aria-label={`${t.siteName}: ${t.home}`}><img className="brand-mark" src="../images/harp-heart-logo.png" alt="" aria-hidden="true" /><span>{t.siteName}</span></a>
-      <div className="nav-links"><a className="nav-link" href="../">{t.journeys}</a><a className="nav-link" href="../about/">{t.about}</a><a className="nav-link" href="../fact-or-fiction/">{factNavLabel(language)}</a><a className="nav-link site-search-link" href="../search/"><Search size={17} aria-hidden="true" />{searchText[language].nav}</a></div><LanguageControl language={language} setLanguage={setLanguage} label={t.language} /><MobileNavigation links={primarySiteLinks(language, "../", "resources")} language={language} setLanguage={setLanguage} languageLabel={t.language} menuLabel={t.menu} closeLabel={t.closeMenu} />
+      <div className="nav-links"><a className="nav-link" href={journeyHref}>{t.journeys}</a><a className="nav-link" href="../about/">{t.about}</a><a className="nav-link" href={factsHref(topic, "../")}>{factNavLabel(language)}</a><a className="nav-link site-search-link" href="../search/"><Search size={17} aria-hidden="true" />{searchText[language].nav}</a></div><LanguageControl language={language} setLanguage={setLanguage} label={t.language} /><MobileNavigation links={primarySiteLinks(language, "../", "resources", topic)} language={language} setLanguage={setLanguage} languageLabel={t.language} menuLabel={t.menu} closeLabel={t.closeMenu} />
     </nav>
 
     <header className="resources-hero">
-      <a className="back-link" href="../"><ArrowLeft size={16} aria-hidden="true" />{r.back}</a>
+      <a className="back-link" href={journeyHref}><ArrowLeft size={16} aria-hidden="true" />{r.back}</a>
       <p className="eyebrow">{r.eyebrow}</p><h1>{r.title}</h1><p>{r.intro}</p>
       <div className="hub-caution"><ShieldCheck size={21} aria-hidden="true" /><span><strong>{r.cautionTitle}</strong> {r.caution}</span></div>
       <p className="source-date-note">{learning.sourceDateMeaning} <a href="../about/#source-method">{learning.sourceMethodLink}</a></p>
@@ -170,18 +180,18 @@ export default function ResourcesPage() {
       </section>
       <div className="resource-controls">
         <div><p className="eyebrow">{r.browse}</p><h2 id="resource-browser-title">{r.trusted}</h2></div>
-        <label className="resource-search"><Search size={18} aria-hidden="true" /><span className="sr-only">{r.search}</span><input type="search" value={query} onChange={(event) => setQuery(event.target.value)} placeholder={r.placeholder} /></label>
+        <label className="resource-search"><Search size={18} aria-hidden="true" /><span className="sr-only">{r.search}</span><input type="search" value={query} onChange={(event) => changeQuery(event.target.value)} placeholder={r.placeholder} /></label>
       </div>
       <div className="topic-tabs" role="group" aria-label={r.browse}>{topics.map((item) => <button type="button" aria-pressed={topic === item.id} className={topic === item.id ? "active" : ""} onClick={() => setTopic(item.id)} key={item.id}>{topicLabels[item.id]}</button>)}</div>
       <ImmigrationQuestionsPanel topic={topic} query={query} language={language} />
       <p className="result-count" aria-live="polite">{r.showing} {resultCount} {resultCount === 1 ? r.resource : r.resources}</p>
       {resultCount ? <div className="resource-grid">{filtered.map((item) => { const Icon = item.icon; const index=resources.findIndex((entry)=>entry.href===item.href); const title=language === "en" ? item.title : translatedTitles[language][index]; return <article className="resource-card" key={item.href}><div className="resource-icon"><Icon size={22} aria-hidden="true" /></div><span className="resource-topic">{topicLabels[item.topic]}</span><h3>{title}</h3><p>{resourceDescription(item.title, item.description, language)}</p><SourceDetails href={item.href} language={language} publisher={item.organisation} /><a href={item.href} target="_blank" rel="noreferrer">{r.open}<span className="sr-only">: {title}</span> <ExternalLink size={15} aria-hidden="true" /></a></article>; })}{extraResources.map((item) => { const Icon = topicIcons[item.topic]; return <article className="resource-card" key={item.href}><div className="resource-icon"><Icon size={22} aria-hidden="true" /></div><span className="resource-topic">{topicLabels[item.topic]}</span><h3>{item.title}</h3><p>{item.description}</p><SourceDetails href={item.href} language={language} publisher={item.organisation} /><a href={item.href} target="_blank" rel="noreferrer">{r.open}<span className="sr-only">: {item.title}</span> <ExternalLink size={15} aria-hidden="true" /></a></article>; })}</div>
-        : <div className="resource-empty"><Search size={28} aria-hidden="true" /><h3>{r.none}</h3><p>{r.retry}</p><button type="button" className="quiet-button" onClick={() => { setQuery(""); setTopic("all"); }}>{r.clear}</button></div>}
+        : <div className="resource-empty"><Search size={28} aria-hidden="true" /><h3>{r.none}</h3><p>{r.retry}</p><button type="button" className="quiet-button" onClick={() => { changeQuery(""); setTopic("all"); document.querySelector<HTMLInputElement>(".resource-search input")?.focus(); }}>{r.clear}</button></div>}
     </section>
 
     <section className="first-week-checklist" aria-labelledby="first-week-title"><div><p className="eyebrow">{r.arrival}</p><h2 id="first-week-title">{r.week}</h2><p>{r.weekIntro}</p></div><ul>{r.questions.map((question)=><li key={question}>{question}</li>)}</ul></section>
 
-    <footer className="site-footer"><div className="site-footer-content"><FooterTagline siteName={t.siteName} text={t.tagline} /><FooterNavigation language={language} rootPrefix="../" currentPage="resources" /><p><a href="https://samobrienolinger.github.io/SamOBrienOlinger/" target="_blank" rel="noreferrer">Sam Tim Solutions</a></p><p className="site-footer-copyright">{t.copyright}</p></div></footer>
+    <footer className="site-footer"><div className="site-footer-content"><FooterTagline siteName={t.siteName} text={t.tagline} /><FooterNavigation language={language} rootPrefix="../" currentPage="resources" topic={topic} /><p><a href="https://samobrienolinger.github.io/SamOBrienOlinger/" target="_blank" rel="noreferrer">Sam Tim Solutions</a></p><p className="site-footer-copyright">{t.copyright}</p></div></footer>
   </main>;
 }
 

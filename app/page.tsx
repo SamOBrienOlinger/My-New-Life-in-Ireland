@@ -3,8 +3,8 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
   Accessibility, ArrowLeft, ArrowRight, BookOpen, BriefcaseBusiness, Check, CheckCircle2,
-  BookmarkCheck, ChevronDown, ExternalLink, GalleryHorizontal, Globe2, GraduationCap, HeartHandshake, Languages, LayoutGrid, Map, MapPin,
-  NotebookPen, RotateCcw, Scale, Search, ShieldCheck, Sparkles, Users,
+  BookmarkCheck, ChevronDown, ExternalLink, GalleryHorizontal, Globe2, GraduationCap, HeartHandshake, Image as ImageIcon, Languages, LayoutGrid, Map, MapPin,
+  NotebookPen, RotateCcw, Scale, Search, ShieldCheck, Users,
 } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
@@ -33,23 +33,28 @@ import { FooterNavigation, primarySiteLinks } from "./footer-navigation";
 import { factNavLabel, factUi } from "./fact-or-fiction/locales";
 import { searchText } from "./search/search-copy";
 import { engagementCopy } from "./engagement-copy";
-import { ChapterBanner, JourneyCharacter } from "./journey-chapter";
+import { ChapterBanner, JourneyCharacter, JourneyContext } from "./journey-chapter";
+import { factsHref, informationHubHref } from "./journey-browse";
+import { journeyFlowCopy } from "./journey-flow-copy";
+import { usePageTopic } from "./use-page-topic";
 import { JourneyChoiceComparison } from "./journey-choice-comparison";
 import { JourneyAudio } from "./journey-audio";
 import { JourneyGlossary } from "./journey-glossary";
 import { JourneyJournalEntry, JourneyJournalLibrary, useJourneyJournal } from "./journey-journal-panels";
+import { journalCopy } from "./journal-copy";
 import { JourneyComparison } from "./journey-comparison";
 import "./engagement.css";
 import "./search/search.css";
 import "./fact-or-fiction/facts.css";
-
-const scrollBehavior = (): ScrollBehavior => window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth";
 
 const routeIcons: Record<RouteKey, typeof ShieldCheck> = {
   critical: BriefcaseBusiness, general: BriefcaseBusiness, protection: ShieldCheck,
   study: GraduationCap, family: HeartHandshake,
   "protection-access": Accessibility, "eu-mobility": Globe2, "family-safety": ShieldCheck,
 };
+
+const availableFilters = routeFilters.filter(({ id }) => id === "all" || characters.some((person) => person.filter === id));
+const availableJourneyTopic = (value: string | null) => availableFilters.find(({ id }) => id === value)?.id ?? "all";
 
 const officialSources = [
   ["Irish Immigration Service", "Work, study, family, registration and permission", "https://www.irishimmigration.ie/"],
@@ -67,7 +72,8 @@ const officialSourceDescriptions = {
 
 export default function Home() {
   const [selectedId, setSelectedId] = useState("");
-  const [filter, setFilter] = useState<RouteFilter>("all");
+  const [filter, setFilter] = usePageTopic(availableJourneyTopic);
+  const [query, setQuery] = useState("");
   const [started, setStarted] = useState(false);
   const journeyStartedRef = useRef(false);
   const [stepIndex, setStepIndex] = useState(0);
@@ -82,8 +88,11 @@ export default function Home() {
   const [showAllPeople, setShowAllPeople] = useState(false);
   const pageRef = useRef<HTMLElement>(null);
   const decisionPanelRef = useRef<HTMLElement>(null);
+  const feedbackRef = useRef<HTMLDivElement>(null);
   const stageHeadingRef = useRef<HTMLHeadingElement>(null);
   const completionHeadingRef = useRef<HTMLHeadingElement>(null);
+  const howRef = useRef<HTMLDetailsElement>(null);
+  const browseSearchRef = useRef<HTMLInputElement>(null);
   const landingFocusRef = useRef<string | null>(null);
   const [savedJourneys, setSavedJourneys] = useState<SavedJourneys>({});
   const [storageReady, setStorageReady] = useState(false);
@@ -120,9 +129,19 @@ export default function Home() {
   const controls = journeyControls(language);
   const learning = learningCopy(language);
   const experience = engagementCopy(language);
+  const flow = journeyFlowCopy[language];
   const baseCharacter = useMemo(() => characters.find((item) => item.id === selectedId), [selectedId]);
   const character = useMemo(() => baseCharacter ? localCharacter(baseCharacter, language) : undefined, [baseCharacter, language]);
-  const visibleCharacters = useMemo(() => characters.filter((item) => filter === "all" || item.filter === filter).map((item) => localCharacter(item, language)), [filter, language]);
+  const visibleCharacters = useMemo(() => {
+    const fold = (value: string) => value.toLocaleLowerCase(language).normalize("NFD").replace(/\p{Diacritic}/gu, "");
+    const term = fold(query.trim());
+    return characters.filter((person) => filter === "all" || person.filter === filter)
+      .map((person) => localCharacter(person, language))
+      .filter((person) => {
+        const route = localRoute(person.route, language);
+        return fold([person.name, person.origin, person.role, route.label, route.short].join(" ")).includes(term);
+      });
+  }, [filter, language, query]);
   const steps = character ? stepsByRoute[character.route].map((item, index) => {
     const translated = localStep(item, character.route, language);
     const order = choiceOrder[index];
@@ -138,6 +157,9 @@ export default function Home() {
   const selectedSavedJourney = character ? savedJourneys[character.id] : undefined;
   const recentJourney = Object.values(savedJourneys).sort((a, b) => b.updatedAt - a.updatedAt)[0];
   const recentCharacter = recentJourney ? characters.find((item) => item.id === recentJourney.characterId) : undefined;
+  const recommended = localCharacter(characters.find((person) => !completedCharacters.includes(person.id)) ?? characters[0], language);
+  const hubHref = informationHubHref(filter);
+  const factHref = factsHref(filter);
 
   usePageMotion(pageRef,
     started ? (completed ? `recap:${selectedId}` : "journey") : `home:${filter}`,
@@ -148,9 +170,7 @@ export default function Home() {
       if (started) {
         const heading = completed ? completionHeadingRef.current : stageHeadingRef.current;
         heading?.focus({ preventScroll: true });
-        // A new screen must settle before the next keyboard or pointer action.
-        const start = window.matchMedia("(max-width: 900px)").matches && !completed
-          ? pageRef.current?.querySelector(".journey-layout") : decisionPanelRef.current;
+        const start = completed ? decisionPanelRef.current : pageRef.current?.querySelector(".journey-layout");
         start?.scrollIntoView({ block: "start", behavior: "instant" });
         if (heading && heading.getBoundingClientRect().bottom > window.innerHeight - 20) {
           heading.scrollIntoView({ block: "center", behavior: "instant" });
@@ -174,10 +194,19 @@ export default function Home() {
     function selectLinkedCharacter() {
       // History navigation must not switch characters during an active game.
       if (journeyStartedRef.current) return;
-      const linkedCharacter = characters.find((item) => window.location.hash === `#character-${item.id}`);
-      if (!linkedCharacter) return;
+      const url = new URL(window.location.href);
+      if (url.hash === "#how-it-works" && howRef.current) howRef.current.open = true;
+      const linkedCharacter = characters.find((item) => url.hash === `#character-${item.id}`);
+      if (!linkedCharacter) {
+        if (["#choose-character", "#route-finder", "#how-it-works", "#learning-journal"].includes(url.hash)) {
+          window.requestAnimationFrame(() => document.getElementById(url.hash.slice(1))?.scrollIntoView({ block: "start", behavior: "instant" }));
+        }
+        return;
+      }
       setSelectedId(linkedCharacter.id);
-      setFilter((current) => current === "all" || current === linkedCharacter.filter ? current : "all");
+      setQuery("");
+      const requested = availableJourneyTopic(url.searchParams.get("topic"));
+      if (requested !== "all" && requested !== linkedCharacter.filter) setFilter("all", undefined, true);
       // Wait for React to reveal the card before scrolling to a shared link.
       window.requestAnimationFrame(() => document.getElementById(`character-${linkedCharacter.id}`)?.scrollIntoView({ block: "start", behavior: "instant" }));
     }
@@ -185,7 +214,16 @@ export default function Home() {
     selectLinkedCharacter();
     window.addEventListener("hashchange", selectLinkedCharacter);
     return () => window.removeEventListener("hashchange", selectLinkedCharacter);
-  }, []);
+  }, [setFilter]);
+
+  function chooseFilter(next: RouteFilter, fromFinder = false) {
+    setFilter(next, fromFinder ? "#choose-character" : undefined);
+    if (next !== "all" && character?.filter !== next) setSelectedId("");
+    if (fromFinder) {
+      setQuery("");
+      window.requestAnimationFrame(() => document.getElementById("character-picker-title")?.focus());
+    }
+  }
 
   function persistJourneys(journeys: SavedJourneys, finished = completedCharacters) {
     let mergedJourneys = journeys;
@@ -250,7 +288,7 @@ export default function Home() {
   function startCharacter(id: string) {
     const nextCharacter = characters.find((item) => item.id === id);
     if (!nextCharacter || !storageReady) return;
-    window.history.replaceState(null, "", `#character-${id}`);
+    window.history.replaceState(window.history.state, "", `#character-${id}`);
     resumeJourney(savedJourneys[id] ?? createSavedJourney(nextCharacter));
   }
 
@@ -320,6 +358,7 @@ export default function Home() {
     const nextChecked = [...new Set([...checkedSteps, stepIndex])];
     setCheckedSteps(nextChecked);
     saveActiveJourney({ checkedSteps: nextChecked });
+    window.requestAnimationFrame(() => feedbackRef.current?.focus());
   }
 
   function togglePlainLanguage() {
@@ -335,6 +374,7 @@ export default function Home() {
 
   function resetJourney(target?: string) {
     landingFocusRef.current = target || "#top";
+    setFilter(filter, landingFocusRef.current, true);
     journeyStartedRef.current = false;
     setStarted(false); setCompleted(false); setReviewing(false); setStepIndex(0); setAnswers({}); setCheckedSteps([]); setChoiceOrder({}); setSelectedId("");
   }
@@ -348,7 +388,7 @@ export default function Home() {
           </button>
           <div className="journey-tools">
             <LanguageControl language={language} setLanguage={setLanguage} label={t.language} />
-            <a className="quiet-button compact-button" href="resources/" aria-label={t.hub}><BookOpen size={17} aria-hidden="true" />{t.hub}</a>
+            <a className="quiet-button compact-button" href={hubHref} aria-label={t.hub}><BookOpen size={17} aria-hidden="true" />{t.hub}</a>
             <a className="quiet-button compact-button" href="search/" aria-label={searchText[language].nav}><Search size={17} aria-hidden="true" />{searchText[language].nav}</a>
             <a className="quiet-button compact-button journal-nav-link" href="#learning-journal" aria-label={experience.journal} onClick={(event) => { event.preventDefault(); resetJourney("#learning-journal"); }}><NotebookPen size={17} aria-hidden="true" />{experience.journal}</a>
             <button className="quiet-button compact-button" type="button" aria-label={t.change} onClick={() => resetJourney("#choose-character")}><Users size={17} aria-hidden="true" /> {t.change}</button>
@@ -356,129 +396,201 @@ export default function Home() {
         </header>
 
         <div className="journey-layout journey-layout-expanded">
-          <JourneyCharacter character={character} steps={steps} stepIndex={stepIndex} checkedSteps={checkedSteps} completed={completed} language={language} onReview={visitChapter} />
+          <JourneyCharacter character={character} language={language} />
 
           <section className="decision-panel" ref={decisionPanelRef} aria-labelledby={completed ? "completion-title" : "decision-title"}>
             {!completed && step ? <>
               <div className="progress-row"><span id="stage-progress">{controls.stage} {stepIndex + 1} {t.of} {steps.length} · {step.stage}</span><span aria-hidden="true">{Math.round(((stepIndex + 1) / steps.length) * 100)}%</span></div>
               <Progress value={((stepIndex + 1) / steps.length) * 100} aria-label={t.progress} aria-valuetext={`${controls.stage} ${stepIndex + 1} ${t.of} ${steps.length}: ${step.stage}`} />
-              <ChapterBanner index={stepIndex} stage={step.stage} language={language} />
-              <div className="decision-heading">
-                <div className="decision-kicker"><p className="eyebrow">{step.eyebrow}</p><span>{step.stage}</span></div>
-                <h2 id="decision-title" ref={stageHeadingRef} tabIndex={-1} aria-describedby="stage-progress">{step.title}</h2><p className="scene" data-stage-copy>{step.scene}</p>
+              <div className="chapter-main">
+                <div className="chapter-situation">
+                  <div className="decision-heading">
+                    <p className="eyebrow">{step.eyebrow}</p>
+                    <h2 id="decision-title" ref={stageHeadingRef} tabIndex={-1} aria-describedby="stage-progress">{step.title}</h2>
+                    <p className="scene" data-stage-copy>{step.scene}</p>
+                  </div>
+                  <fieldset className="learning-mode">
+                    <legend>{experience.learningMode}</legend>
+                    <div className="learning-mode-controls" aria-describedby="learning-mode-hint">
+                      <button type="button" aria-pressed={guidanceMode === "guided"} onClick={() => changeGuidanceMode("guided")}>{experience.guided}</button>
+                      <button type="button" aria-pressed={guidanceMode === "practice"} onClick={() => changeGuidanceMode("practice")}>{experience.practice}</button>
+                    </div>
+                    <p id="learning-mode-hint">{guidanceMode === "guided" ? experience.guidedHint : experience.practiceHint}</p>
+                  </fieldset>
+                  <details className="story-guidance detail-card" key={guidanceContext} open={guidanceMode === "guided"}
+                    onToggle={(event) => setRevealedGuidance(event.currentTarget.open ? guidanceContext : "")}>
+                    <summary><Scale size={19} aria-hidden="true" /><span>{t.rule}</span><ChevronDown size={17} aria-hidden="true" /></summary>
+                    <div className="law-card detail-body"><div>
+                      <p data-stage-copy>{plainLanguage ? step.plainLaw : step.law}</p>
+                      <button className="tool-button" type="button" onClick={togglePlainLanguage}><Languages size={17} aria-hidden="true" />{plainLanguage ? t.detailed : t.plain}</button>
+                    </div></div>
+                  </details>
+                </div>
+                <div className="chapter-decision">
+                  <fieldset className="choice-fieldset">
+                    <legend id="decision-question">{step.question}</legend>
+                    <RadioGroup value={choiceId} onValueChange={selectAnswer} className="choice-list" aria-labelledby="decision-question" dir={dir}>
+                      {step.choices.map((item, index) => (
+                        <RadioGroupItem className="choice-card" value={item.id} id={stepIndex + "-" + item.id}
+                          aria-labelledby={`choice-${stepIndex}-${item.id}`} key={item.id}>
+                          <span className="choice-marker" aria-hidden="true" />
+                          <span className="choice-letter" aria-hidden="true">{String.fromCharCode(65 + index)}</span>
+                          <span id={`choice-${stepIndex}-${item.id}`} className="choice-text">{item.label}</span>
+                        </RadioGroupItem>
+                      ))}
+                    </RadioGroup>
+                  </fieldset>
+                  <div className="feedback-status" role="status" aria-atomic="true">
+                    {checked && choice ? <div ref={feedbackRef} role="group" tabIndex={-1} className={"feedback-card " + (choice.correct ? "correct" : "consider")} aria-labelledby="feedback-title">
+                      {choice.correct ? <CheckCircle2 size={22} aria-hidden="true" /> : <Map size={22} aria-hidden="true" />}
+                      <div><h3 id="feedback-title">{choice.correct ? t.safer : t.risk}</h3><p>{choice.feedback}</p><div className="consequence"><span>{t.changes}</span>{choice.consequence}</div></div>
+                    </div> : null}
+                  </div>
+                  <div className="decision-actions">
+                    <button className="quiet-button" type="button" aria-label={t.back} onClick={previousStep} disabled={stepIndex === 0}><ArrowLeft size={17} aria-hidden="true" />{t.back}</button>
+                    {!checked ? <button className="primary-button" type="button" disabled={!choiceId} onClick={checkAnswer}>{t.check}<ArrowRight size={17} aria-hidden="true" /></button>
+                      : reviewing ? <button className="primary-button recap-return" type="button" onClick={() => firstUnfinishedStep >= 0 ? visitChapter(firstUnfinishedStep) : completeJourney()}>{firstUnfinishedStep >= 0 ? `${experience.review}: ${steps[firstUnfinishedStep].stage}` : learning.returnToRecap}<ArrowRight size={17} aria-hidden="true" /></button>
+                        : <button className="primary-button" type="button" onClick={nextStep}>{stepIndex < steps.length - 1 ? t.next : firstUnfinishedStep >= 0 ? `${experience.review}: ${steps[firstUnfinishedStep].stage}` : t.complete}<ArrowRight size={17} aria-hidden="true" /></button>}
+                  </div>
+                  {storageAvailable ? <p className="story-save-status"><BookmarkCheck size={14} aria-hidden="true" />{experience.saved}</p>
+                    : <p className="storage-notice" role="status">{controls.saveUnavailable}</p>}
+                </div>
               </div>
-              <div className="learning-tools">
+              <div className="chapter-extras">
+                {checked && choice ? <>
+                  <JourneyInsight character={character} step={step} index={stepIndex} language={language} />
+                  <JourneyChoiceComparison key={`${character.id}:${stepIndex}:${choice.id}`} step={step} choice={choice} language={language} />
+                </> : null}
                 <JourneyAudio language={language} title={step.title} scene={step.scene}
                   guidance={guidanceMode === "guided" || checked || revealedGuidance === guidanceContext ? (plainLanguage ? step.plainLaw : step.law) : ""}
                   question={step.question} choices={step.choices} feedback={checked && choice ? `${choice.feedback} ${choice.consequence}` : undefined}
                   contextKey={`${character.id}:${stepIndex}`} />
-                <button className="tool-button" type="button" onClick={togglePlainLanguage}><Languages size={17} aria-hidden="true" />{plainLanguage ? t.detailed : t.plain}</button>
+                <JourneyGlossary language={language} />
+                <details className="story-source detail-card" key={stepIndex}>
+                  <summary><BookOpen size={19} aria-hidden="true" /><span>{experience.sourceDetails}</span><ChevronDown size={17} aria-hidden="true" /></summary>
+                  <div className="detail-body">
+                    <SourceDetails href={step.sourceUrl} language={language} />
+                    <a className="insight-source-link" href={step.sourceUrl} target="_blank" rel="noreferrer">{step.sourceLabel}<ExternalLink size={14} aria-hidden="true" /></a>
+                  </div>
+                </details>
+                <details className="chapter-illustration detail-card" key={stepIndex}>
+                  <summary><ImageIcon size={19} aria-hidden="true" /><span>{flow.illustration}</span><ChevronDown size={17} aria-hidden="true" /></summary>
+                  <div className="detail-body"><ChapterBanner index={stepIndex} stage={step.stage} language={language} /></div>
+                </details>
+                <JourneyContext character={character} steps={steps} stepIndex={stepIndex} checkedSteps={checkedSteps} completed={completed} language={language} onReview={visitChapter} />
               </div>
-              <fieldset className="learning-mode"><legend>{experience.learningMode}</legend>
-                <div className="learning-mode-controls">
-                  <button type="button" aria-pressed={guidanceMode === "guided"} onClick={() => changeGuidanceMode("guided")}>{experience.guided}</button>
-                  <button type="button" aria-pressed={guidanceMode === "practice"} onClick={() => changeGuidanceMode("practice")}>{experience.practice}</button>
-                </div><p>{guidanceMode === "guided" ? experience.guidedHint : experience.practiceHint}</p>
-              </fieldset>
-              <details className="story-guidance" key={guidanceContext} open={guidanceMode === "guided"}
-                onToggle={(event) => setRevealedGuidance(event.currentTarget.open ? guidanceContext : "")}>
-                <summary><Scale size={19} aria-hidden="true" /><span>{t.rule}</span><ChevronDown size={17} aria-hidden="true" /></summary>
-                <div className="law-card"><div><p data-stage-copy>{plainLanguage ? step.plainLaw : step.law}</p><a href={step.sourceUrl} target="_blank" rel="noreferrer">{t.source}: {step.sourceLabel}<ExternalLink size={14} aria-hidden="true" /></a>
-                  <details className="story-source"><summary>{experience.sourceDetails}</summary><SourceDetails href={step.sourceUrl} language={language} /></details>
-                </div></div>
-              </details>
-              <fieldset className="choice-fieldset">
-                <legend id="decision-question">{step.question}</legend>
-                <RadioGroup value={choiceId} onValueChange={selectAnswer} className="choice-list" aria-labelledby="decision-question" dir={dir}>
-                  {step.choices.map((item, index) => (
-                    <label className={"choice-card " + (choiceId === item.id ? "selected" : "")} key={item.id}>
-                      <RadioGroupItem value={item.id} id={stepIndex + "-" + item.id} aria-labelledby={`choice-${stepIndex}-${item.id}`} />
-                      <span className="choice-letter" aria-hidden="true">{String.fromCharCode(65 + index)}</span><span id={`choice-${stepIndex}-${item.id}`} className="choice-text">{item.label}</span>
-                    </label>
-                  ))}
-                </RadioGroup>
-              </fieldset>
-              <div className="feedback-status" role="status" aria-atomic="true">{checked && choice ? <div className={"feedback-card " + (choice.correct ? "correct" : "consider")}>
-                {choice.correct ? <CheckCircle2 size={22} aria-hidden="true" /> : <Map size={22} aria-hidden="true" />}
-                <div><strong>{choice.correct ? t.safer : t.risk}</strong><span className="feedback-meaning">{experience.whatMeans}</span><p>{choice.feedback}</p><div className="consequence"><span>{t.changes}</span>{choice.consequence}</div></div>
-              </div> : null}</div>
-              {checked && choice ? <JourneyInsight character={character} step={step} index={stepIndex} language={language} /> : null}
-              {checked && choice ? <JourneyChoiceComparison key={`${character.id}:${stepIndex}:${choice.id}`} step={step} choice={choice} language={language} /> : null}
-              <JourneyGlossary language={language} />
-              {!storageAvailable ? <p className="storage-notice" role="status">{controls.saveUnavailable}</p> : null}
-              <div className="decision-actions">
-                <button className="quiet-button" type="button" aria-label={t.back} onClick={previousStep} disabled={stepIndex === 0}><ArrowLeft size={17} aria-hidden="true" /> {t.back}</button>
-                {!checked ? <button className="primary-button" type="button" disabled={!choiceId} onClick={checkAnswer}>{t.check} <ArrowRight size={17} aria-hidden="true" /></button>
-                  : <button className="primary-button" type="button" onClick={nextStep}>{stepIndex === steps.length - 1 ? firstUnfinishedStep >= 0 ? `${experience.review}: ${steps[firstUnfinishedStep].stage}` : t.complete : t.next}<ArrowRight size={17} aria-hidden="true" /></button>}
-              </div>
-              {storageAvailable ? <p className="story-save-status"><BookmarkCheck size={14} aria-hidden="true" />{experience.saved}</p> : null}
-              {reviewing ? <button className="quiet-button recap-return" type="button" onClick={completeJourney} disabled={!steps.every((item, index) => checkedSteps.includes(index) && item.choices.some((option) => option.id === answers[index]))}><BookOpen size={17} aria-hidden="true" />{learning.returnToRecap}</button> : null}
             </> : <div className="completion-card completion-card-expanded">
               <div className="completion-icon"><CheckCircle2 size={34} aria-hidden="true" /></div><p className="eyebrow">{t.done}</p>
               <h2 id="completion-title" ref={completionHeadingRef} tabIndex={-1}>{learning.recapTitle.replace("{name}", character.name)}</h2>
               <p>{learning.recapIntro}</p>
-              <JourneyJournalEntry characterId={character.id} journal={journal} language={language} />
-              <JourneyComparison characterId={character.id} completedIds={completedCharacters} language={language} onExplore={startCharacter} />
+              <div className="recap-links">
+                <a className="quiet-button" href="#recap-decisions-title"><CheckCircle2 size={17} aria-hidden="true" />{learning.decisionsTitle}</a>
+                {journal.entries[character.id] ? <a className="quiet-button" href="#recap-journal"><NotebookPen size={17} aria-hidden="true" />{journalCopy(language).note}</a> : null}
+                <a className="quiet-button" href="#recap-resources-title"><BookOpen size={17} aria-hidden="true" />{learning.relatedResources}</a>
+              </div>
               <p className="completion-score">{t.scoreBefore} <strong>{correctCount} {t.of} {steps.length}</strong> {t.scoreAfter}</p>
               <div className="readiness-meter" aria-label={`${correctCount} ${t.of} ${steps.length} ${t.decisions}`}>{steps.map((_, index) => <span className={index < correctCount ? "filled" : ""} key={index} />)}</div>
-              <JourneyRecap character={character} steps={steps} answers={answers} checkedSteps={checkedSteps} language={language} onRevisit={(index) => revisitDecision(index)} />
+              <JourneyRecap character={character} steps={steps} answers={answers} checkedSteps={checkedSteps} language={language} onRevisit={revisitDecision}
+                journal={<JourneyJournalEntry characterId={character.id} journal={journal} language={language} />} />
+              <JourneyComparison characterId={character.id} completedIds={completedCharacters} language={language} onExplore={startCharacter} />
               <div className="completion-actions"><button className="primary-button" type="button" onClick={() => resetJourney("#choose-character")}><RotateCcw size={17} aria-hidden="true" /> {t.chooseAnother}</button><a className="quiet-button" href={`resources/?topic=${resourceTopicForRoute(character.route)}#resource-browser`}><BookOpen size={17} aria-hidden="true" />{t.openIrelandHub}</a></div>
             </div>}
           </section>
         </div>
-        <footer className="site-footer journey-footer"><div className="site-footer-content"><FooterTagline siteName={t.siteName} text={t.tagline} /><FooterNavigation language={language} rootPrefix="" currentPage="journeys" /><p><a href="https://samobrienolinger.github.io/SamOBrienOlinger/" target="_blank" rel="noreferrer">Sam Tim Solutions</a></p><p className="site-footer-copyright">{t.copyright}</p></div></footer>
+        <footer className="site-footer journey-footer"><div className="site-footer-content"><FooterTagline siteName={t.siteName} text={t.tagline} /><FooterNavigation language={language} rootPrefix="" currentPage="journeys" topic={filter} /><p><a href="https://samobrienolinger.github.io/SamOBrienOlinger/" target="_blank" rel="noreferrer">Sam Tim Solutions</a></p><p className="site-footer-copyright">{t.copyright}</p></div></footer>
       </main>
     );
   }
 
   return <main ref={pageRef} lang={language} dir={dir}>
-    <section className="hero-section hero-section-expanded" id="top">
-      <nav className="home-nav" aria-label={`${t.siteName}: ${t.menu}`}><a className="brand-button" href="#top" aria-label={`${t.siteName}: ${t.home}`}><img className="brand-mark" src="images/harp-heart-logo.png" alt="" aria-hidden="true" /><span>{t.siteName}</span></a><div className="nav-links"><a className="nav-link" href="about/">{t.about}</a><a className="nav-link" href="resources/">{t.hub}</a><a className="nav-link" href="fact-or-fiction/">{factNavLabel(language)}</a><a className="nav-link site-search-link" href="search/"><Search size={17} aria-hidden="true" />{searchText[language].nav}</a><a className="nav-link" href="#official-guidance">{t.official}</a></div><LanguageControl language={language} setLanguage={setLanguage} label={t.language} /><MobileNavigation links={primarySiteLinks(language, "", "home")} language={language} setLanguage={setLanguage} languageLabel={t.language} menuLabel={t.menu} closeLabel={t.closeMenu} /></nav>
-      <div className="hero-content hero-content-expanded">
-        <p className="eyebrow">{t.heroEyebrow}</p>
-        <div className="hero-heading">
-          <img
-            className="hero-mobile-image"
-            src="images/ireland-rural-dublin-hero.webp"
-            alt=""
-            width={1672}
-            height={941}
-            decoding="async"
-            fetchPriority="high"
-          />
-          <h1 id="home-title" tabIndex={-1}>{t.heroTitle}</h1>
+    <section className="hero-section hero-section-expanded journey-home-hero" id="top">
+      <nav className="home-nav" aria-label={`${t.siteName}: ${t.menu}`}>
+        <a className="brand-button" href="#top" aria-label={`${t.siteName}: ${t.home}`}><img className="brand-mark" src="images/harp-heart-logo.png" alt="" aria-hidden="true" /><span>{t.siteName}</span></a>
+        <div className="nav-links">
+          <a className="nav-link" href={hubHref}>{t.hub}</a>
+          <a className="nav-link" href={factHref}>{factNavLabel(language)}</a>
+          <a className="nav-link" href="about/">{t.about}</a>
+          <a className="nav-link site-search-link" href="search/"><Search size={17} aria-hidden="true" />{searchText[language].nav}</a>
+          <a className="nav-link" href="#official-guidance">{t.official}</a>
         </div>
-        <div className="hero-copy"><p>{t.heroIntro}</p></div>
-        {recentJourney && recentCharacter ? <div className="resume-banner">
-          <div><span className="mini-label">{controls.savedJourney}</span><strong>{recentCharacter.name}</strong><span>{controls.stage} {recentJourney.stepIndex + 1} {t.of} {stepsByRoute[recentCharacter.route].length} · {localStep(stepsByRoute[recentCharacter.route][recentJourney.stepIndex], recentCharacter.route, language).stage}</span></div>
-          <button className="primary-button" type="button" disabled={!storageReady} onClick={() => resumeJourney(recentJourney)}>{controls.resumeJourney.replace("{name}", recentCharacter.name.split(" ")[0])}<ArrowRight size={18} aria-hidden="true" /></button>
-        </div> : null}
-        <div className="hero-actions"><a className="primary-button hero-button" href="#route-finder">{t.findJourney} <ArrowRight size={18} aria-hidden="true" /></a><a className="quiet-button hero-secondary" href="resources/"><BookOpen size={18} aria-hidden="true" /><span>{t.exploreInfo}</span><ArrowRight className="action-arrow" size={18} aria-hidden="true" /></a></div>
-        <form className="home-search" method="get" action="search/" role="search" aria-label={searchText[language].title}>
-          <Search size={19} aria-hidden="true" /><label className="sr-only" htmlFor="home-keyword-search">{searchText[language].title}</label>
-          <input id="home-keyword-search" name="q" type="search" autoComplete="off" enterKeyHint="search" placeholder={searchText[language].placeholder} />
-          <button type="submit"><span>{searchText[language].submit}</span><ArrowRight size={17} aria-hidden="true" /></button>
-        </form>
+        <LanguageControl language={language} setLanguage={setLanguage} label={t.language} />
+        <MobileNavigation links={primarySiteLinks(language, "", "home", filter)} language={language} setLanguage={setLanguage} languageLabel={t.language} menuLabel={t.menu} closeLabel={t.closeMenu} />
+      </nav>
+      <div className="hero-content hero-content-expanded">
+        <div className="journey-home-intro">
+          <h1 id="home-title" tabIndex={-1}>{t.heroTitle}</h1>
+          <p className="journey-home-purpose">{flow.purpose}</p>
+          {recentJourney && recentCharacter ? <div className="resume-banner home-play-card">
+            <div id="resume-point"><strong><bdi>{recentCharacter.name}</bdi></strong><span>{controls.stage} {recentJourney.stepIndex + 1} {t.of} {stepsByRoute[recentCharacter.route].length} · {localStep(stepsByRoute[recentCharacter.route][recentJourney.stepIndex], recentCharacter.route, language).stage}</span></div>
+            <button className="primary-button" type="button" aria-describedby="resume-point" onClick={() => resumeJourney(recentJourney)}>{flow.resume}<ArrowRight size={18} aria-hidden="true" /></button>
+          </div> : <div className="home-play-card">
+            <div id="recommended-journey"><span className="mini-label">{flow.recommended}</span><strong><bdi>{recommended.name}</bdi></strong><span>{localRoute(recommended.route, language).short}</span></div>
+            <button className="primary-button" type="button" disabled={!storageReady} aria-describedby="recommended-journey" onClick={() => startCharacter(recommended.id)}>{flow.start}<ArrowRight size={18} aria-hidden="true" /></button>
+          </div>}
+          <div className="home-journey-links">
+            <a className="quiet-button" href="#choose-character"><Users size={18} aria-hidden="true" />{flow.browse}</a>
+            <a className="quiet-button" href="#route-finder"><Map size={18} aria-hidden="true" />{flow.finder}</a>
+            <a className="quiet-button" href="#how-it-works" onClick={() => { if (howRef.current) howRef.current.open = true; }}><BookOpen size={18} aria-hidden="true" />{flow.how}</a>
+            <a className="quiet-button" href="#learning-journal"><NotebookPen size={18} aria-hidden="true" />{experience.journal}</a>
+          </div>
+          <div className="home-information-links">
+            <a className="text-link" href={hubHref}>{t.hub}</a>
+            <a className="text-link" href={factHref}>{factNavLabel(language)}</a>
+          </div>
+          <form className="home-search" method="get" action="search/" role="search" aria-label={searchText[language].title}>
+            <Search size={19} aria-hidden="true" /><label className="sr-only" htmlFor="home-keyword-search">{searchText[language].title}</label>
+            <input id="home-keyword-search" name="q" type="search" autoComplete="off" enterKeyHint="search" placeholder={searchText[language].placeholder} />
+            <button type="submit"><span>{searchText[language].submit}</span><ArrowRight size={17} aria-hidden="true" /></button>
+          </form>
+        </div>
+        <img className="journey-home-art" src="images/chapters/build-a-life.webp" alt="" width={1200} height={800} fetchPriority="high" decoding="async" />
       </div>
     </section>
 
     <section className="experience-map" data-reveal="experience-map" aria-labelledby="experience-title">
-      <div><p className="eyebrow">{t.howEyebrow}</p><h2 id="experience-title">{t.howTitle}</h2></div>
-      <ol>
-        <li className="experience-card-maroon"><span className="experience-icon" aria-hidden="true"><Users /></span><strong>{t.how1}</strong></li>
-        <li className="experience-card-teal"><span className="experience-icon" aria-hidden="true"><ArrowRight /></span><strong>{t.how2}</strong></li>
-        <li className="experience-card-gold"><span className="experience-icon" aria-hidden="true"><Scale /></span><strong>{t.how3}</strong></li>
-        <li className="experience-card-maroon"><span className="experience-icon" aria-hidden="true"><CheckCircle2 /></span><strong>{t.how4}</strong></li>
-      </ol>
+      <details className="detail-card" id="how-it-works" ref={howRef}>
+        <summary id="experience-title"><BookOpen size={20} aria-hidden="true" /><span>{flow.how}</span><ChevronDown size={18} aria-hidden="true" /></summary>
+        <div className="detail-body">
+          <ol>
+            <li className="experience-card-maroon"><span className="experience-icon" aria-hidden="true"><Users /></span><strong>{t.how1}</strong></li>
+            <li className="experience-card-teal"><span className="experience-icon" aria-hidden="true"><ArrowRight /></span><strong>{t.how2}</strong></li>
+            <li className="experience-card-gold"><span className="experience-icon" aria-hidden="true"><Scale /></span><strong>{t.how3}</strong></li>
+            <li className="experience-card-maroon"><span className="experience-icon" aria-hidden="true"><CheckCircle2 /></span><strong>{t.how4}</strong></li>
+          </ol>
+        </div>
+      </details>
     </section>
 
-    <section className="route-finder" id="route-finder" aria-labelledby="route-finder-title"><div className="route-finder-copy" data-reveal="route-finder-copy"><p className="eyebrow">{t.routeEyebrow}</p><h2 id="route-finder-title">{t.routeTitle}</h2><p>{t.routeNote}</p></div><div className="route-filter-grid" role="group" aria-label={t.routeTitle}>{routeFilters.map((item) => { const local = localFilter(item.id, language); const selected = filter === item.id; return <button type="button" className={"route-filter " + (selected ? "selected" : "")} aria-pressed={selected} onClick={() => { setFilter(item.id); if (selectedId && item.id !== "all" && character?.filter !== item.id) setSelectedId(""); window.setTimeout(() => document.querySelector("#choose-character")?.scrollIntoView({ behavior: scrollBehavior(), block: "start" }), 0); }} key={item.id}><span className="route-filter-heading"><span>{local.label}</span><span className="selection-indicator" aria-hidden="true">{selected ? <Check size={14} /> : null}</span></span><small>{local.description}</small></button>; })}</div></section>
+    <section className="route-finder" id="route-finder" aria-labelledby="route-finder-title">
+      <div className="route-finder-copy" data-reveal="route-finder-copy"><h2 id="route-finder-title">{t.routeTitle}</h2><p>{t.routeNote}</p></div>
+      <div className="route-filter-grid" role="group" aria-label={flow.finder}>
+        {availableFilters.map(({ id }) => {
+          const route = localFilter(id, language);
+          const selected = filter === id;
+          return <button type="button" className={"route-filter " + (selected ? "selected" : "")} aria-pressed={selected} onClick={() => chooseFilter(id, true)} key={id}>
+            <span className="route-filter-heading"><span>{id === "all" ? flow.all : route.label}</span><span className="selection-indicator" aria-hidden="true">{selected ? <Check size={14} /> : null}</span></span><small>{route.description}</small>
+          </button>;
+        })}
+      </div>
+    </section>
 
     <section className="character-section character-section-expanded" id="choose-character">
-      <div className="section-heading" data-reveal="character-heading"><div><p className="eyebrow">{t.chooseEyebrow}</p><h2 id="character-picker-title" tabIndex={-1}>{t.chooseTitle}</h2></div><div className="learning-progress-card"><Sparkles size={20} aria-hidden="true" /><div><strong>{completedCharacters.length} {t.of} 12 {t.explored}</strong><span>{storageAvailable ? t.saved : controls.saveUnavailable}</span></div></div></div>
-      <div className="character-view-tools"><button className="quiet-button" type="button" aria-pressed={showAllPeople} onClick={() => setShowAllPeople(!showAllPeople)}>{showAllPeople ? <GalleryHorizontal size={17} aria-hidden="true" /> : <LayoutGrid size={17} aria-hidden="true" />}{showAllPeople ? experience.carousel : experience.allPeople}</button></div>
-      <div className="start-bar" aria-live="polite">{character ? <><div><span className="mini-label">{t.selected}</span><strong>{character.name} · {localRoute(character.route, language).label}</strong>{selectedSavedJourney ? <span>{controls.stage} {selectedSavedJourney.stepIndex + 1} {t.of} {steps.length}</span> : null}</div><div className="start-actions"><button className="primary-button" type="button" disabled={!storageReady} onClick={beginJourney}>{selectedSavedJourney ? controls.resumeJourney.replace("{name}", character.name.split(" ")[0]) : t.begin}<ArrowRight size={18} aria-hidden="true" /></button>{selectedSavedJourney ? <button className="quiet-button restart-button" type="button" disabled={!storageReady} onClick={restartJourney}>{controls.restart}</button> : null}</div></> : <p>{visibleCharacters.length ? t.selectPrompt : t.emptyPrompt}</p>}</div>
-      <CharacterCarousel
+      <div className="section-heading" data-reveal="character-heading">
+        <div><h2 id="character-picker-title" tabIndex={-1}>{flow.all}</h2><p>{t.chooseTitle}</p></div>
+        <div className="learning-progress-card"><CheckCircle2 size={20} aria-hidden="true" /><div><strong>{completedCharacters.length} {t.of} {characters.length} {t.explored}</strong><span>{storageAvailable ? t.saved : controls.saveUnavailable}</span></div></div>
+      </div>
+      <div className="browse-tools">
+        <div className="browse-filters topic-tabs" role="group" aria-label={flow.browse}>
+          {availableFilters.map(({ id }) => <button key={id} type="button" className={filter === id ? "active" : ""} aria-pressed={filter === id} onClick={() => chooseFilter(id)}>{id === "all" ? flow.all : localFilter(id, language).label}</button>)}
+        </div>
+        <div className="character-view-tools">
+          <label className="browse-search"><Search size={18} aria-hidden="true" /><span className="sr-only">{flow.search}</span><input ref={browseSearchRef} type="search" value={query} onChange={(event) => setQuery(event.target.value)} placeholder={flow.search} /></label>
+          <button className="quiet-button" type="button" aria-pressed={showAllPeople} onClick={() => setShowAllPeople(!showAllPeople)}>{showAllPeople ? <GalleryHorizontal size={17} aria-hidden="true" /> : <LayoutGrid size={17} aria-hidden="true" />}{showAllPeople ? experience.carousel : experience.allPeople}</button>
+        </div>
+      </div>
+      <p className="sr-only" role="status">{visibleCharacters.length} {t.people}</p>
+      {character && visibleCharacters.some((person) => person.id === character.id) ? <div className="start-bar" aria-live="polite"><div><span className="mini-label">{t.selected}</span><strong><bdi>{character.name}</bdi> · {localRoute(character.route, language).label}</strong>{selectedSavedJourney ? <span>{controls.stage} {selectedSavedJourney.stepIndex + 1} {t.of} {steps.length}</span> : null}</div><div className="start-actions"><button className="primary-button" type="button" disabled={!storageReady} onClick={beginJourney}>{selectedSavedJourney ? controls.resumeJourney.replace("{name}", character.name.split(" ")[0]) : t.begin}<ArrowRight size={18} aria-hidden="true" /></button>{selectedSavedJourney ? <button className="quiet-button restart-button" type="button" disabled={!storageReady} onClick={restartJourney}>{controls.restart}</button> : null}</div></div> : null}
+      {visibleCharacters.length ? <CharacterCarousel
         itemIds={visibleCharacters.map((item) => item.id)}
         selectedId={selectedId}
         direction={dir}
@@ -514,19 +626,22 @@ export default function Home() {
             );
           })}
         </RadioGroup>
-      </CharacterCarousel>
+      </CharacterCarousel> : <div className="resource-empty browse-empty">
+        <p>{t.emptyPrompt}</p>
+        <button className="quiet-button" type="button" onClick={() => { setQuery(""); chooseFilter("all"); browseSearchRef.current?.focus(); }}>{flow.reset}</button>
+      </div>}
     </section>
 
     <JourneyJournalLibrary journal={journal} language={language} onExplore={startCharacter} />
 
     <section className="fact-home-teaser" aria-labelledby="fact-home-teaser-title">
       <div><p className="eyebrow">{factUi[language].eyebrow}</p><h2 id="fact-home-teaser-title">{factNavLabel(language)}</h2><p>{factUi[language].intro}</p></div>
-      <a className="primary-button" href="fact-or-fiction/">{factNavLabel(language)} <ArrowRight size={18} aria-hidden="true" /></a>
+      <a className="primary-button" href={factHref}>{factNavLabel(language)} <ArrowRight size={18} aria-hidden="true" /></a>
     </section>
 
     <section className="hub-preview" id="information-hub-topics" aria-labelledby="hub-title"><div data-reveal="hub-introduction"><p className="eyebrow">{t.afterStory}</p><h2 id="hub-title">{t.practicalTitle}</h2><p>{t.practicalText}</p><a className="primary-button" href="resources/">{t.openHub} <ArrowRight size={18} aria-hidden="true" /></a></div><nav className="hub-topic-grid" data-reveal="hub-topics" aria-label={t.hub}><a href="resources/?topic=work#resource-browser"><BriefcaseBusiness aria-hidden="true" /><span>{t.workPermits}</span><ArrowRight className="hub-topic-arrow" size={18} aria-hidden="true" /></a><a href="resources/?topic=protection#resource-browser"><ShieldCheck aria-hidden="true" /><span>{t.protectionSafety}</span><ArrowRight className="hub-topic-arrow" size={18} aria-hidden="true" /></a><a href="resources/?topic=study#resource-browser"><GraduationCap aria-hidden="true" /><span>{t.studyEducation}</span><ArrowRight className="hub-topic-arrow" size={18} aria-hidden="true" /></a><a href="resources/?topic=family#resource-browser"><HeartHandshake aria-hidden="true" /><span>{t.familyCommunity}</span><ArrowRight className="hub-topic-arrow" size={18} aria-hidden="true" /></a><a href="resources/?topic=arrival#resource-browser"><MapPin aria-hidden="true" /><span>{t.arrivalRegistration}</span><ArrowRight className="hub-topic-arrow" size={18} aria-hidden="true" /></a><a href="resources/?topic=rights#resource-browser"><Scale aria-hidden="true" /><span>{t.rightsAdvice}</span><ArrowRight className="hub-topic-arrow" size={18} aria-hidden="true" /></a></nav></section>
 
     <section className="guidance-section" id="official-guidance"><div className="guidance-intro" data-reveal="guidance-introduction"><p className="eyebrow">{t.checkEyebrow}</p><h2>{t.checkTitle}</h2><p>{t.checkText}</p><a className="source-method-link" href="about/#source-method">{learning.sourceMethodLink}</a></div><div className="source-list source-list-detailed">{officialSources.map(([label, description, href], index) => <a href={href} target="_blank" rel="noreferrer" key={href}><span><strong>{label}</strong><small>{language === "en" ? description : officialSourceDescriptions[language][index]}</small></span><ExternalLink size={17} aria-hidden="true" /></a>)}</div></section>
-    <footer className="site-footer"><div className="site-footer-content"><FooterTagline siteName={t.siteName} text={t.tagline} /><FooterNavigation language={language} rootPrefix="" currentPage="home" /><p><a href="https://samobrienolinger.github.io/SamOBrienOlinger/" target="_blank" rel="noreferrer">Sam Tim Solutions</a></p><p className="site-footer-copyright">{t.copyright}</p></div></footer>
+    <footer className="site-footer"><div className="site-footer-content"><FooterTagline siteName={t.siteName} text={t.tagline} /><FooterNavigation language={language} rootPrefix="" currentPage="home" topic={filter} /><p><a href="https://samobrienolinger.github.io/SamOBrienOlinger/" target="_blank" rel="noreferrer">Sam Tim Solutions</a></p><p className="site-footer-copyright">{t.copyright}</p></div></footer>
   </main>;
 }

@@ -135,10 +135,11 @@ test("a visible floating Back to the top shortcut is available after scrolling, 
 });
 
 test("the floating shortcut preserves an active journey and works with a keyboard", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 700 });
   await page.goto("./");
   await page.getByRole("link", { name: "Walk with Kwame", exact: true }).first().click();
   const previous = await page.locator("#decision-title").innerText();
-  await page.evaluate(() => window.scrollTo(0, 900));
+  await page.evaluate(() => window.scrollTo(0, 650));
   const floating = page.locator(".floating-back-to-top");
   await expect(floating).toBeVisible();
   await floating.focus();

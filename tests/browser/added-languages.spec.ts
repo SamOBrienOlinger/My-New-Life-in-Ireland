@@ -36,7 +36,7 @@ for (const language of languages) {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto("./");
     await selectMobileLanguage(page, language);
-    await expect(page.locator(".hero-heading h1")).toHaveText(ui[language].heroTitle);
+    await expect(page.locator("#home-title")).toHaveText(ui[language].heroTitle);
     await expect(page.locator("html")).toHaveAttribute("dir", language === "ps" ? "rtl" : "ltr");
 
     for (const [url, title] of [

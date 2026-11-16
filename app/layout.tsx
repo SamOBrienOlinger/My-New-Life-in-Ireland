@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import "./hero-image.css";
 
 export const metadata: Metadata = {
   title: "Journeys to Ireland",
