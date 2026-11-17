@@ -543,7 +543,7 @@ export default function Home() {
             <button type="submit"><span>{searchText[language].submit}</span><ArrowRight size={17} aria-hidden="true" /></button>
           </form>
         </div>
-        <img className="journey-home-art" src="images/chapters/build-a-life.webp" alt="" width={1200} height={800} fetchPriority="high" decoding="async" />
+        <img className="journey-home-art" src="images/dublin-bus.webp" alt="" width={1200} height={800} fetchPriority="high" decoding="async" />
       </div>
     </section>
 
